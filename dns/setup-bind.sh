@@ -17,7 +17,7 @@ subnet=255.255.255.0
 domain=northernlights
 
 
-tee /etc/named.conf > /dev/null 
+tee /etc/named.conf > /dev/null EOF
 
 //
 // named.conf
@@ -119,4 +119,5 @@ view "external" {
 # network address? 172.16.0.80
 # range of network? 172.16.0.80 - 172.16.0.87
 # How to write? 80.0.16.172.in-addr.arpa
-<<EOF
+
+EOF
