@@ -1,0 +1,22 @@
+//
+//
+//	file var/named/80.0.16.172.db
+//
+//
+ $TTL 86400
+@   IN  SOA     dlp.srv.world. root.srv.world. (
+        2016112201  ;Serial
+        3600        ;Refresh
+        1800        ;Retry
+        604800      ;Expire
+        86400       ;Minimum TTL
+)
+        # define name server
+        IN  NS      dlp.srv.world.
+
+        # define the range of this domain included
+        IN  PTR     srv.world.
+        IN  A       255.255.255.248
+
+# define hostname of an IP address
+82      IN  PTR     dlp.srv.world.

@@ -1,4 +1,4 @@
-﻿#! bin/sh
+﻿#!/bin/bash
 
 RED='\033[0;31m'
 NOC='\033[0m' 
@@ -32,6 +32,9 @@ domain is ${RED}$domain${NOC}"
 #
 ########################################################################
 
+echo -e "
+${RED}creating internal and external zone files ${NOC}"
+
 #internal
 touch /var/named/$domain.lan
 touch /var/named/150.168.192.db 
@@ -39,7 +42,9 @@ touch /var/named/150.168.192.db
 touch /var/named/$domain.wan
 touch /var/named/80.0.16.172.db
 
-if [ ! -f /etc/named.conf ]; then
+if [ -f /etc/named.conf ]; then
+	cp /etc/named.conf /etc/named.conf.original
+else
 	touch /etc/named.conf
 fi
 	
@@ -148,7 +153,6 @@ view "external" {
 
 EOF
 
-clear
-echo -e "
-${RED}content of named.conf${NOC}
-`cat /etc/named.conf`"
+# echo -e "
+# ${RED}content of named.conf${NOC}
+# `cat /etc/named.conf`"
