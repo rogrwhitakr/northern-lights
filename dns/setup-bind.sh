@@ -153,6 +153,42 @@ view "external" {
 
 EOF
 
+
+if [ -f /var/named/$domain.lan ]; then
+	cp /var/named/$domain.lan /var/named/$domain.lan.original
+else
+	touch /var/named/$domain.lan
+fi
+
+tee /var/named/$domain.lan > /dev/null <<EOF
+// 
+// 
+// file /var/named/$hostname.$domain.lan
+// 
+// 
+ 
+
+ $TTL 86400
+@   IN  SOA     dlp.srv.world. root.srv.world. (
+        2016112201  ;Serial
+        3600        ;Refresh
+        1800        ;Retry
+        604800      ;Expire
+        86400       ;Minimum TTL
+)
+        # define name server
+        IN  NS      $domain.srv.world.
+        # define name server's IP address
+        IN  A       10.0.0.30
+        # define mail exchanger
+        IN  MX 10   dlp.srv.world.
+# define IP address of a hostname
+dlp     IN  A       10.0.0.30
+
+EOF
+
+
+
 # echo -e "
 # ${RED}content of named.conf${NOC}
 # `cat /etc/named.conf`"
