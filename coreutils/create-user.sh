@@ -18,7 +18,7 @@ if [ "$(id -u)" != "0" ]; then
 fi
 }
 
-usercheck(){
+userExists(){
 if [ id "$1" >/dev/null 2>&1 ]; then
 	echo "user $LOGIN_USER already exists"
 	return 1
@@ -37,7 +37,11 @@ echo -e "this script creates a new user and home directory. \nalso, permissions 
 
 read -p "enter new user name: " FIRST_NAME LAST_NAME
 
-LOGIN_USER=$LAST_NAME
+if [ -z $LAST_NAME ]; then
+	LOGIN_USER="default_"$FIRST_NAME
+else
+	LOGIN_USER=$LAST_NAME
+fi
 
 echo -e "the new user is $LAST_NAME, $FIRST_NAME.\nThe user-ID will be $LOGIN_USER"
 
@@ -45,26 +49,25 @@ echo -e "the new user is $LAST_NAME, $FIRST_NAME.\nThe user-ID will be $LOGIN_US
 #sed -er '[A-Z]' $FIRST_NAME
 #sed -er '' $FIRST_NAME
 
-if [[ usercheck != 1 ]]; then
+if [[ userExists != 1 ]]; then
 #	echo -e "Add a validity time frame for the User-ID \nSelect the time period (in months), in which the User-ID will be valid.\n${RED}usage: FLAG TIME_PERIOD (in months, e.g. 6) ${NOC}"
 #	read -p $'enter flag (Y/N) and time period (6): ' -ei $'Y' FLAG TIME_PERIOD
 	
 	read -rp "set PASSWORD_EXPIRY (in days): " -ei $'360' -N3 PASSWORD_EXPIRY
 	if [[ $PASSWORD_EXPIRY == "360" ]]; then
 		echo -e "${YELLOW}$PASSWORD_EXPIRY${NOC}"
-		read -rp "set FLAG: " -ei $'Y' -N1 FLAG
-		if [[ $FLAG -eq "Y" ]]; then
+		read -rp "set FLAG: " -ei $'Y' FLAG
+		if [[ $FLAG = "Y" ]]; then
 			echo -e "${YELLOW}$FLAG${NOC}"
-			read -rp "set DISABLE_DATE: " -ei $"6" -N1 DISABLE_DATE
+			read -rp "set DISABLE_DATE: " -ei $"6" DISABLE_DATE
 			if [[ $DISABLE_DATE =~ ^-?[0-9]+$ ]]; then
-				_DATE=`date -d '-X months ago' +%Y-%m-%d` | sed -i 
-				read
+				_DATE=`date -d '-`$DISABLE_DATE months ago' +%Y-%m-%d`
 				echo -e "${YELLOW}$DISABLE_DATE${NOC}\n command: useradd -e $_DATE -f $PASSWORD_EXPIRY $LOGIN_USER"
 			else
 				echo -e "${RED}$DISABLE_DATE${NOC}\n no valid input given"
 			fi
 		else
-			echo -e "${RED}no flag set $FLAG${NOC}\n command: useradd -f $PASSWORD_EXPIRY $LOGIN_USER"
+			echo -e "${RED} no flag set $FLAG${NOC}\n command: useradd -f $PASSWORD_EXPIRY $LOGIN_USER"
 		fi
 	else
 		echo -e "${RED}Maaa $PASSWORD_EXPIRY${NOC}\n command: useradd $LOGIN_USER"
