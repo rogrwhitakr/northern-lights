@@ -1,0 +1,62 @@
+#! bin/sh
+
+RED='\033[0;31m'
+YELLOW='\e[33m'
+NOC='\033[0m'
+BLUE='\e[34m'
+
+rm .ssh/config && rm .ssh/config
+
+
+identity="ident1"
+
+
+
+if [ ! -d ~/.ssh ]; then
+	mkdir ~/.ssh/
+
+	if [ ! -f ~/.ssh/config ]; then
+		touch ~/.ssh/config
+		chmod +x ~/.ssh/config
+	fi
+
+fi
+
+tee >> /dev/null ~/.ssh/config << EOF
+### default for all ##
+Host *
+     ForwardAgent no
+     ForwardX11 no
+     ForwardX11Trusted yes
+     User admin
+     Port 22
+     Protocol 2
+     ServerAliveInterval 60
+     ServerAliveCountMax 30
+ 
+# Geoserver OSM Docker Europe
+Host osm_docker_europe
+    HostName osm_docker_europe
+    Port 22
+    User optitool
+    IdentityFile ~/.ssh/geoserver.key
+
+# GITHUB as rogrwhitakr
+Host rogrwhitakr.github.com
+    HostName github.com
+    User git
+    PreferredAuthentications publickey
+    IdentityFile ~/.ssh/"$identity"_rsa
+
+EOF
+
+if [ ! -f ~/.ssh/"$identity"_rsa ]; then
+	touch ~/.ssh/"$identity"_rsa
+	chmod 644 ~/.ssh/"$identity"_rsa
+	tee >> /dev/null << EOF
+hea nedds to be dat key!
+EOF
+
+ssh-keygen -t rsa -C "your_name@home_email.com"
+
+cat ~/.ssh/config && cat 
