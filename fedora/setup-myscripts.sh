@@ -1,5 +1,7 @@
 # bin/sh
 
+cd ~/
+
 mkdir MyScripts
 
 cd MyScripts
