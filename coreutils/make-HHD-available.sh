@@ -20,14 +20,14 @@ user=$(id -un)
 #################
 
 echo -e "${RED}$0 - HOW-TO${NOC}"
-echo -e "${GREEN}lskmdclsjdcijolskmdclsjdcijo${NOC}"
+echo -e "${GREEN}add a hard disk,\nformat,\ncreate file system,\ncreate logical partitions${NOC}"
 
 
 echo -e "${YELLOW}Listing contents of ${RED}/dev/sd*${NOC}"
 ls /dev/sd*
 
 echo -e "${YELLOW}mounts${NOC}"
-echo -e "${RED}mount -no args${NOC}"
+echo -e "${RED}command:\nmount -no args\ndisplays all mounted drives${NOC}"
 mount
 
 echo -e "${YELLOW}Listing contents of ${RED}/etc/fstab${NOC}"
