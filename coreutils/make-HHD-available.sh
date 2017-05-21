@@ -19,16 +19,16 @@ user=$(id -un)
 ### execution ###
 #################
 
-echo -e "${RED}$0 tests firefall settings${NOC}"
-echo -e "${GREEN}checking firewall status on $(cat /etc/hostname)${NOC}"
+echo -e "${RED}$0 - HOW-TO${NOC}"
+echo -e "${GREEN}lskmdclsjdcijolskmdclsjdcijo${NOC}"
 
 
+echo -e "${YELLOW}Listing contents of ${RED}/dev/sd*${NOC}"
 ls /dev/sd*
 
+echo -e "${YELLOW}mounts${NOC}"
+echo -e "${RED}mount -no args${NOC}"
 mount
 
-sudo cat /etc/fstab 
-
-ls /dev/sd*
-
+echo -e "${YELLOW}Listing contents of ${RED}/etc/fstab${NOC}"
 sudo cat /etc/fstab 
