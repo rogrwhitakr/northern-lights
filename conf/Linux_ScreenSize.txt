@@ -1,0 +1,6 @@
+gnome-control-center
+	-->	ruft die Einstellungen auf
+
+xrandr
+	-->	screen resolution / sehen was eingestellt ist
+	-->	Änderungsmöglichkeit, natürlich

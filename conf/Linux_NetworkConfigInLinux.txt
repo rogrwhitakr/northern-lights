@@ -1,0 +1,8 @@
+
+
+NM_CONTROLLED=yes
+	Will have your network interface be managed the NetworkManager daemon.
+
+And obviously,
+	NM_CONTROLLED=no
+	Will have your network interface be managed the old way. It means fully configured by the /etc/sysconfig/network-scripts/ifcfg-ethX files.

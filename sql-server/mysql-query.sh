@@ -1,0 +1,1 @@
+mysql -h 192.168.100.26 -D sales_oil -u otcs -p otcs -e "select * from article"
