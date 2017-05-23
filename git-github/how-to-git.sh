@@ -1,5 +1,6 @@
 # bin/sh
 
+# variables
 RED='\033[0;31m'
 YELLOW='\e[33m'
 NOC='\033[0m'
