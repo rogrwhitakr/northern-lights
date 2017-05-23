@@ -18,7 +18,7 @@ fi
 
 # Fetch the latest build version number (thanks daveol)
 BUILD=$(echo $(curl http://www.sublimetext.com/3) | sed -rn "s#.*The latest build is ([0-9]+)..*#\1#p")
-echo \$BUILD No. is $BUILD
+
 URL="https://download.sublimetext.com/sublime_text_3_build_{$BUILD}_{$ARCHITECTURE}.tar.bz2"
 INSTALLATION_DIR="/opt/sublime_text"
 

@@ -1,0 +1,51 @@
+VEEAM
+
+
+To be able to view, search and restore VM guest files for Linux VMs, you should take several preparatory steps as described below.
+
+	1.	For proper Linux file system indexing, Veeam Backup & Replication requires several utilities to be installed on the VM: mlocate, gzip, and tar. If these utilities are not found, you will be prompted to deploy them to support index creation.
+	
+	2.	VM backup job options should have Linux indexing enabled (Index everything, Index everything except, or Index only following folders option should be selected). For details, refer to the Indexing Options section of this guide and to the “Creating Backup Jobs> Enable Application-Aware Image Processing and Indexing” section of the Veeam Backup & Replication User Guide.
+
+	3.	FLR helper appliance should be configured in Veeam backup console to perform guest files restore. For details, refer to the “Multi-OS File Level Recovery” section of the Veeam Backup & Replication User Guide.
+	
+	4.	By default, guest files restore to the original location will be performed using the account specified in the corresponding VM backup job. If it does not have sufficient access to target VM, you will be prompted for the credentials. Specify user account and password with sufficient access rights. 
+
+	
+	Setting up Install Process
+	Resolving Dependencies
+--> Running transaction check
+--> Package mlocate.x86_64 0:0.22.2-4.el6 will be installed
+--> Finished Dependency Resolution
+
+Dependencies Resolved
+
+===================================================================================================================
+ Package                   Arch                     Version                           Repository              Size
+===================================================================================================================
+Installing:
+ mlocate                   x86_64                   0.22.2-4.el6                      base                    86 k
+
+Transaction Summary
+===================================================================================================================
+Install       1 Package(s)
+
+https://www.digitalocean.com/community/tutorials/how-to-set-up-and-use-yum-repositories-on-a-centos-6-vps
+
+Zum Veeam BackUp fehlt noch  mlocate.
+Für CentOS 6.4 sollte die Variante 0.22.2-4.el6 funktionieren.
+
+Vorgang:
+
+Installation
+
+yum  install mlocate
+
+Update / Aufsetzen der locate-Datenbank
+
+updated
+
+mlocate installs a cron job that will run daily to update search databases at:
+/etc/cron.daily/mlocate.cron
+
+
