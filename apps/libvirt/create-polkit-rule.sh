@@ -46,6 +46,7 @@ EOF
 	sudo chmod 644 $rules_file
 	echo -e "${GREEN}created file $rules_file${NOC}"
 	printline
+	sudo cat $rules_file
 	exit 0
 else 
 	echo -e "${GREEN}$rules_file already exists:${NOC}"
