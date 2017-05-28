@@ -1,7 +1,7 @@
 #! /bin/sh
 
 ####################################################################
-# get system deltails
+# get system details
 ####################################################################
 
 #################
@@ -31,6 +31,7 @@ is64bit() {
 	fi
 }
 
+# this function one also
 HYPERVISOR=0
 
 isVirtualised() {
@@ -85,4 +86,7 @@ fi
 
 echo -e "${YELLOW}COMMAND: hostnamectl ${NOC}"
 hostnamectl
+hostnamectl | grep "Chassis"
 
+echo -e "${YELLOW}COMMAND: systemd-detect-virt ${NOC}"
+systemd-detect-virt
