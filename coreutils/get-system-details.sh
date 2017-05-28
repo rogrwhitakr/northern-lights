@@ -62,6 +62,7 @@ user=$(id -un)
 
 echo -e "${RED}$0 - HOW-TO${NOC}"
 echo -e "${GREEN}check if:\nsystem is running 32bit or 64bit Linux,\nis virtualised,\n....to-be-continued${NOC}"
+printline
 
 ### 32/64 bit ###
 echo -e "${NOC}Architecture:${NOC}"
@@ -72,6 +73,7 @@ echo -e "${YELLOW}COMMAND: echo \$HOSTTYPE ${NOC}"
 echo $HOSTTYPE
 
 ### hypervisor ###
+printline
 echo -e "${YELLOW}Check if running virtualised${NOC}"
 
 if [[ isVirtualised = 1 ]]; then
@@ -87,6 +89,7 @@ fi
 echo -e "${YELLOW}COMMAND: hostnamectl ${NOC}"
 hostnamectl
 hostnamectl | grep "Chassis"
+hostnamectl | grep "Virtualization"
 
 echo -e "${YELLOW}COMMAND: systemd-detect-virt ${NOC}"
 systemd-detect-virt

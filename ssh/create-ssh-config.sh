@@ -24,6 +24,17 @@ fi
 # populate the config file
 
 tee >> /dev/null ~/.ssh/config << EOF
+### default for all ##
+Host *
+     ForwardAgent no
+     ForwardX11 no
+     ForwardX11Trusted yes
+     User admin
+     Port 22
+     Protocol 2
+     ServerAliveInterval 60
+     ServerAliveCountMax 30
+
 # Server-Demo 
 Host blue-sun bluesun
     HostName 192.168.122.133
@@ -38,16 +49,6 @@ Host rogrwhitakr.github.com
     PreferredAuthentications publickey
 #   IdentityFile ~/.ssh/tba_rsa
 
-### default for all ##
-Host *
-     ForwardAgent no
-     ForwardX11 no
-     ForwardX11Trusted yes
-     User admin
-     Port 22
-     Protocol 2
-     ServerAliveInterval 60
-     ServerAliveCountMax 30
 EOF
 
 
