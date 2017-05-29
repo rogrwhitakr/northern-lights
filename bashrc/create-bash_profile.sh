@@ -81,7 +81,7 @@ fi
 
 # aliases and functions
 
-function hidden {
+hidden() {
 		
 	if [ -z "$@" ]; then
 		directory=`pwd`
@@ -92,7 +92,15 @@ function hidden {
 ls -d "$directory"/.*
 }
 
-alias timers='watch -n1 '"systemctl list-timers"''
-alias enabled='systemctl is-enabled "$@"'
+# git
 
+alias pull_nl="cd ~/MyScripts && sleep 1 && git pull https://github.com/rogrwhitakr/northern-lights"
+alias push_nl="cd ~/MyScripts && sleep 1 && git push https://github.com/rogrwhitakr/northern-lights master"
+
+
+echo -e "${RED}functions and aliases${NOC}"
+echo -e "${NOC}	timers
+	enabled
+	pull_nl
+	push_nl\n${NOC}"
 EOF
