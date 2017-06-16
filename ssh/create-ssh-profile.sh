@@ -1,40 +1,52 @@
 #! bin/sh
 
-# functions
+#################
+### variables ###
+#################
 
-function line() {
-	echo [------------------------------------------]
-}
+user=$(id -un)
 
-# variables
-RED='\033[0;31m'
-YELLOW='\e[33m'
-NOC='\033[0m'
-BLUE='\e[34m'
+#################
+### execution ###
+#################
 
-rm ~/.ssh/config
-
-identity="ident1"
-
-
+# creating the ssh-config file 
 
 if [ ! -d ~/.ssh ]; then
-	mkdir ~/.ssh/
+    mkdir ~/.ssh/
 
-	if [ ! -f ~/.ssh/config ]; then
-		touch ~/.ssh/config
-	fi
+    if [ ! -f ~/.ssh/config ]; then
+        touch ~/.ssh/config
+    fi
 
-fi
+fi    
 
-### create ssh key
-
-#cd ~/.ssh/
-#ssh-keygen -t rsa -C "bennoosterholt@gmail.com"
-
+# populate the config file
 
 tee >> /dev/null ~/.ssh/config << EOF
-### default for all ##
+############### Geoserver ###################
+Host osm_docker_europe
+    HostName osm_docker_europe
+    Port 22
+    User optitool
+    IdentityFile ~/.ssh/geoserver.key
+
+################ blue-sun ###################
+Host blue-sun bluesun
+    HostName 192.168.122.133
+    Port 22
+    User admin
+    IdentityFile ~/.ssh/ssh_host_ecdsa_key
+
+################ GITHUB #################### 
+Host rogrwhitakr.github.com
+    HostName github.com
+    User git
+    PreferredAuthentications publickey
+#   IdentityFile ~/.ssh/tba_rsa
+
+############### needs to be last! ################ 
+################ default for all ################# 
 Host *
      ForwardAgent no
      ForwardX11 no
@@ -44,27 +56,13 @@ Host *
      Protocol 2
      ServerAliveInterval 60
      ServerAliveCountMax 30
- 
-# Geoserver OSM Docker Europe
-Host osm_docker_europe
-    HostName osm_docker_europe
-    Port 22
-    User optitool
-    IdentityFile ~/.ssh/geoserver.key
-
-# GITHUB as rogrwhitakr
-Host rogrwhitakr.github.com
-    HostName github.com
-    User git
-    PreferredAuthentications publickey
-    IdentityFile ~/.ssh/github
-
 EOF
 
-find ~/.ssh/config ! -perm 600 -exec echo nei
+# own the config file
+chown $user ~/.ssh/config
+chmod 600 ~/.ssh/config
 
-if [[ find . ! -perm -600 ]]; then
-	chmod 600 ~/.ssh/config
-fi
+# recheck this last one
+find ~/.ssh/config ! -perm 600 -exec  chmod 600  {} \;
 
-cat ~/.ssh/config &&  ls -lah ~/.ssh/
+ls -lah ~/.ssh/config && cat ~/.ssh/config
