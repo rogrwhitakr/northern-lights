@@ -17,3 +17,5 @@ echo $os
 read
 sleep 5
 }
+
+fn_distro
