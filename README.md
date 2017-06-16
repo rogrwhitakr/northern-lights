@@ -1,4 +1,6 @@
 # northern-lights
-Northernlights setup 
+Northernlights 
 
-random collection
+shell scripts
+
+mostly stuff to learn

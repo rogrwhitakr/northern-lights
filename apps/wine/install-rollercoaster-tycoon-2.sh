@@ -52,6 +52,10 @@ RUN dnf update -y \
 	&& dnf install wine -y \
 	&& dnf clean all
 
+ENV DISPLAY :0
+
+VOLUME /tmp/.X11-unix/X0
+
 CMD /bin/bash
 EOF
 
@@ -60,7 +64,7 @@ cat $container/Dockerfile
 
 cd $container
 echo -e "${RED}building container $container:${NOC} docker build -t $container ."
-sudo docker build -t $container .
+sudo docker build -t $container
 
 sleep 5
 
@@ -70,4 +74,5 @@ sudo docker images | grep $container
 sleep 5
 
 echo -e "${RED}running docker image $container:${NOC} docker run $container"
-sudo docker run -it $container
+# --rm removes container after it exits
+sudo docker run -it --rm --volume /tmp/.X11-unix/X0:/tmp/.X11-unix/X0 $container wine "C:\windows\system32\notepad.exe"
