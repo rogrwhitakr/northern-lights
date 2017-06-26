@@ -1,46 +1,45 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<MTPutty version="1.0">
-	<Globals>
-		<PuttyLocation>C:\Tools\putty\putty.exe</PuttyLocation>
-		<GUI>
-			<Pos Left="134" Top="208" Right="1136" Bottom="766" Maximized="1"/>
-			<ServersBox Visible="1" Width="285" Height="958" Dock="left" Autohide="0"/>
-			<Toolbar Visible="1"/>
-			<MainMenu Visible="1"/>
-			<StartPage HideOnTab="1"/>
-		</GUI>
-		<General>
-			<TabCaption>0</TabCaption>
-			<NormalTermination>0</NormalTermination>
-			<AbnormalTermination>0</AbnormalTermination>
-			<QuitNoConfrim>1</QuitNoConfrim>
-			<CloseButtonOnTabs>1</CloseButtonOnTabs>
-		</General>
-	</Globals>
-	<Servers>
-		<Putty>
+<Servers>
+	<Putty>
+		<Node Type="0" Expanded="1">
+			<DisplayName>Freisicht</DisplayName>
 			<Node Type="1">
 				<SavedSession>Default Settings</SavedSession>
-				<DisplayName>file-server | Fedora 21 Server</DisplayName>
-				<ServerName>192.168.150.225</ServerName>
+				<DisplayName>wordpress stack</DisplayName>
+				<ServerName>192.168.150.119</ServerName>
 				<PuttyConType>4</PuttyConType>
 				<Port>22</Port>
 				<UserName>root</UserName>
-				<Password>IoFtJYglv4I=</Password>
+				<Password>rLoda+6HA5k=</Password>
 				<PasswordDelay>0</PasswordDelay>
-				<CLParams>192.168.150.225 -ssh -P 22 -l root -pw *****</CLParams>
+				<CLParams>192.168.150.119 -ssh -P 22 -l root -pw *****</CLParams>
 				<ScriptDelay>0</ScriptDelay>
 			</Node>
 			<Node Type="1">
 				<SavedSession>Default Settings</SavedSession>
-				<DisplayName>innovation | CentOS 7</DisplayName>
-				<ServerName>192.168.150.230</ServerName>
+				<DisplayName>Website</DisplayName>
+				<ServerName>192.168.150.150</ServerName>
+				<PuttyConType>4</PuttyConType>
+				<Port>22</Port>
+				<UserName>freisicht</UserName>
+				<Password>hlyLu2Pi+35I0DwkHqvhcQ==</Password>
+				<PasswordDelay>0</PasswordDelay>
+				<CLParams>192.168.150.150 -ssh -P 22 -l freisicht -pw *****</CLParams>
+				<ScriptDelay>0</ScriptDelay>
+			</Node>
+		</Node>
+		<Node Type="0" Expanded="1">
+			<DisplayName>Other</DisplayName>
+			<Node Type="1">
+				<SavedSession>Default Settings</SavedSession>
+				<DisplayName>Ubuntu | NathanIngram</DisplayName>
+				<ServerName>192.168.150.117</ServerName>
 				<PuttyConType>4</PuttyConType>
 				<Port>22</Port>
 				<UserName>root</UserName>
-				<Password>AdsCQbOMzWs=</Password>
+				<Password>PD2sWGLzlJg=</Password>
 				<PasswordDelay>0</PasswordDelay>
-				<CLParams>192.168.150.230 -ssh -P 22 -l root -pw *****</CLParams>
+				<CLParams>192.168.150.117 -ssh -P 22 -l root -pw *****</CLParams>
 				<ScriptDelay>0</ScriptDelay>
 			</Node>
 			<Node Type="1">
@@ -57,18 +56,6 @@
 			</Node>
 			<Node Type="1">
 				<SavedSession>Default Settings</SavedSession>
-				<DisplayName>Ubuntu | NathanIngram</DisplayName>
-				<ServerName>192.168.150.117</ServerName>
-				<PuttyConType>4</PuttyConType>
-				<Port>22</Port>
-				<UserName>root</UserName>
-				<Password>PD2sWGLzlJg=</Password>
-				<PasswordDelay>0</PasswordDelay>
-				<CLParams>192.168.150.117 -ssh -P 22 -l root -pw *****</CLParams>
-				<ScriptDelay>0</ScriptDelay>
-			</Node>
-			<Node Type="1">
-				<SavedSession>Default Settings</SavedSession>
 				<DisplayName>hypervisor/root</DisplayName>
 				<ServerName>192.168.150.115</ServerName>
 				<PuttyConType>0</PuttyConType>
@@ -79,113 +66,93 @@
 				<CLParams>192.168.150.115 -P 22 -l root -pw *****</CLParams>
 				<ScriptDelay>0</ScriptDelay>
 			</Node>
-			<Node Type="0" Expanded="1">
-				<DisplayName>NorthernLights</DisplayName>
-				<Node Type="1">
-					<SavedSession>Default Settings</SavedSession>
-					<DisplayName>NorthernLights | GNOME</DisplayName>
-					<ServerName>192.168.150.205</ServerName>
-					<PuttyConType>4</PuttyConType>
-					<Port>22</Port>
-					<UserName>admin</UserName>
-					<Password>eC3DgxjpMR0hobGtA+/nPw==</Password>
-					<PasswordDelay>0</PasswordDelay>
-					<CLParams>192.168.150.205 -ssh -P 22 -l admin -pw *****</CLParams>
-					<ScriptDelay>0</ScriptDelay>
-				</Node>
-				<Node Type="1">
-					<SavedSession>Default Settings</SavedSession>
-					<DisplayName>192.168.150.254</DisplayName>
-					<ServerName>192.168.150.254</ServerName>
-					<PuttyConType>4</PuttyConType>
-					<Port>22</Port>
-					<UserName>administrator</UserName>
-					<Password>Q5tAxBt1zOY=</Password>
-					<PasswordDelay>0</PasswordDelay>
-					<CLParams>192.168.150.254 -ssh -P 22 -l administrator -pw *****</CLParams>
-					<ScriptDelay>0</ScriptDelay>
-				</Node>
-				<Node Type="1">
-					<SavedSession>Default Settings</SavedSession>
-					<DisplayName>NorthernLights | Server</DisplayName>
-					<ServerName>192.168.150.215</ServerName>
-					<PuttyConType>4</PuttyConType>
-					<Port>22</Port>
-					<UserName>alonsoquinn</UserName>
-					<Password>xXbkwID7LJM=</Password>
-					<PasswordDelay>0</PasswordDelay>
-					<CLParams>192.168.150.215 -ssh -P 22 -l alonsoquinn -pw *****</CLParams>
-					<ScriptDelay>0</ScriptDelay>
-				</Node>
+			<Node Type="1">
+				<SavedSession>Default Settings</SavedSession>
+				<DisplayName>innovation | CentOS 7</DisplayName>
+				<ServerName>192.168.150.230</ServerName>
+				<PuttyConType>4</PuttyConType>
+				<Port>22</Port>
+				<UserName>root</UserName>
+				<Password>AdsCQbOMzWs=</Password>
+				<PasswordDelay>0</PasswordDelay>
+				<CLParams>192.168.150.230 -ssh -P 22 -l root -pw *****</CLParams>
+				<ScriptDelay>0</ScriptDelay>
 			</Node>
-			<Node Type="0" Expanded="1">
-				<DisplayName>Freisicht</DisplayName>
-				<Node Type="1">
-					<SavedSession>Default Settings</SavedSession>
-					<DisplayName>wordpress stack</DisplayName>
-					<ServerName>192.168.150.119</ServerName>
-					<PuttyConType>4</PuttyConType>
-					<Port>22</Port>
-					<UserName>root</UserName>
-					<Password>rLoda+6HA5k=</Password>
-					<PasswordDelay>0</PasswordDelay>
-					<CLParams>192.168.150.119 -ssh -P 22 -l root -pw *****</CLParams>
-					<ScriptDelay>0</ScriptDelay>
-				</Node>
-				<Node Type="1">
-					<SavedSession>Default Settings</SavedSession>
-					<DisplayName>Website</DisplayName>
-					<ServerName>192.168.150.150</ServerName>
-					<PuttyConType>4</PuttyConType>
-					<Port>22</Port>
-					<UserName>freisicht</UserName>
-					<Password>hlyLu2Pi+35I0DwkHqvhcQ==</Password>
-					<PasswordDelay>0</PasswordDelay>
-					<CLParams>192.168.150.150 -ssh -P 22 -l freisicht -pw *****</CLParams>
-					<ScriptDelay>0</ScriptDelay>
-				</Node>
+		</Node>
+		<Node Type="0" Expanded="1">
+			<DisplayName>NorthernLights</DisplayName>
+			<Node Type="1">
+				<SavedSession>Default Settings</SavedSession>
+				<DisplayName>NorthernLights | GNOME</DisplayName>
+				<ServerName>192.168.150.205</ServerName>
+				<PuttyConType>4</PuttyConType>
+				<Port>22</Port>
+				<UserName>admin</UserName>
+				<Password>eC3DgxjpMR0hobGtA+/nPw==</Password>
+				<PasswordDelay>0</PasswordDelay>
+				<CLParams>192.168.150.205 -ssh -P 22 -l admin -pw *****</CLParams>
+				<ScriptDelay>0</ScriptDelay>
 			</Node>
-		</Putty>
-	</Servers>
-	<Internals>
-		<Putty/>
-	</Internals>
-	<Recents>
-		<PuttyCon>
-			<Con0>NorthernLights\NorthernLights | GNOME</Con0>
-			<Con1>NorthernLights\NorthernLights | Workstation</Con1>
-			<Con2>NorthernLights\192.168.150.254</Con2>
-			<Con3>NorthernLights\NorthernLights | Server</Con3>
-			<Con4>NorthernLights\database | Fedora 22 Server</Con4>
-			<Con5>Freisicht\Website</Con5>
-			<Con6>Freisicht\wordpress stack</Con6>
-			<Con7>Freisicht\DaniSilva | Debian</Con7>
-			<Con8>NorthernLights | Workstation</Con8>
-			<Con9>DaniSilva | Debian</Con9>
-		</PuttyCon>
-	</Recents>
-	<Hotkeys>
-		<NextTab>0</NextTab>
-		<PrevTab>0</PrevTab>
-		<AppSwitch>16576</AppSwitch>
-		<acPuttyLocation>0</acPuttyLocation>
-		<acSettings>0</acSettings>
-		<acHideServers>16450</acHideServers>
-		<acHideMenu>16461</acHideMenu>
-		<acHideToolbar>16468</acHideToolbar>
-		<acAddServer>0</acAddServer>
-		<acAddGroup>0</acAddGroup>
-		<acRemove>0</acRemove>
-		<acDetach>0</acDetach>
-		<acConnect>0</acConnect>
-		<acConnectTo>16459</acConnectTo>
-		<acTreeProps>0</acTreeProps>
-		<acSendScript>0</acSendScript>
-		<acAttach>0</acAttach>
-		<acRenameTab>0</acRenameTab>
-		<acImportTree>0</acImportTree>
-		<acExportTree>0</acExportTree>
-		<acHotkeysMap>0</acHotkeysMap>
-		<acDuplicate>0</acDuplicate>
-	</Hotkeys>
-</MTPutty>
+			<Node Type="1">
+				<SavedSession>Default Settings</SavedSession>
+				<DisplayName>NorthernLights | KDE</DisplayName>
+				<ServerName>192.168.150.210</ServerName>
+				<PuttyConType>4</PuttyConType>
+				<Port>22</Port>
+				<UserName>admin</UserName>
+				<Password>CWv2DTWUn6XyU9uJbPUp+Q==</Password>
+				<PasswordDelay>0</PasswordDelay>
+				<CLParams>192.168.150.210 -ssh -P 22 -l admin -pw *****</CLParams>
+				<ScriptDelay>0</ScriptDelay>
+			</Node>
+			<Node Type="1">
+				<SavedSession>Default Settings</SavedSession>
+				<DisplayName>NorthernLights | DNS Server</DisplayName>
+				<ServerName>192.168.150.254</ServerName>
+				<PuttyConType>4</PuttyConType>
+				<Port>22</Port>
+				<UserName>administrator</UserName>
+				<Password>Q5tAxBt1zOY=</Password>
+				<PasswordDelay>0</PasswordDelay>
+				<CLParams>192.168.150.254 -ssh -P 22 -l administrator -pw *****</CLParams>
+				<ScriptDelay>0</ScriptDelay>
+			</Node>
+			<Node Type="1">
+				<SavedSession>Default Settings</SavedSession>
+				<DisplayName>NorthernLights | Server</DisplayName>
+				<ServerName>192.168.150.215</ServerName>
+				<PuttyConType>4</PuttyConType>
+				<Port>22</Port>
+				<UserName>alonsoquinn</UserName>
+				<Password>xXbkwID7LJM=</Password>
+				<PasswordDelay>0</PasswordDelay>
+				<CLParams>192.168.150.215 -ssh -P 22 -l alonsoquinn -pw *****</CLParams>
+				<ScriptDelay>0</ScriptDelay>
+			</Node>
+			<Node Type="1">
+				<SavedSession>Default Settings</SavedSession>
+				<DisplayName>NorthernLights | Mail-Server </DisplayName>
+				<ServerName>192.168.150.240</ServerName>
+				<PuttyConType>4</PuttyConType>
+				<Port>22</Port>
+				<UserName>admin</UserName>
+				<Password>DdcdFNPUB50=</Password>
+				<PasswordDelay>0</PasswordDelay>
+				<CLParams>192.168.150.240 -ssh -P 22 -l admin -pw *****</CLParams>
+				<ScriptDelay>0</ScriptDelay>
+			</Node>
+			<Node Type="1">
+				<SavedSession>Default Settings</SavedSession>
+				<DisplayName>NorthernLights | SMB-Server</DisplayName>
+				<ServerName>192.168.150.245</ServerName>
+				<PuttyConType>4</PuttyConType>
+				<Port>22</Port>
+				<UserName>admin</UserName>
+				<Password>1vLdN0dyCzU=</Password>
+				<PasswordDelay>0</PasswordDelay>
+				<CLParams>192.168.150.245 -ssh -P 22 -l admin -pw *****</CLParams>
+				<ScriptDelay>0</ScriptDelay>
+			</Node>
+		</Node>
+	</Putty>
+</Servers>
