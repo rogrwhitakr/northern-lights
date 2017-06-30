@@ -1,11 +1,16 @@
 #! /bin/sh
 
-find_git_repository() {
-	#TODO
-}
+#find_git_repository() {
+	# TODO
+#}
 
 check_git_status() {
-	git status	
+	status="git status | grep 'nothing to commit, working tree clean'"
+	if [ $status ! -z ]; then
+		echo 'nothing to commit'
+	else	
+		git status
+	fi
 }
 
-	nothing to commit, working tree clean
+check_git_status
