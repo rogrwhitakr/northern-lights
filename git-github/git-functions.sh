@@ -6,7 +6,7 @@
 
 check_git_status() {
 	status="git status | grep 'nothing to commit, working tree clean'"
-	if [ -n $status ]; then
+	if [ -n "$(status)" ]; then
 		echo 'nothing to commit'
 	else	
 		git status
