@@ -9,7 +9,7 @@ check_git_status() {
 	echo $status
 	sleep 2
 
-	if [ -n $status ]; then
+	if [[ -n $status ]]; then
 		echo 'nothing to commit'
 	else	
 		git status
