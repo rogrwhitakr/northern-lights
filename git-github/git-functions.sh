@@ -21,5 +21,5 @@ check_git_status() {
 	fi
 }
 
-find_git_repository
 check_git_status
+find_git_repository
