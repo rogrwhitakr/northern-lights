@@ -1,5 +1,10 @@
 #! /bin/sh
 
+# TODOs
+# incorporate
+# http://wiki.bash-hackers.org/commands/builtin/read
+# all read possibilities 
+
 #################
 ### functions ###
 #################
@@ -44,25 +49,12 @@ print_blue() {
 	echo -e ${BLUE}"$@"${NOC}
 }
 
-YELLOW='\e[33m'
-NOC='\033[0m'
-BLUE='\e[34m'
-
-#################
-### variables ###
-#################
-
-user=$(id -un)
 
 #################
 ### execution ###
 #################
 
 printline
-#TODO
-#function for echo comment content
-#function gitsysnc
-#all read possibilities 
 
 print_red Enter solution
 print_yellow read -rsp \$\'Press enter to continue...\n\'
