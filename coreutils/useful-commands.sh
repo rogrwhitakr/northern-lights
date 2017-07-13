@@ -7,12 +7,49 @@ function line() {
 	echo [--------------------------------------------------------------------------------------------------------------]
 }
 
+print_red() {
+	if [[ -z "$@" ]]; then
+		echo "print_red(): no args set"
+	fi	  	
+	RED='\033[0;31m'
+	NOC='\033[0m'
+	echo -e ${RED}"$@"${NOC}
+}
+
+print_noc() {
+	if [[ -z "$@" ]]; then
+		echo "print_red(): no args set"
+	fi	  	
+	NOC='\033[0m'
+	echo -e ${NOC}"$@"${NOC}
+}
+
+print_blue() {
+	if [[ -z "$@" ]]; then
+		echo "print_red(): no args set"
+	fi	  	
+	NOC='\033[0m'
+	BLUE='\e[34m'
+	echo -e ${BLUE}"$@"${NOC}
+}
 ### variables
 
 RED='\033[0;31m'
 NOC='\033[0m' 	
 
 ### exec
+line
+print_red get executable of a command
+print_blue command -v \$command
+print_noc example command: uuidgen, creates a uuid
+cmd=uuidgen
+command -v $cmd
+line
+print_red execute command
+print_blue command \$command
+print_noc example command: uuidgen, creates a uuid
+cmd=uuidgen
+command $cmd
 line
 echo -e "${RED}#Finde Codierung${NOC}"
 echo -e "${NOC}#	command:echo \$LANG${NOC}"

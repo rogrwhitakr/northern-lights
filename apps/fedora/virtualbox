@@ -1,0 +1,13 @@
+
+virtual box
+
+installs
+ - build-essential
+ - module-assistant
+
+ sudo su
+
+# kernel bereitmachen
+ m-a perpare
+
+mount /dev/sr0 (cd laufwerk) /media
