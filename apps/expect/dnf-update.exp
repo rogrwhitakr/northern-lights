@@ -1,0 +1,11 @@
+#! /usr/bin/expect -f
+
+set password [lindex $argv 0]
+
+spawn sudo dnf update -y
+expect "\[sudo\] Passwort für admin:"
+send "$password\r"
+
+interact
+
+# {} is the strongest quote in Tcl, you can use it to prevent any interpretation:
