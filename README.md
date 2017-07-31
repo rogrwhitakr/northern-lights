@@ -1,27 +1,7 @@
 # northern-lights
 
-├── apps
-│   ├── cockpit
-│   ├── fedora
-│   ├── libvirt
-│   ├── noVNC
-│   ├── otrs
-│   ├── proxmox
-│   ├── sql-server
-│   ├── sublime
-│   ├── veeam
-│   ├── wine
-│   │   └── rct
-│   └── wordpress
-├── bashrc
-├── conf
-│   ├── certificate
-│   └── dotfiles
-├── coreutils
-├── dns
-├── docker
-│   └── net-tools
-├── git-github
-├── network
-├── ssh
-└── systemd
+TODOs:
+
+ ==> how to read and validate from set of values
+ ==> how to configure git
+ ==> how interplay fsck / mount / findmnt / et al works
