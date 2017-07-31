@@ -1,13 +1,9 @@
 #! /bin/sh
 
-find_git_repository() {
-	# assuming it resides in ~
-	# get current dir ?, neccesary ???
+get_git_repo_dir() {
 	
-	echo 'first command'	
-	find ~ -type d -name .git 
-	echo 'next command'	
-	cd $(find ~ -type d -name .git) 
+	git_dir=$(find ~/ -name .git )
+	echo "$git_dir"	
 
 }
 
@@ -21,5 +17,5 @@ check_git_status() {
 	fi
 }
 
-check_git_status
-find_git_repository
+get_git_repo_dir
+cd get_git_repo_dir
