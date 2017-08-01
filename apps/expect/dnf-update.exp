@@ -1,5 +1,11 @@
 #! /usr/bin/expect -f
 
+if [ -z $argv 0 ]; then
+	echo "DNF Update using expect"
+	echo "no sudo password provided! \nExiting...."
+	exit 1
+fi	
+
 set password [lindex $argv 0]
 
 spawn sudo dnf update -y
