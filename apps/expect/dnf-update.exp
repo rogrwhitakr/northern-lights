@@ -1,10 +1,12 @@
 #! /usr/bin/expect -f
 
-if [ -z $argv 0 ]; then
-	echo "DNF Update using expect"
-	echo "no sudo password provided! \nExiting...."
-	exit 1
-fi	
+# does not work like this, maybe i need to move this to a calling shell script
+#
+#if [ -z $argv 0 ]; then
+#	echo "DNF Update using expect"
+#	echo "no sudo password provided! \nExiting...."
+#	exit 1
+#fi	
 
 set password [lindex $argv 0]
 
