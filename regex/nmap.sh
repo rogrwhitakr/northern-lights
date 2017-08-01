@@ -3,7 +3,8 @@
 # TODOs
 # validation, ip and/or host
 # validate if ip or host
-
+# validate ipv6
+# https://stackoverflow.com/questions/19737675/shell-script-how-to-extract-string-using-regular-expressions
 
 validate_ip(){
 
@@ -12,8 +13,12 @@ validate_ip(){
 		exit 1
 	fi
 	
-	if [[ $1 = [0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3} ]]; then
+	ip_regex=^[0-2]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}$
+
+	if [[ $1 =~ $ip_regex ]]; then
 		echo 'valid'
+		echo needs range limits ! only 255.255.255.255 as max!
+
 	else 
 		echo 'doesnt work yet'
 	fi
