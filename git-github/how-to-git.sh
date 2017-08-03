@@ -39,11 +39,10 @@ echo -e "git commit <file(s)> -m \"commit message\""
 
 # adding a origin master to git config
 # github example
-echo -e "git remote add origin git@github.com:username/Some-Awesome-Project"
+echo -e "git remote add origin git@github.com:<github-user>/<repository-name>"
 
 # pushing file(s) to origin master
-echo -e "git push origin master"
-
+echo -e "git push <repository-name>"
 
 ###################################################################################
 # how to edit the git configuration
@@ -64,10 +63,11 @@ echo -e "git config --global core.editor nano"
 
 echo -e "git remote show"
 
-echo -e "git remote add northern-lights https://github.com/rogrwhitakr/northern-lights"
+echo -e "git remote add <repository-name> https://github.com/<github-user>/<repository-name>"
 
-echo -e "git remote set-url northern-lights git@github.com:rogrwhitakr/northern-lights.git"
+echo -e "git remote set-url <repository-name> git@github.com:<github-user>/<repository-name>.git"
 
-echo -e "push --set-upstream northern-lights master"
+echo -e "push --set-upstream <repository-name> master"
+
 cd $return_to
 exit 0
