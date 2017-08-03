@@ -1,57 +1,73 @@
 # bin/sh
 
-# variables
-RED='\033[0;31m'
-YELLOW='\e[33m'
-NOC='\033[0m'
-BLUE='\e[34m'
-
-repository="${PWD%/*}"
-
-demofile=demofile.txt
-
 clear
+###################################################################################
+# git github
+###################################################################################
 
-echo -e "${RED}how-to-git${NOC}"
+# find a repository in your ~
+# have not tested what happens if there is more then one, probably will not work
 
-echo -e "git init"
+return_to=`pwd`
+cd $(find ~ -name .git) && cd ..
 
-echo -e "
-		${YELLOW}initalizes an empty repository in `pwd` ${NOC}"
+###################################################################################
+# process
+###################################################################################
+# init
+# git init initalizes an empty repository in `pwd`"
+echo -e "git init ."
 
+# adding file(s) to local repository
 echo -e "git add <file(s)>"
 
-echo -e "
-		${YELLOW}adds file(s) to local repository ${NOC}"
-
-echo -e "		adding file ${BLUE}$demofile ${NOC} to the local repository"
-
-git add $demofile
-
+# get git status
+# shows status of local repo, tracked,untreacked, changed, renamed file(s), etc.
 echo -e "git status"
 
-echo -e "
-		${YELLOW}zeigt den status des lokalen repositories an, und aller Dateien darin ${NOC}"
+# .gitignore
+# is used to leave files untracked in the repository 
+# gitignore ignores just files that weren't tracked before (by git add)
+# Put .gitignore in the working directory. 
+# It doesn't work if you put it in the .git (repository) directory.
 
-git status
-
-echo -e "${YELLOW}.gitignore${NOC}
-		is used to leave files untracked in the repository
-		gitignore ignores just files that weren't tracked before (by git add)
-		to unstage the file:
-
-git reset $demofile${NOC}
+# unstaging a file: 
+echo -e "git reset <file(s)>"
 		
-		Put .gitignore in the working directory. 
-		It doesn't work if you put it in the .git (repository) directory."
+# committing file(s) to local master 
+echo -e "git commit <file(s)> -m \"commit message\""
 
-echo -e "git commit ${BLUE}$demofile ${NOC} -m "commit message""
+# adding a origin master to git config
+# github example
+echo -e "git remote add origin git@github.com:username/Some-Awesome-Project"
 
-echo -e "
-		${YELLOW}commits ${BLUE}$demofile ${YELLOW} to repository ${NOC}"
+# pushing file(s) to origin master
+echo -e "git push origin master"
 
-git commit $demofile
 
-git remote add origin git@github.com:username/Some-Awesome-Project
+###################################################################################
+# how to edit the git configuration
+###################################################################################
 
-git push origin master
+# listing values
+git config --list
+
+# edit global values
+echo -e "git config --global --edit"
+
+# select yo editor
+echo -e "git config --global core.editor nano"
+
+###################################################################################
+# how to handle the origin master
+###################################################################################
+
+echo -e "git remote show"
+
+echo -e "git remote add northern-lights https://github.com/rogrwhitakr/northern-lights"
+
+echo -e "git remote set-url northern-lights git@github.com:rogrwhitakr/northern-lights.git"
+
+echo -e "push --set-upstream northern-lights master"
+cd $return_to
+exit 0
