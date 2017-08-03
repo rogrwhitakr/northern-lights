@@ -6,3 +6,4 @@ TODOs:
  ==> how to configure git
  ==> how interplay fsck / mount / findmnt / et al works
  ==> how to set env variables
+ ==> ssh demo
