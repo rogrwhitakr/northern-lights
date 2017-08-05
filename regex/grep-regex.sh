@@ -19,4 +19,3 @@ grep -f -
 #  does not seem to work / proposed on stack oveflow
 
 ping google.de | grep -E '[0-9]+\.[0-9]{1,3}\s'
->>>>>>> e53bfb0fb89efdbc86e0ad555e494689f958e927
