@@ -13,14 +13,13 @@ if [[ $key != "Y" ]]; then
 	exit 0
 fi
 
-echo "start..."
-
 curl -sL https://github.com/stephencelis/ghi/releases/tag/${LATEST_VERSION} > ghi
 
-read
+echo -e "\ncopying to /usr/local/bin/ghi"
 
-chmod 755 ghi && \
-sudo mv ghi /usr/local/bin
+
+chmod 755 ghi
+sudo mv ghi /usr/local/bin 
 
 echo "done!"
 exit 0
