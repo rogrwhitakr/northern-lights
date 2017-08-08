@@ -16,6 +16,11 @@ function line() {
 echo -e HOW-TO use curl'\n' ${RED}curl {http://sftp://smb://...etc}${NOC}
 echo -e go to'\n' ${RED}https://curl.haxx.se/docs/manual.html${NOC}'\n'for a detailed explanation and examples'\n'
 xdg-open 'https://curl.haxx.se/docs/manual.html'
+
+# make curl verbose
+echo -e "curl -v \[URL\]"
+
+
 line
 
 ###############################################################################################
@@ -47,3 +52,4 @@ page="$(curl http://www.cyberciti.biz/faq/bash-for-loop/)"
 To display content use echo or printf command as follows:
 
 echo "$page"
+

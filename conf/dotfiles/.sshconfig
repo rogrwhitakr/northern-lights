@@ -1,0 +1,32 @@
+# default ssh config file
+# hosts all needs to be at the bottom
+# populate as needed
+# ensure: chmod 600 ~/.ssh/config !!! 
+
+##################### hosts ######################
+
+# northern-lights server <demo>
+Host dns.northernlights
+    HostName dns.northernlights
+    Port 22
+    User admin
+    IdentityFile ~/.ssh/srv-admin
+
+# GITHUB
+Host github.com
+    HostName github.com
+    User git
+    PreferredAuthentications publickey
+    IdentityFile ~/.ssh/github
+
+################ defaults for all ################
+
+Host *
+     ForwardAgent no
+     ForwardX11 no
+     ForwardX11Trusted yes
+     User admin
+     Port 22
+     Protocol 2
+     ServerAliveInterval 60
+     ServerAliveCountMax 30 
