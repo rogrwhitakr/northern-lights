@@ -15,7 +15,7 @@ cd $(find ~ -name .git) && cd ..
 # process
 ###################################################################################
 # init
-# git init initalizes an empty repository in `pwd`"
+# git init initalizes an empty repository in `pwd`
 echo -e "git init ."
 
 # adding file(s) to local repository
