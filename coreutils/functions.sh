@@ -40,7 +40,7 @@ print_noc() {
 
 display_help() {
 
-	if [[ "$1" = "--help" ]]; then
+	if ( [[ "$1" = "--help" ]] || [[ "$1" = "-h" ]] ); then
 		echo -e "USAGE: display_help() \$1"
 		echo -e "\tto display help, the function needs to be called explicity"
 		echo -e "\t--help\t\t-h\tdisplays this help and exits."
