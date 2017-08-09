@@ -1,5 +1,17 @@
 #! /bin/sh
 
+display_help() {
+
+	if ( [[ "$1" = "--help" ]] || [[ "$1" = "-h" ]] ); then
+		echo -e "FUNCTIONALITY: \n$0 [ssh-key-name]"
+		echo -e "-- creates a keypair in the appropriate folder, ~/.ssh"
+		exit 0
+	
+	else 
+		continue
+	fi	
+}
+
 # function to create rsa keys for ssh
 function createKey {
 
@@ -10,9 +22,12 @@ function createKey {
 	# check prerequisites
 	if [ -z "$key_name" ];then
 	   echo -e "Usage:\n$0 [ssh-key-name]";
-	   echo -e "No parameter passed."
+	   echo -e "-- display help: $0 [-h][--help]"
 	   exit 1
 	fi
+
+	# display help if checked
+	display_help $key_name
 
 	# make sure the script is not run as root
 	if [ "$(id -u)" == "0" ]; then
