@@ -61,13 +61,25 @@ echo -e "git config --global core.editor nano"
 # how to handle the origin master
 ###################################################################################
 
+# list remote repositories
 echo -e "git remote show"
+
+# list remote push / pull URLs
+echo -e "git remote --verbose" 
 
 echo -e "git remote add <repository-name> https://github.com/<github-user>/<repository-name>"
 
 echo -e "git remote set-url <repository-name> git@github.com:<github-user>/<repository-name>.git"
 
 echo -e "push --set-upstream <repository-name> master"
+
+###################################################################################
+# ho to connect to github
+# https://help.github.com/articles/testing-your-ssh-connection/
+###################################################################################
+
+# Attempt to ssh to GitHub
+echo -e "ssh -T git@github.com"
 
 cd $return_to
 exit 0
