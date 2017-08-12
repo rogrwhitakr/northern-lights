@@ -67,6 +67,7 @@ echo -e "git remote show"
 # list remote push / pull URLs
 echo -e "git remote --verbose" 
 
+# name and set-url the remote; then and set the remote the master
 echo -e "git remote add <repository-name> https://github.com/<github-user>/<repository-name>"
 
 echo -e "git remote set-url <repository-name> git@github.com:<github-user>/<repository-name>.git"
