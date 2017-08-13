@@ -12,10 +12,25 @@ SQL=$(sed -e "s/claim/setting/g" <<< $SQL)
 
 echo -e "${RED}SQL${NOC}"
 
-VARIABLES=( one two three four )
+# loopinhg through given variables
 
-for VARIABLE in $( VARIABLES[@] ); 
-do
+VARIABLES=( one two three four )
+for VARIABLE in $( VARIABLES[@] ); do
 	echo -e "$VARIABLE\n"
 	sleep 2
+done
+
+# using seq
+ 
+range=$(( RANDOM % 20 ))
+for i in $( seq 1 $range ); do
+	echo -e "$i"
+	sleep 0.2
+done
+
+# The seq method is the simplest, but Bash has built-in arithmetic evaluation.
+
+END=5
+for ((i=1;i<=END;i++)); do
+	echo $i
 done

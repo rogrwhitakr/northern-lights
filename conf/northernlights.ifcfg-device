@@ -18,8 +18,8 @@ IPV6_PEERROUTES=yes
 IPV6_PRIVACY=no
 
 NM_CONTROLLED=yes/no
-#YES=	Will have your network interface be managed the NetworkManager daemon.
-#NO=	Will have your network interface be managed the old way.
+# YES=	Will have your network interface be managed the NetworkManager daemon.
+# NO=	Will have your network interface be managed the old way.
 #	It means fully configured by the /etc/sysconfig/network-scripts/ifcfg-ethX files.
 
 
