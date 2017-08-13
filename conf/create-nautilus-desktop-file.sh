@@ -24,13 +24,21 @@ Exec=application
 Icon=application.png
 Terminal=false${NOC}"
 
+# count files in current directory
+ls -1 /usr/share/applications/*.desktop | wc -l
+
+# exclude symbolic links
+ls -1 /usr/share/applications/*.desktop | grep -v ^l | wc -l
+
 # loop through randomly selected range
 
-range=$(( RANDOM % 20 ))
+readonly range=$(( RANDOM % 20 ))
 
-for i in $( seq 1 $range ); 
+for i in $( seq 3 $range ); 
 do
+	files=$( ls /usr/share/applications/*.desktop | head -n $range )
 	echo -e "$i"
+	echo -e "$files"
 	sleep 0.2
 #	cat $(ls /usr/share/applications/*.desktop | head -$(i))
 done
