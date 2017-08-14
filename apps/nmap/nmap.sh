@@ -38,3 +38,5 @@ sudo nmap -n -PN -sT -sU -p- 192.168.100.26
 
 scan only TCP ports of computer
 sudo nmap -n -PN -sT -p- 192.168.100.26
+
+# https://www.stationx.net/nmap-cheat-sheet/
