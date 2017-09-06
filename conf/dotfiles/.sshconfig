@@ -5,12 +5,18 @@
 
 ##################### hosts ######################
 
-# northern-lights server <demo>
-Host dns.northernlights
-    HostName dns.northernlights
+# northern-lights 
+Host dns.northernlights dns
+    HostName 192.168.150.254
+    Port 22
+    User administrator
+    IdentityFile ~/.ssh/admin
+
+Host server.northernlights server
+    HostName 192.168.150.220
     Port 22
     User admin
-    IdentityFile ~/.ssh/srv-admin
+    IdentityFile ~/.ssh/admin
 
 # GITHUB
 Host github.com
