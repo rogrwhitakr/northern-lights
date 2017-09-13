@@ -23,6 +23,15 @@ ${GREEN}_DATE:        $_DATE
 ${NOC}
 "
 
+# replace all occurrences of ‘hello’ to ‘world’ in the file input.txt
+sed 's/hello/world/' input.txt > output.txt
+
+# modify file
+# -i[SUFFIX]
+# --in-place[=SUFFIX]
+sed -i 's/hello/world' file.txt
+
+
 ################################## 
 # replacing a \ in a passed variable
 ################################## 
