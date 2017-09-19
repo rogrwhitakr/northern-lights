@@ -15,10 +15,12 @@ fi
 
 ####################################### Exports ######################################
 
-# Uncomment the following line if you don't like systemctl's auto-paging feature:
-# export SYSTEMD_PAGER=
+# add ~/bin to path
 PATH=$PATH:$HOME/.local/bin:$HOME/bin
 export PATH
+
+# nano is better
+export EDITOR=/usr/bin/nano
 
 ######################################## Alias ########################################
 
@@ -44,8 +46,9 @@ alias pingg='ping google.de -c 5ip'
 alias timers="systemctl list-timers"
 alias enabled='systemctl is-enabled ""'
 
-# update the system
+# update the system (uncomment depending on system)
 alias update="sudo dnf update -y"
+alias update="sudo apt-get update && sudo apt-get upgrade -y"
 
 # lets try these first, maybe they are annoying
 alias rm="rm -i"
