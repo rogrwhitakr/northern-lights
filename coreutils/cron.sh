@@ -23,8 +23,8 @@ select-editor
 => then edit
 => crontab will print: crontab: installing new crontab
 
-# order by
-#	Minute	Hour 	Day 	Month 	DayOfWeek
+# CRONTAB
+#  Minute  Hour  Day  Month  DayOfWeek  (User) Command
 
 
 #M   S     T M W   Command
@@ -38,3 +38,9 @@ select-editor
 
 # crontab generator
 http://www.htmlbasix.com/crontab.shtml
+
+# user cronjobs are saved in 
+/var/spool/cron/crontabs/<username>
+
+# runtime permissions of a cron job
+root if not otherwise specified (as the 6th element)
