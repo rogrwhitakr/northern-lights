@@ -23,6 +23,10 @@ select-editor
 => then edit
 => crontab will print: crontab: installing new crontab
 
+# order by
+#	Minute	Hour 	Day 	Month 	DayOfWeek
+
+
 #M   S     T M W   Command
 #-----------------------------------------------------------------
 5    9-20 * * *		every five minutes, every hour from 9 to 20
