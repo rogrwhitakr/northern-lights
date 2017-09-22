@@ -39,7 +39,7 @@ printline
 sudo ls -l /etc/libvirt/qemu
 sudo tree /etc/libvirt
 
-sudo subl /etc/libvirt/qemu/server-demo.xml
-sudo subl /etc/libvirt/qemu/networks/default.xml
+sudo subl /etc/libvirt/qemu/*.xml
+sudo subl /etc/libvirt/qemu/networks/*.xml
 sudo subl /etc/libvirt/libvirt.conf
 sudo subl /etc/libvirt/qemu.conf
