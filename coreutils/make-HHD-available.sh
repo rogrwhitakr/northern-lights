@@ -32,3 +32,6 @@ mount
 
 echo -e "${YELLOW}Listing contents of ${RED}/etc/fstab${NOC}"
 sudo cat /etc/fstab 
+
+# get blockid of device
+sudo blkid
