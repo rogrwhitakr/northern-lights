@@ -12,6 +12,7 @@ fi
 
 dnf install bind bind-utils -y
 
+
 network=192.168.150.0
 subnet=255.255.255.0
 domain=northernlights
