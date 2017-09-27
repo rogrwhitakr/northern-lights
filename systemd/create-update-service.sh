@@ -1,56 +1,58 @@
 # bin/sh
 
-#check user
+# functions
+# check user
 
 if [ "$(id -u)" != "0" ]; then
    echo "This script must be run as root" 1>&2
    exit 1
 fi
 
-RED='\033[0;31m'
-NOC='\033[0m' 	
+# possible values
+# OnUnitActiveSec= defines a timer relative to when the unit the timer is activating was last activated
 
-service_name=daily-update
-timer_on_unit_active_sec=12h
+# Parsing Time Spans
+# When parsing, systemd will accept the same time span syntax. 
+# If no time unit is specified, generally seconds are assumed
+# non-English names for the time units are not accepted.
+# Separating spaces may be omitted. 
+# The following time units are understood:
+# 	usec, us
+# 	msec, ms
+# 	seconds, second, sec, s
+# 	minutes, minute, min, m
+# 	hours, hour, hr, h
+# 	days, day, d
+# 	weeks, week, w
+# 	months, month, M (defined as 30.44 days)
+# 	years, year, y (defined as 365.25 days)
+#
+# Examples for valid time span specifications:
+# 
+# 	2 h
+# 	2hours
+# 	48hr
+# 	1y 12month
+# 	55s500ms
+# 	300ms20s 5day
 
-rm -f /etc/systemd/system/$service_name.service
-rm -f /etc/systemd/system/$service_name.timer
-rm -f /usr/lib/systemd/scripts/$service_name.sh
+timer_on_unit_active_sec=35min
+service_name="daily-update"
+
+service_file="/etc/systemd/system/$service_name.service"
+service_timer="/etc/systemd/system/$service_name.timer"
+service_script="/usr/lib/systemd/scripts/$service_name.sh"
+
+rm -f $service_file
+rm -f $service_timer
+rm -f $service_script
 
 sleep 2
 
-if [ ! -f /etc/systemd/system/$service_name.service ]; then
-	touch /etc/systemd/system/$service_name.service
-	echo "created $service_name.service"
-	
-	if [ ! -w /etc/systemd/system/$service_name.service ]; then
-		chmod -R 622 /etc/systemd/system/$service_name.service
-	fi	
-fi
-
-if [ ! -f /etc/systemd/system/$service_name.timer ]; then
-	touch /etc/systemd/system/$service_name.timer
-	echo "created $service_name.timer"
-
-	if [ ! -w /etc/systemd/system/$service_name.timer ]; then
-		chmod -R 622 /etc/systemd/system/$service_name.timer
-	fi
-fi
-
-if [ ! -f /usr/lib/systemd/scripts/$service_name.sh ]; then
-	touch /usr/lib/systemd/scripts/$service_name.sh
-	echo "created script usr/lib/systemd/scripts/$service_name.sh"
-	if [ ! -x /usr/lib/systemd/scripts/$service_name.sh ]; then
-		chmod -R 760 /usr/lib/systemd/scripts/$service_name.sh
-	fi	
-fi
-
-#chmod -R 622 /etc/systemd/system/$service_name.service
-#chmod -R 622 /etc/systemd/system/$service_name.timer
-#chmod -R 740 /usr/lib/systemd/scripts/$service_name.sh
-
-
-tee /etc/systemd/system/$service_name.service > /dev/null <<EOF
+if [ ! -f "$service_file" ]; then
+	touch "$service_file"
+	echo "created $service_file"
+	tee "$service_file" > /dev/null <<EOF
 [Unit]
 Description=$service_name
 After=syslog.target
@@ -59,16 +61,17 @@ After=timers.target
 
 [Service]
 Type=simple
-ExecStart=/usr/lib/systemd/scripts/$service_name.sh --timer
+ExecStart="$service_script" --timer
 EOF
+	if [ ! -w "$service_file" ]; then
+		chmod 622 "$service_file"
+	fi	
+fi
 
-tee /usr/lib/systemd/scripts/$service_name.sh > /dev/null <<EOF
-#!/bin/sh -
-dnf update -y
-echo -e "my nigrow"
-EOF
-
-tee /etc/systemd/system/$service_name.timer > /dev/null <<EOF
+if [ ! -f "$service_timer" ]; then
+	touch "$service_timer"
+	echo "created $service_timer"
+tee "$service_timer" > /dev/null <<EOF
 [Unit]
 Description=Runs $service_name.sh script every $timer_on_unit_active_sec
 
@@ -79,9 +82,36 @@ OnUnitActiveSec=$timer_on_unit_active_sec
 [Install]
 WantedBy=multi-user.target
 EOF
+	if [ ! -w "$service_timer" ]; then
+		chmod -R 622 "$service_timer"
+	fi
+fi
 
-echo -e "${RED}permissions on files:${NOC}"
+if [ ! -f "$service_script" ]; then
+	touch "$service_script"
+	echo "created script $service_script"
+tee "$service_script" > /dev/null <<EOF
+#! /bin/sh
 
-ls -lah /etc/systemd/system/$service_name.timer
-ls -lah /etc/systemd/system/$service_name.service
-ls -lah /usr/lib/systemd/scripts/$service_name.sh
+log="/var/log/daily-update.log"
+
+if [ ! -f "$log" ]; then
+        touch $log
+        echo "$DATE"
+        echo "Log for daily-update-timer created." >> $log
+fi
+
+echo "$DATE" >> $log
+dnf update -y
+
+EOF
+	if [ ! -x "$service_script" ]; then
+		chmod 740 "$service_script"
+	fi	
+fi
+
+ls -lah $service_file
+ls -lah $service_timer
+ls -lah $service_script
+
+exit 0
