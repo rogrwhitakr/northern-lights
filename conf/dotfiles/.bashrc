@@ -22,6 +22,9 @@ export PATH
 # nano is better
 export EDITOR=/usr/bin/nano
 
+# get a longer history, with time stamp
+export HISTFILESIZE=50000
+export HISTTIMEFORMAT='%F %T '
 ######################################## Alias ########################################
 
 # list all Aliases
