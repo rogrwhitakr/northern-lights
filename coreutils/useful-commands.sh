@@ -7,6 +7,13 @@ function line() {
 	echo [--------------------------------------------------------------------------------------------------------------]
 }
 
+function line_2() {
+	if [[ -z "$@" ]]; then
+		exit 
+	fi	 	
+	echo [--------------------------------------------------------------------------------------------------------------]
+}
+
 print_red() {
 	if [[ -z "$@" ]]; then
 		echo "print_red(): no args set"
@@ -36,6 +43,24 @@ print_blue() {
 
 RED='\033[0;31m'
 NOC='\033[0m' 	
+
+# Prepend line number
+ls | nl
+
+# Who is logged in?
+w
+
+# Cat backwards (starting from the end)
+tac $(find . -type f | sort -R | head -1)
+
+# Keep program running after leaving SSH session
+# If the program doesn't need any interaction
+# nohup <script.sh> &
+
+# Run a command for a limited time
+# timeout 10s ./script.sh
+# Restart every 30 minutes
+# while true; do timeout 30m ./script.sh; done
 
 ### exec
 line
