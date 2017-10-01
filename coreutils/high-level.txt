@@ -1,0 +1,19 @@
+# How to Compile and Install Software from Source Code
+#	-->	get tarball using wget <URL>
+#	-->	Unpack with tar
+#	-->	configuration 
+#		-->	configure --help
+#			./configure --> to actually configure
+#		-->	creates build env, produces makefile
+#		==>	make
+#			Compilierung, necessary binaries are created
+#		==>	make install
+#			Installation
+
+# Into which directory should I install programs in Linux?
+#		-->	/usr/local
+#		-->	http://refspecs.linuxfoundation.org/FHS_2.3/fhs-2.3.html\n#
+#	To get a list of the applications on your system that can use PAM (Pluggable Authentication Modules) in some way, type:
+#		ldd /{,usr/}{bin,sbin}/* | grep -B 5 libpam | grep '^/'	
+#	You can check a specific application for PAM functionality. If it returns anything, then it can use PAM.
+#		ldd \$(which program_name) | grep libpam	
