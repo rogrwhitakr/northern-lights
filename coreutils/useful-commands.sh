@@ -1,48 +1,11 @@
 #! /bin/sh
-
-
-### functions
-
-function line() {
-	echo [--------------------------------------------------------------------------------------------------------------]
+function content() {
+	cat $0
 }
+content
+exit
 
-function line_2() {
-	if [[ -z "$@" ]]; then
-		
-	fi	 	
-	echo [--------------------------------------------------------------------------------------------------------------]
-}
-
-print_red() {
-	if [[ -z "$@" ]]; then
-		echo "print_red(): no args set"
-	fi	  	
-	RED='\033[0;31m'
-	NOC='\033[0m'
-	echo -e ${RED}"$@"${NOC}
-}
-
-print_noc() {
-	if [[ -z "$@" ]]; then
-		echo "print_red(): no args set"
-	fi	  	
-	NOC='\033[0m'
-	echo -e ${NOC}"$@"${NOC}
-}
-
-print_blue() {
-	if [[ -z "$@" ]]; then
-		echo "print_red(): no args set"
-	fi	  	
-	NOC='\033[0m'
-	BLUE='\e[34m'
-	echo -e ${BLUE}"$@"${NOC}
-}
-### variables
-
-RED='\033[0;31m'
-NOC='\033[0m' 	
+##############################################################
 
 # Prepend line number
 ls | nl
@@ -74,58 +37,46 @@ sort -R $(find . -type f | tail -1)
 # Create empty file of given size
 # fallocate -l 1G test.img
 
-### exec
-line
-print_red get executable of a command
-print_blue command -v \$command
-print_noc example command: uuidgen, creates a uuid
-cmd=uuidgen
-command -v $cmd
-line
-print_red execute command
-print_blue command \$command
-print_noc example command: uuidgen, creates a uuid
-cmd=uuidgen
-command $cmd
-line
-echo -e "${RED}#Finde Codierung${NOC}"
-echo -e "${NOC}#	command:echo \$LANG${NOC}"
-echo -e "${NOC}#	echo $LANG${NOC}"
+# get executable of a command
+command -v uuidgen
 
-line
-echo -e "${RED}#List service and their open ports${NOC}"
-echo -e "${NOC}#	netstat -tulpn${NOC}"
-echo -e "${NOC}#	`netstat -tulpn`${NOC}"
+# create a uuid
+uuidgen
 
-line
-echo -e "${RED}#get Virtual Network manager in LINUX${NOC}"
-echo -e "${NOC}#	cd /usr/lib/vmware/bin
-#	ln -s /usr/lib/vmware/bin/appLoader vmware-netcfg
-#	ln -s /usr/lib/vmware/bin/vmware-netcfg /usr/bin/vmware-netcfg\n#${NOC}"
+# execute command
+command uuidgen
 
-line
-echo -e "${RED}#Disk File Size${NOC}"
-echo -e "${NOC}#	df${NOC}"
+# get Codierung
+echo $LANG
 
-line
-echo -e "${RED}#disk usage ${NOC}"
-echo -e "${NOC}#	du -cah | grep total
+# List service and their open ports
+netstat -tulpn
+
+# get Virtual Network manager in LINUX
+# cd /usr/lib/vmware/bin
+# ln -s /usr/lib/vmware/bin/appLoader vmware-netcfg
+# ln -s /usr/lib/vmware/bin/vmware-netcfg /usr/bin/vmware-netcfg
+
+# Disk File Size
+df
+# Disk free human-readable and file system type
+df -hT
+
+# disk usage
 #	-h 		human readable
 #	-a		all
-#	-c 		total${NOC}"
+#	-c 		total
+du -cah | grep total
 
-line
-echo -e "${RED}#find biggest tile Files${NOC}"
-echo -e "${NOC}#	find -name tirex | du -ah | sort -nr | head -30${NOC}"
+# find biggest tile Files
+find -name tirex | du -ah | sort -nr | head -30
 
-line
-echo -e "${RED}#delete every single file, excluding directories, below the current working directory${NOC}"
-echo -e "${NOC}#	find . ! -type d -delete
-#	find . ! -type d -exec rm '{}' \;${NOC}"
+# delete every single file, excluding directories, below the current working directory
+find . ! -type d -delete
+find . ! -type d -exec rm '{}'
 
-line
-echo -e "${RED}#Dateirechte in LINUX${NOC}"
-echo -e "${NOC}#	--> Grundsätzlich kann man bei Linux die Dateirechte numerisch (755, 777) oder symbolisch (r, w, x) vergeben.
+# Dateirechte in LINUX
+#	--> Grundsätzlich kann man bei Linux die Dateirechte numerisch (755, 777) oder symbolisch (r, w, x) vergeben.
 #	--> z.B.: 
 #		--> drwxr-xr-x
 #	
@@ -136,55 +87,31 @@ echo -e "${NOC}#	--> Grundsätzlich kann man bei Linux die Dateirechte numerisch
 #			-->	User-Group-Other
 #			--> u-g-o
 #			--> chmod 755 <dateiname>${NOC}
-#			--> chmod 755 httpd.conf${NOC}"
+#			--> chmod 755 httpd.conf
 
-line
-echo -e "${RED}#How to symlink a file${NOC}"
-echo -e "${NOC}#	ln -s /path/to/file /path/to/symlink${NOC}"
+# make executable, for current user
+chmod u+x <file>
 
-line
-echo -e "${RED}# Zipping / unzipping${NOC}"
-echo -e "${NOC}#	tar command is the primary archiving utility
-#	-->	Creating an archive${NOC}"
+# group-own
+chgrp 
 
-line
-echo -e "${RED}tar cvf archive_name.tar dirname/${NOC}"
-echo -e "${NOC}#	c	create archive
+# How to symlink a file
+ln -s /path/to/file /path/to/symlink
+
+# Zipping / unzipping
+# Create an archive
+#	c	create archive
 #	v	verbose
 #	f	file name
 #	--> NO COMPRESSION!	Add filter option with compoiression algorithm
 #			z	gzip		<.tar.gz extension>
 #			j	bzip2		<tar.bz2 extension>
-#	
-#	-->	Extracting (untar) an archive
-#		-->	tar xvf archive_name.tar
-#				x	extract
-#				
-#	-->	Listing an archive (View the tar archive file content without extracting)
-#		-->	tar tvf file_name.tar
-#				t	list (--list tuts auch)${NOC}"
+tar cvf archive_name.tar dirname/
 
-line
-echo -e "${RED}#How to Compile and Install Software from Source Code${NOC}"
-echo -e "${NOC}#	-->	get tarball using wget <URL>
-#	-->	Unpack with tar
-#	-->	configuration 
-#		-->	configure --help
-#			./configure --> to actually configure
-#		-->	creates build env, produces makefile
-#		==>	make
-#			Compilierung, necessary binaries are created
-#		==>	make install
-#			Installation${NOC}"
+# Extracting (untar) an archive
+#	x 	extract
+tar xvf archive_name.tar
 
-line
-echo -e "${RED}#Into which directory should I install programs in Linux?${NOC}"
-echo -e "${NOC}#		-->	/usr/local
-#		-->	http://refspecs.linuxfoundation.org/FHS_2.3/fhs-2.3.html\n#
-#	To get a list of the applications on your system that can use PAM (Pluggable Authentication Modules) in some way, type:
-#		ldd /{,usr/}{bin,sbin}/* | grep -B 5 libpam | grep '^/'	
-#	You can check a specific application for PAM functionality. If it returns anything, then it can use PAM.
-#		ldd \$(which program_name) | grep libpam	${NOC}"
-line
-
-exit 
+# Listing an archive (View the tar archive file content without extracting)
+# 	t	list (--list tuts auch)
+tar tvf file_name.tar
