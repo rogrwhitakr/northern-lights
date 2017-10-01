@@ -51,7 +51,10 @@ ls | nl
 w
 
 # Cat backwards (starting from the end)
-tac $(find . -type f | sort -R | head -1)
+tac $(find . -type f | head -1)
+
+# random sort (don`t know how that is useful yet...)
+sort -R $(find . -type f | tail -1)
 
 # Keep program running after leaving SSH session
 # If the program doesn't need any interaction
@@ -61,6 +64,15 @@ tac $(find . -type f | sort -R | head -1)
 # timeout 10s ./script.sh
 # Restart every 30 minutes
 # while true; do timeout 30m ./script.sh; done
+
+# Flush swap partition
+# If a program eats too much memory, the swap can get filled with the rest of the memory 
+# and when you go back to normal, everything is slow. Just restart the swap partition to fix it
+# sudo swapoff -a
+# sudo swapon -a
+
+# Create empty file of given size
+# fallocate -l 1G test.img
 
 ### exec
 line
