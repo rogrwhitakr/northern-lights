@@ -36,6 +36,14 @@ print_noc() {
 	echo -e ${NOC}"$@"${NOC}
 }
 
+print_blue() {
+	if [[ -z "$@" ]]; then
+		echo "print_red(): no args set"
+	fi	  	
+	NOC='\033[0m'
+	BLUE='\e[34m'
+	echo -e ${BLUE}"$@"${NOC}
+}
 ############################ exec ############################ 
 
 display_help() {
