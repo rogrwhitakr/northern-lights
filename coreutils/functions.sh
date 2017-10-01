@@ -64,3 +64,9 @@ print_noc  - i need to figure out how to make these functions behave like echo. 
 isplay_help() \$1"
 
 grep -E "[\]"
+
+# pass an array to a function
+--> "${a[@]}"
+
+# copy an array
+--> ( "${a[@]}" )
