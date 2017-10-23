@@ -21,21 +21,21 @@ sort -R $(find . -type f | tail -1)
 
 # Keep program running after leaving SSH session
 # If the program doesn't need any interaction
-# nohup <script.sh> &
+nohup <script.sh> &
 
 # Run a command for a limited time
 # timeout 10s ./script.sh
 # Restart every 30 minutes
-# while true; do timeout 30m ./script.sh; done
+while true; do timeout 30m ./script.sh; done
 
 # Flush swap partition
 # If a program eats too much memory, the swap can get filled with the rest of the memory 
 # and when you go back to normal, everything is slow. Just restart the swap partition to fix it
-# sudo swapoff -a
-# sudo swapon -a
+sudo swapoff -a
+sudo swapon -a
 
 # Create empty file of given size
-# fallocate -l 1G test.img
+fallocate -l 1G test.img
 
 # get executable of a command
 command -v uuidgen
@@ -52,13 +52,9 @@ echo $LANG
 # List service and their open ports
 netstat -tulpn
 
-# get Virtual Network manager in LINUX
-# cd /usr/lib/vmware/bin
-# ln -s /usr/lib/vmware/bin/appLoader vmware-netcfg
-# ln -s /usr/lib/vmware/bin/vmware-netcfg /usr/bin/vmware-netcfg
-
 # Disk File Size
 df
+
 # Disk free human-readable and file system type
 df -hT
 
@@ -71,23 +67,15 @@ du -cah | grep total
 # find biggest tile Files
 find -name tirex | du -ah | sort -nr | head -30
 
+# List all sh files (including subdirectories)
+find . -type f -name "*.sh"
+
+# List all CSS or HTML files:
+find . -type f \( -name "*.css" -or -name "*.html" \)
+
 # delete every single file, excluding directories, below the current working directory
 find . ! -type d -delete
 find . ! -type d -exec rm '{}'
-
-# Dateirechte in LINUX
-#	--> Grundsätzlich kann man bei Linux die Dateirechte numerisch (755, 777) oder symbolisch (r, w, x) vergeben.
-#	--> z.B.: 
-#		--> drwxr-xr-x
-#	
-#	--> Rechte setzen mit chmod
-#	--> 	Lesen = 4 
-#		Schreiben = 2
-#		Ausführen = 1
-#			-->	User-Group-Other
-#			--> u-g-o
-#			--> chmod 755 <dateiname>${NOC}
-#			--> chmod 755 httpd.conf
 
 # make executable, for current user
 chmod u+x <file>
@@ -97,6 +85,7 @@ chgrp
 
 # How to symlink a file
 ln -s /path/to/file /path/to/symlink
+ln -s /path/to/file-name /link-name
 
 # Zipping / unzipping
 # Create an archive
@@ -115,3 +104,19 @@ tar xvf archive_name.tar
 # Listing an archive (View the tar archive file content without extracting)
 # 	t	list (--list tuts auch)
 tar tvf file_name.tar
+
+# Return information for a given file. 
+# For example, you can print the size information of an image:
+file <image.jpg>
+
+# print the processId of a running program.
+pidof systemd
+-> will return 1 
+
+# kill nginx by taking PID number and giving to kill command:
+kill -USR2 $(pidof nginx)
+
+# List contents of a directory in tree-like format. 
+# option -d: show only directories
+tree -d
+
