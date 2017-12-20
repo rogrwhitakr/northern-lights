@@ -53,6 +53,8 @@ awk -F  '{
 	}' /etc/passwd
 
 # https://techarena51.com/blog/advance-text-processing-examples-awk/
+# https://github.com/learnbyexample/Command-line-text-processing/blob/master/gnu_awk.md
+
 line
 
 exit 0
