@@ -1,12 +1,21 @@
 FROM fedora:rawhide
+# Add metadata
+LABEL vendor=io.northernlights
 
-RUN dnf update -y \
-	&& dnf install compat-openssl10 htop nano git -y \
-	&& dnf install https://github.com/PowerShell/PowerShell/releases/download/v6.0.0-rc.2/powershell-6.0.0_rc.2-1.rhel.7.x86_64.rpm -y \
-	&& dnf clean all \
-	&& mkdir data && cd data \
-	&& git clone https://github.com/rogrwhitakr/HR.git \
+# The version of Nominatim to be installed
+ENV PWSH_VERSION=6.0.0
 
-COPY install.sh .
+RUN dnf update -y && dnf install -y \
+	compat-openssl10 \ 
+	htop \
+	nano \
+	sudo \
+	wget \
+	https://github.com/PowerShell/PowerShell/releases/download/v6.0.0-rc.2/powershell-${PWSH_VERSION}_rc.2-1.rhel.7.x86_64.rpm && \
+	dnf clean all
+
+WORKDIR /pwsh/
+
+COPY PS/ /pwsh
 
 CMD /opt/microsoft/powershell/6.0.0-rc.2/pwsh
