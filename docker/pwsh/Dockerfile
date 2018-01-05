@@ -2,7 +2,7 @@ FROM fedora:rawhide
 # Add metadata
 LABEL vendor=io.northernlights
 
-# The version of Nominatim to be installed
+# The version of PWSH to be installed
 ENV PWSH_VERSION=6.0.0
 
 RUN dnf update -y && dnf install -y \
