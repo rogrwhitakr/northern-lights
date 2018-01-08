@@ -16,6 +16,6 @@ RUN dnf update -y && dnf install -y \
 
 WORKDIR /pwsh/
 
-# COPY PS/ /pwsh
+COPY PS/profile /root/.config/powershell/Microsoft.PowerShell_profile.ps1 
 
 CMD /opt/microsoft/powershell/6.0.0-rc.2/pwsh

@@ -1,4 +1,14 @@
-﻿function g {
+$loadtime = [System.Diagnostics.Stopwatch]::StartNew()
+
+####################################################
+#	customise shell name
+####################################################
+$host_ = get-Content -Path /etc/hostname
+Write-Host "Host: $host_" 
+$loadtime.Stop()
+Write-Host -ForegroundColor Cyan "Profile loading took" $loadtime.Elapsed.Milliseconds "Milliseconds"
+
+function g {
 
 	Begin {
 
@@ -26,6 +36,6 @@
 	{
 		$url = $query.Substring(0,$query.Length-1)
 		Write-Host "Search URL: $url `nInvoking..."
-		start "$url"
+		Start-Process "$url"
 	}
 }
