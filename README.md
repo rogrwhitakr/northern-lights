@@ -1,3 +1,3 @@
-# northern-lights
+# northernlights
 
-collection of shell scripts / how-to
+my desktop setup 
