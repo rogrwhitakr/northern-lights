@@ -2,7 +2,7 @@
 Type=Application
 Encoding=UTF-8
 Name=regexp
-Comment=s# open regex book on startup
+Comment=open regex book on startup (using evince)
 Exec=evince /home/admin/Dokumente/Bücher/mastering-regular-expressions
 Icon=/home/admin/Bilder/regexp.png
 Terminal=false
