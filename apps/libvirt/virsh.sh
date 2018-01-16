@@ -20,6 +20,7 @@ sudo virsh net-list --all
 sudo virsh iface-list --all
 
 # dump xml of machine, network, interfaces
+
 sudo virsh dumpxml dnsmasq > ~/libvirt/dnsmasq.xml
 sudo virsh net-dumpxml default > ~/libvirt/network_default.xml
 
