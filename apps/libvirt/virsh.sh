@@ -5,6 +5,11 @@ which virsh
 
 # execute as sudo because otherwise you cannot see the info
 
+# get help
+sudo virsh help domain
+sudo virsh help network
+sudo virsh help interface
+
 # list all machines
 sudo virsh list --all
 
