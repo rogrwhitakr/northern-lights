@@ -5,6 +5,9 @@ which virsh
 
 # execute as sudo because otherwise you cannot see the info
 
+# get the default connection
+sudo virsh uri
+
 # get help
 sudo virsh help domain
 sudo virsh help network
