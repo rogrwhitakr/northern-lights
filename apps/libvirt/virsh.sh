@@ -17,17 +17,14 @@ sudo virsh net-dumpxml default > ~/libvirt/network_default.xml
 
 # edit machine, network
 # needs to be specified, but defaults to vim
-$EDITOR=/usr/bin/nano sudo virsh net-edit default
+EDITOR=/usr/bin/nano sudo virsh net-edit default
 
 # from an xml dump -> edited xml (worked)
 # installed uuid to add to xml, seems to be ok (for now)
 sudo virsh net-create /home/admin/libvirt/network_miranda.xml
 
-# paths libvirt lives in
-sudo ls -l /etc/libvirt/qemu
-sudo tree /etc/libvirt
+# renaming a domain
+sudo virsh domrename Windows-server IAV.Dortmunder
 
-sudo subl /etc/libvirt/qemu/*.xml
-sudo subl /etc/libvirt/qemu/networks/*.xml
-sudo subl /etc/libvirt/libvirt.conf
-sudo subl /etc/libvirt/qemu.conf
+# paths libvirt lives in
+sudo tree /etc/libvirt
