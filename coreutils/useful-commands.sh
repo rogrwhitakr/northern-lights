@@ -145,4 +145,7 @@ strace -f -e <syscall> <cmd>
 ps aux | head -n20
 
 # make a server (check with netstat -tulpn)
-nc -l 8999 
+nc -lk 8999 
+
+# curl the server
+curl localhost:8999
