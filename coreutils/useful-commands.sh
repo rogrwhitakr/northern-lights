@@ -123,6 +123,9 @@ kill -USR2 $(pidof nginx)
 # option -d: show only directories
 tree -d
 
+# show directory structure 3 levels down (with file sizes and including hidden directories)
+tree -LhaC 3
+
 # list open file descriptors (-i flag for network interfaces)
 lsof -i :8080
 
