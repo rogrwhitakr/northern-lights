@@ -113,6 +113,9 @@ file <image.jpg>
 pidof systemd
 -> will return 1 
 
+# visualize process forks
+pstree
+
 # kill nginx by taking PID number and giving to kill command:
 kill -USR2 $(pidof nginx)
 
@@ -120,3 +123,20 @@ kill -USR2 $(pidof nginx)
 # option -d: show only directories
 tree -d
 
+# list open file descriptors (-i flag for network interfaces)
+lsof -i :8080
+
+# list currently open Internet/UNIX sockets and related information
+netstat | head -n20
+
+# stream current disk, network, CPU activity & more
+dstat -a
+
+# find hostname for a remote IP address
+nslookup 88.99.31.76
+
+# trace system calls of a program (-e flag to filter for certain system calls)
+strace -f -e <syscall> <cmd>
+
+# print currently active processes
+ps aux | head -n20
