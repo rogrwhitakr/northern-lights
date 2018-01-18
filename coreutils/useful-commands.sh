@@ -143,3 +143,6 @@ strace -f -e <syscall> <cmd>
 
 # print currently active processes
 ps aux | head -n20
+
+# make a server (check with netstat -tulpn)
+nc -l 8999 
