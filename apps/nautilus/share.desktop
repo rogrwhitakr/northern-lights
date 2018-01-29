@@ -1,0 +1,8 @@
+[Desktop Entry]
+Type=Application
+Encoding=UTF-8
+Name=GIL Desktop
+Comment=save as ~/.local/share/applications/<name>.desktop
+Exec=nautilus /mnt/hgfs/GIL
+Icon=/home/admin/Bilder/desktop.png
+Terminal=false

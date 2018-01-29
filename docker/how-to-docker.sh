@@ -1,11 +1,10 @@
 # bin/sh
 
-# install docker
- 
 # manage group to allow users non-sudo docker control
 sudo groupadd docker
 
-# add user to docker group
+# add user to docker group (unsure if complete!!)
+useradd -aG docker
 
 # get current locally available docker images
 docker images

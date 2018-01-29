@@ -1,0 +1,11 @@
+
+Now use virt-install to run the Atomic Host image:
+
+sudo virt-install --name fedora-27-atomic --ram 2048 --vcpus 2 --disk path=/var/lib/libvirt/images/Fedora-Atomic-27..qcow2 --os-type linux --os-variant fedora26 --network bridge=virbr0 --graphics vnc,listen=127.0.0.1,port=5901 --cdrom /var/lib/libvirt/images/init.iso --noautoconsole
+
+how to solve network problems
+
+problem no route to host
+
+# see if there is a route to the hot?
+traceroute 
