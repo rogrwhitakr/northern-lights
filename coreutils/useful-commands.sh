@@ -120,3 +120,5 @@ kill -USR2 $(pidof nginx)
 # option -d: show only directories
 tree -d
 
+# get basename of script 
+filename=$(`basename "$0"`)
