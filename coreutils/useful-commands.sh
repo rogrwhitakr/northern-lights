@@ -150,27 +150,5 @@ nc -lk 8999
 # curl the server
 curl localhost:8999
 
-
-# list open file descriptors (-i flag for network interfaces)
-lsof -i :8080
-
-# list currently open Internet/UNIX sockets and related information
-netstat | head -n20
-
-# stream current disk, network, CPU activity & more
-dstat -a
-
-# find hostname for a remote IP address
-nslookup 88.99.31.76
-
-# trace system calls of a program (-e flag to filter for certain system calls)
-strace -f -e <syscall> <cmd>
-
-# print currently active processes
-ps aux | head -n20
-
-# make a server (check with netstat -tulpn)
-nc -lk 8999 
-
-# curl the server
-curl localhost:8999
+# get basename of script 
+filename=$(`basename "$0"`)
