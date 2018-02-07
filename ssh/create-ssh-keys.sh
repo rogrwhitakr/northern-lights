@@ -61,3 +61,6 @@ key_name=$1
 
 # execute function
 createKey $key_name
+
+# copy ssh key id to remote machine
+ssh-copy-id -i ${key_name}.pub <user>@<remote-box>
