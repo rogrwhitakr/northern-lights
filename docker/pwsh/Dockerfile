@@ -11,7 +11,7 @@ RUN dnf update -y && dnf install -y \
 	nano \
 	sudo \
 	wget \
-	https://github.com/PowerShell/PowerShell/releases/tag/v6.0.1/powershell-${PWSH_VERSION}-1.rhel.7.x86_64.rpm && \
+	https://github.com/PowerShell/PowerShell/releases/tag/v${PWSH_VERSION}/powershell-${PWSH_VERSION}-1.rhel.7.x86_64.rpm && \
 	dnf clean all
 
 WORKDIR /pwsh/
