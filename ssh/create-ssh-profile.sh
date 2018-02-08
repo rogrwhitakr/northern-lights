@@ -20,8 +20,8 @@ fi
 curl -o ~/.ssh/config.github 'https://raw.githubusercontent.com/rogrwhitakr/northern-lights/master/conf/dotfiles/.ssh.northernlights.config'
 
 # own the config file
-chown $user ~/.ssh/config
+chown ${id -un} ~/.ssh/config
 chmod 600 ~/.ssh/config
 
 # if all else fails, recheck this last one
-find ~/.ssh/config ! -perm 600 -exec  chmod 600  {} \;
+find ~/.ssh/config ! -perm 600 -exec chmod 600  {} \;
