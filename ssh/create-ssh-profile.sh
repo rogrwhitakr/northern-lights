@@ -17,7 +17,7 @@ if [ ! -d ~/.ssh ]; then
 fi    
 
 # populate the config file
-curl -o config 'https://raw.githubusercontent.com/rogrwhitakr/northern-lights/master/conf/dotfiles/.ssh.northernlights.config'
+curl -o ~/.ssh/config.github 'https://raw.githubusercontent.com/rogrwhitakr/northern-lights/master/conf/dotfiles/.ssh.northernlights.config'
 
 # own the config file
 chown $user ~/.ssh/config
