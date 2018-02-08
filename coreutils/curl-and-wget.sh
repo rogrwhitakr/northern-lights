@@ -1,27 +1,16 @@
 # bin/sh
 
-RED='\033[0;31m'
-NOC='\033[0m' 	# No Color
+URL='https://curl.haxx.se/docs/manual.html'
 
-function line() {
-	echo -e '\n'
-	echo [------------------------------------------]
-	echo -e '\n'
-}
-
-###############################################################################################
-# curl
-###############################################################################################
-
-echo -e HOW-TO use curl'\n' ${RED}curl {http://sftp://smb://...etc}${NOC}
-echo -e go to'\n' ${RED}https://curl.haxx.se/docs/manual.html${NOC}'\n'for a detailed explanation and examples'\n'
-xdg-open 'https://curl.haxx.se/docs/manual.html'
+# HOW-TO use curl
+curl {http://sftp://smb://<protocol>...etc}
 
 # make curl verbose
-echo -e "curl -v \[URL\]"
+curl -v 'https://curl.haxx.se/docs/manual.html'
 
-
-line
+# DOWNLOAD TO A FILE
+# Get a web page and store in a local file with a specific name:
+curl -o thatpage.html ${URL}
 
 ###############################################################################################
 # wget
