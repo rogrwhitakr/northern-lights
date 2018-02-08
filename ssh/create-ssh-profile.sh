@@ -17,11 +17,11 @@ if [ ! -d ~/.ssh ]; then
 fi    
 
 # populate the config file
-tee >> ~/.ssh/config < $(curl 'https://raw.githubusercontent.com/rogrwhitakr/northern-lights/master/conf/dotfiles/.ssh.northernlights.config')
+curl -o config 'https://raw.githubusercontent.com/rogrwhitakr/northern-lights/master/conf/dotfiles/.ssh.northernlights.config'
 
 # own the config file
 chown $user ~/.ssh/config
 chmod 600 ~/.ssh/config
 
-# recheck this last one
+# if all else fails, recheck this last one
 find ~/.ssh/config ! -perm 600 -exec  chmod 600  {} \;
