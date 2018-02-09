@@ -83,3 +83,11 @@ get_hosts() {
 	fi
 }
 get_hosts
+
+# Use word splitting to trim whitespace.
+trim() {
+    set -f
+    set -- $*
+    printf "%s\\n" "$*"
+    set +f
+}
