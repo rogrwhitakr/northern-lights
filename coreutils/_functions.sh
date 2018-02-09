@@ -80,7 +80,7 @@ get_hosts() {
 		printf "no ssh-config-file found! Exiting"
 		exit 1 
 	else
-		awk '/Host / { print $2 "\t\t\t" $3 "\t\t\t" $4 }' ~/.ssh/config | nl -w 2
+		awk '/Host / { print $2 }' ~/.ssh/config | nl -w 2
 	fi
 }
 
