@@ -75,7 +75,6 @@ print_noc  - i need to figure out how to make these functions behave like echo. 
 
 # a function to get all the hosts that are in the sshconfig
 get_hosts() {
-
 	if [[ ! -r ~/.ssh/config ]]; then
 		printf "no ssh-config-file found! Exiting"
 		exit 1 
