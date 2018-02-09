@@ -83,5 +83,4 @@ get_hosts() {
 		awk '/Host / { print $2 }' ~/.ssh/config | nl -w 2
 	fi
 }
-
 get_hosts
