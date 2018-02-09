@@ -69,7 +69,7 @@ print_noc  - i need to figure out how to make these functions behave like echo. 
 
 # ok i need to check the input for "\", then double that one up
 
-isplay_help() \$1
+isplay_help() $1
 
 grep -E "[\]"
 
@@ -85,7 +85,7 @@ get_hosts(){
 	printf "no ssh-config-file found! Exiting"
 	exit 1 
 	else
-		awk -F"\^" {print} "~/.ssh/config"
+		awk '/Host / { print $2 "\t\t\t" $3 "\t\t\t" $4 }' ~/.ssh/config | nl -w 2
 	fi
 }
 
