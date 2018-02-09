@@ -67,26 +67,21 @@ print_red functions-library
 print_noc  - to display help, append --help
 print_noc  - i need to figure out how to make these functions behave like echo. they strip any \\nregexp stuff away 
 
-# ok i need to check the input for "\", then double that one up
-
-isplay_help() $1
-
-grep -E "[\]"
-
 # pass an array to a function
---> "${a[@]}"
+#--> "${a[@]}"
 
 # copy an array
---> ( "${a[@]}" )
+#--> ( "${a[@]}" )
 
 # a function to get all the hosts that are in the sshconfig
-get_hosts(){
-	if [ ! -a "~/.ssh/config" ]; then
-	printf "no ssh-config-file found! Exiting"
-	exit 1 
+get_hosts() {
+
+	if [[ ! -r ~/.ssh/config ]]; then
+		printf "no ssh-config-file found! Exiting"
+		exit 1 
 	else
 		awk '/Host / { print $2 "\t\t\t" $3 "\t\t\t" $4 }' ~/.ssh/config | nl -w 2
 	fi
 }
 
-get_hosts()
+get_hosts
