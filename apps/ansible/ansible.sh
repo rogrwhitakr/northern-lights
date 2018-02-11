@@ -20,3 +20,9 @@ ansible northernlights -m copy -a "src=~/./Bilder/wood-icon.png dest=/tmp/wood-i
 
 # check service state
 ansible northernlights -m service -a "name=httpd state=started"
+
+# get ansible system info
+ansible all -m setup
+
+# get only the setup info for server "server", taken from inventory file
+ansible -i ~/.ansible/hosts.yaml server -m setup

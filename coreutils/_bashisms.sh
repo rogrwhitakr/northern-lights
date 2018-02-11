@@ -10,3 +10,9 @@ echo "echo -e = option will print escaped characters"
 echo -e "${RED}How to echo / STDIN / STERR / escape stuff in bash ${NOC}"
 
 echo -e "${YELLOW}initalizes an empty repository in `pwd` ${NOC}"
+
+# Bypassing shell aliases
+# alias ls='ls -Z'
+ls
+# only ls command
+\ls
