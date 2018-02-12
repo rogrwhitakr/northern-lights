@@ -8,4 +8,4 @@ dnf install dnf-plugin-system-upgrade -y
 dnf system-upgrade download --releasever=27 --allowerasing -y
 
 # do the update
-system-upgrade reboot
+dnf system-upgrade reboot
