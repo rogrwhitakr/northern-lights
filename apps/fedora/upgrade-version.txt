@@ -1,11 +1,11 @@
 #start upgrade process
-dnf upgrade --refresh
+sudo dnf upgrade --refresh -y
 
 # install the plugin if needed
-dnf install dnf-plugin-system-upgrade -y
+sudo dnf install dnf-plugin-system-upgrade -y
 
 # download all new things
-dnf system-upgrade download --releasever=27 --allowerasing -y
+sudo dnf system-upgrade download --releasever=27 --allowerasing -y
 
 # do the update
-dnf system-upgrade reboot
+sudo dnf system-upgrade reboot
