@@ -95,4 +95,8 @@ print_noc -t 5 specifies a timeout of 5 seconds
 print_noc key serve in case you need to know the input, in -n1 case, the key that has been pressed.
 print_noc $? serve to know the exit code of the last program, for read, 142 in case of timeout, 0 correct input. Put $? in a variable as soon as possible if you need to test it after somes commands, because all commands would rewrite $?
 
+# read assigns REPLY automatically
+read
+echo ${REPLY}
+
 exit 0
