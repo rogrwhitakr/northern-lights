@@ -1,5 +1,5 @@
 #start upgrade process
-dnf upgrade --refresh
+dnf upgrade --refresh -y
 
 # install the plugin if needed
 dnf install dnf-plugin-system-upgrade -y
