@@ -52,3 +52,9 @@ echo "Starting with    :: $text"
 echo -e "echo -e\t\t :: $text"
 
 sed -e 's/this/that/g' $text
+
+
+# variable change
+SQL="select claim_id from claim;"
+SQL=$(sed -e "s/claim/setting/g" <<< $SQL)
+echo -e $SQL
