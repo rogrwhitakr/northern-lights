@@ -5,6 +5,9 @@
 awk 'program' input-file1 input-file2 …
 awk [-F --field-separators] 'program' input-file1 input-file2 …
 
+# !!!!! -F --> NO "=", but --> '' for any special characters !!!!
+# !!!!! --field-separator=';' --> WITH a "=" !!!!
+
 # get aliases and print 
 getent aliases | awk -F: '{ print $1,"||", $5 }'
 
@@ -16,8 +19,10 @@ awk -F: '{print $3,$4}' /etc/passwd
 echo 'one;2018-02-12;two;CLASH;four;five;nej;2;464;ERROR' | awk -F';' '{print $(NF), "|", $2, "|", $(NF-3)}'
 
 # Regular expressions based input field separator
+echo 'Sample123string54with908numbers' | awk -F'[0-9]+' '{print $2}'
 
-
+# field separator contains "{}=" and a space
+echo '{foo}   bar=baz' | awk -F'[{}= ]+' '{print $2}'
 
 # print only the ones containing "systemd"
 awk -F: '$1 ~/^systemd/ {print $5}' /etc/passwd
@@ -33,5 +38,5 @@ awk -F  '{
 		}
 	}' /etc/passwd
 
-# https://techarena51.com/blog/advance-text-processing-examples-awk/
-# https://github.com/learnbyexample/Command-line-text-processing/blob/master/gnu_awk.md
+# Output Field Separator = OFS
+echo 'one;2018-02-12;two;CLASH;four;five;nej;2;464;ERROR' | awk -v OFS='[]' -F';' '{print $(NF), $(NF), $(NF)}'
