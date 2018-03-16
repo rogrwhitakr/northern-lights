@@ -38,5 +38,12 @@ awk -F  '{
 		}
 	}' /etc/passwd
 
-# Output Field Separator = OFS
+# Output Field Separator = OFS 
+# gets added between every argument to print statement
+# use printf to avoid this -> default is single space!
 echo 'one;2018-02-12;two;CLASH;four;five;nej;2;464;ERROR' | awk -v OFS='[]' -F';' '{print $(NF), $(NF), $(NF)}'
+
+# changing a field will re-build contents of $0
+echo 'that bai did that bitch' | awk '{$2 = "ninja"; print $0}'
+
+$ # $1=$1 is an idiomatic way to re-build when there is nothing else to change
