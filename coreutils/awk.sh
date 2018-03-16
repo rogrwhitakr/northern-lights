@@ -44,6 +44,12 @@ awk -F  '{
 echo 'one;2018-02-12;two;CLASH;four;five;nej;2;464;ERROR' | awk -v OFS='[]' -F';' '{print $(NF), $(NF), $(NF)}'
 
 # changing a field will re-build contents of $0
-echo 'that bai did that bitch' | awk '{$2 = "ninja"; print $0}'
+echo 'that boi did that bitch' | awk '{$2 = "ninja"; print $0}'
+echo 'making som time stamps....' | awk '{ $2 = "some" ; print }'
 
 $ # $1=$1 is an idiomatic way to re-build when there is nothing else to change
+echo 'Imma123_do9657dis4wit9283749236486chu' | awk -F'[123456789_]+' '{$1=$1; print $0}'
+echo 'Imma123_do9657dis4wit9283749236486chu' | awk -F'[123456789_]+' -v OFS='] [' '{$1=$1; print $0}'
+
+
+# Regular expressions based filtering
