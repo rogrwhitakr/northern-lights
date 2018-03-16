@@ -51,5 +51,7 @@ $ # $1=$1 is an idiomatic way to re-build when there is nothing else to change
 echo 'Imma123_do9657dis4wit9283749236486chu' | awk -F'[123456789_]+' '{$1=$1; print $0}'
 echo 'Imma123_do9657dis4wit9283749236486chu' | awk -F'[123456789_]+' -v OFS='] [' '{$1=$1; print $0}'
 
-
 # Regular expressions based filtering
+# the REGEXP is specified within // and by default acts upon $0
+awk '/^[0-9]{2}+/' ./history
+awk '/[0-9]{2}+' ./history
