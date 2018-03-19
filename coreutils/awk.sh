@@ -84,7 +84,14 @@ awk -v RS='#' '{ print}' ./high-level.txt
 awk '$0 ~ /f.n/ {print}'
 
 # ^ Find string at beginning of line.
-# [+-]? Specify possible "+" or "-" sign for number.
-# [0-9]+ Specify at least one digit "0" through "9".
+# [+-] Specify possible "+" or "-". 
+# "?" --> ONE OCCURENCE
+# [0-9]+ Specify digits "0" through "9".
+# "+" --> ONE ORE MORE OCCURENCES
 # $ Specify that the line ends with the number.
 awk '$0 ~ /^[+-]?[0-9]+$ { print }'
+
+# search the first element for number pattern 10-99
+# print NUMMER: <NO> | <command>
+# -o <outfile the rule>
+awk -o '$1 ~ /^[0-9]{2}$/ {print "NUMMER:", $1, "|", $NF }' ./dated_history
