@@ -1,0 +1,978 @@
+    1  sed -i 's/mongodb:*/mongodb:\/\/mongo:27017'/' easy-node-authentication/config/database.js
+    2  sed -i 's/mongodb:*/mongodb:\/\/mongo:27017/' easy-node-authentication/config/database.js
+    3  sed -i 's/mongodb:*/mongodb:\/\/mongo:27017'/g' easy-node-authentication/config/database.js
+    4  sed -i 's/mongodb:*/mongodb:\/\/mongo:27017/g' easy-node-authentication/config/database.js
+    5  sed -i.orig 's/mongodb:*/mongodb:\/\/mongo:27017/g' easy-node-authentication/config/database.js
+    6  sed -ei.orig 's/mongodb:*/mongodb:\/\/mongo:27017/g' easy-node-authentication/config/database.js
+    7  sed -e 's/mongodb:*/mongodb:\/\/mongo:27017/g' easy-node-authentication/config/database.js
+    8  sed -e 's/mongodb:*/mongodb:\/\/mongo:27017\'/g' easy-node-authentication/config/database.js
+    9  sed -e 's/mongodb:*/mongodb:\/\/mongo:27017\'/g' easy-node-authentication/config/database.js
+   10  sed -e 's/mongodb:*/mongodb:\/\/mongo:27017\'/g' easy-node-authentication/config/database.js
+   11  sed -e 's/mongodb:*/mongodb:\/\/mongo:27017\/g' easy-node-authentication/config/database.js
+   12  sed -e 's/mongodb:*/mongodb:\/\/mongo:27017/g' easy-node-authentication/config/database.js
+   13  sed -e 's/mongodb:.*/mongodb:\/\/mongo:27017/g' easy-node-authentication/config/database.js
+   14  sed -e 's/mongodb:.*/mongodb:\/\/mongo:27017'/g' easy-node-authentication/config/database.js
+   15  \
+   16  sed -e 's/mongodb:.*/mongodb:\/\/mongo:27017"'"/g' easy-node-authentication/config/database.js
+   17  sed -e 's/mongodb:.*/mongodb:\/\/mongo:27017"/g' easy-node-authentication/config/database.js
+   18  sed -e 's/mongodb:.*/mongodb:\/\/mongo:27017'\''/g' easy-node-authentication/config/database.js
+   19  sed -e 's/mongodb:.*/mongodb:\/\/mongo:27017'\''/g' -i.orig easy-node-authentication/config/database.js
+   20  ls 
+   21  ls easy-node-authentication/
+   22  ls easy-node-authentication/config/
+   23  cat easy-node-authentication/config/database.js
+   24  cat easy-node-authentication/config/database.js.orig 
+   25  ./docker-compose-demo-node.js 
+   26  cat easy-node-authentication/config/database.js 
+   27  ./docker-compose-demo-node.js 
+   28  cat easy-node-authentication/config/database.js 
+   29  touch easy-node-authentication/Dockerfile
+   30  nano docker-compose-demo-node.js 
+   31  docker build -t northernlights/auth-app .
+   32  docker build -t northernlights/auth-app easy-node-authentication/
+   33  nano docker-compose-demo-node.js 
+   34  cat /etc/resolv.conf 
+   35  sudo nano /etc/resolv.conf 
+   36  ./docker-compose-demo-node.js 
+   37  docker images
+   38  ls
+   39  ls '*'
+   40  ls "*"
+   41  ls
+   42  ls [?]
+   43  ls [a-z]
+   44  touch abcd
+   45  ls [a-z]
+   46  ls \[a-z]
+   47  ls \[a-z\]
+   48  la
+   49  ls .[a-z]
+   50  ls .k[a-z]
+   51  ls .k[abced]
+   52  ls k[abced]
+   53  la
+   54  rm abcd 
+   55  cd prototype/
+   56  touch abcd 
+   57  touch kde
+   58  ls k[abced]
+   59  ls kd[abced]
+   60  ls k\c[a-f]
+   61  ls k\d[a-f]
+   62  ls k[a-e][a-f]
+   63  touch kda
+   64  touch kfa
+   65  touch kfad
+   66  ls k[a-e][a-f]
+   67  la
+   68  cd ../docker/
+   69  ls
+   70  ls dotfiles/
+   71  rm -R dotfiles/
+   72  rm -Rf dotfiles/
+   73  touch docker-compose-demo-node.js
+   74  nano docker-compose-demo-node.js 
+   75  chmod u+x docker-compose-demo-node.js 
+   76  ./docker-compose-demo-node.js 
+   77  la
+   78  la easy-node-authentication/
+   79  rm fR easy-node-authentication/.git*
+   80  rm -fR easy-node-authentication/.git*[A
+   81  ./docker-compose-demo-node.js 
+   82  la
+   83  la easy-node-authentication/
+   84  nano easy-node-authentication/config/database.js 
+   85  ./docker-compose-demo-node.js 
+   86  nano docker-compose-demo-node.js 
+   87  ./docker-compose-demo-node.js 
+   88  nano easy-node-authentication/config/database.js 
+   89  nano docker-compose-demo-node.js 
+   90  ./docker-compose-demo-node.js 
+   91  nano easy-node-authentication/config/database.js 
+   92  ls easy-node-authentication/config/
+   93  nano easy-node-authentication/config/database.js 
+   94  ./docker-compose-demo-node.js 
+   95  nano easy-node-authentication/config/database.js 
+   96  nano docker-compose-demo-node.js 
+   97  ./docker-compose-demo-node.js
+   98  nano docker-compose-demo-node.js 
+   99  ./docker-compose-demo-node.js 
+  100  cat easy-node-authentication/Dockerfile 
+  101  update
+  102  nano docker-compose-demo-node.js 
+  103  ping google.de
+  104  ping google.de -4
+  105  cat /etc/resolv.conf 
+  106  nano
+  107  nano resolv.conf 
+  108  rename resolv.conf resolved.conf
+  109  rename resolved.conf resolv.conf
+  110  rename -v resolved.conf resolv.conf
+  111  rename -v resolv resolved resolv.conf 
+  112  update
+  113  exit
+  114  ../MyScripts/coreutils/read.sh 
+  115  nano docker-compose-demo-node.js 
+  116  nano modify-resolv.conf 
+  117  ./modify-resolv.conf 
+  118  nano modify-resolv.conf 
+  119  ./modify-resolv.conf 
+  120  cat resolved.conf 
+  121  nano modify-resolv.conf 
+  122  ./modify-resolv.conf 
+  123  nano modify-resolv.conf 
+  124  nano resolved.conf 
+  125  ./modify-resolv.conf 
+  126  exit
+  127  sudo nano /etc/resolv.conf 
+  128  nano
+  129  chmod u+x modify-resolv.conf 
+  130  ./modify-resolv.conf 
+  131  nano docker-compose-demo-node.js 
+  132  exit
+  133  cd docker/
+  134  nano docker-compose-demo-node.js 
+  135  ./docker-compose-demo-node.js 
+  136  nano docker-compose-demo-node.js 
+  137  ./docker-compose-demo-node.js 
+  138  docker images
+  139  nano docker-compose-demo-node.js 
+  140  ./docker-compose-demo-node.js 
+  141  nano docker-compose-demo-node.js 
+  142  ./docker-compose-demo-node.js 
+  143  docker-compose --help
+  144  nano docker-compose-demo-node.js 
+  145  ./docker-compose-demo-node.js 
+  146  nano docker-compose-demo-node.js 
+  147  ./docker-compose-demo-node.js 
+  148  docker ps
+  149  docker exec -it 8ef220a97406 /bin/bash
+  150  docker images
+  151  cd ../MyScripts/docker/
+  152  ./delete-all-containers.sh 
+  153  docker ps
+  154  docker stop easynodeauthentication_ew
+  155  docker stop easynodeauthentication_web_1 
+  156  docker stop easynodeauthentication_mongo_1 
+  157  ./delete-all-containers.sh 
+  158  exit
+  159  update
+  160  gits
+  161  pull_nl
+  162  exit
+  163  sudo find / /( -name backup -o -name Backup /) -d 
+  164  sudo find / \( -name backup -o -name Backup \) -d 
+  165  sudo virsh 
+  166  history
+  167  find / \( -name backup -o -name Backup \)
+  168  ls /mnt/backup/
+  169  ls /mnt/backup/OS/
+  170  ls /mnt/backup/OS/windows/
+  171  man ls
+  172  code .bashrc 
+  173  man ls
+  174  man lsmod
+  175  env
+  176  cat .bashrc 
+  177  man ls
+  178  man gcc
+  179  sudo nano /etc/resolv.conf 
+  180  exit
+  181  update && exit
+  182  gits
+  183  push_nl
+  184  exit
+  185  docker ps --all
+  186  docker ps --a
+  187  docker ps -a
+  188  exit
+  189  man read
+  190  update
+  191  env
+  192  env | grep LESS
+  193  cat /usr/bin/lesspipe.sh 
+  194  pull_nl
+  195  update
+  196  env
+  197  gits
+  198  push_nl
+  199  update
+  200  ls 
+  201  cd docker/
+  202  ls
+  203  la
+  204  touch docker-compose.yml
+  205  touch get-version.sh
+  206  chmod u+x get-version.sh 
+  207  ./get-version.sh 
+  208  mkdir pwsh/core
+  209  ./get-version.sh 
+  210  dnf install powershell
+  211  sudo dnf install powershell
+  212  sudo dnf install pwsh
+  213  grep "docker build" history 
+  214  grep "docker build" `history` 
+  215  grep 'build pwsh' history
+  216  grep 'build pwsh' $(history)
+  217  history
+  218  history | grep 'docker build '
+  219  docker build pwsh/ --tag pwsh:6.0.1
+  220  docker build bcc/ --tag bcc:0.1
+  221  docker run  bcc:0.1
+  222  docker run  bcc:0.1 -it
+  223  docker run -it bcc:0.1 
+  224  docker build bcc/ --tag bcc:0.2
+  225  docker run -it bcc:0.2
+  226  ls /var/log/
+  227  cd /var/log/
+  228  la
+  229  cat Xorg.1.log 
+  230  la
+  231  echo $WAYLAND_DISPLAY
+  232  docker ps
+  233  docker attach
+  234  docker attach f6bfe122d72a
+  235  echo helo
+  236  update
+  237  echo $WAYLAND_DISPLAY
+  238  which wayland
+  239  loginctl
+  240  loginctl --show-session
+  241  loginctl show-session
+  242  loginctl show-session c2
+  243  loginctl show-session 3
+  244  man 3
+  245  man ls 3
+  246  man dnsmasq
+  247  cat /etc/ethers
+  248  la /etc/ethers
+  249  ls -lahS
+  250  code .bashrc 
+  251  man man
+  252  man ls
+  253  ls -Z
+  254  code .bashrc 
+  255  which say
+  256  update
+  257  systemctl status bluetooth.service 
+  258  systemctl enable bluetooth.service 
+  259  systemctl status bluetooth.service 
+  260  systemctl start bluetooth.service 
+  261  systemctl status bluetooth.service 
+  262  sestatus
+  263  systemctl status dnsmasq.service 
+  264  resolvconf
+  265  sudo systemctl restart dnsmasq.service 
+  266  systemctl status dnsmasq.service 
+  267  cat /etc/hosts
+  268  cat /etc/resolv.conf 
+  269  cd /var/lib/libvirt/dnsmasq/
+  270  ls -Z
+  271  ls -Zl
+  272  systemctl status dnsmasq
+  273  sudo find / -name dnsmasq.service
+  274  sudo nano /usr/lib/systemd/system/dnsmasq.service
+  275  update
+  276  sudo nano /usr/lib/systemd/system/dnsmasq.service
+  277  systemctl status dnsmasq
+  278  sudo systemctl restart dnsmasq.service 
+  279  sudo systemctl daemon-reload 
+  280  systemctl status dnsmasq
+  281  sudo nano /usr/lib/systemd/system/dnsmasq.service
+  282  systemctl status dnsmasq
+  283  ip addr
+  284  cd Downloads/
+  285  extract twpZ3MDE2pmXExe.rar 
+  286  dnf install unrar
+  287  sudo dnf install unrar
+  288  update
+  289  exit
+  290  whoami
+  291  cal
+  292  uptime
+  293  cal
+  294  w
+  295  cal
+  296  cal | grep 7
+  297  exit
+  298  sudo nano /etc/resolv.conf 
+  299  exit
+  300  update
+  301  pull_nl
+  302  code
+  303  cd docker/
+  304  history | grep compose
+  305  docker-compose up 
+  306  push_nl
+  307  exit
+  308  cd .ssh/
+  309  cat confi
+  310  cat confi_
+  311  cat confi_g
+  312  cat config
+  313  cat config_
+  314  rm confi_
+  315  rm confi_g 
+  316  rm config_ 
+  317  la
+  318  code config 
+  319  cat config 
+  320  la
+  321  ssh server
+  322  ls
+  323  ssh-copy-id --help
+  324  ssh-copy-id -i bluesun.pub alonsoquinn@server
+  325  exit
+  326  push_nl
+  327  exit
+  328  code
+  329  push_nl
+  330  gits
+  331  top
+  332  htop
+  333  kill -p 21992
+  334  kill  21992
+  335  $?
+  336  htop
+  337  kill 21992
+  338  sudo dnf install ansible
+  339  sudo find / -name hosts
+  340  sudo nano /etc/ansible/hosts
+  341  code
+  342  ansible all -m ping
+  343  ssh console
+  344  ansible ping --help
+  345  ansible northernlights -m ping
+  346  ssh pwsh
+  347  cat .ssh/config 
+  348  sudo nano /etc/ansible/hosts
+  349  ansible northernlights -m ping
+  350  ping console
+  351  code .ssh/config 
+  352  sudo nano /etc/ansible/hosts
+  353  cat .ssh/config 
+  354  sudo nano /etc/ansible/hosts
+  355  ansible northernlights -m ping
+  356  sudo nano /etc/ansible/hosts
+  357  ansible northernlights -m ping
+  358  ssh core
+  359  +ping core
+  360  ping core
+  361  ping 192.168.2.121
+  362  ping 192.168.2.121 -a
+  363  ping -a 192.168.2.121 
+  364  ping --help
+  365  man ping
+  366  ping -N name 192.168.2.121 
+  367  ping -o name 192.168.2.121 
+  368  ansible northernlights -a "/bin/echo hello"
+  369  sudo nano /etc/ansible/hosts
+  370  ansible northernlights -a "/bin/echo hello"
+  371  ansible localhost -m ping -e 'ansible_python_interpreter="/usr/bin/env python"'
+  372  ansible
+  373  sudo find / -name ansible
+  374  cat /etc/ansible/ansible.cfg 
+  375  la /etc/ansible/hosts 
+  376  ansible localhost -m ping -e 'ansible_python_interpreter="/usr/bin/env python"'
+  377  cat /etc/ansible/hosts 
+  378  la /etc/ansible/roles/
+  379  la
+  380  ls .ansible/
+  381  ls .ansible/cp/
+  382  touch .ansible/hosts.yaml
+  383  touch .ansible/hosts.classic
+  384  cat /etc/ansible/hosts 
+  385  code .ansible/hosts.classic 
+  386  code .ansible/hosts.yaml 
+  387  ansible -i ~/.ansible/hosts.yaml -m ping 
+  388  ansible -i .ansible/hosts.yaml -m ping 
+  389  ansible northernlights -m ping 
+  390  find . -name *.png
+  391  ansible northernlights -m copy -a "src=~/./Bilder/wood-icon.png dest=/tmp/wood-icon.png"
+  392  ansible northernlights -m service -a "name=httpd state=started"
+  393  ansible northernlights -m service -a "name=docker state=started"
+  394  update
+  395  code
+  396  dnf repolist
+  397  sudo find / -name yum.d
+  398  sudo find / -name yum
+  399  la /etc/yum
+  400  la /etc/yum/protected.d/
+  401  la /etc/yum/protected.d/sudo.conf 
+  402  cat /etc/yum/protected.d/sudo.conf 
+  403  cat /etc/yum/protected.d/systemd.conf 
+  404  sudo find / -name dnf
+  405  id
+  406  man id
+  407  man -u
+  408  id -u
+  409  getent passwd
+  410  curl https://raw.githubusercontent.com/rogrwhitakr/northern-lights/master/conf/dotfiles/.ssh.northernlights.config 
+  411  clear
+  412  vlc
+  413  exit
+  414  ssh-copy-id -i bluesun.pub administrator@dns
+  415  ssh-copy-id -i .ssh/bluesun.pub administrator@dns
+  416  ssh dns
+  417  la
+  418  mkdir named@dns
+  419  scp -r dns:~/named named@dns/
+  420  ssh-copy-id -i .ssh/bluesun.pub core
+  421  ssh core
+  422  ssh dns
+  423  ssh console
+  424  ssh-copy-id -i .ssh/bluesun.pub console
+  425  ssh console
+  426  ssh server
+  427  exit
+  428  pull_nl
+  429  push_nl
+  430  tee >> ~/.ssh/config < $(curl 'https://raw.githubusercontent.com/rogrwhitakr/northern-lights/master/conf/dotfiles/.ssh.northernlights.config')
+  431  tee >> ~/config $(curl 'https://raw.githubusercontent.com/rogrwhitakr/northern-lights/master/conf/dotfiles/.ssh.northernlights.config')
+  432  ls
+  433  la
+  434  pull_nl
+  435  la
+  436  cd ..
+  437  ls
+  438  mkdir curltest
+  439  cd curltest/
+  440  tee >> config < $(curl 'https://raw.githubusercontent.com/rogrwhitakr/northern-lights/master/conf/dotfiles/.ssh.northernlights.config')
+  441  curl config 'https://raw.githubusercontent.com/rogrwhitakr/northern-lights/master/conf/dotfiles/.ssh.northernlights.config')
+  442  curl config 'https://raw.githubusercontent.com/rogrwhitakr/northern-lights/master/conf/dotfiles/.ssh.northernlights.config'
+  443  curl -o config 'https://raw.githubusercontent.com/rogrwhitakr/northern-lights/master/conf/dotfiles/.ssh.northernlights.config'
+  444  la
+  445  cat config 
+  446  cat ~/.ssh/config 
+  447  diff ~/.ssh/config ~/curltest/config 
+  448  history
+  449  curl -ov config 'https://raw.githubusercontent.com/rogrwhitakr/northern-lights/master/conf/dotfiles/.ssh.northernlights.config'
+  450  curl -ov config 'https://raw.githu v busercontent.com/rogrwhitakr/northern-lights/master/conf/dotfiles/.ssh.northernlights.config'
+  451  curl -v -o config 'https://raw.githubusercontent.com/rogrwhitakr/northern-lights/master/conf/dotfiles/.ssh.northernlights.config'
+  452  curl -o config 'https://raw.githubusercontent.com/rogrwhitakr/northern-lights/master/conf/dotfiles/.ssh.northernlights.config'
+  453  rm config 
+  454  curl -o config 'https://raw.githubusercontent.com/rogrwhitakr/northern-lights/master/conf/dotfiles/.ssh.northernlights.config'
+  455  cat config 
+  456  code config 
+  457  ssh server
+  458  ssh mail
+  459  history | grep ssh-copy
+  460  ssh-copy-id -i ~/.ssh/bluesun.pub mail
+  461  ssh-copy-id -i ~/.ssh/bluesun.pub posix
+  462  ssh-copy-id -i ~/.ssh/bluesun.pub smb
+  463  ssh-copy-id -i ~/.ssh/bluesun.pub sql
+  464  ssh-copy-id -i ~/.ssh/bluesun.pub dnsmasq
+  465  ssh console
+  466  exit
+  467  history
+  468  ssh server
+  469  ssh dns
+  470  exit
+  471  ssh server
+  472  ssh sql
+  473  push_nl
+  474  gits
+  475  exit
+  476  sudo dnf makecache
+  477  sudo dnf repolist --all
+  478  sudo dnf repolist --enabled
+  479  sudo dnf repolist --help
+  480  history | grep ansible
+  481  ansible northernlights -m ping
+  482  code /etc/ansible/hosts 
+  483  code /etc/ansible/ansible.cfg 
+  484  env
+  485  env | grep ANSI
+  486  env | grep ANS
+  487  env | grep GNO
+  488  sudo find / -name ansible.cfg
+  489  update
+  490  ssh server
+  491  ssh dnsmasq
+  492  ssh console
+  493  awk {print } ~/.ssh/config 
+  494  awk { print } ~/.ssh/config 
+  495  awk '{ print }' ~/.ssh/config 
+  496  awk '/Host/ { print }' ~/.ssh/config 
+  497  awk '/Host / { print }' ~/.ssh/config 
+  498  awk '/Host / { print $1}' ~/.ssh/config 
+  499  awk '/Host / { print $2}' ~/.ssh/config 
+  500  awk '/Host / { print "1st: " $2 "\t\t2nd: " $3 }' ~/.ssh/config 
+  501  awk '/Host / { print "1st: " $2 "\t\t\t2nd: " $3 }' ~/.ssh/config 
+  502  awk '/Host / { print "1st: " $2 "\t\t\t2nd: " $3 $4 }' ~/.ssh/config 
+  503  awk '/Host / { print "\t" $2 "\t\t\t" $3 }' ~/.ssh/config 
+  504  awk '/Host / { print "1st: " $2 "\t\t\t2nd: " $3 "\t\t\t" $4 }' ~/.ssh/config 
+  505  awk '/Host / { print $2 "\t\t\t" $3 "\t\t\t" $4 }' ~/.ssh/config 
+  506  awk '/Host / { print ln $2 "\t\t\t" $3 "\t\t\t" $4 }' ~/.ssh/config 
+  507  awk '/Host / { print $2 "\t\t\t" $3 "\t\t\t" $4 }' ~/.ssh/config | ln
+  508  ls --help
+  509  ln | awk '/Host / { print $2 "\t\t\t" $3 "\t\t\t" $4 }' ~/.ssh/config
+  510  ln | awk '/Host / { print $2 "\t\t\t" $3 "\t\t\t" list$4 }' ~/.ssh/config
+  511  list
+  512  awk '/Host / { print $2 "\t\t\t" $3 "\t\t\t" $4 }' ~/.ssh/config | nl -w 2
+  513                                   __      __                                      __  __            __          __              
+  514                                  /  |    /  |                                    /  |/  |          /  |        /  |               _______    ______    ______   _$$ |_   $$ |____    ______    ______   _______  $$ |$$/   ______  $$ |____   _$$ |_    _______ 
+  515  [B
+  516  exit
+  517  push_nl
+  518  code .bash_aliases
+  519  code .bashrc
+  520  mv .bash_aliases ~/.bash_aliases
+  521  code .bashrc
+  522  cd ..
+  523  code .bashrc
+  524  code /etc/ansible/hosts 
+  525  history | grep ansible
+  526  ansible -i /home/admin/.ansible/hosts.yaml -m ping 
+  527  ansible -i /home/admin/.ansible/hosts.yaml northernlights -m ping 
+  528  code .ansible/hosts.yaml 
+  529  exit
+  530  history
+  531  cd ./MyScripts/coreutils/
+  532  la
+  533  chmod u+x _functions.sh 
+  534  ./_functions.sh
+  535  ./_functions.sh --help
+  536  ./_functions.sh
+  537  ./_functions.sh test
+  538  ./_functions.sh -h
+  539  ./_functions.sh asd
+  540  ls ~/.ssh/config 
+  541  ./_functions.sh asd
+  542  ./_functions.sh --help
+  543  ./_functions.sh asd
+  544  ssh mail
+  545  ssh core
+  546  ./_functions.sh asd
+  547  ssh posix
+  548  exit
+  549  remotes
+  550  history | less
+  551  history | top
+  552  history | head
+  553  history | history
+  554  ansible -i /home/admin/.ansible/hosts.yaml northernlights/dns -m ping
+  555  ansible -i /home/admin/.ansible/hosts.yaml northernlights -m ping
+  556  ssh mail
+  557  ssh server
+  558  ansible -i /home/admin/.ansible/hosts.yaml northernlights -m ping
+  559  ping ubuntu
+  560  ping mail
+  561  ping posix
+  562  ansible all -m setup
+  563  ansible -i ~/.ansible/hosts.yaml northernlights -m setup
+  564  ansible -i ~/.ansible/hosts.yaml server -m setup
+  565  push_nl
+  566  cd ~
+  567  cat .ansible/hosts.classic 
+  568  echo "console" >> .ansible/hosts.classic 
+  569  cat .ansible/hosts.classic 
+  570  ansible -i ~/.ansible/hosts.yaml server -m ping
+  571  ansible -i ~/.ansible/hosts.yaml northernlights -m ping
+  572  ansible -i ~/.ansible/hosts.classic northernlights -m ping
+  573  mv .ansible/hosts.yaml .ansible/hosts.yml 
+  574  ansible -i ~/.ansible/hosts.yml northernlights -m ping
+  575  ansible -i ~/.ansible/hosts.classic northernlights -a /bin/date
+  576  push_nl
+  577  exit
+  578  update
+  579  code .bashrc 
+  580  exit
+  581  ssh samba
+  582  exit
+  583  sh posix
+  584  ssh posix
+  585  exit
+  586  code ~/.ssh/config 
+  587  cd apps/ansible/
+  588  cat ansible.sh 
+  589  ansible -i ~/.ansible/hosts.yaml server -m setup
+  590  ansible -i ~/.ansible/hosts.yaml server -m ping
+  591  code ~/.ansible/hosts.yml 
+  592  ansible -i ~/.ansible/hosts.yml server -m ping
+  593  ansible -i ~/.ansible/hosts.yml northernlights -m ping
+  594  ssh ubuntu
+  595  exit
+  596  gits
+  597  pull_nl
+  598  code ~/.ssh/config 
+  599  ssh-copy-id -i ~/.ssh/bluesun.pub samba
+  600  ssh samba
+  601  remotes
+  602  ssh dnsmasq
+  603  code .ssh/config 
+  604  la .ssh/
+  605  ssh dns
+  606  ssh dnsmasq
+  607  ssh samba
+  608  ssh sql
+  609  ssh core
+  610  remotes
+  611  ssh mail
+  612  ssh ubuntu
+  613  ansible -i .ansible/hosts.yml northernlights -m ping
+  614  ln
+  615  ln --help
+  616  cd MyScripts/apps/ansible/
+  617  ln -s /etc/ansible/ansible.cfg ansible.cfg
+  618  la
+  619  code ansible.cfg 
+  620  gits
+  621  push_nl
+  622  la ~/.ssh/
+  623  sudo restart ansible
+  624  sudo systemctl restart ansible
+  625  ansible -i .ansible/hosts.yml northernlights -m ping
+  626  cd ..
+  627  ansible -i .ansible/hosts.yml northernlights -m ping
+  628  code .ansible/hosts.yml 
+  629  exit
+  630  systemctl status docker
+  631  systemctl restart docker
+  632  systemctl status docker
+  633  uptime
+  634  update
+  635  gits
+  636  exit
+  637  ansible -i .ansible/hosts.yml northernlights -m ping
+  638  ssh powershell
+  639  systemctl --state=failed
+  640  systemctl status dnsmasq.service 
+  641  which dnsmasq
+  642  dnsmasq
+  643  dnsmasq --help
+  644  dnsmasq --help | grep se
+  645  dnsmasq --help | grep selinux
+  646  dnsmasq --help | grep -se
+  647  dnsmasq --help | grep \-se
+  648  dnsmasq --help | grep -E "-se"
+  649  dnsmasq --help | grep -e "-se"
+  650  sudo nano /usr/sbin/dnsmasq 
+  651  sudo find / -name dnsmasq.service
+  652  sudo nano /usr/lib/systemd/system/dnsmasq.service
+  653  sudo systemctl restart dnsmasq.service 
+  654  vasques
+  655  systemctl --state=failed
+  656  systemctl status docker-storage-setup.service 
+  657  systemctl status rngd.service 
+  658  systemctl --state=failed
+  659  sudo htop
+  660  push_nl && exit
+  661  exit
+  662  remotes
+  663  ssh core
+  664  cat .ssh/config 
+  665  exit
+  666  pingg
+  667  update
+  668  exit
+  669  ps
+  670  ps | awk '{print $1}'
+  671  ps | awk '{print $3}'
+  672  ps | awk '{print $4}'
+  673  ps -h
+  674  ps -
+  675  ps --help
+  676  ps --help all
+  677  ps -l
+  678  ps -lZ
+  679  watch ps -lZ | awk '{print $4}'
+  680  watch ${ps -lZ | awk '{print $4}'}
+  681  watch $(ps -lZ | awk '{print $4}')
+  682  watch $(ps -lZ | awk '{print $0}')
+  683  watch $(ps -lZ | awk '{ print $0 }')
+  684  watch $(ps -l | awk '{ print $0 }')
+  685  ps -lZ | awk '{print $4}'
+  686  ps -lZ | awk '{print $0}'
+  687  exit
+  688  sudo htop
+  689  ./MyScripts/coreutils/get-HDD-info.sh 
+  690  sudo ./MyScripts/coreutils/get-HDD-info.sh 
+  691  sudo ./MyScripts/coreutils/get-HDD-info.sh du -a / 2>/dev/null | sort -nr | head -20
+  692  du -a /var/ 2>/dev/null | sort -nr | head -20
+  693  cd /var/cache/PackageKit/
+  694  la
+  695  rm -fr 27/
+  696  sudo rm -fr 27/
+  697  du -a /var/ 2>/dev/null | sort -nr | head -20
+  698  la /var/log/journal/
+  699  du /var/log/journal/e88e913e078e4f2da39618a7096a23e2/
+  700  du -h /var/log/journal/e88e913e078e4f2da39618a7096a23e2/
+  701  du -ha /var/ 2>/dev/null | sort -nr | head -20
+  702  du -a /var/ 2>/dev/null | sort -nr | head -20
+  703  sudo ./MyScripts/coreutils/get-HDD-info.sh 
+  704  sudo /home/admin/MyScripts/coreutils/get-HDD-info.sh 
+  705  exit
+  706  cd /var/cache/
+  707  la
+  708  la dnf/
+  709  find / -name 27
+  710  sudo find / (/-name 27 -and /-name cache /)
+  711  sudo find / /(-name 27 -and -name cache /)
+  712  cd ~
+  713  find find
+  714  find -name find
+  715  du
+  716  df
+  717  du / | sort -nr | head 40
+  718  sudo du / | sort -nr | head 40
+  719  head
+  720  manhead 
+  721  man head 
+  722  sudo du / | sort -nr | head --lines 40
+  723  sudo du /var/ | sort -nr | head --lines 40
+  724  cd var
+  725  cd /var/lib/docker/
+  726  la
+  727  sudo la
+  728  sudo la /volumes
+  729  cd /volumes
+  730  ls
+  731  sudo ls 
+  732  sudo cd /volumes
+  733  sudo cd /devicemapper
+  734  systemctl status docker
+  735  systemctl status docker-storage-setup.service 
+  736  systemctl stop docker
+  737  cd ..
+  738  rm -fr docker/
+  739  sudo rm -fr docker/
+  740  df
+  741  systemctl start docker
+  742  $?
+  743  systemctl status docker
+  744  la
+  745  la docker/
+  746  sudo la docker/
+  747  df
+  748  exit
+  749  sudo htop
+  750  update
+  751  exit
+  752  cd src/
+  753  demo.py
+  754  %demo.py
+  755  which perf
+  756  sudo dnf install perf strace dstat tcpdump
+  757  dstat
+  758  strace
+  759  strace -h
+  760  top
+  761  strace -p 2207
+  762  la
+  763  la workspace/
+  764  la workspace/.metadata/
+  765  perf
+  766  perf list
+  767  perf list cycles
+  768  exit
+  769  gits
+  770  f
+  771  ansible
+  772  history | grep ansible
+  773  ansible -i ~/.ansible/hosts.yml northernlights -m ping
+  774  ssh ubuntu
+  775  sudo du / | sort -nr | head -n 30 
+  776  sudo du /var/ | sort -nr | head -n 30 
+  777  systemctl --state=failed
+  778  systemctl status docker-storage-setup.service 
+  779  df
+  780  update
+  781  ssh core
+  782  ssh sql
+  783  cat .bashrc 
+  784  git config
+  785  git config --global
+  786  git config --global --list
+  787  git config --list
+  788  git config --help
+  789  git config --list
+  790  git config --list --local
+  791  cd MyScripts/
+  792  git config --list --local
+  793  cat ~/.ssh/config 
+  794  update
+  795  history
+  796  source
+  797  source config 
+  798  source -h
+  799  man source
+  800  remotes
+  801  ssh samba
+  802  ssh dns
+  803  ssh server
+  804  exit
+  805  pull_nl
+  806  cat apps/ansible/ansible.sh 
+  807  ansible northernlights -m ping
+  808  which shutdown
+  809  ansible northernlights -a "/usr/sbin/shutdown now"
+  810  ssh samba
+  811  remotes
+  812  ssh dnsmasq
+  813  ssh mail
+  814  ssh core
+  815  ssh ubuntu
+  816  pull_nl
+  817  gits
+  818  code
+  819  exit
+  820  update
+  821  exit
+  822  yay
+  823  history
+  824  remotes
+  825  sudo ./MyScripts/coreutils/get-HDD-info.sh 
+  826  which bind
+  827  which *
+  828  which htop
+  829  chmod u+x MyScripts/coreutils/_conditionals.sh 
+  830  ./MyScripts/coreutils/_conditionals.sh 
+  831  which htop
+  832  $1
+  833  $?
+  834  which htop | $?
+  835  which htop | echo $?
+  836  which htop
+  837  ./MyScripts/coreutils/_conditionals.sh 
+  838  la
+  839  rm \~1.txt 
+  840  la
+  841  hidden
+  842  cat .bash_aliases 
+  843  hosts
+  844  cat .bash_profile 
+  845  cat .bash_logout 
+  846  cat .bash_history 
+  847  cat .bashrc 
+  848  remotes
+  849  sudo find / -name evince
+  850  sudo find -name "modular" 
+  851  sudo find -name "(m|M)odular" 
+  852  sudo find -name (m|M)odular
+  853  sudo find -name \(m|M\)odular
+  854  sudo find -name modular
+  855  sudo find -name *.pdf
+  856  sudo nano /etc/resolv.conf 
+  857  exit
+  858  la
+  859  la pwsh/
+  860  la pwsh/core/
+  861  sudo dnf install pwsh -y && update
+  862  sudo dnf install powershell -y && update
+  863  update
+  864  code
+  865  history | grep pwsh
+  866  history | grep docker build
+  867  history | grep  build
+  868  cd MyScripts/docker/pwsh/
+  869  la
+  870  docker build pwsh/ --tag pwsh:6.0.1
+  871  cd ..
+  872  docker build pwsh/ --tag pwsh:6.0.1
+  873  docker images
+  874  docker build pwsh/ --tag pwsh:6.0.1
+  875  la
+  876  ./delete-all-containers.sh 
+  877  docker build pwsh/ --tag pwsh:6.0.1
+  878  uname -a
+  879  docker build pwsh/ --tag pwsh:6.0.1
+  880  docker run pwsh
+  881  history | grep run 
+  882  docker run -it pwsh
+  883  docker run -it pwsh:601
+  884  docker images
+  885  docker run 
+  886  docker run -it pwsh
+  887  docker run -it pwsh:6.0.1
+  888  sudo htop
+  889  python -m pip install -U pylint
+  890  htop
+  891  la
+  892  la workspace/
+  893  la workspace/.metadata/
+  894  la workspace/.metadata/.plugins/
+  895  la
+  896  la apps/
+  897  la apps/thonny/
+  898  la apps/thonny/include/
+  899  cat config 
+  900  rm config 
+  901  cat .wget-hsts 
+  902  la
+  903  la libvirt/
+  904  la named@dns/
+  905  la named@dns/named/
+  906  ls
+  907  cat network_default.xml 
+  908  rm network_default.xml 
+  909  la
+  910  la prototype/
+  911  mv prototype/* zoomy/*
+  912  mv prototype/* zoomy/
+  913  la prototype/
+  914  rmdir prototype/
+  915  la
+  916  ls
+  917  ls curltest/
+  918  cat curltest/config 
+  919  rm curltest/
+  920  rm -r curltest/
+  921  ls
+  922  rename
+  923  rename zoomy aurora
+  924  man dor
+  925  man mkdir
+  926  rendir
+  927  mkdir aurora
+  928  mv zoomy/* aurora/
+  929  rm zoomy/
+  930  rm -f zoomy/
+  931  rm -fr zoomy/
+  932  code
+  933  which python
+  934  /usr/bin/python aurora/script_01.py 
+  935  /usr/bin/python aurora/test.py 
+  936  exir
+  937  update
+  938  sudo python -m pip install -U pylint
+  939  python -m pip install -U pylint
+  940  /usr/bin/python3 -m pip install -U pylint --user
+  941  watch "la aurora/"
+  942  watch "ls -lahZ aurora/"
+  943  python
+  944  clear
+  945  python
+  946  which python
+  947  /usr/bin/python
+  948  which python3
+  949  /usr/bin/python3
+  950  ls
+  951  chmod u+x no_python_extension 
+  952  ./no_python_extension 
+  953  env
+  954  ./no_python_extension 
+  955  /usr/bin/python3 -m pip install -U pylint --user
+  956  update
+  957  htop
+  958  ping localhost
+  959  ping localhost > ping_dict
+  960  awk ping_dict { print $4 }
+  961  awk { print $4 } ping_dict 
+  962  awk -Ftime '{ print $1 }' ping_dict 
+  963  awk -Ftime '{ print $0 }' ping_dict 
+  964  awk -F64 '{ print $0 }' ping_dict 
+  965  awk -F64 '{ print $1 }' ping_dict 
+  966  awk -Ftime '{ print $1 }' ping_dict 
+  967  awk -Ftime '{ print $1 $2 }' ping_dict 
+  968  awk -Ftime '{ print $2 }' ping_dict 
+  969  awk -F64 '{ print $2 }' ping_dict 
+  970  awk -F64 '{ print $3 }' ping_dict 
+  971  awk -F64 '{ print $3 }' ping_dict > ping_dict 
+  972  cd MyScripts/coreutils/
+  973  ls
+  974  cat awk.sh 
+  975  ls
+  976  cd MyScripts/coreutils/
+  977  la
+  978  history > awk_or_sed_me
