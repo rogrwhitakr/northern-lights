@@ -53,5 +53,23 @@ echo 'Imma123_do9657dis4wit9283749236486chu' | awk -F'[123456789_]+' -v OFS='] [
 
 # Regular expressions based filtering
 # the REGEXP is specified within // and by default acts upon $0
-awk '/^[0-9]{2}+/' ./history
+awk '/dnf/ && /install/' ./history
+awk '/dnf/ && !/sudo/' ./history
+awk '/^[0-9]{2}/' ./history
 awk '/[0-9]{2}+' ./history
+
+# print last field of all lines 
+awk '/[0-9]/ {print $NF}' ./history
+
+# REGEXP matching against specific field
+awk '$1 ~ /^9/' ./history
+
+# this makes the space explicit
+awk -F' ' -v OFS='=' '{ $1=$1 ;print $0 }' ./history
+
+# this matches explicity against the first field
+# searches for numbers 0-9
+# assigns "" to the first, prints it
+awk '$1 ~ /^[0-9]/{$1=""; print $0}' ./history
+
+awk '$1 ~ /^[0-9]/ && $2 = "16:00" {$1=""; print $0}' ./dated_history
