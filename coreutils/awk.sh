@@ -72,4 +72,6 @@ awk -F' ' -v OFS='=' '{ $1=$1 ;print $0 }' ./history
 # assigns "" to the first, prints it
 awk '$1 ~ /^[0-9]/{$1=""; print $0}' ./history
 
-awk '$1 ~ /^[0-9]/ && $2 = "16:00" {$1=""; print $0}' ./dated_history
+# search all where the first element is between 999 and 1051
+# remove the date element ($2) and print the rest  
+awk '$1 > 999 && $1 < 1051 {$2=""; print $0}' ./dated_history
