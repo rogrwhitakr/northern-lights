@@ -75,3 +75,16 @@ awk '$1 ~ /^[0-9]/{$1=""; print $0}' ./history
 # search all where the first element is between 999 and 1051
 # remove the date element ($2) and print the rest  
 awk '$1 > 999 && $1 < 1051 {$2=""; print $0}' ./dated_history
+
+# unsure what this one does
+awk -v RS='#' '{ print}' ./high-level.txt
+
+# REGEXP Repetition
+# (.) -> matches all "fun", "fin", "f3n", "f..."
+awk '$0 ~ /f.n/ {print}'
+
+# ^ Find string at beginning of line.
+# [+-]? Specify possible "+" or "-" sign for number.
+# [0-9]+ Specify at least one digit "0" through "9".
+# $ Specify that the line ends with the number.
+awk '$0 ~ /^[+-]?[0-9]+$ { print }'
