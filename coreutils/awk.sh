@@ -102,9 +102,12 @@ echo 'I need to be able to dynamically know how many elements a line has ...' | 
 awk '$1 ~ /^2[0-9]{2}$/ {print NR, $3, $NF }' ./dated_history
 
 # dnyamic records
+# NR built-in variable contains record number
 # RS must be made explicit !!!
 # dynamically changing ORS
 # ?: ternary operator to select between two expressions based on a condition
 # somehow, the "1" at the end needs to be there. do not know why yet
 # seq 1 99 does not do it
 seq 99 | awk '{ORS = NR%9 ? "-" : "\n"} 1'
+
+awk '{ NR == 1; print NR,$2}' ./boot.log
