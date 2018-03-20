@@ -1,3 +1,4 @@
+boot.log.status header information
 [[0;32m  OK  [0m] Found device SAMSUNG_MZMPC032HBCD-000L1 2.
 [[0;32m  OK  [0m] Found device SAMSUNG_MZMPC032HBCD-000L1 EFI\x20System\x20Partition.
 [[0;32m  OK  [0m] Created slice system-lvm2\x2dpvscan.slice.

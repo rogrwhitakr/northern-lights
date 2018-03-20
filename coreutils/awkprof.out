@@ -1,8 +1,0 @@
-	# gawk profile, created Mon Mar 19 18:25:35 2018
-
-	# Rule(s)
-
-	$1 ~ /^[0-9]{2}$/ {
-		print "NUMMER:", $1, "|", $NF
-	}
-

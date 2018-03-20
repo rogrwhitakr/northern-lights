@@ -117,4 +117,4 @@ awk '{ NR == 1; print NR,$2}' ./boot.log
 # NF eeps a count of the number of fields within the current input record. Remember that fields are space-separated words, by default, but they are essentially the "columns" of data if the input file is formatted like a table. The last field of the input line can be accessed with $NF.
 # we assign variable lower bound = 1, upper bound = <number of records>
 
-awk '{for (i=1; i<=NF;i++) print "NR:", NR, "| NF:", i, "| FIELD: <" $i ">"; print "----"}' boot.log
+awk '{for (i=1; i<=NF;i++) print "NR (No of records):", NR, "| NF (No of Fields):", i, "| FIELD: <" $i ">"; print "----"}' /var/log/boot.log

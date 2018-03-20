@@ -1,0 +1,12 @@
+	# gawk profile, created Tue Mar 20 16:31:49 2018
+
+	# Rule(s)
+
+	{
+		for (i = 1; i <= NF; i++) {
+			print "NR:", NR, "| NF:", i, "| FIELD: <" $i ">"
+		}
+		# prints after all fields of current record
+		print "----"
+	}
+
