@@ -111,3 +111,10 @@ awk '$1 ~ /^2[0-9]{2}$/ {print NR, $3, $NF }' ./dated_history
 seq 99 | awk '{ORS = NR%9 ? "-" : "\n"} 1'
 
 awk '{ NR == 1; print NR,$2}' ./boot.log
+
+# awk built in variables
+# NR keeps a current count of the number of input records. Records are usually lines; Awk performs the pattern/action statements once for each record in a file.
+# NF eeps a count of the number of fields within the current input record. Remember that fields are space-separated words, by default, but they are essentially the "columns" of data if the input file is formatted like a table. The last field of the input line can be accessed with $NF.
+# we assign variable lower bound = 1, upper bound = <number of records>
+
+awk '{for (i=1; i<=NF;i++) print "NR:", NR, "| NF:", i, "| FIELD: <" $i ">"; print "----"}' boot.log
