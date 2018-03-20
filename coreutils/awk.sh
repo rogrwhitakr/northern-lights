@@ -95,3 +95,16 @@ awk '$0 ~ /^[+-]?[0-9]+$ { print }'
 # print NUMMER: <NO> | <command>
 # -o <outfile the rule>
 awk -o '$1 ~ /^[0-9]{2}$/ {print "NUMMER:", $1, "|", $NF }' ./dated_history
+
+# first step:
+# number the lines using NR in print
+echo 'I need to be able to dynamically know how many elements a line has ...' | awk -v RS=' ' '{print NR, $0}'
+awk '$1 ~ /^2[0-9]{2}$/ {print NR, $3, $NF }' ./dated_history
+
+# dnyamic records
+# RS must be made explicit !!!
+# dynamically changing ORS
+# ?: ternary operator to select between two expressions based on a condition
+# somehow, the "1" at the end needs to be there. do not know why yet
+# seq 1 99 does not do it
+seq 99 | awk '{ORS = NR%9 ? "-" : "\n"} 1'
