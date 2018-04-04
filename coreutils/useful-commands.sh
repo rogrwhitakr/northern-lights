@@ -83,6 +83,12 @@ chmod u+x <file>
 # group-own
 chgrp 
 
+# user-own
+chown
+
+# do both ath the same time, recursively
+chown apache.apache -R /var/www/html/yo_app
+
 # How to symlink a file
 ln -s /path/to/file /path/to/symlink
 ln -s /path/to/file-name /link-name
@@ -143,6 +149,31 @@ strace -f -e <syscall> <cmd>
 
 # print currently active processes
 ps aux | head -n20
+
+# ps state -> State:  RUNNING, WAITING, STOPPED or ZOMBIE.
+
+# -e-> display all processes / -f -> full format / -F -> extended full format.
+ps -eF
+
+# -o -> output fields
+# -u -> input user
+ps -u root -o user,pid,cmd
+
+# list all threads for particular process:
+# TID = thread identifier
+# PCPU = percentage of CPU usage
+# STATE = state of the process-> S state= interruptible sleep -> processes waiting for an event to run.
+# NLWP = number of light processes
+ps -C firefox -L -o pid,tid,pcpu,state,nlwp,cmd
+
+# sort by resident? set size 
+ps -eF --sort -rss
+
+# other things also searchable, unsure if sensible
+ps -eF --sort -user
+
+# get the 2 most memory intensive things, every second 
+watch -n1 "ps -eF --sort -rss | head -3"
 
 # make a server (check with netstat -tulpn)
 nc -lk 8999 
