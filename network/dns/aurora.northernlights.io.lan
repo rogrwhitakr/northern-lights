@@ -1,0 +1,43 @@
+; 
+; 
+; file /var/named/dns.aurora.northernlights.io.lan
+; 
+; 
+;$ORIGIN aurora.northernlights.io 
+$TTL 1D
+
+; any time you make a change to the domain, bump the
+; "serial" setting below. the format is easy:
+; YYYYMMDDI, with the I being an iterator in case you
+; make more than one change during any one day
+
+@	IN	SOA	dns.aurora.northernlights.io	root.aurora.northernlights.io (
+
+        201710013	;Serial
+        3600		;Refresh
+        1800		;Retry
+        604800		;Expire
+        86400		;Minimum TTL
+	)
+
+; define name server
+		IN	NS	dns.
+
+;define mail server
+		IN	MX	10 mail.	
+
+; define localhost
+localhost	IN      A       127.0.0.1
+
+; define domain functions with CNAMEs
+www		CNAME		server
+cockpit		CNAME		server
+
+; define static hosts
+gateway		IN	A	192.168.150.1
+dns		IN	A       192.168.150.254
+dnsmasq		IN	A       192.168.150.253
+ubuntu		IN	A	192.168.150.230
+server		IN	A	192.168.150.220
+;define dynamic hosts
+;any		IN	A	192.168.150.209

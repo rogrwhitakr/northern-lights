@@ -1,0 +1,19 @@
+;
+; reverse pointers for 192.168.150.0/24 subnet
+;
+$ORIGIN 150.168.192.in-addr.arpa.
+$TTL 1D
+@     IN SOA  dns.aurora.northernlights.io. hostmaster.aurora.northernlights.io. (
+              201710013  ; serial
+              28800      ; refresh (8 hours)
+              14400      ; retry (4 hours)
+              2419200    ; expire (4 weeks)
+              86400      ; minimum (1 day)
+              )
+; define the authoritative name server
+              NS      dns.aurora.northernlights.io.
+; our hosts, in numeric order
+             PTR     ubuntu.aurora.northernlights.io.
+             PTR     server.aurora.northernlights.io.
+             PTR     dnsmasq.
+             PTR     server.

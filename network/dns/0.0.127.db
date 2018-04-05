@@ -1,0 +1,12 @@
+;
+; reverse pointers for localhost
+;
+$TTL 1D
+@    IN   SOA  localhost. root.localhost. (
+               1    ; serial
+               8H   ; refresh
+               15M  ; retry
+               1W   ; expire
+               1D ) ; minimum
+IN   NS   localhost.
+IN   PTR  localhost.
