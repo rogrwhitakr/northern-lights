@@ -20,3 +20,12 @@ SELECT datname FROM pg_database;
 
 --cli
 psql -l
+
+-- backing up database
+-- cli
+-- can perform this backup procedure from any remote host that has access to the database
+pg_dump <database> > <backup>
+pg_dump -h <host> -p <port>
+
+--Restoring the Dump
+psql dbname < infile
