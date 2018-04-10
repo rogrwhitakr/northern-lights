@@ -42,3 +42,5 @@ To display content use echo or printf command as follows:
 
 echo "$page"
 
+# get files recursevly
+wget https://www.postgresql.org/docs/current/static --recursive --accept *.html
