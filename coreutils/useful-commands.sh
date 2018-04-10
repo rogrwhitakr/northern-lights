@@ -183,3 +183,6 @@ curl localhost:8999
 
 # get basename of script 
 filename=$(`basename "$0"`)
+
+-- split large file names according to spec
+pg_dump dbname | split -b 1m - filename
