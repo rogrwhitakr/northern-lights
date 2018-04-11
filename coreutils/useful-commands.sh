@@ -184,5 +184,18 @@ curl localhost:8999
 # get basename of script 
 filename=$(`basename "$0"`)
 
--- split large file names according to spec
+# split large file names according to spec
 pg_dump dbname | split -b 1m - filename
+
+# get current timezone information
+timedatectl
+
+#list available time-zones
+timedatectl list-timezones | grep Europe
+
+# this does some network diagnosis, need to try out when i have connectitity
+mtr google.de
+
+# Monitor I/O Usage with vmstat
+# This runs a vmstat every second, twenty times
+vmstat 1 20
