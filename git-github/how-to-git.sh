@@ -17,7 +17,7 @@ cd $(find ~ -name .git) && cd ..
 
 # get git status
 # shows status of local repo, tracked,untreacked, changed, renamed file(s), etc.
-echo -e "git status"
+git status
 
 # get git info
 echo -e "git show"
