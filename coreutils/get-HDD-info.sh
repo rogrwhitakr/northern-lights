@@ -39,3 +39,6 @@ ls -l /dev/disk
 
 echo -e "\n${RED}uuids of hard disks${NOC}\n"
 ls -l /dev/disk/by-uuid/ | awk -F' ' '{ print $10,$9,$10,$11 }' 
+
+echo -e "\n${RED}sudo blkid /dev/<device> also works${NOC}\n\n command: sudo blkid /dev/sdb1"
+sudo blkid /dev/sdb1
