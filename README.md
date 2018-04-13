@@ -10,3 +10,10 @@ chubby / Zookeeper lock service
 How do you measure webserver performance / load? If i use a memcached service layer, how do i initially decide i need one?
 what is webrick exactly?
 what is "rake" exactly?
+
+Web Server
+	mal suchen nach mime.types (Apache)
+	inetd - was ist das?
+	Load balancing
+	Common Gateway Interface
+		CGI programs serve HTML data dynamically based on input passed to them
