@@ -70,14 +70,14 @@ awk -F' ' -v OFS='=' '{ $1=$1 ;print $0 }' ./history
 # this matches explicity against the first field
 # searches for numbers 0-9
 # assigns "" to the first, prints it
-awk '$1 ~ /^[0-9]/{$1=""; print $0}' ./history
+history | awk '$1 ~ /^[0-9]/{$1=""; print $0}' ./history
 
 # search all where the first element is between 999 and 1051
 # remove the date element ($2) and print the rest  
-awk '$1 > 999 && $1 < 1051 {$2=""; print $0}' ./dated_history
+history | awk '$1 > 999 && $1 < 1051 {$2=""; print $0}'
 
 # unsure what this one does
-awk -v RS='#' '{ print}' ./high-level.txt
+awk -v RS='#' '{ print}' /<path>/<to>/high-level.txt
 
 # REGEXP Repetition
 # (.) -> matches all "fun", "fin", "f3n", "f..."
@@ -94,12 +94,12 @@ awk '$0 ~ /^[+-]?[0-9]+$ { print }'
 # search the first element for number pattern 10-99
 # print NUMMER: <NO> | <command>
 # -o <outfile the rule>
-awk -o '$1 ~ /^[0-9]{2}$/ {print "NUMMER:", $1, "|", $NF }' ./dated_history
+history | awk -o '$1 ~ /^[0-9]{2}$/ {print "NUMMER:", $1, "|", $NF }'
 
 # first step:
 # number the lines using NR in print
 echo 'I need to be able to dynamically know how many elements a line has ...' | awk -v RS=' ' '{print NR, $0}'
-awk '$1 ~ /^2[0-9]{2}$/ {print NR, $3, $NF }' ./dated_history
+history | awk '$1 ~ /^2[0-9]{2}$/ {print NR, $3, $NF }'
 
 # dnyamic records
 # NR built-in variable contains record number
@@ -110,7 +110,7 @@ awk '$1 ~ /^2[0-9]{2}$/ {print NR, $3, $NF }' ./dated_history
 # seq 1 99 does not do it
 seq 99 | awk '{ORS = NR%9 ? "-" : "\n"} 1'
 
-awk '{ NR == 1; print NR,$2}' ./boot.log
+awk '{ NR == 1; print NR,$2}' /var/log/boot.log
 
 # awk built in variables
 # NR keeps a current count of the number of input records. Records are usually lines; Awk performs the pattern/action statements once for each record in a file.
