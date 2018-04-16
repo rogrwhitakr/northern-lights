@@ -199,3 +199,8 @@ mtr google.de
 # Monitor I/O Usage with vmstat
 # This runs a vmstat every second, twenty times
 vmstat 1 20
+
+# Return, or set, the value of the system's file mode creation mask.
+umask
+# return symbolics (RWX)
+umask -S
