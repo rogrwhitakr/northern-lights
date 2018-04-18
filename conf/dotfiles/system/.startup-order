@@ -26,3 +26,45 @@ bash startup order
 +----------------+-----------+-----------+------+
 |~/.bash_logout  |    C      |           |      |
 +----------------+-----------+-----------+------+
+
+So typically (or sooner or later), what you will encounter are non-login shells. 
+So this case is what you should write your config files for. 
+This means putting most of your stuff in ~/.bashrc, having exactly one of 
+    ~/.bash_profile,
+    ~/.bash_login,
+    ~/.profile, 
+and sourcing 
+    ~/.bashrc
+from it. If you have nothing that you specifically want to happen only for login shells, 
+you can even symlink one of the three to ~/.bashrc. 
+In fact, even if you do, it is probably a good idea to have only file, as follows:
+
+# Bash customisation file
+
+#General configuration starts: stuff that you always want executed
+
+#General configuration ends
+
+if [[ -n $PS1 ]]; then
+    : # These are executed only for interactive shells
+    echo "interactive"
+else
+    : # Only for NON-interactive shells
+fi
+
+if shopt -q login_shell ; then
+    : # These are executed only when it is a login shell
+    echo "login"
+else
+    : # Only when it is NOT a login shell
+    echo "nonlogin"
+fi
+
+
+Almost everything should go in the “general configuration” section. 
+There might be some commands (those which produce output, etc.) that you only want 
+executed when the shell is interactive, and not in scripts, 
+which you can put in the first “conditional section”. 
+I don’t see any reason to use the rest. 
+You can drop the “echo” lines, but keep the “:”s — they are commands which do nothing, 
+and are needed if that section is empty.
