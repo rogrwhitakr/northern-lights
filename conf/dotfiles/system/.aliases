@@ -1,0 +1,38 @@
+# this file should contain all aliases, or at least some very welcome an common ones
+
+# list stuff -> aliases,path,func
+alias list="echo -e '\e[31m\e[1mNo.\tAlias\t\tCommand\e[0m';grep alias ~/.bashrc |cut -d' ' -f2- | sed 's/\=/\t\t/g' | nl -w 2"
+# all functions? which ones?
+alias functions="declare -f | grep '^[a-z].* ()' | sed 's/{$//'"
+# all on path
+alias paths='echo -e ${PATH//:/\\n}'
+
+alias la="ls -lah"                 # print all relevant directory info
+alias lr="ls -lahR"                # print all relevant directory info + recursive
+
+# print security context
+alias sec="ls -Z"
+
+alias sudo='sudo '                  # Enable Aliases to be sudo’ed
+alias reload="source ~/.bash_profile" # reload profile
+
+# verbose time command
+alias time="/usr/bin/time -v"
+
+# we handle command line file handling verbose and interactive
+alias rm="rm -iv"
+alias mv="mv -iv"
+alias cp="cp -iv"
+
+# some addititons to getting around
+alias -- -="cd -"                  # Go to previous dir with -
+alias cd.='cd $(readlink -f .)'    # Go to real dir (i.e. if current dir is linked)
+
+# tree views
+alias tree="tree -A"                # show all
+alias treed="tree -d"               # show only dirs
+alias tree1="tree -d -L 1"          # show only dirs, 1 level down
+alias tree2="tree -d -L 2"          # show only dirs, 2 levels down
+
+# get external Ip
+alias extip="dig +short myip.opendns.com @resolver1.opendns.com"

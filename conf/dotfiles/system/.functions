@@ -1,3 +1,10 @@
+#!/usr/bin/env bash
+
+# Create a new directory and enter it
+function mkd() {
+	mkdir -p "$@" && cd "$_";
+}
+
 # append a todo to the README.md of the default repository
 readme() {
 	if [[ -z "$@" ]]; then
