@@ -8,11 +8,17 @@
 # -> if yes, what are the benefits?
 # -> 
 
+#####################################################################################
+# set variables
+
 # path to backup target
 backup_target="/mnt/backup"
 
 # name of backup repository / one level down
 repository="borg"
+
+# combined path
+backup_path="$backup_target"/"$repository"
 
 # list of 
 # ->  files / dirs to backup
@@ -26,9 +32,9 @@ encryption="none"
 # mode of compression / options = "none, lz4, ???"
 compression="lz4"
 
-# Hier angeben, ob vor der Ausführung von BorgBackup auf vorhandene Root-Rechte geprüft werden soll
-# _root="ja"
-_root="nein"
+# before execution check for user rights?
+# must we be root? / options = "true" , "false"
+_root="true"
 
 # Hier angeben nach welchem Schema alte Archive gelöscht werden sollen.
 # Die Vorgabe behält alle sicherungen des aktuellen Tages. Zusätzlich das aktuellste Archiv der 
@@ -36,29 +42,42 @@ _root="nein"
 prune="--keep-within=1d --keep-daily=7 --keep-weekly=4 --keep-monthly=12"
 
 ###################################################################################################
-
-repopfad="$backup_target"/"$repository"
+# lets have some functions, like a root check and a directory validator
 
 # check for root
-if [ $(id -u) -ne 0 ] && [ "$_root" == "ja" ]; then
-  echo "includes muss als Root-User ausgeführt werden."
+_root_check() {
+if [ $(id -u) -ne 0 ] && [ "$_root" == "true" ]; then
+  echo -e "backup must be executed as the root user. \nExiting..."
   exit 1
 fi
+}
+
+# check if directory exists
+
+
+
+echo -e 'exiting, because its , you know, .. fun....'
+exit 0
+###################################################################################################
+# execution
+
+# check user
+_root_check
 
 # Init borg-repo if absent
-if [ ! -d $repopfad ]; then
-  borg init --encryption=$encryption $repopfad 
-  echo "Borg-Repository erzeugt unter $repopfad"
+if [ ! -d $backup_path ]; then
+  borg init --encryption=$encryption $backup_path 
+  echo "Borg-Repository erzeugt unter $backup_path"
 fi
 
 # backup data
 SECONDS=0
-echo "Start der includes $(date)."
+echo "Start of backup on $(date)."
 
 borg create --compression $compression --exclude-caches --one-file-system -v --stats --progress \
-            $repopfad::'{hostname}-{now:%Y-%m-%d-%H%M%S}' $includes
+            $backup_path::'{hostname}-{now:%Y-%m-%d-%H%M%S}' $includes
 
-echo "Ende der includes $(date). Dauer: $SECONDS Sekunden"
+echo "Backup finished for $(date). duration: $SECONDS Seconds"
 
 # prune archives
-borg prune -v --list $repopfad --prefix '{hostname}-' $prune
+borg prune -v --list $backup_path --prefix '{hostname}-' $prune
