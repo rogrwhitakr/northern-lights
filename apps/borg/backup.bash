@@ -24,7 +24,7 @@ backup_path="$backup_target"/"$repository"
 # ->  files / dirs to backup
 # ->  files / dirs to exclude from within these lists
 # includes="/home/peter/Bilder /home/peter/Videos --exclude *.tmp"
-includes="/home/alonsoquinn --exclude '/home/alonsoquinn/.*'"
+includes="/home/admin/MyScripts /home/admin/html /home/admin/named@dns /home/admin/libvirt /home/admin/.ssh --exclude '/home/admin/.*'"
 
 # mode of encryption / options = "none, ???"
 encryption="none"
@@ -66,12 +66,12 @@ _dir_check "$backup_path"
 if [ _dir_check "$backup_target" == "0" ]; then
   echo "success"
 fi
-if [ _dir_check "$backup_path" = "0" ]; then
+if [ $(_dir_check "$backup_path") = "0" ]; then
   echo "more success"
 fi
 
 echo -e 'exiting, because its , you know, .. fun....'
-exit 0
+
 ###################################################################################################
 # execution
 
@@ -81,7 +81,7 @@ _root_check
 # Init borg-repo if absent
 if [ ! -d $backup_path ]; then
   borg init --encryption=$encryption $backup_path 
-  echo "Borg-Repository erzeugt unter $backup_path"
+  echo "created borg repository in $backup_path"
 fi
 
 # backup data

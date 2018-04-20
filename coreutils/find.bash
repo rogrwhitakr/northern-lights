@@ -16,3 +16,8 @@ find . -type f \( -name "*.css" -or -name "*.html" \)
 # delete every single file, excluding directories, below the current working directory
 find . ! -type d -delete
 find . ! -type d -exec rm '{}'	  
+
+# find logs that are not owned or group-owned by root
+# remove guid if necessary
+# most just own the file to write to it but dont bother to set this guid
+sudo find /var/log -type f ! -gid 0 ! -uid 0 -exec ls -lah {} \;

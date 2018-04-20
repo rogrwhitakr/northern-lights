@@ -16,3 +16,4 @@ Web Server
 ->Load balancing
 ->Common Gateway Interface
 ->CGI programs serve HTML data dynamically based on input passed to them
+how do i get the owner of the file in uid and guid ids?
