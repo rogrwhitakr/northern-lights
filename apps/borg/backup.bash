@@ -66,12 +66,12 @@ _dir_check "$backup_path"
 if [ _dir_check "$backup_target" == "0" ]; then
   echo "success"
 fi
-if [ $(_dir_check "$backup_path") = "0" ]; then
+if [ $(_dir_check "$backup_path") -eq 0 ]; then
   echo "more success"
 fi
 
 echo -e 'exiting, because its , you know, .. fun....'
-
+exit 0
 ###################################################################################################
 # execution
 

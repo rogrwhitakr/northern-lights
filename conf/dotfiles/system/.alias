@@ -10,6 +10,7 @@ alias paths='echo -e ${PATH//:/\\n}'
 
 alias la="ls -lah"                 # print all relevant directory info
 alias lr="ls -lahR"                # print all relevant directory info + recursive
+alias ld="ls -lah --print-directories-first" # print all sorted
 
 # print security context
 alias sec="ls -Z"
