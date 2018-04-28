@@ -1,4 +1,4 @@
-#!/usr/bin/env bash
+#!/usr/bin/env sh
 
 # Skriptvorlage BorgBackup
 # https://wiki.ubuntuusers.de/BorgBackup/
@@ -24,8 +24,19 @@ backup_path="$backup_target"/"$repository"
 # ->  files / dirs to backup
 # ->  files / dirs to exclude from within these lists
 # includes="/home/peter/Bilder /home/peter/Videos --exclude *.tmp"
-includes="/home/admin/MyScripts /home/admin/html /home/admin/named@dns /home/admin/libvirt /home/admin/.ssh --exclude '/home/admin/.*'"
-
+includes="
+/home/admin/MyScripts  
+/home/admin/html 
+/home/admin/libvirt 
+/home/admin/.ssh 
+/home/admin/aurora 
+/home/admin/bin 
+/home/admin/docker 
+/home/admin/Dokumente 
+"
+excludes="
+'/home/admin/.*'
+"
 # mode of encryption / options = "none, ???"
 encryption="none"
 
@@ -54,7 +65,7 @@ fi
 
 # check if directory exists
 _dir_check(){
-if [ -n "$1" ] && [ -d "$1" ]; then
+if [[ -n "$1" ]] && [[ -d "$1" ]]; then
   return 0
 else
   return 1
@@ -63,15 +74,15 @@ fi
 
 _dir_check "$backup_target" 
 _dir_check "$backup_path"
-if [ _dir_check "$backup_target" == "0" ]; then
-  echo "success"
-fi
-if [ $(_dir_check "$backup_path") -eq 0 ]; then
-  echo "more success"
-fi
+#if [[ _dir_check "$backup_target" eq 0 ]]; then
+#  echo "success"
+#fi
+#if [[ $(_dir_check "$backup_path") -eq 0 ]]; then
+#  echo "more success"
+#fi
 
-echo -e 'exiting, because its , you know, .. fun....'
-exit 0
+echo -e "$(_dir_check "$backup_target" )"
+
 ###################################################################################################
 # execution
 
@@ -89,7 +100,7 @@ SECONDS=0
 echo "Start of backup on $(date)."
 
 borg create --compression $compression --exclude-caches --one-file-system -v --stats --progress \
-            $backup_path::'{hostname}-{now:%Y-%m-%d-%H%M%S}' $includes
+  $backup_path::'{hostname}-{now:%Y-%m-%d-%H%M%S}' $includes --exclude $excludes
 
 echo "Backup finished for $(date). duration: $SECONDS Seconds"
 
