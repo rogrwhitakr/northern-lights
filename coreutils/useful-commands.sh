@@ -64,19 +64,6 @@ df -hT
 #	-c 		total
 du -cah | grep total
 
-# find biggest tile Files
-find -name tirex | du -ah | sort -nr | head -30
-
-# List all sh files (including subdirectories)
-find . -type f -name "*.sh"
-
-# List all CSS or HTML files:
-find . -type f \( -name "*.css" -or -name "*.html" \)
-
-# delete every single file, excluding directories, below the current working directory
-find . ! -type d -delete
-find . ! -type d -exec rm '{}'
-
 # make executable, for current user
 chmod u+x <file>
 
@@ -180,9 +167,6 @@ nc -lk 8999
 
 # curl the server
 curl localhost:8999
-
-# get basename of script 
-filename=$(`basename "$0"`)
 
 # split large file names according to spec
 pg_dump dbname | split -b 1m - filename
