@@ -1,0 +1,24 @@
+---
+- name: install and start apache
+  hosts: web
+  remote_user: admin
+  become: yes
+
+  tasks:
+  - name: install apache
+    dnf: name=httpd state=present
+
+  - name: install with loop
+    dnf: name={{item}} state=present
+    with_items:
+    - htop
+    - nmap
+    - nano
+
+  - name: check if SELinux is running
+    command: getenforce
+    register: sestatus
+    changed_when: false
+
+  - name: restart apache
+    service: name=httpd state=started enabled=yes
