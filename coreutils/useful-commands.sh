@@ -188,3 +188,10 @@ vmstat 1 20
 umask
 # return symbolics (RWX)
 umask -S
+
+# run a background task
+<command_for_longrunning_task>, like redmine server
+# control + Z stops task
+CTRL + Z
+#bg resumes task in background
+bg
