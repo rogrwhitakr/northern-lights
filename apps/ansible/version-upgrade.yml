@@ -1,0 +1,23 @@
+---
+- name: Upgrading Fedora 27 Workstation to Fedora  28
+  hosts: admin
+  remote_user: admin
+  become: yes
+
+  tasks:
+  - name: Update software and back up your system
+    dnf: 
+      name: dnf upgrade --refresh
+
+  - name: Install the DNF plugin
+    dnf:
+      name: dnf-plugin-system-upgrade
+      state: latest
+
+  - name: Start the update with the download
+    dnf:
+      name: system-upgrade download --releasever=28
+
+  - name: eboot and upgrade
+    dnf:
+      name: system-upgrade reboot
