@@ -1,0 +1,10 @@
+[Unit]
+Description=<service_name>
+After=syslog.target
+After=network.target
+After=timers.target
+After=multi-user.target
+
+[Service]
+Type=simple
+ExecStart="<service_script> --timer

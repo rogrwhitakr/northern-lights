@@ -1,0 +1,9 @@
+[Unit]
+Description=Runs <script> script every <timer_on_unit_active_sec>
+
+[Timer]
+OnBootSec=1min
+OnUnitActiveSec=5min
+
+[Install]
+WantedBy=multi-user.target

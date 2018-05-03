@@ -1,0 +1,5 @@
+sysstat-collect.service                     static         
+sysstat-summary.service                     static         
+sysstat.service                             enabled        
+sysstat-collect.timer                       enabled        
+sysstat-summary.timer                       enabled   
