@@ -10,6 +10,8 @@
 
 #####################################################################################
 # set variables
+# log
+log="/var/log/$(basename "$0")"
 
 # path to backup target
 backup_target="/mnt/backup"
@@ -86,23 +88,27 @@ echo -e "$(_dir_check "$backup_target" )"
 ###################################################################################################
 # execution
 
+# create log if it doesnt exist
+if [[ ! -f "$log" ]]; then
+    touch "$log"
+fi
 # check user
 _root_check
 
 # Init borg-repo if absent
 if [ ! -d $backup_path ]; then
   borg init --encryption=$encryption $backup_path 
-  echo "created borg repository in $backup_path"
+  echo "created borg repository in $backup_path" > "$log" 
 fi
 
 # backup data
 SECONDS=0
-echo "Start of backup on $(date)."
+echo "Start of backup on $(date)." > "$log"
 
 borg create --compression $compression --exclude-caches --one-file-system -v --stats --progress \
   $backup_path::'{hostname}-{now:%Y-%m-%d-%H%M%S}' $includes --exclude $excludes
 
-echo "Backup finished for $(date). duration: $SECONDS Seconds"
+echo "Backup finished for $(date). duration: $SECONDS Seconds"  > "$log"
 
 # prune archives
 borg prune -v --list $backup_path --prefix '{hostname}-' $prune
