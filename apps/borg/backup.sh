@@ -82,8 +82,8 @@ _dir_check "$backup_path"
 #  echo "more success"
 #fi
 
-echo -e "$(_dir_check "$backup_target" )"
-
+#echo -e "$(_dir_check "$backup_target" )"
+echo "test of systemd journalctl"
 ###################################################################################################
 # execution
 
