@@ -1,0 +1,10 @@
+[Unit]
+Description=borg-backup
+
+After=syslog.target
+After=network.target
+After=timers.target
+
+[Service]
+Type=simple
+ExecStart=/home/admin/MyScripts/apps/borg/backup.sh --timer
