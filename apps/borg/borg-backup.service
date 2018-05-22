@@ -7,4 +7,15 @@ After=timers.target
 
 [Service]
 Type=simple
+# unsure what these do, really
+Nice=19
+IOSchedulingClass=2
+IOSchedulingPriority=7
+
+# ExecStartPre -> 
+ExecStartPre=/usr/bin/borg break-lock /mnt/backup/borg
 ExecStart=/home/admin/MyScripts/apps/borg/backup.sh --timer
+
+# user "admin", so we can access the backup
+User=admin
+Group=admin

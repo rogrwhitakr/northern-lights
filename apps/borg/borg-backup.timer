@@ -4,6 +4,7 @@ Description=Runs /home/admin/MyScripts/apps/borg/backup.sh script every 5 minute
 [Timer]
 OnBootSec=1min
 OnUnitActiveSec=5min
+WakeSystem=false
 
 [Install]
 WantedBy=multi-user.target
