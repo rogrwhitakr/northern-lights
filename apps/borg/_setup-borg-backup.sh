@@ -21,4 +21,12 @@ fi
 
 sudo cp borg-backup.timer /etc/systemd/system/borg-backup.timer
 sudo cp borg-backup.service /etc/systemd/system/borg-backup.service
+
+# after copy of unit files, we must reload daemon
+sudo systemctl daemon-reload
+
+# we check the status of the service
+sleep 3
+systemctl status borg-backup
+
 exit 0
