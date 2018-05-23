@@ -7,4 +7,4 @@ OnUnitActiveSec=5min
 WakeSystem=false
 
 [Install]
-WantedBy=multi-user.target
+WantedBy=timers.target

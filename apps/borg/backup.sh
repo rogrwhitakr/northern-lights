@@ -1,4 +1,4 @@
-#!/usr/bin/env bash
+#!/usr/bin/env bash - 
 
 # Skriptvorlage BorgBackup
 # https://wiki.ubuntuusers.de/BorgBackup/
@@ -23,6 +23,7 @@ backup_path="$backup_target"/"$repository"
 
 # also possible
 export REPOSITORY="$backup_target"/"$repository"
+export BORG_REPO="$backup_target"/"$repository"
 
 # empty for now
 export BORG_PASSPHRASE=""
@@ -53,8 +54,6 @@ encryption="none"
 # mode of compression / options = "none, lz4, ???"
 compression="lz4"
 
-
-
 # Hier angeben nach welchem Schema alte Archive gelöscht werden sollen.
 # Die Vorgabe behält alle sicherungen des aktuellen Tages. Zusätzlich das aktuellste Archiv der 
 # letzten 7 includesstage, der letzten 4 Wochen sowie der letzten 12 Monate.
@@ -83,7 +82,9 @@ _dir_check "$backup_path"
 #fi
 
 #echo -e "$(_dir_check "$backup_target" )"
-echo "test of systemd journalctl"
+echo "directories archived: $includes"
+
+/usr/bin/env | grep BORG
 ###################################################################################################
 # execution
 
@@ -102,7 +103,7 @@ borg create --compression $compression --exclude-caches --one-file-system -v --s
 
 # If there is an error backing up, reset password envvar and exit
 if [ "$?" = "1" ] ; then
-#    export BORG_PASSPHRASE=""
+    export BORG_PASSPHRASE=""
     exit 1
 fi
 
@@ -113,7 +114,7 @@ echo "Pruning Archives"
 borg prune -v --list $backup_path --prefix '{hostname}-' $prune
 
 # Include the remaining device capacity in the log
-df -hl | grep --color=never "$backup_path"
+df -hl | grep --color=never "$backup_target"
 
 # list archives for log
 borg list $REPOSITORY
