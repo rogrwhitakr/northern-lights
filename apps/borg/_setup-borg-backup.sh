@@ -22,6 +22,11 @@ fi
 sudo cp borg-backup.timer /etc/systemd/system/borg-backup.timer
 sudo cp borg-backup.service /etc/systemd/system/borg-backup.service
 
+sudo chmod 622 /etc/systemd/system/borg-backup.timer 
+sudo chmod 622 /etc/systemd/system/borg-backup.service
+ 
+echo -e "the files!"
+ls -l /etc/systemd/system/borg-backup.*
 # after copy of unit files, we must reload daemon
 sudo systemctl daemon-reload
 
