@@ -74,6 +74,8 @@ print_yellow read -rp \$\'Are you sure \(Y/n\) : \' -ei \$\'Y\' key;
 read -rp $'Are you sure (Y/n) : ' -ei $'Y' key;
 print_blue $key
 
+read -rp $'Continue (Y/n) : ' -ei $'Y' continue_key;
+
 print_red Timeout solution \(with -t 5\)
 print_yellow read -rsp \$\'Press any key or wait 5 seconds to continue...\n\' -n 1 -t 5;
 read -rsp $'Press any key or wait 5 seconds to continue...\n' -n 1 -t 5;
