@@ -9,6 +9,9 @@
 # -> if yes, what are the benefits?
 # -> 
 
+# Route the normal process logging to journalctl
+2>&1
+
 #####################################################################################
 # set variables
 
@@ -27,9 +30,6 @@ export BORG_REPO="$backup_target"/"$repository"
 
 # empty for now
 export BORG_PASSPHRASE=""
-
-# Route the normal process logging to journalctl
-2>&1
 
 # list of 
 # ->  files / dirs to backup
@@ -54,35 +54,9 @@ encryption="none"
 # mode of compression / options = "none, lz4, ???"
 compression="lz4"
 
-# Hier angeben nach welchem Schema alte Archive gelöscht werden sollen.
-# Die Vorgabe behält alle sicherungen des aktuellen Tages. Zusätzlich das aktuellste Archiv der 
-# letzten 7 includesstage, der letzten 4 Wochen sowie der letzten 12 Monate.
-prune="--keep-within=1d --keep-daily=7 --keep-weekly=4 --keep-monthly=12"
-
 ###################################################################################################
-# lets have some functions, like a root check and a directory validator
 
-
-# check if directory exists
-_dir_check(){
-if [[ -n "$1" ]] && [[ -d "$1" ]]; then
-  return 0
-else
-  return 1
-fi
-}
-
-_dir_check "$backup_target" 
-_dir_check "$backup_path"
-#if [[ _dir_check "$backup_target" eq 0 ]]; then
-#  echo "success"
-#fi
-#if [[ $(_dir_check "$backup_path") -eq 0 ]]; then
-#  echo "more success"
-#fi
-
-#echo -e "$(_dir_check "$backup_target" )"
-echo "directories archived: $includes"
+echo -e "directories to be archived: $incldes\n"
 
 /usr/bin/env | grep BORG
 ###################################################################################################
@@ -110,14 +84,24 @@ fi
 echo "Backup finished for $(date). duration: $SECONDS Seconds"
 
 # prune archives
-echo "Pruning Archives"
-borg prune -v --list $backup_path --prefix '{hostname}-' $prune
+echo "Pruning Archives:"
+
+# Hier angeben nach welchem Schema alte Archive gelöscht werden sollen.
+# Die Vorgabe behält alle sicherungen des aktuellen Tages. Zusätzlich das aktuellste Archiv der 
+# letzten 7 Tage, der letzten 4 Wochen sowie der letzten 12 Monate.
+borg prune -v --list $backup_path \
+    --prefix '{hostname}-' \
+    --keep-within=1d \
+    --keep-daily=7 \
+    --keep-weekly=4 \
+    --keep-monthly=12
 
 # Include the remaining device capacity in the log
+echo -e "\nremaining device capacity:"
 df -hl | grep --color=never "$backup_target"
 
 # list archives for log
-borg list $REPOSITORY
+# borg list $REPOSITORY
 
 # Unset the password
 export BORG_PASSPHRASE=""
