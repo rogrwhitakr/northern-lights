@@ -5,8 +5,10 @@ echo "this script is used to
 ->  set up systemd unit files (service and timer)
 using files found in this directory"
 
-filename=$(basename "$0")
-echo "$filename"
+# NON-POSIX COMPLIANT SOLUTION
+SCRIPT=$(readlink -f $0)
+
+echo "$SCRIPT" | grep -E '/apps/borg/' && echo "ya"
 
 ls *.sh
 ls *.timer
