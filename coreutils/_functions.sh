@@ -91,3 +91,23 @@ trim() {
     printf "%s\\n" "$*"
     set +f
 }
+
+
+# INCOMPLETE !!!!
+# check if directory exists
+_dir_check(){
+if [[ -n "$1" ]] && [[ -d "$1" ]]; then
+  return 0
+else
+  return 1
+fi
+}
+
+_dir_check "$backup_target" 
+_dir_check "$backup_path"
+#if [[ _dir_check "$backup_target" eq 0 ]]; then
+#  echo "success"
+#fi
+#if [[ $(_dir_check "$backup_path") -eq 0 ]]; then
+#  echo "more success"
+#fi
