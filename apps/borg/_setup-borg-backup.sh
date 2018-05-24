@@ -5,6 +5,9 @@ echo "this script is used to
 ->  set up systemd unit files (service and timer)
 using files found in this directory"
 
+filename=$(basename "$0")
+echo "$filename"
+
 ls *.sh
 ls *.timer
 ls *.service
