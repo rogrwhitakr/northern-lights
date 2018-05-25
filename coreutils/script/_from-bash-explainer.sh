@@ -1,4 +1,4 @@
-# says: always use
+w# says: always use
 #! /usr/bin/env sh
 
 # use parameter expansions instead of sed or cut to manipulate simple strings in Bash. 
@@ -39,5 +39,6 @@ less_simple_var="123Gak48$"
 [[ $less_simple_var =~ \d\d\d.+ ]] && echo True || echo False
 
 # belongs to loops
-i=8
-let i++ 
+#i=8
+#let i++ 
+#while(i > 100){}
