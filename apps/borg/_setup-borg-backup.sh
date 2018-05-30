@@ -18,8 +18,10 @@ if [[ $(ls borg-backup.timer 2> /dev/null) != 0 ]] || \
     exit 1
 fi    
 
-filename=$(basename "$0")
-echo "$filename"
+# NON-POSIX COMPLIANT SOLUTION
+SCRIPT=$(readlink -f $0)
+
+echo "$SCRIPT" | grep -E '/apps/borg/' && echo "ya"
 
 read -rp $'Continue (Y/n) : ' -ei $'Y' continue_key;
 echo "$continue_key"

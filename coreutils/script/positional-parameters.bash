@@ -1,6 +1,6 @@
 #! /usr/bin/env sh
 
-parameter_set (){
+parameter_set(){
     echo "$1"
     echo "$1" "$2"
     echo "$*"
