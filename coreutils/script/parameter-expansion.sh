@@ -52,3 +52,32 @@ As above, but matched against the beginning. Useful for adding a common prefix w
 ${parameter/%pat/string}
 
 As above, but matched against the end. Useful for adding a common suffix with a null pattern.
+
+
+#fetch into array using find
+src=( $(find ~/html -mindepth 1 -maxdepth 1 -type d) )
+
+# make use of the number
+echo "threre are ${#src[@]} ROOT folders"
+
+function_bypass(){
+# here wo omit the quitation marks to be able to iterate through the array...
+for destination in ${dest}; do 
+    for source in ${src}; do
+        echo "comparing source "$source" to destination "$destination":"
+#        find_in_target $source $destination
+
+        # we compare the "filename" portion
+        #   "${destination##*/}"
+        #   "${source##*/}"
+    
+        if [[ "${source##*/}" = "${destination##*/}" ]]; then
+            echo "copying source "$source" to destination "$destination":"
+            
+            # we copy to the parent directory
+
+            sudo cp --recursive "$source" "${destination%/*}"
+        fi
+    done
+done    
+}
