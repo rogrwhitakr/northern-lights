@@ -1,0 +1,12 @@
+[Unit]
+Description=start and stop virtual machines using libvirt
+Requires=docker.service
+After=docker.service
+
+[Service]
+Restart=always
+ExecStart=/usr/local/bin/docker-compose -f /Path/to/docker-compose.yml up
+ExecStop=/usr/local/bin/docker-compose -f /Path/to/docker-compose.yml stop
+
+[Install]
+WantedBy=default.target
