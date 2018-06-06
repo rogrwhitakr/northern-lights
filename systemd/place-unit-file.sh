@@ -48,6 +48,18 @@ fi
 found_unit_file=$(find $HOME -name "${unit_file}")
 echo -e "Found unit file for \n\t${unit_file} at\n\t${found_unit_file}" 
 
+###############################################
+# if the found_unit_file variable is empty,
+# we stop here
+# else, we copy it to the directory
+###############################################
 
+if [[]]
+
+###############################################
+# we could, of course do a lot of 
+# checking of the file is indeed a unit file
+# todo: HOW?
+###############################################
 
 exit 0        
