@@ -54,7 +54,13 @@ echo -e "Found unit file for \n\t${unit_file} at\n\t${found_unit_file}"
 # else, we copy it to the directory
 ###############################################
 
-if [[]]
+if [[ -n "${found_unit_file}" ]]; then
+    read -rp $'Continue (Y/n) : ' -ei $'n' continue_key
+    if [[ "${continue_key}" = "Y" ]]; then
+        echo "execute"
+    fi
+    exit 0
+fi    
 
 ###############################################
 # we could, of course do a lot of 
