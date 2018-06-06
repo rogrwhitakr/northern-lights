@@ -20,12 +20,6 @@ printf '\n'
 # means DO NOT EVER FORGET "QUOTES" AROUND "VARIABLES"?
 # "EVERYTHING MUST BE QUOTED THAT I DONT WANT TO BE PASSED AS INDIVIDUAL ARGUMENTS?"
 
-# Arrays are friends....
-friends=( "Marcus The Rich" "JJ The Short" "Timid Thomas" "Michelangelo The Mobster" )
-for friend in "${friends[@]}";do
-    echo "$friend is my friend";
-done
-
 # ALWAYS use double [[ ]] brackets, they are saver
 # -> [ is the test command
 
