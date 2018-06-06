@@ -1,15 +1,25 @@
 [Unit]
-Description=start and stop virtual machines using libvirt
-Type=simple
+Description=managing virtual machines using libvirt
 
+# Das RemainAfterExit=yes bewirkt (zusammen mit oneshot), dass ExecStop erst beim Stop dieser Unit ausgeführt wird.
+# Ohne diese Einstellung würde ExecStop unmittelbar nach ExecStart, also noch während des Hochfahrens, ausgeführt
+
+Type=oneshot  
+RemainAfterExit=yes  
+
+# libvirt really needs no mention, as it is already a dependency of libvirt-guests.service
 Requires=libvirtd.service
 Requires=libvirt-guests.service
 
 After=libvirtd.service
 After=libvirt-guests.service
 
+Before=shutdown.target
+Before=reboot.target
+Before=halt.target
+
 [Service]
-Restart=always
+#Restart=always
 ExecStart=/usr/bin/virsh start IAV.Cortez
 ExecStop=/usr/bin/virsh shutdown IAV.Cortez
 
