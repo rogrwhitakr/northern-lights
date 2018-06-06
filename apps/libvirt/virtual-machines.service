@@ -1,12 +1,19 @@
 [Unit]
 Description=start and stop virtual machines using libvirt
-Requires=docker.service
-After=docker.service
+Type=simple
+
+Requires=libvirtd.service
+Requires=libvirt-guests.service
+
+After=libvirtd.service
+After=libvirt-guests.service
 
 [Service]
 Restart=always
-ExecStart=/usr/local/bin/docker-compose -f /Path/to/docker-compose.yml up
-ExecStop=/usr/local/bin/docker-compose -f /Path/to/docker-compose.yml stop
+ExecStart=/usr/bin/virsh start IAV.Cortez
+ExecStop=/usr/bin/virsh shutdown IAV.Cortez
+
+MemoryLimit=3G
 
 [Install]
-WantedBy=default.target
+WantedBy=graphical.target
