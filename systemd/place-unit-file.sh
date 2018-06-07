@@ -28,8 +28,7 @@ display_help $1
 unit_file=$1
 
 
-# extension
-echo -e "${unit_file#*.}" 
+# get extension with: "${unit_file#*.}" 
 
 if [[ "${unit_file#*.}" = "service" ]]; then 
     echo -e "okili dokili"
@@ -53,7 +52,7 @@ echo -e "Found unit file for \n\t${unit_file} at\n\t${found_unit_file}"
 ###############################################
 
 if [[ -n "${found_unit_file}" ]]; then
-    read -rp $'Continue (Y/n) : ' -ei $'n' continue_key
+    read -rp $'Continue with this unit file? (Y/n) : ' -ei $'n' continue_key
     if [[ "${continue_key}" = "Y" ]]; then
         echo -e "execute"
     fi
