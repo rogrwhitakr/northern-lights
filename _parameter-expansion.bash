@@ -99,3 +99,6 @@ THIRD_ARG="${3:-no_third_arg}"
 echo ${FIRST_ARG}
 echo ${SECOND_ARG}
 echo ${THIRD_ARG}
+
+# get extension with: 
+"${unit_file#*.}" 
