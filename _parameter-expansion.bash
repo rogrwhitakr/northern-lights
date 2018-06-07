@@ -102,3 +102,10 @@ echo ${THIRD_ARG}
 
 # get extension with: 
 "${unit_file#*.}" 
+
+FILE=archive.tar.gz
+
+echo "${FILE%%.*}"
+echo "${FILE%.*}"
+echo "${FILE#*.}"
+echo "${FILE##*.}"
