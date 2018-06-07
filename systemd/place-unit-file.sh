@@ -14,6 +14,7 @@ if ([[ "$1" = "-h" ]] || [[ "$1" = "--help" ]] || [[ -z "$1" ]]); then
     echo -e "\tusing somesin somesin"
     echo -e "${RED}PREREQUISITES${NOC}"
     echo -e "\tfile is located within home directory"
+    echo -e "\tfile is one of *.service, (*.timer)"
     exit 0
 
 elif ([[ "$1" = "-p" ]] || [[ "$1" = "--pid" ]]); then
@@ -27,13 +28,9 @@ display_help $1
 ###############################################
 unit_file=$1
 
-
-# get extension with: "${unit_file#*.}" 
-
-if [[ "${unit_file#*.}" = "service" ]]; then 
-    echo -e "okili dokili"
-else
-    echo -e "njet"
+if [[ ! "${unit_file#*.}" = "service" ]]; then 
+    echo -e "\nERROR:\n\tthe passed variable has no \"*.service\" extension!\n"
+    display_help
 fi
 
 ###############################################
