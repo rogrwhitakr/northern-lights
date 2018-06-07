@@ -12,12 +12,12 @@ if ([[ "$1" = "-h" ]] || [[ "$1" = "--help" ]] || [[ -z "$1" ]]); then
     echo -e "\tcopies passed unit file to proper folder"
     echo -e "\tchmod 622 for this file"
     echo -e "\tusing somesin somesin"
-    echo -e "${RED}PREREQUISITES¼{NOC}"
+    echo -e "${RED}PREREQUISITES${NOC}"
     echo -e "\tfile is located within home directory"
     exit 0
 
 elif ([[ "$1" = "-p" ]] || [[ "$1" = "--pid" ]]); then
-    echo "$BASHPID"
+    echo -e "$BASHPID"
 fi
 }
 display_help $1
@@ -28,15 +28,13 @@ display_help $1
 unit_file=$1
 
 
-echo "${unit_file##*/}"
-echo "${unit_file%%/*}"
-unit_file_name="${unit_file##*/}"
-unit_file_extension="${unit_file_name%/}"
+# extension
+echo -e "${unit_file#*.}" 
 
-if [[ "${unit_file##*/}" =~ "*.service" ]]; then 
-    echo "okili dokili"
+if [[ "${unit_file#*.}" = "service" ]]; then 
+    echo -e "okili dokili"
 else
-    echo "njet"
+    echo -e "njet"
 fi
 
 ###############################################
@@ -57,8 +55,9 @@ echo -e "Found unit file for \n\t${unit_file} at\n\t${found_unit_file}"
 if [[ -n "${found_unit_file}" ]]; then
     read -rp $'Continue (Y/n) : ' -ei $'n' continue_key
     if [[ "${continue_key}" = "Y" ]]; then
-        echo "execute"
+        echo -e "execute"
     fi
+    echo -e "user choice: ${continue_key}\nExiting..."
     exit 0
 fi    
 
