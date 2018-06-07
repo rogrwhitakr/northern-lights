@@ -1,5 +1,13 @@
 #! /usr/bin/env bash
 
+# okay, couple of things:
+# works, but on screen formatting could be better / more uniform / needs a guideline
+# TODO:
+# - add a enabler / starter
+# - add the getopts thing
+# - see if the color thing can be improved (maybe with the existing functions, those are not that bad)
+# - learn python already!
+
 display_help(){
 
 local RED='\e[1;31m'  
@@ -39,22 +47,31 @@ fi
 # what to do if there is more then one?
 ###############################################
 
-found_unit_file=$(find $HOME -name "${unit_file}")
-echo -e "Found unit file for \n\t${unit_file} at\n\t${found_unit_file}" 
+unit_file=$(find $HOME -name "${unit_file}")
 
 ###############################################
-# if the found_unit_file variable is empty,
+# if the unit_file variable is empty,
 # we stop here
 # else, we copy it to the directory
 ###############################################
 
-if [[ -n "${found_unit_file}" ]]; then
+if [[ -n "${unit_file}" ]]; then
+    echo -e "Found unit file for \n\t${unit_file} at\n\t${unit_file}" 
     read -rp $'Continue with this unit file? (Y/n) : ' -ei $'n' continue_key
+    
     if [[ "${continue_key}" = "Y" ]]; then
-        echo -e "execute"
+        echo -e "\texecuting..."
+        sudo cp -i "${unit_file}" /etc/systemd/system/
+        sudo chmod 622 /etc/systemd/system/"${unit_file##*/}"
+        echo -e "\tunit file ${unit_file##*/} copied"
+        sudo ls -lah /etc/systemd/system/"${unit_file##*/}"
+    
+    else
+        echo -e "user choice: ${continue_key}\nExiting..."
+        exit 0
     fi
-    echo -e "user choice: ${continue_key}\nExiting..."
-    exit 0
+else
+    echo -e "ERROR:\nno unit file with the name $1 found in $HOME!" 
 fi    
 
 ###############################################
