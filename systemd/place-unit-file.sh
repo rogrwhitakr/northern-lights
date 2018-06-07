@@ -3,7 +3,6 @@
 # okay, couple of things:
 # works, but on screen formatting could be better / more uniform / needs a guideline
 # TODO:
-# - add a enabler / starter
 # - add the getopts thing
 # - see if the color thing can be improved (maybe with the existing functions, those are not that bad)
 # - learn python already!
@@ -79,5 +78,13 @@ fi
 # checking of the file is indeed a unit file
 # todo: HOW?
 ###############################################
+
+# - add a enabler / starter
+add_to_systemd(){
+    sudo systemctl enable "${unit_file##*/}" || systemctl status "${unit_file##*/}" 
+    sudo systemctl start "${unit_file##*/}" || systemctl status "${unit_file##*/}"
+    sudo systemctl daemon-reload
+}
+add_to_systemd
 
 exit 0        
