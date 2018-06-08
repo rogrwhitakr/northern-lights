@@ -118,3 +118,10 @@ awk '{ NR == 1; print NR,$2}' /var/log/boot.log
 # we assign variable lower bound = 1, upper bound = <number of records>
 
 awk '{for (i=1; i<=NF;i++) print "NR (No of records):", NR, "| NF (No of Fields):", i, "| FIELD: <" $i ">"; print "----"}' /var/log/boot.log
+
+# get the boot times
+# now i need to diff them
+journalctl --list-boots | awk '{ print $4, $7,"||", $5,$8 }'
+
+# addition seems to work
+echo "1,2,3" | awk -F',' '{ print $1, $3, $1+$3 }'
