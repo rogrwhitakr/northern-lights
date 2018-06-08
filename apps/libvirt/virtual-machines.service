@@ -1,5 +1,5 @@
 [Unit]
-Description=managing virtual machines using libvirt
+Description=IAV.Cortez
 
 # libvirt really needs no mention, as it is already a dependency of libvirt-guests.service
 Requires=libvirtd.service
@@ -16,7 +16,7 @@ Before=halt.target
 
 Type=forking  
 
-#Restart=always
+Restart=always
 ExecStart=/usr/bin/virsh start IAV.Cortez
 ExecStop=/usr/bin/virsh shutdown IAV.Cortez
 

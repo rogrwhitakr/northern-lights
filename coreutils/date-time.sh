@@ -1,4 +1,4 @@
-#! bin/sh
+#! /usr/bin/env bash
 
 RED='\033[0;31m'
 NOC='\033[0m' 	
@@ -45,3 +45,11 @@ DISABLE_DATE=`date -d '-6 months ago' +%Y-%m-%d`
 _DATE=$(sed -e 's/6 months ago/${MONTH} months ago/g' <<< $DISABLE_DATE)
 
 #_DATE='sed -i "s/6/7/g" $DISABLE_DATE'
+
+# subtract two dates
+let DIFF=(`date +%s -d 20120203`-`date +%s -d 20120115`)/86400
+echo $DIFF
+
+# gnu date 
+# seconds since EPOCH
+echo $(( ($(date --date="2017-05-21 21:18:30" +%s) - $(date --date="2017-05-21 20:28:57" +%s) )/(60*60*24) ))
