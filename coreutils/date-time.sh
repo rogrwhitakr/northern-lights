@@ -52,4 +52,6 @@ echo $DIFF
 
 # gnu date 
 # seconds since EPOCH
+# i assume an intermediate step is necessary
+# date -d '-6 months ago' +%Y-%m-%d
 echo $(( ($(date --date="2017-05-21 21:18:30" +%s) - $(date --date="2017-05-21 20:28:57" +%s) )/(60*60*24) ))

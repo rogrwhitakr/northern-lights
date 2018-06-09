@@ -16,3 +16,16 @@ for (( i=0; i<${length}; i++ ));
 do
   echo ${friends[$i]}
 done
+
+# read into array
+readarray arr < <( echo a; echo b; echo c )
+echo "${#arr[@]}"
+echo "${arr[1]}"
+
+# users and groups
+# seems annoyingly hackish
+user=( $( getent passwd | cut -d: -f 1 ) )
+echo "${#user[@]}"
+echo "${user[1]}"
+echo "${user[2]}"
+echo "${user[3]}"
