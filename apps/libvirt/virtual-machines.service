@@ -1,25 +1,17 @@
 [Unit]
 Description=IAV.Cortez
 
-# libvirt really needs no mention, as it is already a dependency of libvirt-guests.service
 Requires=libvirtd.service
-Requires=libvirt-guests.service
-
 After=libvirtd.service
-After=libvirt-guests.service
 
 Before=shutdown.target
 Before=reboot.target
 Before=halt.target
 
 [Service]
-
 Type=forking  
-
-Restart=always
 ExecStart=/usr/bin/virsh start IAV.Cortez
 ExecStop=/usr/bin/virsh shutdown IAV.Cortez
-
 MemoryLimit=3G
 
 [Install]
