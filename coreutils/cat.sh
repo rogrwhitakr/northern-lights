@@ -1,18 +1,20 @@
-# bin/sh
+# /usr/bin/env bash
 
 ###################################
 # creating and populating a file
 # ###################################
 
-demofile=~/demofile.txt
+demofile=~/cat-a-file.txt
 
-#create the file 
-if [ ! -f $demofile ]; then
+#remove file and recreate
+
+if [ -f $demofile ]; then
+	rm $demofile
 	touch  $demofile
 	chmod 644 $demofile
-
 fi
 
+# way 1)
 # populate the file
 tee >> /dev/null $demofile << EOF
 
@@ -22,28 +24,29 @@ tee >> /dev/null $demofile << EOF
 #
 #######################################
 
-demotext
+WAY 1)
 
 RED='\033[0;31m'
 YELLOW='\e[33m'
 NOC='\033[0m'
 BLUE='\e[34m'
 
-# Normal Colors
-Black='\e[0;30m'        # Black
-Red='\e[0;31m'          # Red
-Green='\e[0;32m'        # Green
-Yellow='\e[0;33m'       # Yellow
-Blue='\e[0;34m'         # Blue
-Purple='\e[0;35m'       # Purple
-Cyan='\e[0;36m'         # Cyan
-White='\e[0;37m'        # White
-
 EOF
 
-sleep 1
-
 cat $demofile
-rm -f $demofile
+
+# TODO:
+# how do i write from commandline
+# how do i do anything with these stupid redirectors?  
+# WAY 2)
+
+# WAY N)
+
+exit 0
+
+
+
+sleep 1
+cat $demofile
 
 exit 0
