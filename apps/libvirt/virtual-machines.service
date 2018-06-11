@@ -9,7 +9,8 @@ Before=reboot.target
 Before=halt.target
 
 [Service]
-Type=forking  
+Type=forking
+RemainAfterExit=yes  
 ExecStart=/usr/bin/virsh start IAV.Cortez
 ExecStop=/usr/bin/virsh shutdown IAV.Cortez
 MemoryLimit=3G
