@@ -7,7 +7,7 @@
 
 usage() { echo "Usage: $0 [-s <45|90>] [-p <string>]" 1>&2; exit 1; }
 
-while getopts ":s:p:mf:" opt; do
+while getopts ":as:p:u:t:" opt; do
     case "${opt}" in
         s)
             s=${OPTARG}
@@ -15,12 +15,26 @@ while getopts ":s:p:mf:" opt; do
             echo "s = ${s}"
             ;;
         p)
-            p=${OPTARG}
-            echo "p = ${p}"
+            echo "-p was triggered, Parameter: $OPTARG" >&2
             ;;
-        m)
-            m=${OPTARG}
-            echo "m = ${m}"
+        u)
+        
+        # both methods (u and t) work. 
+        # one is a little wordier
+
+            (( "${OPTARG#*.}" == "service" || "${OPTARG#*.}" == "timer" )) || \
+                usage
+            echo "$OPTARG"
+            ;;
+        t)
+            if ([[ "${OPTARG#*.}" = "service" ]] || \
+                [[ "${OPTARG#*.}" == "timer" ]]) || \; 
+            then
+                echo "$OPTARG"
+                echo "nah $OPTARG ${OPTARG#*.}"
+            else
+                usage
+            fi    
             ;;
         \?)
             echo "Invalid option: $OPTARG" 1>&2
@@ -33,7 +47,7 @@ while getopts ":s:p:mf:" opt; do
             ;;    
 
         *)
-            echo "in *)"
+            echo -e "in *)...\nThis happens, if a pass a flag that is defined, yet no case..in is available for it"
             ;;
     esac
 done
@@ -43,12 +57,9 @@ done
 # to remove options that have already been handled from $@.
 shift $((OPTIND -1))
 
+# a null check, why?
 check(){
 if [ -z "${s}" ] || [ -z "${p}" ] || [ -z "${m}" ]; then
     usage
 fi
 }
-
-echo "s = ${s}"
-echo "p = ${p}"
-echo "m = ${m}"
