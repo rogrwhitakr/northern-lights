@@ -1,4 +1,4 @@
-#!/bin/bash
+#! /bin/usr/env bash
 
 var=23
 

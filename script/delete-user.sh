@@ -1,4 +1,4 @@
-# bin/sh
+#! /bin/usr/env bash
 #variables
 
 RED='\033[0;31m'
@@ -8,12 +8,6 @@ DISABLE_DATE=`date -d '-6 months ago' +%Y-%m-%d`
 
 # functions
 
-rootcheck(){
-if [ "$(id -u)" != "0" ]; then
-   echo "This script must be run as root" 1>&2
-   exit 1
-fi
-}
 
 usercheck(){
 if [ id "$1" >/dev/null 2>&1 ]; then
@@ -23,10 +17,6 @@ fi
 }
 
 # execution
-
-rootcheck
-
-clear
 
 echo -e "
 this script removes a user and home directory.
