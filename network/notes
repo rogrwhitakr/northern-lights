@@ -9,3 +9,22 @@ problem no route to host
 
 # see if there is a route to the hot?
 traceroute 
+
+# DNS / resolver in lünüx 
+host bbc.co.uk
+ping -4 bbc.co.uk
+
+# conf files used by commands:
+nsswitch.conf
+    ->  ping
+
+resolv.conf
+    ->  ping
+    ->  host
+
+# resolv.conf
+# if you add this line to the resolv.conf file:
+
+search com
+ping google
+    ->  returns ping google.com    
