@@ -58,6 +58,7 @@ done
 shift $((OPTIND -1))
 
 # a null check, why?
+# they all seem to be doin it though....
 check(){
 if [ -z "${s}" ] || [ -z "${p}" ] || [ -z "${m}" ]; then
     usage

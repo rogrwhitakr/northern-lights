@@ -18,19 +18,56 @@ verbose=0
 force=0
 strict=0
 debug=0
-args=()
 
 # ######################################################################################
 #   functions -> these need to go somehere else sometime, as they are helpers...
 
+# DESC: Generic script initialisation
+# ARGS: $@ (optional): Arguments provided to the script
+# OUTS: $exec_path: The current working directory when the script was run
+#       $script_path: The full path to the script
+#       $script_dir: The directory path of the script
+#       $script_name: The file name of the script
+
+function script_init() {
+
+    local exec_path="$PWD"
+    readonly script_path="${BASH_SOURCE[1]}"
+    readonly script_dir="$(dirname "$script_path")"
+    readonly script_name="$(basename "$script_path")"
+    readonly script_params="$*"
+
+}
+
+script_init
+
+# DESC: Initialise colour variables
+# ARGS: None
+# OUTS: Read-only variables with ANSI control codes
+# NOTE: If --no-colour was set the variables will be empty
+
+function _colors_init() {
+
+    readonly RED='\033[0;31m'
+    readonly YELLOW='\e[33m'
+    readonly NOC='\033[0m'
+    readonly BLUE='\e[34m'
+    readonly GREEN='\e[0;32m'
+
+}
+_colors_init
+
+# DESC: print usage information
+# ARGS: None
+# OUTS: None
+# NOTE: must be customised to script to provide sensible info, duh.
+
 usage(){
 
-    local RED='\e[1;31m'  
-    local NOC='\033[0m'
+echo -e "${RED}${scriptName} [OPTION]... [FILE]...${NOC}
 
-    echo -e "${RED}${scriptName} [OPTION]... [FILE]...${NOC}
-
-script template
+script template: what does it do? what is its function that is beyond the
+comprehension of the filename?
 
 ${RED} Options:${NOC}
     -u  Username for script
@@ -75,45 +112,20 @@ fi
 # This way you can catch the error in case mysqldump fails in `mysqldump |gzip`, for example.
 set -o pipefail
 
-# DESC: Generic script initialisation
-# ARGS: $@ (optional): Arguments provided to the script
-# OUTS: $orig_cwd: The current working directory when the script was run
-#       $script_path: The full path to the script
-#       $script_dir: The directory path of the script
-#       $script_name: The file name of the script
-#       $script_params: The original parameters provided to the script
-#       $ta_none: The ANSI control code to reset all text attributes
-# NOTE: $script_path only contains the path that was used to call the script
-#       and will not resolve any symlinks which may be present in the path.
-#       You can use a tool like realpath to obtain the "true" path. The same
-#       caveat applies to both the $script_dir and $script_name variables.
-function script_init() {
-    # Useful paths
-    readonly orig_cwd="$PWD"
-    readonly script_path="${BASH_SOURCE[1]}"
-    readonly script_dir="$(dirname "$script_path")"
-    readonly script_name="$(basename "$script_path")"
-    readonly script_params="$*"
 
-    # Important to always set as we use it in the exit handler
-    readonly ta_none="$(tput sgr0 2> /dev/null || true)"
-}
-
-# stolen from github
-# DESC: Main control flow
-# ARGS: $@ (optional): Arguments provided to the script
-# OUTS: None
 function main() {
-    # shellcheck source=source.sh
-    source "$(dirname "${BASH_SOURCE[0]}")/source.sh"
 
-    trap script_trap_err ERR
-    trap script_trap_exit EXIT
+    # okay, this one in need to test first...
+#    source "$(dirname "${BASH_SOURCE[0]}")/source.sh"
+
+#    trap script_trap_err ERR
+#    trap script_trap_exit EXIT
 
     script_init "$@"
-    parse_params "$@"
-    cron_init
-    colour_init
+#    parse_params "$@"
+    if [[ -z "$@" ]];then
+        usage
+    fi    
 }
 
 
