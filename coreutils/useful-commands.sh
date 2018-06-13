@@ -195,3 +195,6 @@ umask -S
 CTRL + Z
 #bg resumes task in background
 bg
+
+# create a screencast -> GNOME
+Ctrl + Shift + Alt +R
