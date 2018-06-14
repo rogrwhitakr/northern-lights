@@ -19,6 +19,12 @@ force=0
 strict=0
 debug=0
 
+#   ERROR CODES
+EXIT_SUCCESS=0
+EXIT_FAILURE=1
+EXIT_ERROR=2
+EXIT_BUG=10
+
 # ######################################################################################
 #   functions -> these need to go somehere else sometime, as they are helpers...
 
@@ -86,14 +92,13 @@ ${RED} Prerequisites:${NOC}
     - file is one of *.service, (*.timer)
 "
 }
-usage
+# usage
 
-# UNSURE about this:
-# Trap bad exits with your cleanup function
-trapCleanup(){
-  echo "TODO"
+# Trap bad exits with cleanup function
+script_finish(){
+  echo "TODO: Cleanup functions"
 }
-trap trapCleanup EXIT INT TERM
+# trap script_finish EXIT INT TERM
 
 # Exit on error. Append '||true' when you run the script if you expect an error.
 set -o errexit
@@ -115,15 +120,17 @@ set -o pipefail
 
 function main() {
 
+    echo -e "within main"
     # okay, this one in need to test first...
 #    source "$(dirname "${BASH_SOURCE[0]}")/source.sh"
 
 #    trap script_trap_err ERR
 #    trap script_trap_exit EXIT
+    trap script_finish EXIT INT TERM
 
     script_init "$@"
 #    parse_params "$@"
-    if [[ -z "$@" ]];then
+    if [[ ! -z "$@" ]];then
         usage
     fi    
 }
