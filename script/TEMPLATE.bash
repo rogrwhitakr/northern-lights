@@ -28,34 +28,6 @@ EXIT_BUG=10
 # ######################################################################################
 #   functions -> these need to go somehere else sometime, as they are helpers...
 
-# DESC: the core function of the script
-# NOTE: The creation of readonly variables in dependent functions (like color_init)
-#       failed, moving these functions AFTER the main function seemed to solve this
-#       THIS CANNOT STAND. WHY is this happening?
-# ARGS: $@: Arguments provided to the script
-# OUTS: Magic!
-
-function main() {
-
-    echo -e "within main"
-# TODO: some sourcing of default variables 
-# like colors and script vars
-#    source "$(dirname "${BASH_SOURCE[0]}")/source.sh"
-
-#    trap script_trap_err ERR
-#    trap script_trap_exit EXIT
-    trap script_finish EXIT INT TERM
-    echo -e "before init"
-
-    echo "${demo}"
-#    printf '%s%b' "$1" "$ta_none"
-    color_init
-    echo -e "${RED}test${NOC}"
-    script_init
-    echo "${script_bash_source_zero}"
-    usage
-}
-
 # DESC: Initialise colour variables
 # ARGS: None
 # OUTS: Read-only variables with ANSI control codes
@@ -95,12 +67,12 @@ function script_init() {
 
 usage(){
 
-echo -e "${RED}${scriptName} [OPTION]... [FILE]...${NOC}
+echo -e "${RED}${script_name} [OPTION]... [FILE]...${NOC}
 
 script template: what does it do? what is its function that is beyond the
 comprehension of the filename?
 
-${RED} Options:${NOC}
+${RED} OPTIONS:${NOC}
     -u  Username for script
     -p  User password
     -f  force, skip all user interaction.  Implied 'Yes' to all actions.
@@ -112,18 +84,51 @@ ${RED} Options:${NOC}
     -h  Display this help and exit
     -v  Output version information and exit
 
-${RED} Prerequisites:${NOC}
+${RED} PREREQUISITES:${NOC}
     - file is located within home directory
     - file is one of *.service, (*.timer)
+
+${RED} EXAMPLES:${NOC}
+    - Create a timer 
+        ${script_name} borg-backup.timer
+    - Create a Service
+        ${script_name} virtual-machines.service
 "
 }
-# usage
+
 
 # Trap bad exits with cleanup function
 script_finish(){
   echo "TODO: Cleanup functions: ERROR CODE: $?"
 }
-# trap script_finish EXIT INT TERM
+
+# DESC: the core function of the script
+# NOTE: The creation of readonly variables in dependent functions (like color_init)
+#       failed, moving these functions AFTER the main function seemed to solve this
+#       THIS CANNOT STAND. WHY is this happening?
+# ARGS: $@: Arguments provided to the script
+# OUTS: Magic!
+
+function main() {
+
+    echo -e "within main"
+    script_init
+    color_init
+    trap script_finish EXIT INT TERM
+
+# TODO: some sourcing of default variables 
+# like colors and script vars
+#    source "$(dirname "${BASH_SOURCE[0]}")/source.sh"
+#    printf '%s%b' "$1" "$ta_none"
+    echo -e "${RED}test${NOC}"
+    echo "${script_path}"
+    usage
+}
+
+# Make it rain
+main "$@"
+
+
 
 # Exit on error. Append '||true' when you run the script if you expect an error.
 set -o errexit
@@ -142,5 +147,3 @@ fi
 # This way you can catch the error in case mysqldump fails in `mysqldump |gzip`, for example.
 set -o pipefail
 
-# Make it rain
-main "$@"
