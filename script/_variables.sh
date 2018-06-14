@@ -15,20 +15,18 @@ echo "a = $a"
 # Indirect reference.
 eval a=\$$a
 
-t=table_cell_3
-table_cell_3=24
-echo "\"table_cell_3\" = $table_cell_3"            # "table_cell_3" = 24
-echo -n "dereferenced \"t\" = "; eval echo \$$t    # dereferenced "t" = 24
-# In this simple case, the following also works (why?).
-#         eval t=\$$t; echo "\"t\" = $t"
+# declare built-in
+# with the "declare" statement, we can limit the value assignment to variables
 
-t=table_cell_3
-NEW_VAL=387
-table_cell_3=$NEW_VAL
-echo "Changing value of \"table_cell_3\" to $NEW_VAL."
-echo "\"table_cell_3\" now $table_cell_3"
-echo -n "dereferenced \"t\" now "; eval echo \$$t
-# "eval" takes the two arguments "echo" and "\$$t" (set equal to $table_cell_3)
+declare -i number=12
+#Option	Meaning
+#-a	Variable is an array.
+#-f	Use function names only.
+#-i	The variable is to be treated as an integer; arithmetic evaluation is performed when the variable is assigned a value (see Section 3.4.6).
+#-p	Display the attributes and values of each variable. When -p is used, additional options are ignored.
+#-r	Make variables read-only. These variables cannot then be assigned values by subsequent assignment statements, nor can they be unset.
+#-t	Give each variable the trace attribute.
+#-x	Mark each variable for export to subsequent commands via the environment.
 
 # using shell built-in RANDOM
 

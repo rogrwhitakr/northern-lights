@@ -54,11 +54,12 @@ script_init
 
 function _colors_init() {
 
-    readonly RED='\033[0;31m'
-    readonly YELLOW='\e[33m'
-    readonly NOC='\033[0m'
-    readonly BLUE='\e[34m'
-    readonly GREEN='\e[0;32m'
+    RED='\033[0;31m' 
+    readonly "${RED}"
+ #   readonly YELLOW='\e[33m'
+ #   readonly NOC='\033[0m'
+ #   readonly BLUE='\e[34m'
+ #   readonly GREEN='\e[0;32m'
 
 }
 _colors_init
@@ -96,7 +97,7 @@ ${RED} Prerequisites:${NOC}
 
 # Trap bad exits with cleanup function
 script_finish(){
-  echo "TODO: Cleanup functions"
+  echo "TODO: Cleanup functions: ERROR CODE: $?"
 }
 # trap script_finish EXIT INT TERM
 
@@ -128,8 +129,10 @@ function main() {
 #    trap script_trap_exit EXIT
     trap script_finish EXIT INT TERM
 
-    script_init "$@"
-#    parse_params "$@"
+    printf '%s%b' "$1" "$ta_none"
+    echo -e "before init"
+    _colors_init
+    script_init
     if [[ ! -z "$@" ]];then
         usage
     fi    

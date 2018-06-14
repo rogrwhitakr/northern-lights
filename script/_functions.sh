@@ -1,8 +1,12 @@
-#! /bin/sh
+#! /usr/bin/env bash
 
 
 ############################ func ############################
 
+# readonly functions:
+readonly -f readonly_function(){
+	echo "Name"
+}
 
 printline() {
 	echo [---------------------------------------------------------------------]
