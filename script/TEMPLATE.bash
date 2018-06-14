@@ -28,6 +28,47 @@ EXIT_BUG=10
 # ######################################################################################
 #   functions -> these need to go somehere else sometime, as they are helpers...
 
+# DESC: the core function of the script
+# NOTE: The creation of readonly variables in dependent functions (like color_init)
+#       failed, moving these functions AFTER the main function seemed to solve this
+#       THIS CANNOT STAND. WHY is this happening?
+# ARGS: $@: Arguments provided to the script
+# OUTS: Magic!
+
+function main() {
+
+    echo -e "within main"
+# TODO: some sourcing of default variables 
+# like colors and script vars
+#    source "$(dirname "${BASH_SOURCE[0]}")/source.sh"
+
+#    trap script_trap_err ERR
+#    trap script_trap_exit EXIT
+    trap script_finish EXIT INT TERM
+    echo -e "before init"
+
+    echo "${demo}"
+#    printf '%s%b' "$1" "$ta_none"
+    color_init
+    echo -e "${RED}test${NOC}"
+    script_init
+    echo "${script_bash_source_zero}"
+    usage
+}
+
+# DESC: Initialise colour variables
+# ARGS: None
+# OUTS: Read-only variables with ANSI control codes
+# NOTE: If --no-colour was set the variables will be empty
+
+function color_init() {
+    readonly RED='\033[0;31m' 
+    readonly YELLOW='\e[33m'
+    readonly NOC='\033[0m'
+    readonly BLUE='\e[34m'
+    readonly GREEN='\e[0;32m'
+}
+
 # DESC: Generic script initialisation
 # ARGS: $@ (optional): Arguments provided to the script
 # OUTS: $exec_path: The current working directory when the script was run
@@ -42,27 +83,10 @@ function script_init() {
     readonly script_dir="$(dirname "$script_path")"
     readonly script_name="$(basename "$script_path")"
     readonly script_params="$*"
-
+    readonly script_bash_source_zero="${BASH_SOURCE[0]}"
 }
 
-script_init
 
-# DESC: Initialise colour variables
-# ARGS: None
-# OUTS: Read-only variables with ANSI control codes
-# NOTE: If --no-colour was set the variables will be empty
-
-function _colors_init() {
-
-    RED='\033[0;31m' 
-    readonly "${RED}"
- #   readonly YELLOW='\e[33m'
- #   readonly NOC='\033[0m'
- #   readonly BLUE='\e[34m'
- #   readonly GREEN='\e[0;32m'
-
-}
-_colors_init
 
 # DESC: print usage information
 # ARGS: None
@@ -117,27 +141,6 @@ fi
 # Bash will remember & return the highest exitcode in a chain of pipes.
 # This way you can catch the error in case mysqldump fails in `mysqldump |gzip`, for example.
 set -o pipefail
-
-
-function main() {
-
-    echo -e "within main"
-    # okay, this one in need to test first...
-#    source "$(dirname "${BASH_SOURCE[0]}")/source.sh"
-
-#    trap script_trap_err ERR
-#    trap script_trap_exit EXIT
-    trap script_finish EXIT INT TERM
-
-    printf '%s%b' "$1" "$ta_none"
-    echo -e "before init"
-    _colors_init
-    script_init
-    if [[ ! -z "$@" ]];then
-        usage
-    fi    
-}
-
 
 # Make it rain
 main "$@"
