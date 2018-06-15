@@ -90,8 +90,6 @@ function script_init() {
     readonly script_params="$*"
 }
 
-
-
 # DESC: print usage information
 # ARGS: None
 # OUTS: None
@@ -128,10 +126,24 @@ ${RED} EXAMPLES:${NOC}
 "
 }
 
+# DESC: Trap exits with cleanup function
+# ARGS: exit code -> trap <script_finish> EXIT INT TERM
+# OUTS: None (so far)
+# INFO: ERROR_CODE is put in local var, b/c otherwise one gets the return code
+#       of the most recently completed command 
+#       (and i dont care for knowing "echo" ran successfully...)
 
-# Trap bad exits with cleanup function
 script_finish(){
-  echo "TODO: Cleanup functions: ERROR CODE: $?"
+
+    local ERROR_CODE="$?" 
+  if [[ "${ERROR_CODE}" = 0 ]]; then
+    echo -e "${GREEN}exit green, no errors${NOC}"
+    echo -e "ERROR CODE: ${ERROR_CODE}"
+  else  
+    echo -e "${RED}exit RED${NOC}"
+    echo -e "ERROR CODE: ${ERROR_CODE}"
+  fi
+  echo -e "${YELLOW}trap::script_finish::handler -> ${ERROR_CODE}${NOC}"
 }
 
 # DESC: the core function of the script
@@ -154,7 +166,7 @@ function main() {
 # like colors and script vars
 #    source "$(dirname "${BASH_SOURCE[0]}")/source.sh"
 #    printf '%s%b' "$1" "$ta_none"
-    echo -e "${RED}${test}${NOC}"
+    echo -e "${RED}${undeclared}${NOC}"
     echo "${script_path}"
     usage
 }
