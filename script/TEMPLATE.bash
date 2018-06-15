@@ -4,22 +4,25 @@
 # BASH SCRIPT TEMPLATE
 #   HISTORY:
 #
-#   2018-06-13 - v1.0.0  - First Creation (mostly by stealing from others)
+#   2018-06-13 - v1.0.0  -  First Creation (mostly by stealing from others)
+#   2018-06-15 - v1.1.0  -  got some understanding as to what some parts do,
+#                           the debugging set is pretty awesome. wrapping in a function
+#                           may need to be rethought
+#                           the exit trap is too rudimentary as of now, TODO
 #
 # ######################################################################################
 # VARIABLES
 #   VERSION
-version="1.0.0"
+version="1.1.0"
 
 #   FLAGS - can be overridden by user input?
 quiet=0
-printLog=0
 verbose=0
 force=0
-strict=0
-debug=0
+strict=1
+debug=1
 
-#   ERROR CODES
+#   ERROR CODES - not in use so far
 EXIT_SUCCESS=0
 EXIT_FAILURE=1
 EXIT_ERROR=2
@@ -27,6 +30,37 @@ EXIT_BUG=10
 
 # ######################################################################################
 #   functions -> these need to go somehere else sometime, as they are helpers...
+
+# DESC: debugging options
+# ARGS: Flags debug, strict set 
+# OUTS: debugging info
+# INFO: is called right away
+
+flags_init(){
+    local quiet=${quiet}
+    local verbose=${verbose}
+    local force=${force}
+    local strict=${strict}
+    local debug=${debug}
+
+    # enforce running in debug mode
+    # one `COULD` build a unset -x functionality also...
+    if [[ "${debug}" = "1" ]]; then
+        set -x
+    fi
+    # Exit on empty variable
+    if [[ "${strict}" = "1" ]]; then
+        set -o nounset
+    fi
+
+    # Bash will remember & return the highest exitcode in a chain of pipes.
+    # This way you can catch the error in case mysqldump fails in `mysqldump |gzip`, for example.
+    set -o pipefail
+
+    # Exit on error. Append '||true' when you run the script if you expect an error.
+    set -o errexit
+}
+flags_init
 
 # DESC: Initialise colour variables
 # ARGS: None
@@ -49,13 +83,11 @@ function color_init() {
 #       $script_name: The file name of the script
 
 function script_init() {
-
     local exec_path="$PWD"
     readonly script_path="${BASH_SOURCE[1]}"
     readonly script_dir="$(dirname "$script_path")"
     readonly script_name="$(basename "$script_path")"
     readonly script_params="$*"
-    readonly script_bash_source_zero="${BASH_SOURCE[0]}"
 }
 
 
@@ -84,7 +116,7 @@ ${RED} OPTIONS:${NOC}
     -h  Display this help and exit
     -v  Output version information and exit
 
-${RED} PREREQUISITES:${NOC}
+${RED} PREREQUISITES / REQUIREMENTS:${NOC}
     - file is located within home directory
     - file is one of *.service, (*.timer)
 
@@ -106,11 +138,13 @@ script_finish(){
 # NOTE: The creation of readonly variables in dependent functions (like color_init)
 #       failed, moving these functions AFTER the main function seemed to solve this
 #       THIS CANNOT STAND. WHY is this happening?
+#       Okay, seems it was the flag stuff 
 # ARGS: $@: Arguments provided to the script
 # OUTS: Magic!
 
 function main() {
 
+    local test="declared testvar"
     echo -e "within main"
     script_init
     color_init
@@ -120,30 +154,10 @@ function main() {
 # like colors and script vars
 #    source "$(dirname "${BASH_SOURCE[0]}")/source.sh"
 #    printf '%s%b' "$1" "$ta_none"
-    echo -e "${RED}test${NOC}"
+    echo -e "${RED}${test}${NOC}"
     echo "${script_path}"
     usage
 }
 
 # Make it rain
 main "$@"
-
-
-
-# Exit on error. Append '||true' when you run the script if you expect an error.
-set -o errexit
-
-# Run in debug mode, if set
-if [ "${debug}" == "1" ]; then
-  set -x
-fi
-
-# Exit on empty variable
-if [ "${strict}" == "1" ]; then
-  set -o nounset
-fi
-
-# Bash will remember & return the highest exitcode in a chain of pipes.
-# This way you can catch the error in case mysqldump fails in `mysqldump |gzip`, for example.
-set -o pipefail
-
