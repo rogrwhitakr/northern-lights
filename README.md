@@ -17,7 +17,4 @@ Web Server
 ->Common Gateway Interface
 ->CGI programs serve HTML data dynamically based on input passed to them
 how do i get the owner of the file in uid and guid ids?
-borg: how to log to /var/log?
-borg: unit file on timer
 borg: how to put backup back into play?
-put all elements in place to create a log file in /var/log/
