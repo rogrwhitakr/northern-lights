@@ -74,4 +74,40 @@ shutdown_datetime="2017-06-11 19:48:35"
 startup_date="2017-06-10"
 shutdown_date="2017-06-11"
 date --date="${shutdown_date} -${startup_date} day" +%Y-%m-%d
+echo -e "${RED}startup / shutdown dates${NOC}"
+date --date="${startup_date}" +%Y-%m-%d
+date --date="${startup_datetime}" "+%Y-%m-%d %H:%M:%S"
+
+# you can leave the formatting out...
+date --date="${startup_datetime}" 
+
+# GNU style long options
+# what does "@" do? 
+date --date="${startup_datetime}" --universal 
+
+# epoch
+echo -e "${RED}since EPOCH${NOC}"
+date --date="${startup_datetime}" --universal +%s
+date --date="${shutdown_datetime}" --universal +%s
+
+diff="$(($(date --date="${shutdown_datetime}" --universal +%s) - $(date --date="${startup_datetime}" --universal +%s)))"
+echo "${diff}"
+echo -e "${RED}format back from universal to human-readable form${NOC}"
+date -ud@"${diff}" "+%H:%M:%S"
+date --universal --date @"${diff}" "+%H:%M:%S"
+date --universal --date @"${diff}" "+%M"
+
+# combo
+echo -e "${RED}combo${NOC}"
+date --date="\
+$(($(date --date="${startup_datetime}" --universal +%s) \
+-$(date --date="${shutdown_datetime}" --universal +%s)))"
+
+date -ud@"$(date --date="${startup_datetime}" "+%Y-%m-%d %H:%M:%S")"
+
+date --date="${shutdown_date}" +%Y-%m-%d
 #date --date="${shutdown_datetime} - ${startup_datetime} day" +%Y-%m-%d %h:%M:%s
+
+date -ud@"$(date --universal +%s)"
+date -ud@"$(date --universal +%s)" + 1468823
+date --date="12 hours ago" +%s

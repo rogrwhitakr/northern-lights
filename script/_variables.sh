@@ -1,4 +1,4 @@
-#! /bin/usr/env bash
+#! /usr/bin/env bash
 
 var=23
 
@@ -6,13 +6,8 @@ echo "\$var   = $var"           # $var   = 23
 echo "\$\$var  = $$var"         # $$var  = 4570var
 echo "\\\$\$var = \$$var"       # \$$var = $23
 
-
-a=letter_of_alphabet   # Variable "a" holds the name of another variable.
-letter_of_alphabet=z
-
-echo "a = $a"
-
 # Indirect reference.
+# eval is said to be not good practice, as its operation can be achived using bash built-ins
 eval a=\$$a
 
 # declare built-in
@@ -35,7 +30,19 @@ echo -e "$(( ( RANDOM % 10 )  + 1 ))"
 echo -e "$(( RANDOM % 100 ))"
 echo -e "$(( RANDOM % 20 ))"
 
-exit 0
+# shell built-in arithmetic
+# Addition
+echo "$(( 12 + 5 ))"
+# Subtraction
+echo "$(( 12 -5 ))"
+# Division
+echo "$(( 27 / 3 ))"
+#Multiplication
+echo "$(( 9 * 3 ))"
+# Modulo
+echo "$(( 5 % 3 ))"
+# Exponentiation
+echo "$(( 5 ** 3 ))"
 
 # Reversing an array.
 # It’s possible to reverse an array in bash without using any external programs or looping by making use of extdebug.
