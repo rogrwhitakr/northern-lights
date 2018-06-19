@@ -60,6 +60,13 @@ ${parameter/#pat/string}
 # As above, but matched against the end. Useful for adding a common suffix with a null pattern.
 ${parameter/%pat/string}
 
+# use parameter expansions instead of sed or cut to manipulate simple strings in Bash. 
+# remove the extension from a filename
+
+for file in $(ls); do
+    echo ${file%.*} 
+done
+
 #fetch into array using find
 src=( $(find ~/html -mindepth 1 -maxdepth 1 -type d) )
 

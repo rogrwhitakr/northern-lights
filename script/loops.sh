@@ -68,3 +68,9 @@ do
   done
   popd
 done
+
+# needs looking at
+# belongs to loops
+#i=8
+#let i++ 
+#while(i > 100){}

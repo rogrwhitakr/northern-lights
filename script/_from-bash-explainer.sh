@@ -1,13 +1,6 @@
 w# says: always use
 #! /usr/bin/env sh
 
-# use parameter expansions instead of sed or cut to manipulate simple strings in Bash. 
-# remove the extension from a filename
-
-for file in $(ls); do
-    echo ${file%.*} 
-done
-
 # use built-ins as much as possible
 printf '%d\t' {1..10}
 printf '\n'
@@ -31,8 +24,3 @@ less_simple_var="123Gak48$"
 # pattern matching (NO QUOTES THIS TIME!!)
 [[ $simple_var = ru* ]] && echo True || echo False
 [[ $less_simple_var =~ \d\d\d.+ ]] && echo True || echo False
-
-# belongs to loops
-#i=8
-#let i++ 
-#while(i > 100){}
