@@ -29,3 +29,18 @@ echo "${#user[@]}"
 echo "${user[1]}"
 echo "${user[2]}"
 echo "${user[3]}"
+
+# Reversing an array.
+# It’s possible to reverse an array in bash without using any external programs or looping by making use of extdebug.
+# When extdebug is enabled the array BASH_ARGV is made available and it contains the function’s arguments in reverse order.
+
+reverse_array() {
+    # Reverse an array.
+    # Usage: reverse_array "array"
+
+    shopt -s extdebug
+    f(){ printf "%s " "${BASH_ARGV[@]}"; }; f "$@"
+    shopt -u extdebug
+
+    printf "\\n"
+}

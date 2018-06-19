@@ -12,8 +12,6 @@ eval a=\$$a
 
 # declare built-in
 # with the "declare" statement, we can limit the value assignment to variables
-
-declare -i number=12
 #Option	Meaning
 #-a	Variable is an array.
 #-f	Use function names only.
@@ -22,6 +20,16 @@ declare -i number=12
 #-r	Make variables read-only. These variables cannot then be assigned values by subsequent assignment statements, nor can they be unset.
 #-t	Give each variable the trace attribute.
 #-x	Mark each variable for export to subsequent commands via the environment.
+
+declare -i int=12
+declare -a array=("Peter","Paul","Ray")
+declare -ir readonly_int=5
+
+"${int}"="string"
+"${int}"=9
+"${readonly_int}"=4
+
+echo "$(( ${int} ** ${readonly_int} ))"
 
 # using shell built-in RANDOM
 
@@ -44,17 +52,5 @@ echo "$(( 5 % 3 ))"
 # Exponentiation
 echo "$(( 5 ** 3 ))"
 
-# Reversing an array.
-# It’s possible to reverse an array in bash without using any external programs or looping by making use of extdebug.
-# When extdebug is enabled the array BASH_ARGV is made available and it contains the function’s arguments in reverse order.
-
-reverse_array() {
-    # Reverse an array.
-    # Usage: reverse_array "array"
-
-    shopt -s extdebug
-    f(){ printf "%s " "${BASH_ARGV[@]}"; }; f "$@"
-    shopt -u extdebug
-
-    printf "\\n"
-}
+# if there is a need to calculate using double precisison numbers, use
+bc --help
