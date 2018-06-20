@@ -10,6 +10,7 @@
 #                           may need to be rethought
 #                           the exit trap is too rudimentary as of now, TODO
 #
+#   TODO: printf with variables, can i have colorz?
 # ######################################################################################
 # VARIABLES
 #   VERSION
