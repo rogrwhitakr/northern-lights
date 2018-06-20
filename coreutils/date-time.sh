@@ -93,13 +93,15 @@ date --date="${shutdown_datetime}" --universal +%s
 diff="$(($(date --date="${shutdown_datetime}" --universal +%s) - $(date --date="${startup_datetime}" --universal +%s)))"
 echo "${diff}"
 echo -e "${RED}format back from universal to human-readable form${NOC}"
+# no formatting
+date -ud@"${diff}"
 date -ud@"${diff}" "+%H:%M:%S"
 date --universal --date @"${diff}" "+%H:%M:%S"
 date --universal --date @"${diff}" "+%M"
 
 # combo
 echo -e "${RED}combo${NOC}"
-date --date="\
+date --date=@"\
 $(($(date --date="${startup_datetime}" --universal +%s) \
 -$(date --date="${shutdown_datetime}" --universal +%s)))"
 
