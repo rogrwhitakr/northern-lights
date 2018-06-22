@@ -28,6 +28,7 @@
 - what is webrick exactly?
 - what is "rake" exactly?
 - what is inetd
+- configuration management database (CMDB) provider? capabilities? cost? 
 
 ### WHY?
 - copying a file from home to root-owned directory /var/www/html makes root the owner? Even if apache user - owns the directory and my user is part of the apache group?
@@ -47,3 +48,9 @@
 ### BORG:
 - how to put backup back into play?
 - TODO: extraction script, using the latest backup (or one that can be chosen?)
+
+
+
+- what is the best usage of ninj?
+
+- how do i know something somesin somesin with quotes?
