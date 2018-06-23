@@ -10,6 +10,8 @@ sed -i 's/hello/world' file.txt
 # replace all occurrences of ‘hello’ to ‘world’ in the file input.txt
 sed 's/hello/world/' input.txt > output.txt
 
+# deletion 
+sed '/hello/d' input.txt
 
 
 ################################## 
@@ -49,33 +51,3 @@ done |
       }
     ' |
     sort -n
-
-# goal -> extract title of site, add to index.html#
-# TODOS, then:
-# extracting the title
-# loop through what is there
-# add to index
-# probably best done using awk
-
-awk '{print}' /var/www/html/primo-app/index.html
-# get current links in index.html
-awk '$0 ~ /^<a href=.+/ {print}' /var/www/html/primo-app/index.html
-
-# print all title names usable for linking
-awk '$0 ~ /^<title>.+/ {print}' ~/html/*.html
-
-# i dont have the title name yet
-awk '$0 ~ /^<title>.+/ && $0 ~ />.+/ { print $1 }' ~/html/*.html
-
-# now i have it
-awk -F'[<>]+' '$0 ~ /^<title>.+/ { print $3 }' ~/html/*.html
-
-# i need to put file name and title together
-# loop obvi
-
-for file in $(ls -d ~/html/*.html)
-do 
-  echo $file
-  echo $(awk -F'[<>]+' '$0 ~ /^<title>.+/ { print $3 }' $file)
-  echo "<a href="$file">$(awk -F'[<>]+' '$0 ~ /^<title>.+/ { print $3 }' $file)</a><br>"
-done
