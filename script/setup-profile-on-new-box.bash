@@ -9,7 +9,7 @@
 # ######################################################################################
 # VARIABLES
 #   VERSION
-version="1.1.0"
+version="0.1.0"
 
 #   FLAGS
 quiet=0
@@ -100,7 +100,7 @@ this script sets up sourcing of:
     .bashrc
     .bash_logout
 using versioned aliases, functions and the like    
-    github.com/templates/rogrwhitakr
+    github.com/rogrwhitakr/templates/
 
 ${RED} OPTIONS:${NOC}
     -u  Username for script
@@ -164,16 +164,16 @@ function main() {
 
     cd "/home/admin/profile-setup-test"
 
-    declare -a files=('.alias' '.functions' '.export' '.programs')
+declare -a files=('.alias' '.functions' '.export' '.programs')
   
 for file in "${files[@]}";do
-  echo -e "${GREEN}collecting raw files from github: ${file}${NOC}"
+  echo -e "${GREEN}collecting raw file from github: ${file}${NOC}"
   local url="https://raw.githubusercontent.com/rogrwhitakr/northern-lights/master/conf/dotfiles/system"
   wget "${url}/${file}" -O "${file}"
 done
 
 # we do a check
-"${RED}"ls -lah"${NOC}"
+echo -e "${RED}$(ls -lah)${NOC}"
 
 # setting up .bashrc file in such a way that the files get sourced
 
@@ -185,24 +185,30 @@ fi
 
 # remove old sourcing
 # okay apperently sed is at its best when looking at one individual line
-
-# sed --in-place "/# Source user ${alias} definitions/d" "/home/admin/profile-setup-test/.bashrc"
-# sed --in-place "/if [[ -f ~/${alias} ]]; then/d" "/home/admin/profile-setup-test/.bashrc"
-# sed --in-place "/~/\.alias/d" "/home/admin/profile-setup-test/.bashrc"
-# sed --in-place "/fi/d" "/home/admin/profile-setup-test/.bashrc"
+for file in "${files[@]}";do
+  echo -e "removing definition for ${file}"
+  sed --in-place "/# Source user ${file} definitions/d" "/home/admin/profile-setup-test/.bashrc"
+  sed --in-place "/if [[ -f ~/${file} ]]; then/d" "/home/admin/profile-setup-test/.bashrc"
+  sed --in-place "/fi # <- end source/d" "/home/admin/profile-setup-test/.bashrc"
+done  
 
 
 # put the new sourcing in
 
-declare -a files=('.alias' '.functions' 'export' '.programs')
-    
+# DEFINITION
+# # Source user ${file} definitions
+# if [[ -f ~/${file} ]]; then
+# 	. ~/${file}
+# fi # <- end source
+
+
 for file in "${files[@]}";do
     echo -e "${YELLOW}adding sourcing for ${file}${NOC}"
     echo -e "
 # Source user ${file} definitions
 if [[ -f ~/${file} ]]; then
 	. ~/${file}
-fi" >> "/home/admin/profile-setup-test/.bashrc"
+fi # <- end source" >> "/home/admin/profile-setup-test/.bashrc"
 done
 
 # echo -e "
