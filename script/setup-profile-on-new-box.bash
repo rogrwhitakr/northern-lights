@@ -163,15 +163,17 @@ function main() {
 # getting stuff
 
     cd "/home/admin/profile-setup-test"
-    local url="https://raw.githubusercontent.com/rogrwhitakr/northern-lights/master/conf/dotfiles/system"
-    local alias=".alias"
-    local function=".functions"
-    local export=".export"
 
-    wget "${url}/${alias}" -O "${alias}"
-    wget "${url}/${function}" -O "${function}"
-    wget "${url}/${export}" -O "${export}"
-    ls -lah
+    declare -a files=('.alias' '.functions' '.export' '.programs')
+  
+for file in "${files[@]}";do
+  echo -e "${GREEN}collecting raw files from github: ${file}${NOC}"
+  local url="https://raw.githubusercontent.com/rogrwhitakr/northern-lights/master/conf/dotfiles/system"
+  wget "${url}/${file}" -O "${file}"
+done
+
+# we do a check
+"${RED}"ls -lah"${NOC}"
 
 # setting up .bashrc file in such a way that the files get sourced
 
@@ -184,18 +186,30 @@ fi
 # remove old sourcing
 # okay apperently sed is at its best when looking at one individual line
 
-sed --in-place "/# Source user ${alias} definitions/d" "/home/admin/profile-setup-test/.bashrc"
-sed --in-place "/if [[ -f ~/${alias} ]]; then/d" "/home/admin/profile-setup-test/.bashrc"
-sed --in-place "/~/\.alias/d" "/home/admin/profile-setup-test/.bashrc"
-sed --in-place "/fi/d" "/home/admin/profile-setup-test/.bashrc"
+# sed --in-place "/# Source user ${alias} definitions/d" "/home/admin/profile-setup-test/.bashrc"
+# sed --in-place "/if [[ -f ~/${alias} ]]; then/d" "/home/admin/profile-setup-test/.bashrc"
+# sed --in-place "/~/\.alias/d" "/home/admin/profile-setup-test/.bashrc"
+# sed --in-place "/fi/d" "/home/admin/profile-setup-test/.bashrc"
 
 
 # put the new sourcing in
-echo -e "
-# Source user ${alias} definitions
-if [[ -f ~/${alias} ]]; then
-	. ~/${alias}
+
+declare -a files=('.alias' '.functions' 'export' '.programs')
+    
+for file in "${files[@]}";do
+    echo -e "${YELLOW}adding sourcing for ${file}${NOC}"
+    echo -e "
+# Source user ${file} definitions
+if [[ -f ~/${file} ]]; then
+	. ~/${file}
 fi" >> "/home/admin/profile-setup-test/.bashrc"
+done
+
+# echo -e "
+# # Source user ${alias} definitions
+# if [[ -f ~/${alias} ]]; then
+# 	. ~/${alias}
+# fi" >> "/home/admin/profile-setup-test/.bashrc"
 
 
 # resultset
