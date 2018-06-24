@@ -4,12 +4,13 @@
 # BASH PROFILE SETUP
 #   HISTORY:
 #
-#   2018-06-23 - v1.0.0  -  First Creation 
+#   2018-06-23 - v0.0.1  -  First Creation 
+#   2018-06-23 - v0.1.1  -  add one-shot service for pulling files  
 #
 # ######################################################################################
 # VARIABLES
 #   VERSION
-version="0.1.0"
+version="0.1.1"
 
 #   FLAGS
 quiet=0
@@ -60,8 +61,7 @@ flags_init
 
 # DESC: Initialise colour variables
 # ARGS: None
-# OUTS: Read-only variables with ANSI control codes
-# NOTE: If --no-colour was set the variables will be empty
+# OUTS: Read-only variables with color codes
 
 function color_init() {
     readonly RED='\033[0;31m' 
@@ -101,6 +101,7 @@ this script sets up sourcing of:
     .bash_logout
 using versioned aliases, functions and the like    
     github.com/rogrwhitakr/templates/
+    on startup, these are pulled from github using systemd
 
 ${RED} OPTIONS:${NOC}
     -u  Username for script
@@ -146,19 +147,39 @@ script_finish(){
 }
 
 # DESC: the core function of the script
-# NOTE: The creation of readonly variables in dependent functions (like color_init)
-#       failed, moving these functions AFTER the main function seemed to solve this
-#       THIS CANNOT STAND. WHY is this happening?
-#       Okay, seems it was the flag stuff 
+# NOTE: main
 # ARGS: $@: Arguments provided to the script
 # OUTS: Magic!
 
 function main() {  
 
-    echo -e "within main"
-    script_init
-    color_init
-    trap script_finish EXIT INT TERM
+  script_init
+  color_init
+  usage
+  trap script_finish EXIT INT TERM
+
+# create .bashrc if it doesn't exist
+# TODO correct path
+
+declare -a sources=('.bashrc' '.bash_profile' '.bash_logout')
+
+for source in "${sources[@]}";do
+  if [[ ! -f ~/"${source}" ]]; then
+    echo -e "${GREEN}creating ${source}${NOC}"
+    touch ~/"${source}"
+  fi
+done
+
+# setting up directory 
+# -> parentheses here DO NOT WORK
+# they hinder expansion of ~
+if [[ ! -d ~/.dotfiles ]]; then
+    echo -e "${GREEN}Creating directory .dotfiles${NOC}"
+	mkdir ~/.dotfiles && cd ~/.dotfiles
+else 
+    echo -e "${GREEN}Switching to directory .dotfiles${NOC}"
+	cd ~/.dotfiles
+fi
 
 # getting stuff
 
@@ -167,28 +188,21 @@ function main() {
 declare -a files=('.alias' '.functions' '.export' '.programs')
   
 for file in "${files[@]}";do
-  echo -e "${GREEN}collecting raw file from github: ${file}${NOC}"
+  echo -e "${GREEN}collecting raw file from github: ${file}. Saving to $(pwd)${NOC}"
   local url="https://raw.githubusercontent.com/rogrwhitakr/northern-lights/master/conf/dotfiles/system"
   wget "${url}/${file}" -O "${file}"
 done
 
-# we do a check
-echo -e "${RED}$(ls -lah)${NOC}"
-
 # setting up .bashrc file in such a way that the files get sourced
 
-# create .bashrc if it doesn't exist
-if [[ ! -f "/home/admin/profile-setup-test/.bashrc" ]]; then
-	touch "/home/admin/profile-setup-test/.bashrc"
-fi
-
-
 # remove old sourcing
-# okay apperently sed is at its best when looking at one individual line
+# okay apparently sed is at its best when looking at one individual line
+# potentially anything not named .* will suffer in the second line command
+
 for file in "${files[@]}";do
   echo -e "removing definition for ${file}"
   sed --in-place "/# Source user ${file} definitions/d" "/home/admin/profile-setup-test/.bashrc"
-  sed --in-place "/if [[ -f ~/${file} ]]; then/d" "/home/admin/profile-setup-test/.bashrc"
+  sed --in-place "/${file}/d" "/home/admin/profile-setup-test/.bashrc"
   sed --in-place "/fi # <- end source/d" "/home/admin/profile-setup-test/.bashrc"
 done  
 
@@ -197,29 +211,18 @@ done
 
 # DEFINITION
 # # Source user ${file} definitions
-# if [[ -f ~/${file} ]]; then
-# 	. ~/${file}
+# if [[ -f ~/.dotfiles/${file} ]]; then
+# 	. ~/.dotfiles/${file}
 # fi # <- end source
 
 
 for file in "${files[@]}";do
     echo -e "${YELLOW}adding sourcing for ${file}${NOC}"
-    echo -e "
-# Source user ${file} definitions
-if [[ -f ~/${file} ]]; then
-	. ~/${file}
+    echo -e "# Source user ${file} definitions
+if [[ -f ~/.dotfiles/${file} ]]; then
+	. ~/.dotfiles/${file}
 fi # <- end source" >> "/home/admin/profile-setup-test/.bashrc"
 done
-
-# echo -e "
-# # Source user ${alias} definitions
-# if [[ -f ~/${alias} ]]; then
-# 	. ~/${alias}
-# fi" >> "/home/admin/profile-setup-test/.bashrc"
-
-
-# resultset
-cat "/home/admin/profile-setup-test/.bashrc"
 
 }
 # Make it rain
