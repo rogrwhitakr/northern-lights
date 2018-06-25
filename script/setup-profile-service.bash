@@ -150,7 +150,7 @@ script_finish(){
 # ARGS: unit-file name
 # OUTS: none
 
-check_unit_file_extension(){
+verify_unit_file_extension(){
   unit_file="$1"
 
   if [[ -z "$1" ]]; then
@@ -158,57 +158,60 @@ check_unit_file_extension(){
     ERROR_CODE=112 # okay dont know if this works
   fi
 
+  # yes, there are more unit file types, but 
+  # i do not think i create a lot of targets and whatnot. 
+
   if [[ "${unit_file#*.}" = "service" ]]; then 
+    return 0
+  elif [[ "${unit_file#*.}" = "socket" ]]; then 
+    return 0
+  elif [[ "${unit_file#*.}" = "timer" ]]; then 
     return 0
   else 
     return 113
   fi
 }
-# DESC: create a one-shot unit file for pulling files
+
+# DESC: create a one-shot unit file for executing bash script
 # NOTE: executed as user (non-root)
 # ARGS: $@: Arguments provided to the script
-# OUTS: unitfile creation and activation
+# OUTS: unitfile creation
 
 create_unit_file(){
-  echo -e "within create_unit_file"
-  local unitfile = "$(touch "profile-setup.service")"
-  tee >> /dev/null "${unit_file}" << EOF
 
-#######################################
-#
-# creating and populating $demofile
-#
-#######################################
+  local unit_file="$1"
+  local user="$2"
+  local group="$3"
+  touch "${unit_file}"
+  tee >> /dev/null "${unit_file}" <<EOF
+Description=BASH Profile Generation and Update
+After=network.target
+Requires=network.target
 
-WAY 1)
+[Service]
+Type=one-shot
+User=${user}
+Group=${group}
+ExecStart=$(which bash) /home/${user}/.dotfiles/profile-generator.sh
 
-RED='\033[0;31m'
-YELLOW='\e[33m'
-NOC='\033[0m'
-BLUE='\e[34m'
-
+[Install]
+WantedBy=multi-user.target
 EOF
 }
 
-create_unit_file(){
-  echo -e "within create_unit_file"
-  local unitfile = "$(touch "profile-setup.service")"
-  tee >> /dev/null "${unit_file}" << EOF
+# DESC: Generic script initialisation
+# ARGS: $@ (optional): Arguments provided to the script
+# OUTS: $exec_path: The current working directory when the script was run
+#       $script_path: The full path to the script
+#       $script_dir: The directory path of the script
+#       $script_name: The file name of the script
 
-#######################################
-#
-# creating and populating $demofile
-#
-#######################################
-
-WAY 1)
-
-RED='\033[0;31m'
-YELLOW='\e[33m'
-NOC='\033[0m'
-BLUE='\e[34m'
-
-EOF
+function unit_file_init() {
+    readonly unit_file="${BASH_SOURCE[1]}"
+    readonly user="$(whoami)"
+    readonly group="$(id --group --name ${user})"
+#    readonly executable="$(basename "$script_path")"
+    readonly executable="$(find /home/${user} -name profile-generator.sh -executable )"
 }
 
 # DESC: the core function of the script
@@ -223,7 +226,7 @@ function main() {
   color_init
   usage
   trap script_finish EXIT INT TERM
-  create_unit_file
+  create_unit_file setup-profile.service admin admin
   check_unit_file_extension test.service
   exit 0
 # create .bashrc if it doesn't exist
