@@ -40,6 +40,18 @@ cat $demofile
 # how do i do anything with these stupid redirectors?  
 # WAY 2)
 
+cat > $demofile << EOF
+Hello World!
+This is my stupid text file.
+
+You
+can also
+have
+a whole lot
+more text and
+lines
+EOF
+
 # WAY N)
 
 exit 0
