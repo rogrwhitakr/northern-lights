@@ -1,0 +1,13 @@
+[Unit]
+Description=BASH Profile Generation and Update
+After=network.target
+Requires=network.target
+
+[Service]
+Type=one-shot
+User=${user}
+Group=${group}
+ExecStart=/usr/bin/bash ~/.dotfiles/profile-generator.sh
+
+[Install]
+WantedBy=multi-user.target

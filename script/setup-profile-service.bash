@@ -146,6 +146,71 @@ script_finish(){
   echo -e "${YELLOW}trap::script_finish::handler -> ${ERROR_CODE}${NOC}"
 }
 
+# DESC: check if file has a service extension
+# ARGS: unit-file name
+# OUTS: none
+
+check_unit_file_extension(){
+  unit_file="$1"
+
+  if [[ -z "$1" ]]; then
+    echo -e "no unit file provided"
+    ERROR_CODE=112 # okay dont know if this works
+  fi
+
+  if [[ "${unit_file#*.}" = "service" ]]; then 
+    return 0
+  else 
+    return 113
+  fi
+}
+# DESC: create a one-shot unit file for pulling files
+# NOTE: executed as user (non-root)
+# ARGS: $@: Arguments provided to the script
+# OUTS: unitfile creation and activation
+
+create_unit_file(){
+  echo -e "within create_unit_file"
+  local unitfile = "$(touch "profile-setup.service")"
+  tee >> /dev/null "${unit_file}" << EOF
+
+#######################################
+#
+# creating and populating $demofile
+#
+#######################################
+
+WAY 1)
+
+RED='\033[0;31m'
+YELLOW='\e[33m'
+NOC='\033[0m'
+BLUE='\e[34m'
+
+EOF
+}
+
+create_unit_file(){
+  echo -e "within create_unit_file"
+  local unitfile = "$(touch "profile-setup.service")"
+  tee >> /dev/null "${unit_file}" << EOF
+
+#######################################
+#
+# creating and populating $demofile
+#
+#######################################
+
+WAY 1)
+
+RED='\033[0;31m'
+YELLOW='\e[33m'
+NOC='\033[0m'
+BLUE='\e[34m'
+
+EOF
+}
+
 # DESC: the core function of the script
 # NOTE: main
 # ARGS: $@: Arguments provided to the script
@@ -153,11 +218,14 @@ script_finish(){
 
 function main() {  
 
+  cd ~/profile-setup-test/
   script_init
   color_init
   usage
   trap script_finish EXIT INT TERM
-
+  create_unit_file
+  check_unit_file_extension test.service
+  exit 0
 # create .bashrc if it doesn't exist
 # TODO correct path
 
