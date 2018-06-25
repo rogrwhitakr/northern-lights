@@ -146,6 +146,23 @@ script_finish(){
   echo -e "${YELLOW}trap::script_finish::handler -> ${ERROR_CODE}${NOC}"
 }
 
+# DESC: verify unit file syntax 
+# ARGS: unit
+# OUTS: none
+
+verify_unit_file_syntax(){
+  unit="$1"
+
+  if [[ -z "$1" ]]; then
+    echo -e "no unit provided"
+    return 112 # okay dont know if this works
+  else
+    # this only works if it already is a service?
+    systemd-analyze verify "${unit}"
+  fi
+
+}
+
 # DESC: check if file has a service extension
 # ARGS: unit-file name
 # OUTS: none
@@ -210,7 +227,6 @@ function unit_file_init() {
     readonly unit_file="${BASH_SOURCE[1]}"
     readonly user="$(whoami)"
     readonly group="$(id --group --name ${user})"
-#    readonly executable="$(basename "$script_path")"
     readonly executable="$(find /home/${user} -name profile-generator.sh -executable )"
 }
 
@@ -231,69 +247,6 @@ function main() {
   exit 0
 # create .bashrc if it doesn't exist
 # TODO correct path
-
-declare -a sources=('.bashrc' '.bash_profile' '.bash_logout')
-
-for source in "${sources[@]}";do
-  if [[ ! -f ~/"${source}" ]]; then
-    echo -e "${GREEN}creating ${source}${NOC}"
-    touch ~/"${source}"
-  fi
-done
-
-# setting up directory 
-# -> parentheses here DO NOT WORK
-# they hinder expansion of ~
-if [[ ! -d ~/.dotfiles ]]; then
-    echo -e "${GREEN}Creating directory .dotfiles${NOC}"
-	mkdir ~/.dotfiles && cd ~/.dotfiles
-else 
-    echo -e "${GREEN}Switching to directory .dotfiles${NOC}"
-	cd ~/.dotfiles
-fi
-
-# getting stuff
-
-    cd "/home/admin/profile-setup-test"
-
-declare -a files=('.alias' '.functions' '.export' '.programs')
-  
-for file in "${files[@]}";do
-  echo -e "${GREEN}collecting raw file from github: ${file}. Saving to $(pwd)${NOC}"
-  local url="https://raw.githubusercontent.com/rogrwhitakr/northern-lights/master/conf/dotfiles/system"
-  wget "${url}/${file}" -O "${file}"
-done
-
-# setting up .bashrc file in such a way that the files get sourced
-
-# remove old sourcing
-# okay apparently sed is at its best when looking at one individual line
-# potentially anything not named .* will suffer in the second line command
-
-for file in "${files[@]}";do
-  echo -e "removing definition for ${file}"
-  sed --in-place "/# Source user ${file} definitions/d" "/home/admin/profile-setup-test/.bashrc"
-  sed --in-place "/${file}/d" "/home/admin/profile-setup-test/.bashrc"
-  sed --in-place "/fi # <- end source/d" "/home/admin/profile-setup-test/.bashrc"
-done  
-
-
-# put the new sourcing in
-
-# DEFINITION
-# # Source user ${file} definitions
-# if [[ -f ~/.dotfiles/${file} ]]; then
-# 	. ~/.dotfiles/${file}
-# fi # <- end sources
-
-
-for file in "${files[@]}";do
-    echo -e "${YELLOW}adding sourcing for ${file}${NOC}"
-    echo -e "# Source user ${file} definitions
-if [[ -f ~/.dotfiles/${file} ]]; then
-	. ~/.dotfiles/${file}
-fi # <- end source" >> "/home/admin/profile-setup-test/.bashrc"
-done
 
 }
 # Make it rain
