@@ -20,8 +20,8 @@ version="1.1.0"
 quiet=0
 verbose=0
 force=0
-strict=1
-debug=1
+strict=0
+debug=0
 
 #   ERROR CODES - not in use so far
 EXIT_SUCCESS=0
@@ -60,8 +60,14 @@ flags_init(){
 
     # Exit on error. Append '||true' when you run the script if you expect an error.
     set -o errexit
+
+    echo -e "
+    quiet=${quiet}
+    verbose=${verbose}
+    force=${force}
+    strict=${strict}
+    debug=${debug}"
 }
-flags_init
 
 # DESC: Initialise colour variables
 # ARGS: None
@@ -150,31 +156,6 @@ script_finish(){
   echo -e "${YELLOW}trap::script_finish::handler -> ${ERROR_CODE}${NOC}"
 }
 
-# DESC: the core function of the script
-# NOTE: The creation of readonly variables in dependent functions (like color_init)
-#       failed, moving these functions AFTER the main function seemed to solve this
-#       THIS CANNOT STAND. WHY is this happening?
-#       Okay, seems it was the flag stuff 
-# ARGS: $@: Arguments provided to the script
-# OUTS: Magic!
-
-function main() {
-
-    local test="declared testvar"
-    echo -e "within main"
-    script_init
-    color_init
-
-    trap script_finish EXIT INT TERM
-
-# TODO: some sourcing of default variables 
-# like colors and script vars
-#    source "$(dirname "${BASH_SOURCE[0]}")/source.sh"
-#    printf '%s%b' "$1" "$ta_none"
-    echo "${script_path}"
-    usage
-}
-
 # DESC: any and all flags go here for evaluation
 # NOTE: can this be put in a function to be evaluated? sense?
 # ARGS: $@: Arguments provided to the script
@@ -193,12 +174,9 @@ function main() {
 #         -v  verbose
 #         -d  run script in debug-mode (set -x)
 
-isNull(){
-  if [[ -n "${OPTARG}" ]]; then
-    echo -e "no value provided for ${OPTARG}!"
-    usage
-  fi    
-}
+script_init
+color_init
+flags_init
 
 while getopts ":u:p:fqlhsvd" opt; do
     case "${opt}" in
@@ -210,7 +188,7 @@ while getopts ":u:p:fqlhsvd" opt; do
             ;;
         p) # password
             p=${OPTARG}
-            if [[ -n "${OPTARG}" ]]; then
+            if [[ -z "${OPTARG}" ]]; then
                 echo -e "no value provided for password!"
                 usage
             fi      
@@ -231,23 +209,22 @@ while getopts ":u:p:fqlhsvd" opt; do
             l=${OPTARG}
             ;;
         h)
-            h=${OPTARG}
             usage
             ;;
-        
+
         # debugging options
         d) # debug
-            debug=${OPTARG}
-            flags_init
+            debug=1
+            flags_init ${debug}
             ;;
-        d) # verbose
-            verbose=${OPTARG}
-            flags_init
+        v) # verbose
+            verbose=1
+            flags_init ${verbose}
             ;;
         s) # strict
-            strict=${OPTARG}
-            flags_init
-            ;;
+            strict=1
+            flags_init ${strict}
+            ;;      
         \?)
             echo "Invalid option: $OPTARG" 1>&2
             ;;    
@@ -264,17 +241,32 @@ while getopts ":u:p:fqlhsvd" opt; do
     esac
 done
 
-# The variable OPTIND holds the number of options parsed by the last call to getopts. 
-# It is common practice to call the shift command at the end of your processing loop
-# to remove options that have already been handled from $@.
 shift $((OPTIND -1))
 
-# a null check, why?
-# they all seem to be doin it though....
-check(){
-if [ -z "${s}" ] || [ -z "${p}" ] || [ -z "${m}" ]; then
-    usage
-fi
+
+
+# DESC: the core function of the script
+# NOTE: The creation of readonly variables in dependent functions (like color_init)
+#       failed, moving these functions AFTER the main function seemed to solve this
+#       THIS CANNOT STAND. WHY is this happening?
+#       Okay, seems it was the flag stuff 
+# ARGS: $@: Arguments provided to the script
+# OUTS: Magic!
+
+function main() {
+
+    local test="declared testvar"
+    
+    script_init
+    color_init
+    echo -e "${YELLOW}within main${NOC}"
+    trap script_finish EXIT INT TERM
+
+# TODO: some sourcing of default variables 
+# like colors and script vars
+#    source "$(dirname "${BASH_SOURCE[0]}")/source.sh"
+#    printf '%s%b' "$1" "$ta_none"
+ #   echo "${script_path}"
 }
 
 # Make it rain
