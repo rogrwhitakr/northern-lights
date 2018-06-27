@@ -1,4 +1,4 @@
-#! /bin/sh
+#! /usr/bin/env bash
 
 ####################################################################
 # get system details
@@ -24,9 +24,9 @@ is64bit() {
 	if [[ "$(uname -m)" = "x86_64" ]]; then
 
 		echo "64 bit system"
-
+		return true
 	else 
-
+		return false
 		echo "32 bit system"
 	fi
 }
