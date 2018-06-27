@@ -103,17 +103,20 @@ echo -e "${RED}${script_name} [OPTION]... [FILE]...${NOC}
 script template: what does it do? what is its function that is beyond the
 comprehension of the filename?
 
+Script Version: ${version}
+
 ${RED} OPTIONS:${NOC}
     -u  Username for script
     -p  User password
     -f  force, skip all user interaction.  Implied 'Yes' to all actions.
     -q  Quiet (no output)
     -l  Print log to file
+    -h  Display help, version and exit
+
+    Debugging options:
     -s  Exit script with null variables.  i.e 'set -o nounset'
     -v  verbose
     -d  run script in debug-mode (set -x)
-    -h  Display this help and exit
-    -v  Output version information and exit
 
 ${RED} PREREQUISITES / REQUIREMENTS:${NOC}
     - file is located within home directory
@@ -161,15 +164,117 @@ function main() {
     echo -e "within main"
     script_init
     color_init
+
     trap script_finish EXIT INT TERM
 
 # TODO: some sourcing of default variables 
 # like colors and script vars
 #    source "$(dirname "${BASH_SOURCE[0]}")/source.sh"
 #    printf '%s%b' "$1" "$ta_none"
-    echo -e "${RED}${undeclared}${NOC}"
     echo "${script_path}"
     usage
+}
+
+# DESC: any and all flags go here for evaluation
+# NOTE: can this be put in a function to be evaluated? sense?
+# ARGS: $@: Arguments provided to the script
+# OUTS: go for main
+
+#       using all flags provided by usage template:
+#       "normal" options -> to be changed dependent on need
+#         -u  Username for script
+#         -p  User password
+#         -f  force, skip all user interaction.  Implied 'Yes' to all actions.
+#         -q  Quiet (no output)
+#         -l  Print log to file
+#         -h  Display help, version and exit
+#       Debugging options:
+#         -s  Exit script with null variables.  i.e 'set -o nounset'
+#         -v  verbose
+#         -d  run script in debug-mode (set -x)
+
+isNull(){
+  if [[ -n "${OPTARG}" ]]; then
+    echo -e "no value provided for ${OPTARG}!"
+    usage
+  fi    
+}
+
+while getopts ":u:p:fqlhsvd" opt; do
+    case "${opt}" in
+        u) # user
+            u=${OPTARG}
+            id -u "${u}" && \
+                echo "success!" || \
+                echo "failure!"
+            ;;
+        p) # password
+            p=${OPTARG}
+            if [[ -n "${OPTARG}" ]]; then
+                echo -e "no value provided for password!"
+                usage
+            fi      
+            echo "-p was triggered, Parameter: $OPTARG" >&2
+            ;;
+        
+        # force -> this seems a bit difficult / or needs to be handled with care. 
+        # anytime "read" or sudo command occurs, i will need to pass the thngy provided
+        # read is probably easy, but needs to be incorporated into the script then
+        # sudo, hm. i will need to look at that one....
+        f) force flag # force  
+            f=${OPTARG}
+            ;;
+        q)
+            q=${OPTARG}
+            ;;
+        l)
+            l=${OPTARG}
+            ;;
+        h)
+            h=${OPTARG}
+            usage
+            ;;
+        
+        # debugging options
+        d) # debug
+            debug=${OPTARG}
+            flags_init
+            ;;
+        d) # verbose
+            verbose=${OPTARG}
+            flags_init
+            ;;
+        s) # strict
+            strict=${OPTARG}
+            flags_init
+            ;;
+        \?)
+            echo "Invalid option: $OPTARG" 1>&2
+            ;;    
+        :)
+            # If no argument is provided getopts will set opt to :.
+            # recognize this error condition by catching the : case 
+            # and printing an appropriate error message.
+            echo "Invalid option: $OPTARG requires an argument" 1>&2
+            ;;    
+
+        *)
+            echo -e "in *)...\nThis happens, if a flag i spassed that is defined, yet no case..in is available for it"
+            ;;
+    esac
+done
+
+# The variable OPTIND holds the number of options parsed by the last call to getopts. 
+# It is common practice to call the shift command at the end of your processing loop
+# to remove options that have already been handled from $@.
+shift $((OPTIND -1))
+
+# a null check, why?
+# they all seem to be doin it though....
+check(){
+if [ -z "${s}" ] || [ -z "${p}" ] || [ -z "${m}" ]; then
+    usage
+fi
 }
 
 # Make it rain

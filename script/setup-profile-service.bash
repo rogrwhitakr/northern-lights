@@ -112,8 +112,7 @@ ${RED} OPTIONS:${NOC}
     -s  Exit script with null variables.  i.e 'set -o nounset'
     -v  verbose
     -d  run script in debug-mode (set -x)
-    -h  Display this help and exit
-    -v  Output version information and exit
+    -h  Display help, version and exit
 
 ${RED} PREREQUISITES / REQUIREMENTS:${NOC}
     - network connectivity
