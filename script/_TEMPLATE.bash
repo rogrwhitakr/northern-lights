@@ -61,12 +61,15 @@ flags_init(){
     # Exit on error. Append '||true' when you run the script if you expect an error.
     set -o errexit
 
-    echo -e "
-    quiet=${quiet}
-    verbose=${verbose}
-    force=${force}
-    strict=${strict}
-    debug=${debug}"
+    if [[ "${verbose}" = "1" ]]; then
+        echo -e "
+        Flag settings:
+        quiet   =${quiet}
+        verbose =${verbose}
+        force   =${force}
+        strict  =${strict}
+        debug   =${debug}"
+    fi
 }
 
 # DESC: Initialise colour variables
@@ -174,7 +177,6 @@ script_finish(){
 #         -v  verbose
 #         -d  run script in debug-mode (set -x)
 
-script_init
 color_init
 flags_init
 
@@ -258,7 +260,7 @@ function main() {
     local test="declared testvar"
     
     script_init
-    color_init
+    echo -e "${script_name}"
     echo -e "${YELLOW}within main${NOC}"
     trap script_finish EXIT INT TERM
 
