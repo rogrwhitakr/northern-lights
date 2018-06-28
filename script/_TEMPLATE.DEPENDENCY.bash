@@ -20,6 +20,10 @@
 #    printf '%s%b' "$1" "$ta_none"
  #   echo "${script_path}"
 
+# TODO:
+# getopts in a function???
+# prally not
+
 # VARIABLES
 #   VERSION
 version="1.1.0"
@@ -37,6 +41,9 @@ EXIT_SUCCESS=0
 EXIT_FAILURE=1
 EXIT_ERROR=2
 EXIT_BUG=10
+
+source ./helpers/usage.sh
+source ./helpers/initialisation.sh
 
 color_init
 flags_init
