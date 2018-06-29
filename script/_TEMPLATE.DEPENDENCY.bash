@@ -122,7 +122,8 @@ while getopts ":u:p:fqlhsvd" opt; do
         s) # strict
             strict=1
             flags_init ${strict}
-            ;;      
+            ;;   
+        #p) -> pid would be something...       
         \?)
             echo "Invalid option: $OPTARG" 1>&2
             ;;    
