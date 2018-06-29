@@ -4,13 +4,18 @@
 # BASH SCRIPT TEMPLATE
 #   HISTORY:
 #
-#   2018-06-13 - v1.0.0  -  First Creation (mostly by stealing from others)
-#   2018-06-15 - v1.1.0  -  got some understanding as to what some parts do,
+#   2018-06-13 - v0.0.1  -  First Creation (mostly by stealing from others)
+#   2018-06-15 - v0.1.0  -  got some understanding as to what some parts do,
 #                           the debugging set is pretty awesome. wrapping in a function
 #                           may need to be rethought
 #                           the exit trap is too rudimentary as of now, TODO
-#   2018-06-27 - v2.0.0  -  moved some constant functions to helpers, sourcing those
+#   2018-06-27 - v0.2.0  -  moved some constant functions to helpers, sourcing those
 #                           from now on
+#   2018-06-27 - v0.2.1  -  any traps must not be sourced, as error code transmission
+#                           "fails", i.e. the (successful) return code of sourcing is 
+#                           taken
+#   2018-06-27 - v0.2.2  -  all getoptsy stuff is in the choice function now
+#                           cleaned up calling order of functions, before main 
 #
 # ######################################################################################
 
@@ -20,34 +25,56 @@
 #    printf '%s%b' "$1" "$ta_none"
  #   echo "${script_path}"
 
-# TODO:
-# getopts in a function???
-# prally not
-
 # VARIABLES
 #   VERSION
-version="1.1.0"
+version="0.2.2"
 
-#   FLAGS - can be overridden by user input?
-quiet=0
-verbose=0
-force=0
-strict=0
-debug=0
+#   ERROR CODES - work well, just need to be used
+#   and need to fit the getopts thingy
 
-#   ERROR CODES - not in use so far
-# but they work
 EXIT_SUCCESS=0
 EXIT_FAILURE=1
 EXIT_ERROR=2
 EXIT_BUG=10
 ERROR_USER_UNKNOWN=20
+ERROR_DIRECTORY_UNKNOWN=30
+
+# DESC: sourcing of helper scripts
+# ARGS: none
+# OUTS: some variables, usage 
+# INFO: copy and append sourcing of "usage"
+#       edit "<yo-scripts-name>.usage.sh" to fit your script
 
 source ./helpers/usage.sh
 source ./helpers/initialisation.sh
 
-color_init
-flags_init
+# DESC: Trap exits with cleanup function
+# ARGS: exit code -> trap <script_finish> EXIT INT TERM
+# OUTS: None (so far)
+# INFO: ERROR_CODE is put in local var, b/c otherwise one gets the return code
+#       of the most recently completed command 
+#       (and i dont care for knowing "echo" ran successfully...)
+# INFO: sourcing this DOES NOT WORK!
+#       any assigned return codes will be overwritten by the "sourcing" retrun code,
+#       so this is useless!!! 
+
+script_finish(){
+
+  local ERROR_CODE="$?" 
+  if [[ "${ERROR_CODE}" = 0 ]]; then
+    echo -e "${GREEN}exit green, no errors${NOC}"
+    echo -e "ERROR CODE: ${ERROR_CODE}"
+  elif [[ "${ERROR_CODE}" = 20 ]]; then
+    echo -e "${RED}user is unknown to the system!${NOC}"
+  else  
+    echo -e "${RED}exit RED${NOC}"
+    echo -e "ERROR CODE: ${ERROR_CODE}"
+  fi
+  echo -e "${YELLOW}trap::script_finish::handler -> ${ERROR_CODE}${NOC}"
+}
+
+
+choice_init(){
 
 while getopts ":u:p:fqlhsvd" opt; do
     case "${opt}" in
@@ -55,7 +82,7 @@ while getopts ":u:p:fqlhsvd" opt; do
             u=${OPTARG}
             id -u "${u}" && \
                 echo "success!" || \
-                echo "failure!"
+                return "${ERROR_USER_UNKNOWN}"
             ;;
         p) # password
             p=${OPTARG}
@@ -113,7 +140,7 @@ while getopts ":u:p:fqlhsvd" opt; do
 done
 
 shift $((OPTIND -1))
-
+}
 
 
 # DESC: the core function of the script
@@ -126,13 +153,21 @@ shift $((OPTIND -1))
 
 function main() {
 
+  # main seem sto assume some inits first...
+    echo -e "${YELLOW}first we check choices${NOC}"
+    choice_init "${@}"
+
     local test="declared testvar"
     
-    script_init
     echo -e "${script_name}"
     echo -e "${YELLOW}within main${NOC}"
-    trap script_finish EXIT INT TERM
 }
+
+# init the helpers
+color_init
+flags_init
+script_init
+trap script_finish EXIT INT TERM
 
 # Make it rain
 main "$@"

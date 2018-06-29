@@ -1,9 +1,19 @@
 #! /usr/bin/env bash
 # source me !!
+# ######################################################################################
+# variables
+#   maybe look into replacing with true / false as the man page for "false" hilariously
+#   lets you know:NAME
+#       false - do nothing, unsuccessfully
 
+quiet=0
+verbose=0
+force=0
+strict=0
+debug=0
 
 # ######################################################################################
-#   functions -> these need to go somehere else sometime, as they are helpers...
+# functions
 
 # DESC: debugging options
 # ARGS: Flags debug, strict set 
@@ -50,7 +60,7 @@ flags_init(){
 # OUTS: Read-only variables with ANSI control codes
 # NOTE: If --no-colour was set the variables will be empty
 
-function color_init() {
+color_init() {
     readonly RED='\033[0;31m' 
     readonly YELLOW='\e[33m'
     readonly NOC='\033[0m'
@@ -65,30 +75,10 @@ function color_init() {
 #       $script_dir: The directory path of the script
 #       $script_name: The file name of the script
 
-function script_init() {
+script_init() {
     local exec_path="$PWD"
     readonly script_path="${BASH_SOURCE[1]}"
     readonly script_dir="$(dirname "$script_path")"
     readonly script_name="$(basename "$script_path")"
     readonly script_params="$*"
-}
-
-# DESC: Trap exits with cleanup function
-# ARGS: exit code -> trap <script_finish> EXIT INT TERM
-# OUTS: None (so far)
-# INFO: ERROR_CODE is put in local var, b/c otherwise one gets the return code
-#       of the most recently completed command 
-#       (and i dont care for knowing "echo" ran successfully...)
-
-script_finish(){
-
-    local ERROR_CODE="$?" 
-  if [[ "${ERROR_CODE}" = 0 ]]; then
-    echo -e "${GREEN}exit green, no errors${NOC}"
-    echo -e "ERROR CODE: ${ERROR_CODE}"
-  else  
-    echo -e "${RED}exit RED${NOC}"
-    echo -e "ERROR CODE: ${ERROR_CODE}"
-  fi
-  echo -e "${YELLOW}trap::script_finish::handler -> ${ERROR_CODE}${NOC}"
 }
