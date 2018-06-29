@@ -41,6 +41,7 @@ EXIT_SUCCESS=0
 EXIT_FAILURE=1
 EXIT_ERROR=2
 EXIT_BUG=10
+ERROR_USER_UNKNOWN=20
 
 source ./helpers/usage.sh
 source ./helpers/initialisation.sh
