@@ -4,8 +4,8 @@
 # BASH PROFILE SETUP
 #   HISTORY:
 #
-#   2018-06-23 - v0.0.1  -  First Creation 
-#   2018-06-23 - v0.1.1  -  add one-shot service for pulling files  
+#   2018-06-23 - v0.0.1  -  First Creation
+#   2018-06-23 - v0.1.1  -  add one-shot service for pulling files
 #
 # ######################################################################################
 # VARIABLES
@@ -29,33 +29,33 @@ EXIT_BUG=10
 #   functions -> these need to go somehere else sometime, as they are helpers...
 
 # DESC: debugging options
-# ARGS: Flags debug, strict set 
+# ARGS: Flags debug, strict set
 # OUTS: debugging info
 # INFO: is called right away
 
-flags_init(){
-    local quiet=${quiet}
-    local verbose=${verbose}
-    local force=${force}
-    local strict=${strict}
-    local debug=${debug}
+flags_init() {
+	local quiet=${quiet}
+	local verbose=${verbose}
+	local force=${force}
+	local strict=${strict}
+	local debug=${debug}
 
-    # enforce running in debug mode
-    # one `COULD` build a unset -x functionality also...
-    if [[ "${debug}" = "1" ]]; then
-        set -x
-    fi
-    # Exit on empty variable
-    if [[ "${strict}" = "1" ]]; then
-        set -o nounset
-    fi
+	# enforce running in debug mode
+	# one `COULD` build a unset -x functionality also...
+	if [[ "${debug}" == "1" ]]; then
+		set -x
+	fi
+	# Exit on empty variable
+	if [[ "${strict}" == "1" ]]; then
+		set -o nounset
+	fi
 
-    # Bash will remember & return the highest exitcode in a chain of pipes.
-    # This way you can catch the error in case mysqldump fails in `mysqldump |gzip`, for example.
-    set -o pipefail
+	# Bash will remember & return the highest exitcode in a chain of pipes.
+	# This way you can catch the error in case mysqldump fails in `mysqldump |gzip`, for example.
+	set -o pipefail
 
-    # Exit on error. Append '||true' when you run the script if you expect an error.
-    set -o errexit
+	# Exit on error. Append '||true' when you run the script if you expect an error.
+	set -o errexit
 }
 flags_init
 
@@ -64,11 +64,11 @@ flags_init
 # OUTS: Read-only variables with color codes
 
 function color_init() {
-    readonly RED='\033[0;31m' 
-    readonly YELLOW='\e[33m'
-    readonly NOC='\033[0m'
-    readonly BLUE='\e[34m'
-    readonly GREEN='\e[0;32m'
+	readonly RED='\033[0;31m'
+	readonly YELLOW='\e[33m'
+	readonly NOC='\033[0m'
+	readonly BLUE='\e[34m'
+	readonly GREEN='\e[0;32m'
 }
 
 # DESC: Generic script initialisation
@@ -79,11 +79,11 @@ function color_init() {
 #       $script_name: The file name of the script
 
 function script_init() {
-    local exec_path="$PWD"
-    readonly script_path="${BASH_SOURCE[1]}"
-    readonly script_dir="$(dirname "$script_path")"
-    readonly script_name="$(basename "$script_path")"
-    readonly script_params="$*"
+	local exec_path="$PWD"
+	readonly script_path="${BASH_SOURCE[1]}"
+	readonly script_dir="$(dirname "$script_path")"
+	readonly script_name="$(basename "$script_path")"
+	readonly script_params="$*"
 }
 
 # DESC: print usage information
@@ -91,9 +91,9 @@ function script_init() {
 # OUTS: None
 # NOTE: must be customised to script to provide sensible info, duh.
 
-usage(){
+usage() {
 
-echo -e "${RED}${script_name} [OPTION]... [FILE]...${NOC}
+	echo -e "${RED}${script_name} [OPTION]... [FILE]...${NOC}
 
 this script sets up sourcing of:
     .bash_profile
@@ -130,20 +130,20 @@ ${RED} EXAMPLES:${NOC}
 # ARGS: exit code -> trap <script_finish> EXIT INT TERM
 # OUTS: None (so far)
 # INFO: ERROR_CODE is put in local var, b/c otherwise one gets the return code
-#       of the most recently completed command 
+#       of the most recently completed command
 #       (and i dont care for knowing "echo" ran successfully...)
 
-script_finish(){
+script_finish() {
 
-    local ERROR_CODE="$?" 
-  if [[ "${ERROR_CODE}" = 0 ]]; then
-    echo -e "${GREEN}exit green, no errors${NOC}"
-    echo -e "ERROR CODE: ${ERROR_CODE}"
-  else  
-    echo -e "${RED}exit RED${NOC}"
-    echo -e "ERROR CODE: ${ERROR_CODE}"
-  fi
-  echo -e "${YELLOW}trap::script_finish::handler -> ${ERROR_CODE}${NOC}"
+	local ERROR_CODE="$?"
+	if [[ "${ERROR_CODE}" == 0 ]]; then
+		echo -e "${GREEN}exit green, no errors${NOC}"
+		echo -e "ERROR CODE: ${ERROR_CODE}"
+	else
+		echo -e "${RED}exit RED${NOC}"
+		echo -e "ERROR CODE: ${ERROR_CODE}"
+	fi
+	echo -e "${YELLOW}trap::script_finish::handler -> ${ERROR_CODE}${NOC}"
 }
 
 # DESC: the core function of the script
@@ -151,78 +151,76 @@ script_finish(){
 # ARGS: $@: Arguments provided to the script
 # OUTS: Magic!
 
-function main() {  
+function main() {
 
-  script_init
-  color_init
-  usage
-  trap script_finish EXIT INT TERM
+	script_init
+	color_init
+	usage
+	trap script_finish EXIT INT TERM
 
-# create .bashrc if it doesn't exist
-# TODO correct path
+	# create .bashrc if it doesn't exist
+	# TODO correct path
 
-declare -a sources=('.bashrc' '.bash_profile' '.bash_logout')
+	declare -a sources=('.bashrc' '.bash_profile' '.bash_logout')
 
-for source in "${sources[@]}";do
-  if [[ ! -f ~/"${source}" ]]; then
-    echo -e "${GREEN}creating ${source}${NOC}"
-    touch ~/"${source}"
-  fi
-done
+	for source in "${sources[@]}"; do
+		if [[ ! -f ~/"${source}" ]]; then
+			echo -e "${GREEN}creating ${source}${NOC}"
+			touch ~/"${source}"
+		fi
+	done
 
-# setting up directory 
-# -> parentheses here DO NOT WORK
-# they hinder expansion of ~
-if [[ ! -d ~/.dotfiles ]]; then
-    echo -e "${GREEN}Creating directory .dotfiles${NOC}"
-	mkdir ~/.dotfiles && cd ~/.dotfiles
-else 
-    echo -e "${GREEN}Switching to directory .dotfiles${NOC}"
-	cd ~/.dotfiles
-fi
+	# setting up directory
+	# -> parentheses here DO NOT WORK
+	# they hinder expansion of ~
+	if [[ ! -d ~/.dotfiles ]]; then
+		echo -e "${GREEN}Creating directory .dotfiles${NOC}"
+		mkdir ~/.dotfiles && cd ~/.dotfiles
+	else
+		echo -e "${GREEN}Switching to directory .dotfiles${NOC}"
+		cd ~/.dotfiles
+	fi
 
-# getting stuff
+	# getting stuff
 
-    cd "/home/admin/.dotfiles"
+	cd "/home/admin/.dotfiles"
 
-declare -a files=('.alias' '.functions' '.export' '.programs')
-  
-for file in "${files[@]}";do
-  echo -e "${GREEN}collecting raw file from github: ${file}. Saving to $(pwd)${NOC}"
-  local url="https://raw.githubusercontent.com/rogrwhitakr/northern-lights/master/conf/dotfiles/system"
-  wget "${url}/${file}" -O "${file}"
-done
+	declare -a files=('.alias' '.functions' '.export' '.programs')
 
-# setting up .bashrc file in such a way that the files get sourced
+	for file in "${files[@]}"; do
+		echo -e "${GREEN}collecting raw file from github: ${file}. Saving to $(pwd)${NOC}"
+		local url="https://raw.githubusercontent.com/rogrwhitakr/northern-lights/master/conf/dotfiles/system"
+		wget "${url}/${file}" -O "${file}"
+	done
 
-# remove old sourcing
-# okay apparently sed is at its best when looking at one individual line
-# potentially anything not named .* will suffer in the second line command
+	# setting up .bashrc file in such a way that the files get sourced
 
-for file in "${files[@]}";do
-  echo -e "removing definition for ${file}"
-  sed --in-place "/# Source user ${file} definitions/d" "/home/admin/.bashrc"
-  sed --in-place "/${file}/d" "/home/admin/.bashrc"
-  sed --in-place "/fi # <- end source/d" "/home/admin/.bashrc"
-done  
+	# remove old sourcing
+	# okay apparently sed is at its best when looking at one individual line
+	# potentially anything not named .* will suffer in the second line command
 
+	for file in "${files[@]}"; do
+		echo -e "removing definition for ${file}"
+		sed --in-place "/# Source user ${file} definitions/d" "/home/admin/.bashrc"
+		sed --in-place "/${file}/d" "/home/admin/.bashrc"
+		sed --in-place "/fi # <- end source/d" "/home/admin/.bashrc"
+	done
 
-# put the new sourcing in
+	# put the new sourcing in
 
-# DEFINITION
-# # Source user ${file} definitions
-# if [[ -f ~/.dotfiles/${file} ]]; then
-# 	. ~/.dotfiles/${file}
-# fi # <- end sources
+	# DEFINITION
+	# # Source user ${file} definitions
+	# if [[ -f ~/.dotfiles/${file} ]]; then
+	# 	. ~/.dotfiles/${file}
+	# fi # <- end sources
 
-
-for file in "${files[@]}";do
-    echo -e "${YELLOW}adding sourcing for ${file}${NOC}"
-    echo -e "# Source user ${file} definitions
+	for file in "${files[@]}"; do
+		echo -e "${YELLOW}adding sourcing for ${file}${NOC}"
+		echo -e "# Source user ${file} definitions
 if [[ -f ~/.dotfiles/${file} ]]; then
 	. ~/.dotfiles/${file}
-fi # <- end source" >> "/home/admin/.bashrc"
-done
+fi # <- end source" >>"/home/admin/.bashrc"
+	done
 
 }
 # Make it rain
