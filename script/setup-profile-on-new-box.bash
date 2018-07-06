@@ -17,7 +17,7 @@ quiet=0
 verbose=0
 force=0
 strict=1
-debug=1
+debug=0
 
 #   ERROR CODES - not in use so far
 EXIT_SUCCESS=0
@@ -183,7 +183,7 @@ fi
 
 # getting stuff
 
-    cd "/home/admin/profile-setup-test"
+    cd "/home/admin/.dotfiles"
 
 declare -a files=('.alias' '.functions' '.export' '.programs')
   
@@ -201,9 +201,9 @@ done
 
 for file in "${files[@]}";do
   echo -e "removing definition for ${file}"
-  sed --in-place "/# Source user ${file} definitions/d" "/home/admin/profile-setup-test/.bashrc"
-  sed --in-place "/${file}/d" "/home/admin/profile-setup-test/.bashrc"
-  sed --in-place "/fi # <- end source/d" "/home/admin/profile-setup-test/.bashrc"
+  sed --in-place "/# Source user ${file} definitions/d" "/home/admin/.bashrc"
+  sed --in-place "/${file}/d" "/home/admin/.bashrc"
+  sed --in-place "/fi # <- end source/d" "/home/admin/.bashrc"
 done  
 
 
@@ -221,7 +221,7 @@ for file in "${files[@]}";do
     echo -e "# Source user ${file} definitions
 if [[ -f ~/.dotfiles/${file} ]]; then
 	. ~/.dotfiles/${file}
-fi # <- end source" >> "/home/admin/profile-setup-test/.bashrc"
+fi # <- end source" >> "/home/admin/.bashrc"
 done
 
 }
