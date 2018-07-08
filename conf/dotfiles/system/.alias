@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 alias list="echo -e '\e[31m\e[1mNo.\tAlias\t\tCommand\e[0m';grep alias ~/.dotfiles/.alias |cut -d' ' -f2- | sed 's/\=/\t\t/g' | nl -w 2"
-alias functions="declare -f | grep '^[a-z].* ()' | sed 's/{$//'" # all functions? which ones?
+alias functions="declare -f | grep '^[a-z].* ()' | sed 's/{$//'" # all functions
 alias paths='echo -e ${PATH//:/\\n}'                             # all on path
 alias la="ls -lah"                                               # print all relevant directory info
 alias lr="ls -lahR"                                              # print all relevant directory info + recursive
@@ -27,7 +27,9 @@ alias tree1="tree -d -L 1"                                       # show only dir
 alias tree2="tree -d -L 2"                                       # show only dirs, 2 levels down
 
 # network things
-alias extip="dig +short myip.opendns.com @resolver1.opendns.com" # get external Ip
+alias extip="dig \
+    +short myip.opendns.com \
+    @resolver1.opendns.com" # get external Ip
 
 test_function() {
 	echo -e "i dont do anything!!!"

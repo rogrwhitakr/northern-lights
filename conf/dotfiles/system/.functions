@@ -88,21 +88,22 @@ function extract() {
 
 # compress common compressed Filetypes
 compress() {
-	if [ -z "$1" ]; then
+	if [[ -z "$1" ]]; then
 		echo "Usage: compress <path/file_name>.<zip|rar|bz2|gz|tar|tbz2|tgz|Z|7z|xz|ex|tar.bz2|tar.gz|tar.xz>"
 	else
-		File=$1
+		file=$1
 		shift
-		case "${File}" in
-		*.tar.bz2) tar cjf "${File}" "$@" ;;
-		*.tar.gz) tar czf "${File}" "$@" ;;
-		*.tgz) tar czf "${File}" "$@" ;;
-		*.zip) zip "${File}" "$@" ;;
-		*.rar) rar "${File}" "$@" ;;
-		*) echo "Filetype not recognized" ;;
+		case "${file}" in
+		*.tar.bz2) tar cjf "${file}" "$@" ;;
+		*.tar.gz) tar czf "${file}" "$@" ;;
+		*.tgz) tar czf "${file}" "$@" ;;
+		*.zip) zip "${file}" "$@" ;;
+		*.rar) rar "${file}" "$@" ;;
+		*) echo "filetype not recognized" ;;
 		esac
 	fi
 }
+
 
 # Create a data URL from a file
 # unsure what this is useful for, i will just try it out
@@ -113,12 +114,4 @@ dataURL() {
 		mimeType="${mimeType};charset=utf-8"
 	fi
 	echo "data:${mimeType};base64,$(openssl base64 -in "$1" | tr -d '\n')"
-}
-
-tre() {
-	if [ -z "$@" ]; then
-		echo "Usage: compress <path/file_name>.<zip|rar|bz2|gz|tar|tbz2|tgz|Z|7z|xz|ex|tar.bz2|tar.gz|tar.xz>"
-	else
-		tree -aC -I '.git|node_modules|bower_components' --dirsfirst "$@" | less -FRNX
-	fi
 }
