@@ -111,13 +111,13 @@ ${RED} EXAMPLES:${NOC}
 # ARGS: exit code -> trap <script_finish> EXIT INT TERM
 # OUTS: None (so far)
 
-script_finish(){
-  local ERROR_CODE="$?" 
-  if [[ "${ERROR_CODE}" != 0 ]]; then
-    echo -e "NEED TO REMOVE WHAT WE CREATED!!!!"
-  else  
-    echo -e "ALL IS WELL"
-  fi
+script_finish() {
+	local ERROR_CODE="$?"
+	if [[ "${ERROR_CODE}" != 0 ]]; then
+		echo -e "NEED TO REMOVE WHAT WE CREATED!!!!"
+	else
+		echo -e "ALL IS WELL"
+	fi
 }
 
 # DESC: Initialise colour variables
@@ -133,66 +133,70 @@ function color_init() {
 	readonly GREEN='\e[0;32m'
 }
 
-choice_init(){
+choice_init() {
 
-while getopts ":n:dfqlhsvd" opt; do
-    case "${opt}" in
-        n) # script name
-            n=${OPTARG}
-            return "${n}"
-            ;;
-        d) # dependency template or all-in-one template?
-            d=${OPTARG} 
-            echo "building new script with dependencies set..."
-            return "${d}"
-            ;;
-        h)
-            usage
-            ;;
+	while getopts ":n:thsvd" opt; do
+		case "${opt}" in
+		n) # script name
+			n=${OPTARG}
+			return "${n}"
+			;;
+		t) # dependency template or all-in-one template?
+			t=${OPTARG}
+			echo "building new script with dependencies set..."
+			if [[ -z "${OPTARG}" ]]; then
+				echo -e "no value provided for password!"
+				usage
+			fi
+			echo "-p was triggered, Parameter: $OPTARG" >&2
+			;;
+		h)
+			usage
+			;;
 
-        # debugging options
-        d) # debug
-            debug=1
-            flags_init ${debug}
-            ;;
-        v) # verbose
-            verbose=1
-            flags_init ${verbose}
-            ;;
-        s) # strict
-            strict=1
-            flags_init ${strict}
-            ;;   
-        #p) -> pid would be something...       
-        \?)
-            echo "Invalid option: $OPTARG" 1>&2
-            ;;    
-        :)
-            # If no argument is provided getopts will set opt to :.
-            # recognize this error condition by catching the : case 
-            # and printing an appropriate error message.
-            echo "Invalid option: $OPTARG requires an argument" 1>&2
-            ;;    
+		# debugging options
+		d) # debug
+			debug=1
+			flags_init ${debug}
+			;;
+		v) # verbose
+			verbose=1
+			flags_init ${verbose}
+			;;
+		s) # strict
+			strict=1
+			flags_init ${strict}
+			;;
+		#p) -> pid would be something...
+		\?)
+			echo "Invalid option: $OPTARG" 1>&2
+			;;
+		:)
+			# If no argument is provided getopts will set opt to :.
+			# recognize this error condition by catching the : case
+			# and printing an appropriate error message.
+			echo "Invalid option: $OPTARG requires an argument" 1>&2
+			;;
 
-        *)
-            echo -e "in *)...\nThis happens, if a flag i spassed that is defined, yet no case..in is available for it"
-            ;;
-    esac
-done
+		*)
+			echo -e "in *)...\nThis happens, if a flag i spassed that is defined, yet no case..in is available for it"
+			;;
+		esac
+	done
 
-shift $((OPTIND -1))
+	shift $((OPTIND - 1))
 }
 
 function main() {
 
-  # main seem sto assume some inits first...
-    echo -e "${YELLOW}first we check choices${NOC}"
-    choice_init "${@}"
+	# main seem sto assume some inits first...
+	echo -e "${YELLOW}first we check choices${NOC}"
+	choice_init "${@}"
 
-    local test="declared testvar"
-    
-    echo -e "${script_name}"
-    echo -e "${YELLOW}within main${NOC}"
+	local name="${n}"
+
+	echo -e "${name}"
+	echo -e "${YELLOW}within main${NOC}"
 }
 
 # init the helpers
