@@ -18,6 +18,12 @@
 
 version="0.2.3"
 
+quiet=0
+verbose=0
+force=0
+strict=0
+debug=0
+
 # DESC: debugging options
 # ARGS: Flags debug, strict set
 # OUTS: debugging info
