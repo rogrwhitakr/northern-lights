@@ -1,8 +1,10 @@
-#! /bin/sh
+#! /usr/bin/env bash
+
+ip_address="143.623.0.12"
+# yes. 600er subnet...
 
 grep -E '[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}' $ip_address
 
-# test this !!!
 
 ping -i 2 localhost | cut -d= -f4 | grep -E '0.[2-9]{3}'
 ping -i 2 google.de | cut -d= -f4 | grep -E '[1-9]+.[0-9]{3}'
