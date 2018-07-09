@@ -8,7 +8,7 @@
 
 usage(){
 
-echo -e "${RED}${script_name} [OPTION]... [FILE]...${NOC}
+echo -e "./${RED}${script_name} [OPTION]... [FILE]...${NOC}
 
 script template: what does it do? what is its function that is beyond the
 comprehension of the filename?
@@ -16,6 +16,7 @@ comprehension of the filename?
 Script Version: ${version}
 
 ${RED} OPTIONS:${NOC}
+    -n  Name
     -u  Username for script
     -p  User password
     -f  force, skip all user interaction.  Implied 'Yes' to all actions.
@@ -34,8 +35,8 @@ ${RED} PREREQUISITES / REQUIREMENTS:${NOC}
 
 ${RED} EXAMPLES:${NOC}
     - Create a timer 
-        ${script_name} borg-backup.timer
+        ./${script_name} borg-backup.timer
     - Create a Service
-        ${script_name} virtual-machines.service
+        ./${script_name} virtual-machines.service
 "
 }
