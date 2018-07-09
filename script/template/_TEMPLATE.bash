@@ -53,7 +53,7 @@ flags_init() {
 	# Exit on error. Append '||true' when you run the script if you expect an error.
 	set -o errexit
 
-	if [[ "${verbose}" == "1" ]]; then
+	if [[ "${verbose}" = "1" ]]; then
 		echo -e "
         Flag settings:
         quiet   =${quiet}
@@ -62,45 +62,6 @@ flags_init() {
         strict  =${strict}
         debug   =${debug}"
 	fi
-}
-
-# DESC: print usage information
-# ARGS: None
-# OUTS: None
-# NOTE: must be customised to script to provide sensible info, duh.
-
-usage() {
-
-	echo -e "${RED}${script_name} [OPTION]... [FILE]...${NOC}
-
-script template: what does it do? what is its function that is beyond the
-comprehension of the filename?
-
-Script Version: ${version}
-
-${RED} OPTIONS:${NOC}
-    -u  Username for script
-    -p  User password
-    -f  force, skip all user interaction.  Implied 'Yes' to all actions.
-    -q  Quiet (no output)
-    -l  Print log to file
-    -h  Display help, version and exit
-
-    Debugging options:
-    -s  Exit script with null variables.  i.e 'set -o nounset'
-    -v  verbose
-    -d  run script in debug-mode (set -x)
-
-${RED} PREREQUISITES / REQUIREMENTS:${NOC}
-    - file is located within home directory
-    - file is one of *.service, (*.timer)
-
-${RED} EXAMPLES:${NOC}
-    - Create a timer 
-        ${script_name} borg-backup.timer
-    - Create a Service
-        ${script_name} virtual-machines.service
-"
 }
 
 #   ERROR CODES - not in use so far
@@ -284,13 +245,15 @@ choice_init() {
 function main() {
 
 	local test="declared testvar"
-
+    choice_init "${@}"
 	script_init
 	echo -e "${script_name}"
 	echo -e "${YELLOW}within main${NOC}"
 	trap script_finish EXIT INT TERM
 
 }
+
+choice_init
 
 # Make it rain
 main "$@"
