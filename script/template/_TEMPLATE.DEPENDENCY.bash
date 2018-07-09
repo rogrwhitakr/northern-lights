@@ -145,10 +145,6 @@ shift $((OPTIND -1))
 
 
 # DESC: the core function of the script
-# NOTE: The creation of readonly variables in dependent functions (like color_init)
-#       failed, moving these functions AFTER the main function seemed to solve this
-#       THIS CANNOT STAND. WHY is this happening?
-#       Okay, seems it was the flag stuff 
 # ARGS: $@: Arguments provided to the script
 # OUTS: Magic!
 
