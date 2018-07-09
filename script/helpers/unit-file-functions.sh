@@ -1,28 +1,42 @@
 #! /usr/bin/env bash
 # source me !!
 
-function unit_file_init() {
+# DESC: initalise variables for unit file
+# NOTE: main
+# ARGS: none
+# OUTS: unit file name
+#		user and group to run it as
+#		executable location
+#		this is a TODO!
+#		where to bes put these scripts? some systemd recommended place?
+
+user_unit_file_var_init() {
 	readonly unit_file="${BASH_SOURCE[1]}"
 	readonly user="$(whoami)"
 	readonly group="$(id --group --name ${user})"
 	readonly executable="$(find /home/${user} -name profile-generator.sh -executable)"
 }
 
-# DESC: the core function of the script
-# NOTE: main
-# ARGS: $@: Arguments provided to the script
-# OUTS: Magic!
+# DESC: error codes init
+# ARGS: none
+# OUTS: unit file error codes
+# NOTE:	unsure if this is the way to go...
+#		or if i will use it at all..
+
+unit_file_error_code_init() {
+	readonly ERROR_UNIT_FILE_UNKNOWN_EXTENSION=41
+}
 
 # DESC: verify unit file syntax
 # ARGS: unit
-# OUTS: none
+# OUTS: verification bits
 
 verify_unit_file_syntax() {
 	unit="$1"
 
 	if [[ -z "$1" ]]; then
 		echo -e "no unit provided"
-		return 12 # okay dont know if this works
+		return 12 # need to be defined globally
 	else
 		# this only works if it already is a service?
 		systemd-analyze verify "${unit}"
@@ -35,8 +49,8 @@ verify_unit_file_syntax() {
 # OUTS: none
 
 verify_unit_file_extension() {
-	unit_file="$1"
 
+	unit_file="$1"
 	if [[ -z "$1" ]]; then
 		echo -e "no unit file provided"
 		return 12
