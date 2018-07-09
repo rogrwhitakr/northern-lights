@@ -13,4 +13,7 @@ iw dev wlp4s0 info | grep ssid
 
 # go to 
 /sys/class/net
-grep "" enp3s0/*
+
+# prints all of a interface
+# -s flag omits directory error
+grep -s "" /sys/class/net/enp3s0/*
