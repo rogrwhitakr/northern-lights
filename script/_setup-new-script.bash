@@ -65,9 +65,20 @@ flags_init() {
 function script_init() {
 	local exec_path="$PWD"
 	readonly script_path="${BASH_SOURCE[1]}"
-	readonly script_dir="$(dirname "$script_path")"
-	readonly script_name="$(basename "$script_path")"
+	readonly script=$(readlink -f $0)
+	readonly script_dir="$(dirname "$script")"
+	readonly script_name="$(basename "$script")"
 	readonly script_params="$*"
+
+	if [[ "${verbose}" == "1" ]]; then
+		echo -e "
+        script settings:
+        script_path   		=${script_path}
+        script_full_path	=${script}
+        script_dir   		=${script_dir}
+        script_name  		=${script_name}
+        script_params   	=${script_params}"
+	fi
 }
 
 # DESC: print usage information
@@ -77,7 +88,7 @@ function script_init() {
 
 usage() {
 
-	echo -e "./${RED}${script_name} [NAME]...[DEPENDENCY OPTION]...${NOC}
+	echo -e "${RED}./${script_name} [NAME]...[DEPENDENCY OPTION]...${NOC}
 
 # DESC: Helper for setting up a new script
 # ARGS: name of the future script
@@ -88,7 +99,7 @@ Script Version: ${version}
 
 ${RED} OPTIONS:${NOC}
     -n  future script name
-    -d  use dependency template
+    -t  use dependency template
     -h  Display help, version and exit
 
     Debugging options:
@@ -97,6 +108,7 @@ ${RED} OPTIONS:${NOC}
     -d  run script in debug-mode (set -x)
 
 ${RED} PREREQUISITES / REQUIREMENTS:${NOC}
+    - name of future script
     - location is <repo>/script
 
 ${RED} EXAMPLES:${NOC}
@@ -125,7 +137,7 @@ script_finish() {
 # OUTS: Read-only variables with ANSI control codes
 # NOTE: If --no-colour was set the variables will be empty
 
-function color_init() {
+color_init() {
 	readonly RED='\033[0;31m'
 	readonly YELLOW='\e[33m'
 	readonly NOC='\033[0m'
@@ -133,22 +145,22 @@ function color_init() {
 	readonly GREEN='\e[0;32m'
 }
 
+# DESC: any and all flags go here for evaluation
+# ARGS: $@: Arguments provided to the script
+# OUTS: go for main
+
 choice_init() {
+
+	# if not set, dependency setting is false
+	t=false
 
 	while getopts ":n:thsvd" opt; do
 		case "${opt}" in
 		n) # script name
-			n=${OPTARG}
-			return "${n}"
+			readonly n=${OPTARG}
 			;;
 		t) # dependency template or all-in-one template?
-			t=${OPTARG}
-			echo "building new script with dependencies set..."
-			if [[ -z "${OPTARG}" ]]; then
-				echo -e "no value provided for password!"
-				usage
-			fi
-			echo "-p was triggered, Parameter: $OPTARG" >&2
+			t=true
 			;;
 		h)
 			usage
@@ -187,19 +199,86 @@ choice_init() {
 	shift $((OPTIND - 1))
 }
 
-function main() {
+# DESC: null-checks inputs provided to choice_init
+# ARGS: $@: Arguments set in choice_init
+# OUTS: go for main / usage if not
 
-	# main seem sto assume some inits first...
-	echo -e "${YELLOW}first we check choices${NOC}"
-	choice_init "${@}"
+choice_check() {
+	if [ -z "${n}" ]; then
+		echo -e "${RED}You must provide a name for the new script !!!${NOC}
 
-	local name="${n}"
+printing usage, and exiting script
 
-	echo -e "${name}"
+${RED}usage:${NOC}
+"
+		usage
+		exit 0
+	fi
+}
+
+# DESC: null-checks inputs provided to choice_init
+# ARGS: $@: Arguments set in choice_init
+# OUTS: go for main / usage if not
+choice_verify() {
+	local name="${name}"
+
+	echo 'verification goes here'
+	# todo validate choices [a-z0-9]
+	# grep verify[a-zA-Z]\\+\( *
+
+	if [[ ${name} =~ ^[a-zA-Z0-9]{1,80}$ ]]; then
+		echo 'is okay'
+	else
+		echo "somehow doidnt pass"
+	fi
+}
+
+main() {
+
 	echo -e "${YELLOW}within main${NOC}"
+	local name="${n}"
+	local dependency="${t}"
+	choice_check "${name}"
+	choice_verify "${name}"
+
+	echo -e "name: ${name}.sh, build with dependencies: ${dependency}"
+	read -rp $'Continue (Y/n)? ' -ei $'Y' key
+	if [[ "${key}" == "Y" ]]; then
+		copy_template "${name}" "${dependency}"
+	else
+		echo -e "${RED}aborted by user. Exiting${NOC}"
+		exit 0
+	fi
+}
+
+copy_template() {
+
+	local directory=${script_dir}
+	local name=${1}
+	local dependency=${2}
+	local TEMPLATE_WITH_DEPENDENCY="/home/admin/MyScripts/script/template/_TEMPLATE.DEPENDENCY.bash"
+	local TEMPLATE_NO_DEPENDENCY="/home/admin/MyScripts/script/template/_TEMPLATE.bash"
+	local USAGE="/home/admin/MyScripts/script/helpers/usage.sh"
+
+	echo -e "copying template to ${directory}, name ${name}"
+	if [[ "${dependency}" == true ]]; then
+		local directory=${script_dir}
+		cp "${TEMPLATE_WITH_DEPENDENCY}" "${directory}/${name}.sh"
+
+		#for the depenedncy one we need to copy and amend the usage file and sed the sourcing
+		#		mv
+	elif [[ "${dependency}" == false ]]; then
+		local directory=${script_dir}
+		cp "${TEMPLATE_NO_DEPENDENCY}" "${directory}/${name}.sh"
+	else
+		echo -e "${RED}something went wrong while copying / modifiying the template files${NOC}"
+		exit 5
+	fi
+
 }
 
 # init the helpers
+choice_init "${@}"
 script_init
 color_init
 
@@ -207,3 +286,6 @@ trap script_finish EXIT INT TERM
 
 # Make it rain
 main "$@"
+
+# TODO:check
+#[[ -v name_of_var ]]
