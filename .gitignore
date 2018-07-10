@@ -1,2 +1,3 @@
 coreutils/*.log
 coreutils/*.json
+apps/ansible/*.retry

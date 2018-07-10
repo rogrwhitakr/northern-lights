@@ -1,0 +1,38 @@
+---
+- name: Setup Fedora Workstation with stuffs
+  hosts: localhost
+  remote_user: benno
+  become: yes
+
+  tasks:
+  - name: Add Repository for Microsoft VS CODE
+    yum_repository:
+      name: visual studio code
+      description: Repository for Microsoft VS CODE
+      baseurl: https://packages.microsoft.com/yumrepos/vscode
+      gpgkey: https://packages.microsoft.com/keys/microsoft.asc
+      gpgcheck: yes
+
+  - name: Install basic software
+    dnf: name={{item}} state=present
+    with_items:
+    - htop
+    - nmap
+    - nano
+
+  - name: Update GNOME softwares
+    dnf: name={{item}} state=present
+    with_items:
+    - gnome-tweak-tool
+    - firewalld
+
+  - name: Install Productivity software
+    dnf: name={{item}} state=present
+    with_items:
+    - chromium
+    - firefox
+
+  - name: Install visual studio code
+    dnf: 
+      name: code
+      state: latest
