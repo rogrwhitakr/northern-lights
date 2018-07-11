@@ -22,6 +22,16 @@ fi
 # SYNTAX
 # -> if TEST-COMMANDS; then CONSEQUENT-COMMANDS; fi
 
+# [[ parameter FILE ]]
+# Where parameter can be any one of the following:
+# 
+# -e: Returns true value if file exists.
+# -f: Return true value if file exists and regular file.
+# -r: Return true value if file exists and is readable.
+# -w: Return true value if file exists and is writable.
+# -x: Return true value if file exists and is executable.
+# -d: Return true value if exists and is a directory.
+
 echo "
 [ -a FILE ]	True if FILE exists.
 [ -b FILE ]	True if FILE exists and is a block-special file.
