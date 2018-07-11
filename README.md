@@ -54,3 +54,5 @@
 - what is the best usage of ninj?
 
 - how do i know something somesin somesin with quotes?
+
+- rd: is it good practice in bash to let traps handle different error conditions, like example?

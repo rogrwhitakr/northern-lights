@@ -216,32 +216,33 @@ ${RED}usage:${NOC}
 	fi
 }
 
-# DESC: null-checks inputs provided to choice_init
+# DESC: validity-checks inputs provided to choice_init
 # ARGS: $@: Arguments set in choice_init
 # OUTS: go for main / usage if not
+
 choice_verify() {
 	local name="${name}"
-
-	echo 'verification goes here'
-	# todo validate choices [a-z0-9]
-	# grep verify[a-zA-Z]\\+\( *
-
-	if [[ ${name} =~ ^[a-zA-Z0-9]{1,80}$ ]]; then
-		echo 'is okay'
+	if [[ ${name} =~ ^[a-zA-Z0-9_.\-]{1,255}$ ]]; then
+		return 0
 	else
-		echo "somehow doidnt pass"
+		return 1
 	fi
 }
 
 main() {
 
-	echo -e "${YELLOW}within main${NOC}"
 	local name="${n}"
 	local dependency="${t}"
+
 	choice_check "${name}"
 	choice_verify "${name}"
+	if [[ "${?}" == 1 ]]; then
+		echo "hmmm"
+		exit 0
+	fi
 
 	echo -e "name: ${name}.sh, build with dependencies: ${dependency}"
+
 	read -rp $'Continue (Y/n)? ' -ei $'Y' key
 	if [[ "${key}" == "Y" ]]; then
 		copy_template "${name}" "${dependency}"
@@ -250,6 +251,14 @@ main() {
 		exit 0
 	fi
 }
+
+# DESC: copies template from set directory
+#		renames template to set name
+# ARGS: name
+#		dependency yes/no
+#		template location
+#		usage location
+# OUTS: renamed and copied template file
 
 copy_template() {
 
@@ -264,6 +273,7 @@ copy_template() {
 	if [[ "${dependency}" == true ]]; then
 		local directory=${script_dir}
 		cp "${TEMPLATE_WITH_DEPENDENCY}" "${directory}/${name}.sh"
+		cp "${USAGE}" "${directory}/${name}.usage.sh"
 
 		#for the depenedncy one we need to copy and amend the usage file and sed the sourcing
 		#		mv
