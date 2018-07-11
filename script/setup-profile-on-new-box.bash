@@ -183,7 +183,7 @@ function main() {
 
 	# getting stuff
 
-	cd "/home/admin/.dotfiles"
+	cd ~/.dotfiles
 
 	declare -a files=('.alias' '.functions' '.export' '.programs')
 
@@ -201,9 +201,9 @@ function main() {
 
 	for file in "${files[@]}"; do
 		echo -e "removing definition for ${file}"
-		sed --in-place "/# Source user ${file} definitions/d" "/home/admin/.bashrc"
-		sed --in-place "/${file}/d" "/home/admin/.bashrc"
-		sed --in-place "/fi # <- end source/d" "/home/admin/.bashrc"
+		sed --in-place "/# Source user ${file} definitions/d" ~/.bashrc
+		sed --in-place "/${file}/d" ~/.bashrc
+		sed --in-place "/fi # <- end source/d" ~/.bashrc
 	done
 
 	# put the new sourcing in
@@ -219,7 +219,7 @@ function main() {
 		echo -e "# Source user ${file} definitions
 if [[ -f ~/.dotfiles/${file} ]]; then
 	. ~/.dotfiles/${file}
-fi # <- end source" >>"/home/admin/.bashrc"
+fi # <- end source" >> ~/.bashrc
 	done
 
 }
