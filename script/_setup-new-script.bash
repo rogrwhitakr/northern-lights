@@ -129,10 +129,11 @@ script_finish() {
 	local directory="${script_dir}"
 
 	if [[ "${ERROR_CODE}" != 0 ]]; then
-		echo -e "NEED TO REMOVE WHAT WE CREATED!!!!"
-
 		# if "${directory}/${name}.sh" exists, we delete
-		if [[ -z ]]
+		if [[ -f "${directory}/${name}.sh" ]]; then
+			rm -f "${directory}/${name}.sh"
+			rm -f "${directory}/${name}.usage.sh"
+		fi
 	else
 		echo -e "new script ${name} created. Exiting."
 	fi
@@ -235,31 +236,6 @@ choice_verify() {
 	fi
 }
 
-main() {
-
-	local name="${n}"
-	local dependency="${t}"
-
-	choice_check "${name}"
-	# retrurning the code does not work this way....
-	# -> this gets me straight to the trap
-	#	choice_verify "${name}"
-	if [[ $(choice_verify "${name}") == 1 ]]; then
-		echo "hmmm"
-		exit 0
-	fi
-
-	echo -e "name: ${name}.sh, build with dependencies: ${dependency}"
-
-	read -rp $'Continue (Y/n)? ' -ei $'Y' key
-	if [[ "${key}" == "Y" ]]; then
-		copy_template "${name}" "${dependency}"
-	else
-		echo -e "${RED}aborted by user. Exiting${NOC}"
-		exit 0
-	fi
-}
-
 # DESC: copies template from set directory
 #		renames template to set name
 # ARGS: name
@@ -297,7 +273,31 @@ copy_template() {
 		echo -e "${RED}something went wrong while copying / modifiying the template files${NOC}"
 		exit 5
 	fi
+}
 
+main() {
+
+	local name="${n}"
+	local dependency="${t}"
+
+	choice_check "${name}"
+	# retrurning the code does not work this way....
+	# -> this gets me straight to the trap
+	#	choice_verify "${name}"
+	if [[ $(choice_verify "${name}") == 1 ]]; then
+		echo "hmmm"
+		exit 0
+	fi
+
+	echo -e "name: ${name}.sh, build with dependencies: ${dependency}"
+
+	read -rp $'Continue (Y/n)? ' -ei $'Y' key
+	if [[ "${key}" == "Y" ]]; then
+		copy_template "${name}" "${dependency}"
+	else
+		echo -e "${RED}aborted by user. Exiting${NOC}"
+		exit 0
+	fi
 }
 
 # init the helpers
