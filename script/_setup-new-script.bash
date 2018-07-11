@@ -125,10 +125,16 @@ ${RED} EXAMPLES:${NOC}
 
 script_finish() {
 	local ERROR_CODE="$?"
+	local name="${name}"
+	local directory="${script_dir}"
+
 	if [[ "${ERROR_CODE}" != 0 ]]; then
 		echo -e "NEED TO REMOVE WHAT WE CREATED!!!!"
+
+		# if "${directory}/${name}.sh" exists, we delete
+		if [[ -z ]]
 	else
-		echo -e "ALL IS WELL"
+		echo -e "new script ${name} created. Exiting."
 	fi
 }
 
@@ -273,12 +279,17 @@ copy_template() {
 
 	echo -e "copying template to ${directory}, name ${name}"
 	if [[ "${dependency}" == true ]]; then
+
 		local directory=${script_dir}
+
+		# copy necessary files
 		cp "${TEMPLATE_WITH_DEPENDENCY}" "${directory}/${name}.sh"
 		cp "${USAGE}" "${directory}/${name}.usage.sh"
 
-		#for the depenedncy one we need to copy and amend the usage file and sed the sourcing
-		#		mv
+		# for the depenedncy one we need to copy the usage file
+		# amend the usage file sourcing
+
+		sed -i "s/source .\/helpers\/usage.sh/source .\/${name}.usage.sh/g" "${directory}/${name}.sh"
 	elif [[ "${dependency}" == false ]]; then
 		local directory=${script_dir}
 		cp "${TEMPLATE_NO_DEPENDENCY}" "${directory}/${name}.sh"
@@ -298,5 +309,3 @@ trap script_finish EXIT INT TERM
 
 # Make it rain
 main "$@"
-
-

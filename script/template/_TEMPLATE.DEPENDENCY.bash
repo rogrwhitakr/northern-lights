@@ -49,6 +49,7 @@ ERROR_DIRECTORY_UNKNOWN=30
 #       edit "<yo-scripts-name>.usage.sh" to fit your script
 
 source ./helpers/usage.sh
+source ./helpers/logging.sh
 source ./helpers/initialisation.sh
 
 # DESC: Trap exits with cleanup function
