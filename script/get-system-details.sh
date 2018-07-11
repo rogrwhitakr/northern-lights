@@ -21,11 +21,11 @@ printline() {
 
 is64bit() {
 
-	if [[ "$(uname -m)" = "x86_64" ]]; then
+	if [[ "$(uname -m)" == "x86_64" ]]; then
 
 		echo "64 bit system"
 		return true
-	else 
+	else
 		return false
 		echo "32 bit system"
 	fi
@@ -39,10 +39,10 @@ isVirtualised() {
 	if [[ $(dmesg | grep "Booting paravirtualized kernel on bare hardware") ]]; then
 		HYPERVISOR=0
 	fi
-	
+
 	if [[ $(dmesg | grep "Hypervisor detected") ]]; then
 		HYPERVISOR=1
-	fi		
+	fi
 }
 
 #################
@@ -54,7 +54,7 @@ RED='\033[0;31m'
 YELLOW='\033[1;33m'
 GREEN='\033[0;32m'
 
-user=$(id -un) 
+user=$(id -un)
 
 #################
 ### execution ###
@@ -76,7 +76,7 @@ echo $HOSTTYPE
 printline
 echo -e "${YELLOW}Check if running virtualised${NOC}"
 
-if [[ isVirtualised = 1 ]]; then
+if [[ isVirtualised == 1 ]]; then
 
 	echo -e "${NOC}this machine is virtualised${NOC}"
 	echo -e "${YELLOW}COMMAND: dmesg | grep "Hypervisor detected"${NOC}"
