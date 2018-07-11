@@ -19,6 +19,9 @@
 #
 # ######################################################################################
 
+# TODO:check
+#[[ -v name_of_var ]]
+
 # TODO: some sourcing of default variables 
 # like colors and script vars
 #    source "$(dirname "${BASH_SOURCE[0]}")/source.sh"

@@ -225,7 +225,7 @@ choice_verify() {
 	if [[ ${name} =~ ^[a-zA-Z0-9_.\-]{1,255}$ ]]; then
 		return 0
 	else
-		return 1
+		return 25
 	fi
 }
 
@@ -235,8 +235,10 @@ main() {
 	local dependency="${t}"
 
 	choice_check "${name}"
-	choice_verify "${name}"
-	if [[ "${?}" == 1 ]]; then
+	# retrurning the code does not work this way....
+	# -> this gets me straight to the trap
+	#	choice_verify "${name}"
+	if [[ $(choice_verify "${name}") == 1 ]]; then
 		echo "hmmm"
 		exit 0
 	fi
@@ -297,5 +299,4 @@ trap script_finish EXIT INT TERM
 # Make it rain
 main "$@"
 
-# TODO:check
-#[[ -v name_of_var ]]
+
