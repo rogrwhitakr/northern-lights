@@ -1,5 +1,3 @@
-#! /usr/bin/env bash
-# source me !!
 # ######################################################################################
 # variables
 #   maybe look into replacing with true / false as the man page for "false" hilariously
@@ -74,6 +72,11 @@ color_init() {
 #       $script_path: The full path to the script
 #       $script_dir: The directory path of the script
 #       $script_name: The file name of the script
+
+# additional explainer:
+# ${BASH_SOURCE[0]} (or, more simply, $BASH_SOURCE[1] ) contains the (potentially relative) path 
+# of the containing script in all invocation scenarios, notably also when the script is sourced, 
+# which is not true for $0.
 
 script_init() {
     local exec_path="$PWD"

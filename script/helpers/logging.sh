@@ -1,25 +1,20 @@
-#! /usr/bin/env sh
-
 # DESC: Generic logging initialisation
-# ARGS: $@ (optional): Arguments provided to the script
-# OUTS: logging to /var/log/>script_name>
+#		logging to /var/log/>script_name>
+# ARGS: script name
+#		user name
+# OUTS: log file creation
 
-create_log() {
-	if [[ ! -n "${script_name}" ]]; then
-		log="/var/log/$(script_name)"
-	fi
+create_log_file() {
 
-	echo $log
-	# create if it doesnt exit
-	if [[ ! -f "${log}" ]]; then
-		sudo touch "${log}"
-	fi
+	# we cut of the sh / or whatever part
+	local log_file="/var/log/${script_name%%.*}.log"
 
-	# own if it is not owned
-	stat -c '%U' "${log}"
-	check who owns...
-	# make usable by allowing reading / writing to the file
-	if [[ "${log}" ]]; then
-		sudo chmod 644
+	# create the file if it doesnt exit
+	if [[ ! -f "${log_file}" ]]; then
+		sudo touch "${log_file}"
+		if [[ $(stat -c '%U' "${log_file}") == "root" ]]; then
+			sudo chown $(id -un).$(id -un) "${log_file}"
+			sudo chmod 644 "${log_file}"
+		fi
 	fi
 }
