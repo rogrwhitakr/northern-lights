@@ -4,7 +4,7 @@
 #		user name
 # OUTS: log file creation
 
-create_log_file() {
+log_init() {
 
 	# we cut of the sh / or whatever part
 	local log_file="/var/log/${script_name%%.*}.log"
@@ -15,6 +15,9 @@ create_log_file() {
 		if [[ $(stat -c '%U' "${log_file}") == "root" ]]; then
 			sudo chown $(id -un).$(id -un) "${log_file}"
 			sudo chmod 644 "${log_file}"
+			exec &>${log_file}
 		fi
 	fi
+	# log stuff
+	exec &>>${log_file}
 }

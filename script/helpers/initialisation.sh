@@ -77,6 +77,7 @@ color_init() {
 # ${BASH_SOURCE[0]} (or, more simply, $BASH_SOURCE[1] ) contains the (potentially relative) path 
 # of the containing script in all invocation scenarios, notably also when the script is sourced, 
 # which is not true for $0.
+# integrate ${BASH_SOURCE[1]%/*}
 
 script_init() {
     local exec_path="$PWD"

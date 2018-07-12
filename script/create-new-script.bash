@@ -230,9 +230,9 @@ ${RED}usage:${NOC}
 choice_verify() {
 	local name="${name}"
 	if [[ ${name} =~ ^[a-zA-Z0-9_.\-]{1,255}$ ]]; then
-		return 0
+		return true
 	else
-		return 25
+		return false
 	fi
 }
 
@@ -284,7 +284,7 @@ main() {
 	# retrurning the code does not work this way....
 	# -> this gets me straight to the trap
 	#	choice_verify "${name}"
-	if [[ $(choice_verify "${name}") == 1 ]]; then
+	if [[ $(choice_verify "${name}") == false ]]; then
 		echo "hmmm"
 		exit 0
 	fi
