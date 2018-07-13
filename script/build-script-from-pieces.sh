@@ -1,7 +1,7 @@
 #! /usr/bin/env bash
 
 # TODOS
-#		if args empty show usage 
+#		if args empty show usage
 #		if run without args, just show usage, no specifier
 #		make usage contain info required:recomendend:optional flags and params
 #		already exists, maybe use colors?
@@ -135,7 +135,10 @@ script_finish() {
 	local name="${name}"
 	local directory="${script_dir}"
 
-	if [[ "${ERROR_CODE}" != 0 ]]; then
+	if [[ "${ERROR_CODE}" == 25 ]]; then
+		echo -e "${RED}name check: ${name} contains disallowed characters!${NOC}"
+		echo -e "\tallowed characters: [a-zA-Z0-9_-.]"
+	elif [[ "${ERROR_CODE}" != 0 ]]; then
 		# if "${directory}/${name}.sh" exists, we delete
 		if [[ -f "${directory}/${name}.sh" ]]; then
 			rm -f "${directory}/${name}.sh"
@@ -234,13 +237,9 @@ ${RED}usage:${NOC}
 # ARGS: $@: Arguments set in choice_init
 # OUTS: go for main / usage if not
 
-choice_verify() {
+choice_is_valid() {
 	local name="${name}"
-	if [[ ${name} =~ ^[a-zA-Z0-9_.\-]{1,255}$ ]]; then
-		return true
-	else
-		return false
-	fi
+	[[ ${name} =~ ^[a-zA-Z0-9_.\-]{1,255}$ ]] || return 25
 }
 
 # DESC: copies template from set directory
@@ -250,37 +249,48 @@ choice_verify() {
 #		template location
 #		usage location
 # OUTS: renamed and copied template file
+#[[ -ef is path comparison]]
 
-copy_template() {
+build_from_template() {
 
 	local directory=${script_dir}
 	local name=${1}
 	local dependency=${2}
-	local TEMPLATE_WITH_DEPENDENCY="/home/admin/MyScripts/script/template/_TEMPLATE.DEPENDENCY.bash"
-	local TEMPLATE_NO_DEPENDENCY="/home/admin/MyScripts/script/template/_TEMPLATE.bash"
-	local USAGE="/home/admin/MyScripts/script/helpers/usage.sh"
+	local template_dir="/home/admin/MyScripts/script/helpers"
+	local ext="sh"
 
-	echo -e "copying template to ${directory}, name ${name}"
+	echo -e "creating template in ${directory}, name ${name}.${ext}"
 	if [[ "${dependency}" == true ]]; then
 
-		local directory=${script_dir}
+		# create file with name
+		touch "${directory}/${name}.${ext}"
 
+		# get an array of the files to be added, may enable ordering
+		readarray features < <(find ${template_dir} -type f)
+
+		for feature in "${features[@]}"; do
+			echo "$feature is my next feature"
+			echo -e "\n#################################################################\n" >> "${directory}/${name}.${ext}"
+			cat "${feature}" >> "${directory}/${name}.${ext}"
+		done
 		# copy necessary files
-		cp "${TEMPLATE_WITH_DEPENDENCY}" "${directory}/${name}.sh"
-		cp "${USAGE}" "${directory}/${name}.usage.sh"
+		#		cp "${template_dir}" "${directory}/${name}.${ext}"
+		#		cp "${USAGE}" "${directory}/${name}.usage.sh"
 
 		# for the depenedncy one we need to copy the usage file
 		# amend the usage file sourcing
 
-		sed -i "s/source .\/helpers\/usage.sh/source .\/${name}.usage.sh/g" "${directory}/${name}.sh"
-	elif [[ "${dependency}" == false ]]; then
-		local directory=${script_dir}
-		cp "${TEMPLATE_NO_DEPENDENCY}" "${directory}/${name}.sh"
-	else
-		echo -e "${RED}something went wrong while copying / modifiying the template files${NOC}"
-		exit 5
+		#		sed -i "s/source .\/helpers\/usage.sh/source .\/${name}.usage.sh/g" "${directory}/${name}.sh"
+		#	elif [[ "${dependency}" == false ]]; then
+		#		local directory=${script_dir}
+		#		cp "${TEMPLATE_NO_DEPENDENCY}" "${directory}/${name}.sh"
+		#	else
+		#		echo -e "${RED}something went wrong while copying / modifiying the template files${NOC}"
+		#		exit 5
 	fi
 }
+
+readonly ERROR_CHOICE_INVALID=35
 
 main() {
 
@@ -288,10 +298,10 @@ main() {
 	local dependency="${t}"
 
 	choice_check "${name}"
+	choice_is_valid "${name}"
 	# retrurning the code does not work this way....
 	# -> this gets me straight to the trap
-	#	choice_verify "${name}"
-	if [[ $(choice_verify "${name}") == false ]]; then
+	if [[ $(choice_is_valid) == false ]]; then
 		echo "hmmm"
 		exit 0
 	fi
@@ -300,7 +310,7 @@ main() {
 
 	read -rp $'Continue (Y/n)? ' -ei $'Y' key
 	if [[ "${key}" == "Y" ]]; then
-		copy_template "${name}" "${dependency}"
+		build_from_template "${name}" "${dependency}"
 	else
 		echo -e "${RED}aborted by user. Exiting${NOC}"
 		exit 0
