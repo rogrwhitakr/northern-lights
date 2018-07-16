@@ -1,5 +1,5 @@
 ---
-- name: Update the system to the latest versions
+- name: Update the system to the latest version
   hosts: cortez
   remote_user: admin
   become: yes

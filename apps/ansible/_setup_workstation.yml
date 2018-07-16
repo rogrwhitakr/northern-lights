@@ -7,7 +7,7 @@
   tasks:
   - name: Add Repository for Microsoft VS CODE
     yum_repository:
-      name: visual studio code
+      name: code
       description: Repository for Microsoft VS CODE
       baseurl: https://packages.microsoft.com/yumrepos/vscode
       gpgkey: https://packages.microsoft.com/keys/microsoft.asc
@@ -25,12 +25,19 @@
     with_items:
     - gnome-tweak-tool
     - firewalld
+    - gnome-todo
 
   - name: Install Productivity software
     dnf: name={{item}} state=present
     with_items:
     - chromium
     - firefox
+
+  - name: Install Powerline CLI 
+    dnf: name={{item}} state=present
+    with_items:
+    - powerline 
+    - powerline-fonts
 
   - name: Install visual studio code
     dnf: 
