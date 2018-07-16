@@ -17,11 +17,18 @@ sed '/hello/d' input.txt
 
 # get functions in file
 # could use the declare thing (see .dotfiles/.functions)?
-readonly file_with_a_function_declaration="/home/admin/MyScripts/script/helpers/logging.sh"
+readonly file_with_a_function_declaration="/home/admin/MyScripts/script/helpers/*.sh"
 
-grep -E '(() {)' ${file_with_a_function_declaration}
+echo 'grep'
+grep -h 'init() {' ${file_with_a_function_declaration}
+grep -h 'init() {' ${file_with_a_function_declaration} | sed 's/() {//g' > ${OUTFILE}
 
-sed 's/() {/''/g' ${file_with_a_function_declaration} > ${OUTFILE}
+#echo 'sed'
+#sed 's/.*\(init()\).*/\1/g' ${file_with_a_function_declaration} >> ${OUTFILE}
+
+
+
+# declare -f | grep '^[a-z].* ()' | sed 's/{$//'
 
 ################################## 
 # replacing a \ in a passed variable

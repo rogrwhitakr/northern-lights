@@ -8,16 +8,6 @@
 #   VERSION
 version="0.0.1"
 
-# DESC: sourcing of helper scripts
-# ARGS: none
-# OUTS: some variables, usage
-# INFO: copy and append sourcing of "usage"
-#       edit "<yo-scripts-name>.usage.sh" to fit your script
-
-source ./helpers/usage.sh
-source ./helpers/logging.sh
-source ./helpers/initialisation.sh
-
 script_finish() {
 
 	# DESC: Trap exits with cleanup function
