@@ -1,16 +1,14 @@
-#! /usr/bin/env bash
-# source me !!
-
-# DESC: initalise variables for unit file
-# NOTE: main
-# ARGS: none
-# OUTS: unit file name
-#		user and group to run it as
-#		executable location
-#		this is a TODO!
-#		where to bes put these scripts? some systemd recommended place?
-
 user_unit_file_var_init() {
+
+	# DESC: initalise variables for unit file
+	# NOTE: main
+	# ARGS: none
+	# OUTS: unit file name
+	#		user and group to run it as
+	#		executable location
+	#		this is a TODO!
+	#		where to bes put these scripts? some systemd recommended place?
+
 	readonly unit_file="${BASH_SOURCE[1]}"
 	readonly user="$(whoami)"
 	readonly group="$(id --group --name ${user})"
@@ -27,11 +25,12 @@ unit_file_error_code_init() {
 	readonly ERROR_UNIT_FILE_UNKNOWN_EXTENSION=41
 }
 
-# DESC: verify unit file syntax
-# ARGS: unit
-# OUTS: verification bits
-
 verify_unit_file_syntax() {
+
+	# DESC: verify unit file syntax
+	# ARGS: unit
+	# OUTS: verification bits
+
 	unit="$1"
 
 	if [[ -z "$1" ]]; then
@@ -44,11 +43,11 @@ verify_unit_file_syntax() {
 
 }
 
-# DESC: check if file has a service extension
-# ARGS: unit-file name
-# OUTS: none
-
 verify_unit_file_extension() {
+
+	# DESC: check if file has a service extension
+	# ARGS: unit-file name
+	# OUTS: none
 
 	unit_file="$1"
 	if [[ -z "$1" ]]; then
@@ -70,12 +69,12 @@ verify_unit_file_extension() {
 	fi
 }
 
-# DESC: create a one-shot unit file for executing bash script
-# NOTE: executed as user (non-root)
-# ARGS: $@: Arguments provided to the script
-# OUTS: unitfile creation
-
 create_unit_file() {
+
+	# DESC: create a one-shot unit file for executing bash script
+	# NOTE: executed as user (non-root)
+	# ARGS: $@: Arguments provided to the script
+	# OUTS: unitfile creation
 
 	local unit_file="$1"
 	local user="$2"

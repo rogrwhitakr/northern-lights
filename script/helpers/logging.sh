@@ -1,12 +1,12 @@
-# DESC: Generic logging initialisation
-#		logging to /var/log/>script_name>
-# ARGS: script name
-#		user name
-# OUTS: log file creation
-
 log_init() {
 
-	# we cut of the sh / or whatever part
+	# DESC: Generic logging initialisation
+	#		logging to /var/log/>script_name>
+	# ARGS: script name
+	#		user name
+	# OUTS: log file creation
+
+	# we cut of the extension
 	local log_file="/var/log/${script_name%%.*}.log"
 
 	# create the file if it doesnt exit

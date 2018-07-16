@@ -1,21 +1,20 @@
-
 # PROVIDES: choice_init
 # PROVIDES: choice_check
 # PROVIDES: choice_verify
 
-# DESC: any and all flags go here for evaluation
-# ARGS: $@
-#       default flags (with sourcing)
-#       -f  force, skip all user interaction.  Implied 'Yes' to all actions.
-#       -q  Quiet (no output)
-#       -l  Print log to file
-#       -h  Display help, version and exit
-#       -s  set strict
-#       -v  verbose
-#       -d  run in debug-mode
-# OUTS: go for main
-
 choice_init() {
+
+	# DESC: any and all flags go here for evaluation
+	# ARGS: $@
+	#       default flags (with sourcing)
+	#       -f  force, skip all user interaction.  Implied 'Yes' to all actions.
+	#       -q  Quiet (no output)
+	#       -l  Print log to file
+	#       -h  Display help, version and exit
+	#       -s  set strict
+	#       -v  verbose
+	#       -d  run in debug-mode
+	# OUTS: go for main
 
 	# set any bools
 	t=false
@@ -24,18 +23,18 @@ choice_init() {
 	while getopts ":s:u:p:n:thfqlhsvd" opt; do
 		case "${opt}" in
 		s) # in-choice-eval
-		   # both methods work. One is a little wordier
+			# both methods work. One is a little wordier
 			s=${OPTARG}
-           #1
+			#1
 			((s == 45 || s == 90)) || usage
-			(("${OPTARG#*.}" == "service" || "${OPTARG#*.}" == "timer")) ||	usage
-		   #2
-			if ([[ "${OPTARG#*.}" == "service" ]] || [[ "${OPTARG#*.}" == "timer" ]]) || ; then
+			(("${OPTARG#*.}" == "service" || "${OPTARG#*.}" == "timer")) || usage
+			#2
+			if ([[ "${OPTARG#*.}" == "service" ]] || [[ "${OPTARG#*.}" == "timer" ]]); then
 				s=${OPTARG}
 			else
 				usage
 			fi
-            ;;
+			;;
 		u) # user
 			readonly u=${OPTARG}
 			id -u "${u}" &&
@@ -113,9 +112,9 @@ choice_init() {
 #       otherwise its a manual set everytime. probably better
 
 choice_check() {
-    # multiple check
-    # if [ -z "${s}" ] || [ -z "${p}" ] || [ -z "${m}" ]; then
-    # single check
+	# multiple check
+	# if [ -z "${s}" ] || [ -z "${p}" ] || [ -z "${m}" ]; then
+	# single check
 	if [[ -z "${n}" ]]; then
 		echo -e "${RED}You must provide this and that!${NOC}
         "
@@ -124,16 +123,12 @@ choice_check() {
 	fi
 }
 
-# DESC: validity-checks inputs provided to choice_init
-# ARGS: $@: Arguments set in choice_init
-# OUTS: go for main / usage if not
- 
-choice_verify() {
-	local name="${flag_name}"
-	if [[ ${name} =~ ^[a-zA-Z0-9_.\-]{1,255}$ ]]; then
-		return true
-	else
-		return false
-	fi
-}
+choice_is_valid() {
 
+	# DESC: validity-checks inputs provided to choice_init
+	# ARGS: $@: Arguments set in choice_init
+	# OUTS: VALID / INVALID flags
+
+	local name="${name}"
+	[[ ${name} =~ ^[a-zA-Z0-9_.\-]{1,255}$ ]] && echo "VALID" || echo "INVALID"
+}

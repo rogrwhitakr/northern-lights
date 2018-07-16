@@ -239,8 +239,8 @@ ${RED}usage:${NOC}
 
 choice_is_valid() {
 	local name="${name}"
-	[[ ${name} =~ ^[a-zA-Z0-9_.\-]{1,255}$ ]] || return 25
-}
+	[[ ${name} =~ ^[a-zA-Z0-9_.\-]{1,255}$ ]] && echo "VALID" || echo "INVALID"
+ }
 
 # DESC: copies template from set directory
 #		renames template to set name
@@ -256,25 +256,39 @@ build_from_template() {
 	local directory=${script_dir}
 	local name=${1}
 	local dependency=${2}
-	local template_dir="/home/admin/MyScripts/script/helpers"
+	local helper_dir="/home/admin/MyScripts/script/helpers"
+	local template_dir="/home/admin/MyScripts/script/template"
 	local ext="sh"
 
 	echo -e "creating template in ${directory}, name ${name}.${ext}"
 	if [[ "${dependency}" == true ]]; then
 
 		# create file with name
+		if [[ -f "${directory}/${name}.${ext}" ]]; then
+			echo -e "file ${directory}/${name}.${ext} already exists. Remove and start from scratch?"
+			rm -vi "${directory}/${name}.${ext}"
+		fi
 		touch "${directory}/${name}.${ext}"
 
+		# add it the main header, maybe setting the version and stuff along the way..
+		cat ${template_dir}"/main.header.bash" >>"${directory}/${name}.${ext}"
+
 		# get an array of the files to be added, may enable ordering
-		readarray features < <(find ${template_dir} -type f)
+		# this is somewhat problematic. i amy have to revert to manual sequence selection of files to source
+		# ATM the unit file one is the first, that is not sensible
+		# i could reverse the array, ba this rests entirely on the naming of the source files
+		# on the other hand "find" has a somewhat dynamic element to it....
+
+		readarray features < <(find ${helper_dir} -type f)
 
 		for feature in "${features[@]}"; do
 			echo "$feature is my next feature"
-			echo -e "\n#################################################################\n" >> "${directory}/${name}.${ext}"
-			cat "${feature}" >> "${directory}/${name}.${ext}"
+
+			echo -e "\n#################################################################\n" >>"${directory}/${name}.${ext}"
+			cat $feature >>"${directory}/${name}.${ext}"
 		done
 		# copy necessary files
-		#		cp "${template_dir}" "${directory}/${name}.${ext}"
+		#		cp "${helper_dir}" "${directory}/${name}.${ext}"
 		#		cp "${USAGE}" "${directory}/${name}.usage.sh"
 
 		# for the depenedncy one we need to copy the usage file
@@ -298,10 +312,9 @@ main() {
 	local dependency="${t}"
 
 	choice_check "${name}"
-	choice_is_valid "${name}"
 	# retrurning the code does not work this way....
-	# -> this gets me straight to the trap
-	if [[ $(choice_is_valid) == false ]]; then
+	# -> this gets me straight to 'the' trap
+	if [[ $(choice_is_valid) == 'INVALID' ]]; then
 		echo "hmmm"
 		exit 0
 	fi
