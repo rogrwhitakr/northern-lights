@@ -1,16 +1,16 @@
 ---
 - name: Update the system to the latest versions
-  hosts: mail powershell admin redmine
+  hosts: cortez
   remote_user: admin
   become: yes
 
   tasks:
-  - name: get version info 
-    command: getenforce
-    register: VersionInfo
-    changed_when: false
-
   - name: upgrade all packages
     dnf:
       name: "*"
       state: latest
+
+  - name: get version info 
+    command: getenforce
+    register: VersionInfo
+    changed_when: false      
