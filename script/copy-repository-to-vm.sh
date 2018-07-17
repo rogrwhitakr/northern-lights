@@ -1,24 +1,26 @@
 #! /usr/bin/env bash
 
+readonly RED='\033[0;31m'
+readonly YELLOW='\e[33m'
+readonly GREEN='\e[0;32m'
+readonly NOC='\033[0m'
+
 remote_user="admin"
 vm="IAV.Cortez"
+service=false
+connect=false
 
-# query local status ?
+echo -e "${RED}Checking virtual machine availability. VM: ${vm}${NOC}"
+# query virt machine service status
+systemctl status virtual-machines.service 2>&1 >/dev/null
+[[ "$?" == "0" ]] && service=true
 
-systemctl status virtual-machines.service
+ping -c1 ${vm} 2>&1 >/dev/null
+[[ "$?" == "0" ]] && connect=true
 
-if [[ "$?" != "0" ]]; then
-    echo "nuffingk!"
-else
-    echo "tru"
-fi    
-
-# copy bulk / whole directories
-scp -r ~/MyScripts ${remote_user}@${vm}:~/
-
-# this does not have the option of excluding
-# stackoverflow suggestions:
-# using find
-# although it already does what i want it to do, hmmm
-
-echo "done"
+if [[ ${service} == true ]] && [[ ${connect} == true ]]; then
+	# copy bulk / whole directories
+	echo -e "${GREEN}virtual machine $vm available. starting copy-job...${NOC}"
+	scp -r ~/MyScripts ${remote_user}@${vm}:~/ 2>/dev/null
+	echo -e "${GREEN}copy complete${NOC}"
+fi
