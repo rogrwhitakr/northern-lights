@@ -1,4 +1,15 @@
-w# says: always use
+
+# Bypassing shell aliases
+# alias ls='ls -Z'
+ls
+# only ls command
+\ls
+
+#execute on remote box
+ssh srv 'bash -s' < ~/<path>/setup-profile-on-new-box.bash
+
+
+# always use
 #! /usr/bin/env sh
 
 # use built-ins as much as possible

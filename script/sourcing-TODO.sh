@@ -25,7 +25,6 @@ ERROR_DIRECTORY_UNKNOWN=30
 # INFO: copy and append sourcing of "usage"
 #       edit "<yo-scripts-name>.usage.sh" to fit your script
 
-source "${BASH_SOURCE[1]%/*}/log-dependency-test.usage.sh"
 source "${BASH_SOURCE[1]%/*}/helpers/initialisation.sh"
 source "${BASH_SOURCE[1]%/*}/helpers/logging.sh"
 USAGE=${BASH_SOURCE[1]%/*}/log-dependency-test.usage.sh
