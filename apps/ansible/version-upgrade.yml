@@ -1,7 +1,6 @@
 ---
 - name: Upgrading Fedora 27 Workstation to Fedora  28
-  hosts: admin
-  remote_user: admin
+  hosts: localhost
   become: yes
 
   tasks:

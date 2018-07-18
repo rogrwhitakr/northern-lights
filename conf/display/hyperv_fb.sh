@@ -21,4 +21,7 @@ GRUB_DISABLE_RECOVERY="true"
 # update the config to be written somewhere
 sudo grub2-mkconfig -o /boot/grub2/grub.cfg
 
+# use UEFI one
+grub2-mkconfig -o /boot/efi/EFI/fedora/grub.cfg
+
 # reboot will display the video=hyperv_fb:1920x1080 line

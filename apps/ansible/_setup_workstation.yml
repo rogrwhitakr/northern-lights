@@ -7,11 +7,24 @@
   tasks:
   - name: Add Repository for Microsoft VS CODE
     yum_repository:
-      name: visual studio code
-      description: Repository for Microsoft VS CODE
+      name: code
+      description: Visual Studio Code
       baseurl: https://packages.microsoft.com/yumrepos/vscode
       gpgkey: https://packages.microsoft.com/keys/microsoft.asc
       gpgcheck: yes
+
+  - name: Add Repository for Sublime Text
+    yum_repository:
+      name: sublime-text
+      description: Sublime Text - x86_64 - Stable
+      baseurl: https://download.sublimetext.com/rpm/stable/x86_64
+      gpgkey: https://download.sublimetext.com/sublimehq-rpm-pub.gpg
+      gpgcheck: yes
+
+  - name: Update all software on system to current latest 
+    dnf:
+      name: "*"
+      state: latest
 
   - name: Install basic software
     dnf: name={{item}} state=present
@@ -20,11 +33,31 @@
     - nmap
     - nano
 
+  - name: Allow editing on an SELinux enforced system
+    dnf:
+      name: libselinux-python
+      state: latest
+      
   - name: Update GNOME softwares
     dnf: name={{item}} state=present
     with_items:
     - gnome-tweak-tool
     - firewalld
+
+  - name: Remove Rhythmbox
+    package:
+      name: rhythmbox
+      state: absent
+
+  - name: Install GNOME Music
+    package:
+      name: gnome-music
+      state: present
+
+  - name: Remove Shotwell
+    package:
+      name: shotwell
+      state: absent
 
   - name: Install Productivity software
     dnf: name={{item}} state=present
@@ -32,13 +65,30 @@
     - chromium
     - firefox
 
-  - name: Install visual studio code
+  - name: Install Visual Studio Code
     dnf: 
       name: code
       state: latest
 
-  - name: Install Virtualisation software
+  - name: Install Sublime Text
+    dnf: 
+      name: sublime-text
+      state: latest
+
+  - name: Install PowerLine
     dnf: name={{item}} state=present
     with_items:
-    - virsh
-    - virt-manager
+    - powerline
+    - powerline-fonts
+
+  - name: edit .bashrc to enable powerline usage
+
+    blockinfile:
+      path: /home/benno/.bashrc
+      block: |
+        if [ -f `which powerline-daemon` ]; then
+          powerline-daemon -q
+          POWERLINE_BASH_CONTINUATION=1
+          POWERLINE_BASH_SELECT=1
+          . /usr/share/powerline/bash/powerline.sh
+        fi
