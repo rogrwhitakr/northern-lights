@@ -1,0 +1,16 @@
+---
+- name: Update the system to the latest version
+  hosts: cortez
+  remote_user: admin
+  become: yes
+
+  tasks:
+  - name: upgrade all packages
+    dnf:
+      name: "*"
+      state: latest
+
+  - name: get version info 
+    command: getenforce
+    register: VersionInfo
+    changed_when: false      

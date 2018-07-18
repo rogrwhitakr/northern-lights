@@ -1,0 +1,27 @@
+---
+- name: ANSIBLE PLAYBOOK missing pieces
+  hosts: all
+  remote_user: Administrator
+  become: yes
+
+  tasks:
+  - name: set getenforce permissive while doings 
+    command: getenforce
+    register: VersionInfo
+    changed_when: false
+
+  - name: edit the bashrc, any other files
+    lineinfile:
+
+  - name: add a repository correctly 
+    yum_repository:
+      name: code
+      description: Repository for Microsoft VS CODE
+      baseurl: https://packages.microsoft.com/yumrepos/vscode
+      gpgkey: https://packages.microsoft.com/keys/microsoft.asc
+      gpgcheck: yes
+
+  - name: version upgrade, if it is possible....
+    dnf:
+      name: version-upgrade
+      state: latest

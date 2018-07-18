@@ -9,6 +9,12 @@
 # console
 # core
 
+# host must be contained within 
+/etc/ansible/hosts
+
+# exec simple update playbook
+ansible-playbook ~/MyScripts/apps/ansible/playbook_update.yml --ask-become-pass
+ 
 # ping them
 ansible northernlights -m ping
 

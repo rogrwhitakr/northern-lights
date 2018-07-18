@@ -43,6 +43,7 @@
     with_items:
     - gnome-tweak-tool
     - firewalld
+    - gnome-todo
 
   - name: Remove Rhythmbox
     package:
@@ -65,7 +66,13 @@
     - chromium
     - firefox
 
-  - name: Install Visual Studio Code
+  - name: Install Powerline CLI 
+    dnf: name={{item}} state=present
+    with_items:
+    - powerline 
+    - powerline-fonts
+
+  - name: Install visual studio code
     dnf: 
       name: code
       state: latest

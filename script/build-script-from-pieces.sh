@@ -240,7 +240,7 @@ ${RED}usage:${NOC}
 choice_is_valid() {
 	local name="${name}"
 	[[ ${name} =~ ^[a-zA-Z0-9_.\-]{1,255}$ ]] && echo "VALID" || echo "INVALID"
- }
+}
 
 # DESC: copies template from set directory
 #		renames template to set name
@@ -257,11 +257,20 @@ build_from_template() {
 	local name=${1}
 	local dependency=${2}
 	local helper_dir="/home/admin/MyScripts/script/helpers"
+	local helpers="/home/admin/MyScripts/script/helpers/*.sh"
 	local template_dir="/home/admin/MyScripts/script/template"
 	local ext="sh"
 
 	echo -e "creating template in ${directory}, name ${name}.${ext}"
-	if [[ "${dependency}" == true ]]; then
+	# get an array of the files to be added, may enable ordering
+	# this is somewhat problematic. i amy have to revert to manual sequence selection of files to source
+	# ATM the unit file one is the first, that is not sensible
+	# i could reverse the array, ba this rests entirely on the naming of the source files
+	# on the other hand "find" has a somewhat dynamic element to it....
+
+	readarray features < <(find ${helper_dir} -type f)
+
+	if [[ "${dependency}" == false ]]; then
 
 		# create file with name
 		if [[ -f "${directory}/${name}.${ext}" ]]; then
@@ -273,20 +282,43 @@ build_from_template() {
 		# add it the main header, maybe setting the version and stuff along the way..
 		cat ${template_dir}"/main.header.bash" >>"${directory}/${name}.${ext}"
 
-		# get an array of the files to be added, may enable ordering
-		# this is somewhat problematic. i amy have to revert to manual sequence selection of files to source
-		# ATM the unit file one is the first, that is not sensible
-		# i could reverse the array, ba this rests entirely on the naming of the source files
-		# on the other hand "find" has a somewhat dynamic element to it....
-
-		readarray features < <(find ${helper_dir} -type f)
-
+		# add featured tie-ins
 		for feature in "${features[@]}"; do
-			echo "$feature is my next feature"
-
 			echo -e "\n#################################################################\n" >>"${directory}/${name}.${ext}"
 			cat $feature >>"${directory}/${name}.${ext}"
 		done
+
+		# get the init functions
+		grep -h 'init() {' ${helpers} | sed 's/() {//g' >>"${directory}/${name}.${ext}"
+		# finally, add it the main header
+		cat ${template_dir}"/main.bash" >>"${directory}/${name}.${ext}"
+		
+	else
+
+		# create file with name
+		if [[ -f "${directory}/${name}.${ext}" ]]; then
+			echo -e "file ${directory}/${name}.${ext} already exists. Remove and start from scratch?"
+			rm -vi "${directory}/${name}.${ext}"
+		fi
+		touch "${directory}/${name}.${ext}"
+
+		# add it the main header, maybe setting the version and stuff along the way..
+		cat ${template_dir}"/main.header.bash" >>"${directory}/${name}.${ext}"
+
+		# add empty line
+		echo -e "\n" >>"${directory}/${name}.${ext}"
+
+		# add sourcing
+		for feature in "${features[@]}"; do
+			echo "source ${feature}" >>"${directory}/${name}.${ext}"
+		done
+
+		# get the init functions
+		grep -h 'init() {' ${helpers} | sed 's/() {//g' >>"${directory}/${name}.${ext}"
+
+		# finally, add it the main header
+		cat ${template_dir}"/main.bash" >>"${directory}/${name}.${ext}"
+
 		# copy necessary files
 		#		cp "${helper_dir}" "${directory}/${name}.${ext}"
 		#		cp "${USAGE}" "${directory}/${name}.usage.sh"

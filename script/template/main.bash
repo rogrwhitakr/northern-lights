@@ -17,6 +17,9 @@ function main() {
 }
 
 # init the helpers
+#<REPLACE_WITH_FUNCTIONS>
+
+#alias functions="declare -f | grep '^[a-z].* ()' | sed 's/{$//'"
 color_init
 flags_init
 script_init
