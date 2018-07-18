@@ -157,13 +157,12 @@ script_finish(){
 
 function main() {  
 
-  cd ~/profile-setup-test/
-  source ~/MyScripts/script/unit-file-functions.sh
+  source ~/MyScripts/script/helpers/unit-file-functions.sh
   script_init
   color_init
   usage
   trap script_finish EXIT INT TERM
-  create_unit_file setup-profile.service admin admin
+  create_unit_file setup-profile.service "$(id -un)" "$(id -un)"
   verify_unit_file_extension test.service
   verify_unit_file_extension test.timer
   exit 0
