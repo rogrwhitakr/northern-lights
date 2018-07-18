@@ -1,0 +1,39 @@
+---
+- name: different stuffs
+  hosts: localhost
+  become: yes
+
+  vars_prompt:
+  - name: username
+    prompt: What is a Username (fist initial lastname i.e. "George Allen" = gallen)?
+  - name: password
+    prompt: What is a password?
+
+  tasks:
+  - name: create a new user
+    user: name={{ username }}
+          state=present
+          groups="geoclue"
+          password={{ password }}
+
+# after update maybe ->
+  - name: Update and restart ssh if it is updated
+    dnf:
+      name: "httpd"
+      state: latest
+    notify:
+    - name: Restart Apache
+    handlers:
+    - name: Restart Apache
+      service:
+        name: httpd
+        state: restarted      
+
+# Create a file
+  - name: file created at tmp, with varaible as input
+    vars:
+    - fileName: file-touched-by-ansible
+    file: 
+      path: /tmp/{{ fileName }}.txt
+      state: touch
+      mode: 0644        
