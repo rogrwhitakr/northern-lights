@@ -33,6 +33,13 @@
     - nmap
     - nano
 
+  - name: Install system / analytics software
+    dnf: name={{item}} state=present
+    with_items:
+    - dconf-editor
+    - firewalld
+    - wireshark
+
   - name: Allow editing on an SELinux enforced system
     dnf:
       name: libselinux-python
@@ -42,29 +49,22 @@
     dnf: name={{item}} state=present
     with_items:
     - gnome-tweak-tool
-    - firewalld
     - gnome-todo
+    - gnome-music
 
-  - name: Remove Rhythmbox
-    package:
-      name: rhythmbox
-      state: absent
-
-  - name: Install GNOME Music
-    package:
-      name: gnome-music
-      state: present
-
-  - name: Remove Shotwell
-    package:
-      name: shotwell
-      state: absent
+  - name: Remove unwanted default packages 
+    dnf: name={{item}} state=absent
+    with_items:
+      - rhythmbox
+      - shotwell
+      - builder
 
   - name: Install Productivity software
     dnf: name={{item}} state=present
     with_items:
     - chromium
     - firefox
+    - calibre
 
   - name: Install Powerline CLI 
     dnf: name={{item}} state=present
