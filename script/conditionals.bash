@@ -2,15 +2,16 @@
 programme="htop"
 demofile="~1.txt"
 
-if ! [ which $programme = "0" ]; then
-    echo "found $programme in $(which $programme)"
-else
-    echo "nah"
-fi
+condition() {
+	local programme="${1}"
+	[ "$(which $programme)" = 0 ] || echo false && echo true
+}
+
+condition "${programme}"
 
 # checking if a file exists
 if [ ! -f $demofile ]; then
-	touch  $demofile
+	touch $demofile
 	chmod 644 $demofile
 fi
 
@@ -24,7 +25,7 @@ fi
 
 # [[ parameter FILE ]]
 # Where parameter can be any one of the following:
-# 
+#
 # -e: Returns true value if file exists.
 # -f: Return true value if file exists and regular file.
 # -r: Return true value if file exists and is readable.
