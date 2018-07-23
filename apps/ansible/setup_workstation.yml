@@ -39,6 +39,8 @@
     - dconf-editor
     - firewalld
     - wireshark
+    - python3
+    - postgresql
 
   - name: Allow editing on an SELinux enforced system
     dnf:
@@ -65,12 +67,6 @@
     - chromium
     - firefox
     - calibre
-
-  - name: Install Powerline CLI 
-    dnf: name={{item}} state=present
-    with_items:
-    - powerline 
-    - powerline-fonts
 
   - name: Install visual studio code
     dnf: 
