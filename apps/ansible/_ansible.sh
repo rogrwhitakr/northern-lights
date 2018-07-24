@@ -51,3 +51,10 @@ ansible-playbook playbook_update.yml --list-hosts
 # there are 16!! var fields / locations that ansible reads from. it uses whatever it finds first
 # so if default dir is /home/admin/apps/ansible -> this directory can contain a config file that applies (and only that?)
 # i need to find some more of these redhat videos, the first one was pretty solid
+
+# pass an extra var that has been defined in the yaml
+# yaml looks like this:
+# ---
+# - name: Shutdown a remote computer
+#   hosts: "{{ host }}"
+ansible-playbook ~/MyScripts/apps/ansible/shutdown.yml --extra-vars="host=cortez" --ask-become-pass
