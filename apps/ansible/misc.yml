@@ -15,6 +15,11 @@
           state=present
           groups="geoclue"
           password={{ password }}
+  - name: remove the user again
+    user: name={{ username }}
+          state=absent
+          groups="geoclue"
+          password={{ password }}
 
 # after update maybe ->
   - name: Update and restart ssh if it is updated
@@ -37,3 +42,17 @@
       path: /tmp/{{ fileName }}.txt
       state: touch
       mode: 0644        
+
+# edit dconf module, enable, then disable
+  - name: Enable Night Light
+    dconf:
+      key: /org/gnome/settings-daemon/plugins/color/night-light-enabled
+      value: true
+  - name: Set Night Light Temperature
+    dconf:
+      key: /org/gnome/settings-daemon/plugins/color/night-light-temperature
+      value: uint32 5500    
+  - name: disable Night Light again    
+    dconf:
+      key: /org/gnome/settings-daemon/plugins/color/night-light-enabled
+      value: false  
