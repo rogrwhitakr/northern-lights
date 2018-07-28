@@ -17,6 +17,22 @@ do
   echo ${friends[$i]}
 done
 
+
+# array     -> use ()
+#           -> use a while or for loop
+# for i in ${array[@]}
+# do
+#    echo $i
+# done
+
+# or in a while loop
+# i=0;
+# while [ $i -lt ${#array[@]} ]
+# do
+#     echo $i: ${array[$i]}
+#     ((i++))
+# done
+
 # read into array
 readarray arr < <( echo a; echo b; echo c )
 echo "${#arr[@]}"
