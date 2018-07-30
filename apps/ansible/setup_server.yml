@@ -15,6 +15,8 @@
     slurp:
       src: /etc/os-release
     register: fedora
+  - debug:
+    msg: "{{ fedora['content'] | b64decode }}"
   - name: Upgrade in the future
     command: echo "success"
     when: '"VERSION_ID=28" in fedora.content|b64decode' 
