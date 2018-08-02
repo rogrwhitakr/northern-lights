@@ -10,6 +10,11 @@ echo "landy" >> ${INFILE}
 echo "lundsu" >> ${INFILE}
 echo "world" >> ${INFILE}
 echo "docker" >> ${INFILE}
+echo "[config demo]
+setting_path =	/etc/some/path
+setting_flag =	true
+#be samba. at least you look guod....
+flagg		= yes" >> ${INFILE}
 
 # principal functionality
 # replace docker with tocker !
@@ -22,7 +27,12 @@ sed 's/hello/world/' "${INFILE}" >${OUTFILE}
 # deletion
 sed '/hello/d' "${INFILE}"
 
+# edit config values
+sed -i -r 's/setting_path =.*/setting_path = \/etc\/modified\/path/' "${INFILE}"
+sed -i -r 's/flagg.*=.*/flagg = no, there is an issue with spaces..../' "${INFILE}"
 cat "${INFILE}"
+
+exit 0
 
 echo -e "\n\n\n"
 sed '/root/p' /etc/passwd
