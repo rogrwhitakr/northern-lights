@@ -41,6 +41,13 @@
     - wireshark
     - postgresql
 
+  - name: Install database software
+    dnf: name={{item}} state=present
+    with_items:
+    - pgadmin3
+    - postgresql-server
+    - postgresql
+
   - name: Install Python Environment 
     dnf: name={{item}} state=present
     with_items:
