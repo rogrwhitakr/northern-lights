@@ -56,3 +56,21 @@
     dconf:
       key: /org/gnome/settings-daemon/plugins/color/night-light-enabled
       value: false  
+
+  - name: Upgrade in the future
+    command: echo "success"
+    when: '"VERSION_ID=28" in fedora.content|b64decode' 
+  - name: file created at tmp, with varaible as input
+    when: '"VERSION_ID=28" in fedora.content|b64decode' 
+    vars:
+    - fileName: file-touched-by-ansible
+    file: 
+      path: /tmp/{{ fileName }}.txt
+      state: touch
+      mode: 0644        
+
+  - name: get version info 
+    command: getenforce
+    register: VersionInfo
+    changed_when: false      
+
