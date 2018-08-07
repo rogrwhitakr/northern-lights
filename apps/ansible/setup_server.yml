@@ -1,6 +1,6 @@
 
 ---
-- name: Update the system to the latest version
+- name: Setup test server
   hosts: cortez
   remote_user: admin
   become: yes
@@ -15,24 +15,10 @@
     slurp:
       src: /etc/os-release
     register: fedora
-  - name: Upgrade in the future
-    command: echo "success"
-    when: '"VERSION_ID=28" in fedora.content|b64decode' 
-  - name: file created at tmp, with varaible as input
-    when: '"VERSION_ID=28" in fedora.content|b64decode' 
-    vars:
-    - fileName: file-touched-by-ansible
-    file: 
-      path: /tmp/{{ fileName }}.txt
-      state: touch
-      mode: 0644        
+  - debug:
+    msg: "{{ fedora['content'] | b64decode }}"
 
-  - name: get version info 
-    command: getenforce
-    register: VersionInfo
-    changed_when: false      
-
-  - name: Install basic software
+  - name: Install basics
     dnf: name={{item}} state=present
     with_items:
     - nano
@@ -45,4 +31,23 @@
     - htop
     - sysstat
     - iotop
-    - python
+    - dmidecode
+
+  - name: Install databases
+    dnf: name={{item}} state=present
+    with_items:
+    - postgresql
+    - postgresql-server
+    - mariadb
+    
+  - name: Install LDAP server
+    dnf: name={{item}} state=present
+    with_items:
+    - openldap 
+    - openldap-clients
+    - openldap-servers
+    
+  - name: Install SFTP server
+    dnf: name={{item}} state=present
+    with_items:
+    - vsftpd
