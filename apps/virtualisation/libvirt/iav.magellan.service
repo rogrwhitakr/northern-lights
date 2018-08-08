@@ -1,5 +1,5 @@
 [Unit]
-Description=IAV.Cortez
+Description=IAV.Magellan
 
 Requires=libvirtd.service
 After=libvirtd.service
@@ -11,8 +11,8 @@ Before=halt.target
 [Service]
 Type=forking
 RemainAfterExit=yes  
-ExecStart=/usr/bin/virsh start IAV.Cortez
-ExecStop=/usr/bin/virsh shutdown IAV.Cortez
+ExecStart=/usr/bin/virsh start IAV.Magellan
+ExecStop=/usr/bin/virsh shutdown IAV.Magellan
 MemoryLimit=1G
 
 [Install]
