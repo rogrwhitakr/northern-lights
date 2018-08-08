@@ -1,0 +1,16 @@
+.\" Manpage for the northernlights programme
+.TH man 1 "2018-08-07" "1.1" "Northernlights man page"
+.SH NAME
+light \- do something. something nefarious! 
+.SH SYNOPSIS
+light [ARGUMENT] ... [MORE ARGUMENT]
+.SH DESCRIPTION
+northernlights is high level fictitious programme, entertaining in its quest for soul. and soul searching
+.SH OPTIONS
+The light does not take any options. However, you may attract its attention by all arguments you give it.
+.SH SEE ALSO
+useradd(8), passwd(5) 
+.SH BUGS
+No known bugs. It does have a mortal enemy, though...
+.SH AUTHOR
+rogrwhitakr
