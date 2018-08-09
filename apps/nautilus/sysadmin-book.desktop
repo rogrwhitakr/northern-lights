@@ -4,6 +4,7 @@ Encoding=UTF-8
 Name=sysadmin
 Comment=open Sysadmin book
 Exec=/usr/bin/ebook-viewer '/home/admin/Calibre Library/Thomas A. Limoncelli/The Practice of System and Network Administration (7)/The Practice of System and Network Adminis - Thomas A. Limoncelli.epub'
-# this is not ideal, as the icon probably came with some additionally installed packages...
+# downloaded icon, put to /usr/share/icons
+# maybe somewhat of a default dir?
 Icon=/usr/share/icons/open-book-icon.png
 Terminal=false
