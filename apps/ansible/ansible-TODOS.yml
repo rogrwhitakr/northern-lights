@@ -5,6 +5,8 @@
   become: yes
 
   tasks:
+  - name: install a service!!!
+  
   - name: set getenforce permissive while doings 
     command: getenforce
     register: VersionInfo

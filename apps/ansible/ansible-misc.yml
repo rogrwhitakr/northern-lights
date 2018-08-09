@@ -3,6 +3,9 @@
   hosts: localhost
   become: yes
 
+# get runtime variables -> ansible provides 16! different places from which it reads
+#  vars_prompt overrides them all
+# must be before tasks in yaml document?
   vars_prompt:
   - name: username
     prompt: What is a Username (fist initial lastname i.e. "George Allen" = gallen)?

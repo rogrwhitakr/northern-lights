@@ -1,0 +1,27 @@
+---
+- name: Add Powerline to Workstation
+  hosts: cortez
+  remote_user: admin
+
+  tasks:
+  - name: Install necessary package to allow editing on an SELinux enforced system
+    dnf:
+      name: libselinux-python
+      state: latest
+      
+  - name: Install Powerline for pleasant commandline operation
+    dnf: name={{item}} state=present
+    with_items:
+    - powerline
+    - powerline-fonts
+
+  - name: edit .bashrc to enable powerline usage
+    blockinfile:
+      path: /home/admin/.bashrc
+      block: |
+        if [ -f `which powerline-daemon` ]; then
+          powerline-daemon -q
+          POWERLINE_BASH_CONTINUATION=1
+          POWERLINE_BASH_SELECT=1
+          . /usr/share/powerline/bash/powerline.sh
+        fi

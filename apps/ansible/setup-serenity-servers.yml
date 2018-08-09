@@ -1,0 +1,63 @@
+
+---
+- name: Setup local test servers
+  hosts: cortez magellan
+  remote_user: admin
+  become: yes
+
+  tasks:
+  - name: update all packages
+    dnf:
+      name: "*"
+      state: latest
+
+  - name: Allow editing on an SELinux enforced system
+    dnf:
+      name: libselinux-python
+      state: latest
+
+  - name: get release info
+    slurp:
+      src: /etc/os-release
+    register: fedora
+  - debug:
+    msg: "{{ fedora['content'] | b64decode }}"
+
+  - name: Install basics
+    dnf: name={{item}} state=present
+    with_items:
+    - nano
+    - python3
+    - python
+
+  - name: Install monitoring software
+    dnf: name={{item}} state=present
+    with_items:
+    - htop
+    - sysstat
+    - iotop
+    - dmidecode
+
+  - name: Install Powerline for pleasant commandline operation
+    dnf: name={{item}} state=present
+    with_items:
+    - powerline
+    - powerline-fonts
+
+  - name: edit .bashrc to enable powerline usage
+    blockinfile:
+      path: /home/admin/.bashrc
+      block: |
+        if [ -f `which powerline-daemon` ]; then
+          powerline-daemon -q
+          POWERLINE_BASH_CONTINUATION=1
+          POWERLINE_BASH_SELECT=1
+          . /usr/share/powerline/bash/powerline.sh
+        fi
+
+  - name: Remove unwanted default packages 
+    dnf: name={{item}} state=absent
+    with_items:
+      - rhythmbox
+      - shotwell
+      - builder
