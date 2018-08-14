@@ -62,6 +62,60 @@ flags_init() {
 	fi
 }
 
+print() {
+
+	# DESC: pretty print text, lines
+	# ARGS: 1 -> Color, line
+	#		choices are:
+	#			RED
+	#			YELLOW
+	#			BLUE
+	#			GREEN
+	#			NOC (no color)
+	#			LINE
+	#
+	# ARGS: 2 -> Text, line element
+	# OUTS: colorised text, (non-colorised) line
+	# LIMITS:
+	#		cannot take formatters (newline,tabs,etc...)
+	# EXAMPLE:
+	#		print RED "text to be printed red"
+	#		print "text to be printed without color"
+	#		print LINE
+	#		print LINE #
+
+	case "${1^^}" in
+	RED)
+		printf '\033[0;31m%s\033[0m\n' "${2}"
+		;;
+	YELLOW)
+		printf '\e[33m%s\033[0m\n' "${2}"
+		;;
+	BLUE)
+		printf '\e[33m%s\033[0m\n' "${2}"
+		;;
+	GREEN)
+		printf '\e[0;32m%s\033[0m\n' "${2}"
+		;;
+	LINE)
+		separator="-"            # separator default
+		line="["                 # adding to a "line" variable
+		term_size="$(tput cols)" # get number of columns
+		if ([[ ! -z "$2" ]] && [[ "${#2}" == 1 ]]); then # set custom the separator (length must be 1)
+			separator="${2}"
+		fi
+		for ((i = 1; i <= "${term_size}-2"; i++)); do # make the line
+			line+="${separator}"
+		done
+		line+="]"
+		printf "${line}" # regurgitate to terminal
+		;;
+	*)
+		printf '\033[0m%s\033[0m\n' "${1}"
+		;;
+	esac
+}
+
 # DESC: Generic script initialisation
 # ARGS: $@ (optional): Arguments provided to the script
 # OUTS: $exec_path: The current working directory when the script was run
@@ -95,35 +149,36 @@ function script_init() {
 
 usage() {
 
-	echo -e "${RED}./${script_name} [NAME]...[DEPENDENCY OPTION]...${NOC}
-
+	print RED "./${script_name} [NAME]...[DEPENDENCY OPTION]..."
+	print "
 # DESC: Helper for setting up a new script
 # ARGS: name of the future script
 # OUTS: copy of the script template in <repo>/script named to specification
 #       copy of usage depencency named to specification
 
 Script Version: ${version}
-
-${RED} OPTIONS:${NOC}
-    -n  future script name					<REQUIRED>
-    -t  use dependency template				<OPTIONAL>
+	"
+	print RED "OPTIONS:"
+	print "
+    -n  future script name			<REQUIRED>
+    -t  use dependency template			<OPTIONAL>
     -h  Display help, version and exit		<OPTIONAL>
 
     Debugging options:
     -s  Exit script with null variables.  i.e 'set -o nounset'
     -v  verbose
     -d  run script in debug-mode (set -x)
-
-${RED} PREREQUISITES / REQUIREMENTS:${NOC}
-    - name of future script
+	"
+	print RED "PREREQUISITES / REQUIREMENTS:"
+	print "    - name of future script
     - location is <repo>/script
-
-${RED} EXAMPLES:${NOC}
-    - Create a script with dependencies 
+	"
+	print RED "EXAMPLES:"
+	print "    - Create a script with dependencies 
         ./${script_name} -n testing-NICs.sh -d
     - Create a script with a single file
         ./${script_name} -n testing-NICs.sh
-"
+	"
 }
 
 # DESC: Trap exits with cleanup function
@@ -136,7 +191,7 @@ script_finish() {
 	local directory="${script_dir}"
 
 	if [[ "${ERROR_CODE}" == 25 ]]; then
-		echo -e "${RED}name check: ${name} contains disallowed characters!${NOC}"
+		print RED "name check: ${name} contains disallowed characters!"
 		echo -e "\tallowed characters: [a-zA-Z0-9_-.]"
 	elif [[ "${ERROR_CODE}" != 0 ]]; then
 		# if "${directory}/${name}.sh" exists, we delete
@@ -171,13 +226,17 @@ choice_init() {
 	# if not set, dependency setting is false
 	t=false
 
-	while getopts ":n:thsvd" opt; do
+	while getopts ":n:e:thsvd" opt; do
 		case "${opt}" in
 		n) # script name
 			readonly n=${OPTARG}
 			;;
 		t) # dependency template or all-in-one template?
 			t=true
+			;;
+		e) # elements (to add to the file, like init but not unit-file, but also logging...)
+			e="main"
+			e+=${OPTARG} 
 			;;
 		h)
 			usage
@@ -222,13 +281,8 @@ choice_init() {
 
 choice_check() {
 	if [ -z "${n}" ]; then
-		echo -e "${RED}You must provide a name for the new script !!!${NOC}
-
-printing usage, and exiting script
-
-${RED}usage:${NOC}
-"
 		usage
+		print red "You must provide a name for the new script !!!"
 		exit 0
 	fi
 }
@@ -292,7 +346,7 @@ build_from_template() {
 		grep -h 'init() {' ${helpers} | sed 's/() {//g' >>"${directory}/${name}.${ext}"
 		# finally, add it the main header
 		cat ${template_dir}"/main.bash" >>"${directory}/${name}.${ext}"
-		
+
 	else
 
 		# create file with name
@@ -331,7 +385,7 @@ build_from_template() {
 		#		local directory=${script_dir}
 		#		cp "${TEMPLATE_NO_DEPENDENCY}" "${directory}/${name}.sh"
 		#	else
-		#		echo -e "${RED}something went wrong while copying / modifiying the template files${NOC}"
+		#		print RED "something went wrong while copying / modifiying the template files"
 		#		exit 5
 	fi
 }
@@ -342,6 +396,7 @@ main() {
 
 	local name="${n}"
 	local dependency="${t}"
+	local elements="${e}"
 
 	choice_check "${name}"
 	# retrurning the code does not work this way....
@@ -350,14 +405,14 @@ main() {
 		echo "hmmm"
 		exit 0
 	fi
-
+	echo -e "${elements}"
 	echo -e "name: ${name}.sh, build with dependencies: ${dependency}"
 
 	read -rp $'Continue (Y/n)? ' -ei $'Y' key
 	if [[ "${key}" == "Y" ]]; then
 		build_from_template "${name}" "${dependency}"
 	else
-		echo -e "${RED}aborted by user. Exiting${NOC}"
+		print RED "aborted by user. Exiting"
 		exit 0
 	fi
 }
