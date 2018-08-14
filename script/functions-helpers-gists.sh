@@ -1,48 +1,40 @@
 #! /usr/bin/env bash
 
-. /helpers/initialisation.sh
-color_init
-
 printline() {
 	echo [---------------------------------------------------------------------]
 }
 
-print_red() {
-	if [[ -z "$@" ]]; then
-		echo -e "print_red(): no args set"
-	fi
-	RED='\033[0;31m'
-	NOC='\033[0m'
-	echo -e ${RED}"$@"${NOC}
-}
+printline
 
-print_yellow() {
-	if [[ -z "$@" ]]; then
-		echo -e "print_red(): no args set"
-	fi
-	YELLOW='\e[33m'
-	NOC='\033[0m'
-	echo -e ${YELLOW}COMMAND: "$@"${NOC}
-	echo
-}
+printline() {
 
-print_noc() {
-	if [[ -z "$@" ]]; then
-		echo -e "print_red(): no args set"
+	separator="-"
+	# set the separator (length must be 1)
+	if ([[ ! -z "$1" ]] && [[ "${#1}" == 1 ]]); then
+		separator="${1}"
 	fi
 
-	NOC='\033[0m'
-	echo -e ${NOC}"$@"${NOC}
+	# get number of columns
+	term_size="$(tput cols)"
+
+	# add to a line variable
+	line="["
+	for ((i = 1; i <= "${term_size}-2"; i++)); do
+		line+="${separator}"
+	done
+	line+="]"
+	# regurgitate to terminal
+	printf "${line}"
 }
 
-print_blue() {
-	if [[ -z "$@" ]]; then
-		echo "print_red(): no args set"
-	fi
-	NOC='\033[0m'
-	BLUE='\e[34m'
-	echo -e ${BLUE}"$@"${NOC}
-}
+printline
+
+printline "X"
+
+printline "mo'than one column"
+
+printline a
+
 ############################ exec ############################
 
 display_help() {
@@ -58,10 +50,6 @@ display_help() {
 }
 
 display_help $1
-
-print_red functions-library
-print_noc - to display help, append --help
-print_noc - i need to figure out how to make these functions behave like echo. they strip any \\nregexp stuff away
 
 # pass an array to a function
 #--> "${a[@]}"
@@ -130,7 +118,7 @@ fi
 # what good is a helper function i have to constantly double-check?
 
 scriptname="${0}"
-runs=0
+runs=25
 
 if [[ $runs -eq 0 ]]; then
 	echo "I have never run before."
