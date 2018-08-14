@@ -89,3 +89,42 @@ script_init() {
 	readonly script_name="$(basename "$script_path")"
 	readonly script_params="$*"
 }
+
+print() {
+
+	# DESC: pretty print lines
+	# ARGS: 1 -> Color
+	#		choices are:
+	#			RED
+	#			YELLOW
+	#			BLUE
+	#			GREEN
+	#			NOC (no color)
+	#
+	# ARGS: 2 -> Text
+	# OUTS: colorised text
+	# LIMIT:
+	#		cannot take formatters (newline,tabs,etc...)
+	# EXAMPLE:
+	#		print RED "text to be printed red"
+	#		print "text to be printed without color"
+
+	case "${1^^}" in
+	RED)
+		printf '\033[0;31m%s\033[0m\n' "${2}"
+		;;
+	YELLOW)
+		printf '\e[33m%s\033[0m\n' "${2}"
+		;;
+	BLUE)
+		printf '\e[33m%s\033[0m\n' "${2}"
+		;;
+	GREEN)
+		printf '\e[0;32m%s\033[0m\n' "${2}"
+		;;
+	*)
+		printf '\033[0m%s\033[0m\n' "${1}"
+		;;
+	esac
+
+}
