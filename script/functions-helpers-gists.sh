@@ -118,7 +118,7 @@ fi
 # what good is a helper function i have to constantly double-check?
 
 scriptname="${0}"
-runs=25
+runs=0
 
 if [[ $runs -eq 0 ]]; then
 	echo "I have never run before."
@@ -150,11 +150,23 @@ print() {
 	GREEN)
 		printf '\e[0;32m%s\033[0m\n' "${2}"
 		;;
+	LINE)
+		separator="-"										# separator default
+		line="["											# adding to a "line" variable
+		term_size="$(tput cols)"							# get number of columns
+		if ([[ ! -z "$2" ]] && [[ "${#2}" == 1 ]]); then	# set custom the separator (length must be 1)
+			separator="${2}"
+		fi
+		for ((i = 1; i <= "${term_size}-2"; i++)); do		# make the line
+			line+="${separator}"
+		done
+		line+="]"
+		printf "${line}"									# regurgitate to terminal
+		;;
 	*)
 		printf '\033[0m%s\033[0m\n' "${1}"
 		;;
 	esac
-
 }
 
 # do the coloring thing
@@ -162,5 +174,7 @@ print RED "test"
 print YELLOW "test"
 print "razzie"
 print GREEN "with a \nnewline\tdat dont work"
+print line 
 print RED "wit a \"quote\" inside, that works"
+print line X
 print red "small red, we upper that arg"
