@@ -93,17 +93,18 @@ script_init() {
 print() {
 
 	# DESC: pretty print text, lines 
-	# ARGS: 1 -> Color
+	# ARGS: 1 -> Color, line
 	#		choices are:
 	#			RED
 	#			YELLOW
 	#			BLUE
 	#			GREEN
 	#			NOC (no color)
+	#			LINE
 	#
-	# ARGS: 2 -> Text
-	# OUTS: colorised text
-	# LIMIT:
+	# ARGS: 2 -> Text, line element
+	# OUTS: colorised text, (non-colorised) line
+	# LIMITS:
 	#		cannot take formatters (newline,tabs,etc...)
 	# EXAMPLE:
 	#		print RED "text to be printed red"
