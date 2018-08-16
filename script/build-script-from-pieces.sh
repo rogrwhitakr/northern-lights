@@ -186,34 +186,6 @@ Script Version: ${version}
 	"
 }
 
-script_finish() {
-
-	# DESC: Trap exits with cleanup function
-	# ARGS: exit code -> trap <script_finish> EXIT INT TERM
-	# OUTS: None (so far)
-
-	local ERROR_CODE="$?"
-	local name="${name}"
-	local directory="${script_dir}"
-
-	if [[ "${ERROR_CODE}" == 25 ]]; then
-		print RED "name check: ${name} contains disallowed characters!"
-		print "\tallowed characters: [a-zA-Z0-9_-.]"
-	elif [[ "${ERROR_CODE}" == 5 ]]; then
-		print YELLOW "no script created, exiting"
-	elif [[ "${ERROR_CODE}" == 6 ]]; then
-		print YELLOW "Invalid name choice, exiting"
-	elif [[ "${ERROR_CODE}" != 0 ]]; then
-		# if "${directory}/${name}.sh" exists, we delete
-		if [[ -f "${directory}/${name}.sh" ]]; then
-			rm -f "${directory}/${name}.sh"
-			rm -f "${directory}/${name}.usage.sh"
-		fi
-	else
-		print "new script ${name} created. Exiting."
-	fi
-}
-
 choice_init() {
 
 	# DESC: any and all flags go here for evaluation
@@ -299,6 +271,38 @@ choice_is_valid() {
 	[[ ${name} =~ ^[a-zA-Z0-9_.\-]{1,255}$ ]] && echo "VALID" || echo "INVALID"
 }
 
+script_finish() {
+
+	# DESC: Trap exits with cleanup function
+	# ARGS: exit code -> trap <script_finish> EXIT INT TERM
+	# OUTS: None (so far)
+
+	local ERROR_CODE="$?"
+	local name="${n}"
+	local directory="${script_dir}"
+
+	if [[ "${ERROR_CODE}" == 25 ]]; then
+		print RED "name check: ${name} contains disallowed characters!"
+		print "\tallowed characters: [a-zA-Z0-9_-.]"
+		print LINE
+	elif [[ "${ERROR_CODE}" == 5 ]]; then
+		print YELLOW "no script created, exiting"
+		print LINE
+	elif [[ "${ERROR_CODE}" == 6 ]]; then
+		print YELLOW "Invalid name choice, exiting"
+		print LINE
+	elif [[ "${ERROR_CODE}" != 0 ]]; then
+		# if "${directory}/${name}.sh" exists, we delete
+		if [[ -f "${directory}/${name}" ]]; then
+			rm -f "${directory}/${name}"
+		fi
+		print LINE
+	else
+		print "new script ${name} created. Exiting."
+		print LINE
+	fi
+}
+
 build_from_template() {
 
 	# DESC: copies template from set directory
@@ -313,10 +317,9 @@ build_from_template() {
 	local directory=${script_dir}
 	local name=${1}
 	local dependency=${2}
-	local helper_dir="/home/admin/MyScripts/script/helpers"
-	local helpers="/home/admin/MyScripts/script/helpers/*.sh"
-	local template_dir="/home/admin/MyScripts/script/template"
-
+	local helper_dir=${directory}"/helpers"
+	local template_dir=${directory}"/template"
+	local element_separator="$(print line)"
 	print "creating template in ${directory}, name ${name}"
 
 	local new_script="${directory}/${name}"
@@ -335,17 +338,17 @@ build_from_template() {
 
 		# add featured tie-ins
 		for element in "${elements[@]}"; do
-			print "	- $element"
-		done
-		for feature in "${features[@]}"; do
-			echo -e "\n#####\n" >>"${new_script}"
-			cat $feature >>"${new_script}"
+			print "adding element \"$element\" to new script"
+			print "${element_separator}" >>"${new_script}"
+			find "${helper_dir}" -name "${element}.bash" -exec cat {} \; >>"${new_script}" ||
+				print RED "element ${element}.bash not found! Continuing..."
 		done
 
 		# get the init functions
 		# grep -h 'init() {' ${helpers} | sed 's/() {//g' >>"${new_script}"
 		# finally, add it the main header
 		cat ${template_dir}"/main.bash" >>"${new_script}"
+		print GREEN "finished"
 
 	else
 
