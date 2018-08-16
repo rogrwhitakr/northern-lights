@@ -248,7 +248,7 @@ choice_init() {
 	shift $((OPTIND - 1))
 }
 
-choice_check() {
+choice_null_check() {
 
 	# DESC: null-checks inputs provided to choice_init
 	# ARGS: $@: Arguments set in choice_init
@@ -394,19 +394,28 @@ build_from_template() {
 	fi
 }
 
-readonly ERROR_CHOICE_INVALID=35
-
 main() {
 
-	print line
 	local name="${n}"
 	local dependency="${t}"
+	local extension=".sh"
+
+	# start
+	print line
 	print GREEN "${script_name}: Building a new script from template(s)"
 
 	# checking name
-	choice_check "${name}"
+	choice_null_check "${name}"
 	if [[ $(choice_is_valid) == 'INVALID' ]]; then
 		exit 6
+	fi
+
+	# append ext if not passed
+	if [[ "${name#*.}" != "bash" ]]; then
+		if [[ "${name#*.}" != "sh" ]]; then
+			print YELLOW "appending name: extension \"${extension}\""
+			local name=${name}${extension}
+		fi
 	fi
 
 	# intro
