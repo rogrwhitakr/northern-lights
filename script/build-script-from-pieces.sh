@@ -401,24 +401,25 @@ main() {
 	print line
 	local name="${n}"
 	local dependency="${t}"
+	print GREEN "${script_name}: Building a new script from template(s)"
 
-	# get the elements
-	for element in "${elements[@]}"; do
-		echo "$element is my friend"
-	done
-	echo "The whole list of values is '${elements[@]}'"
-	echo "contains ${#elements[@]} values"
-
+	# checking name
 	choice_check "${name}"
-	# retrurning the code does not work this way....
-	# -> this gets me straight to 'the' trap
 	if [[ $(choice_is_valid) == 'INVALID' ]]; then
 		exit 6
 	fi
-	print "name: ${name}.sh, build with dependencies: ${dependency}"
 
+	# intro
+	print "name: ${name}, build with dependencies: ${dependency}"
+	print "using ${#elements[@]} dependency elements:"
+	for element in "${elements[@]}"; do
+		print "	- $element"
+	done
+
+	# user callback
 	read -rp $'Continue (Y/n)? ' -ei $'Y' key
 	if [[ "${key}" == "Y" ]]; then
+		print line
 		build_from_template "${name}" "${dependency}"
 	else
 		print RED "script creation aborted by user."
