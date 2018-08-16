@@ -158,7 +158,14 @@ Script Version: ${version}
 	"
 	print RED "OPTIONS:"
 	print "
-    -n  future script name			<REQUIRED>
+  -n  future script name			<REQUIRED>
+  -e  elements to include			<OPTIONAL>
+	init
+	choice
+	log
+	unitfile
+	usage
+
     -t  use dependency template			<OPTIONAL>
     -h  Display help, version and exit		<OPTIONAL>
 
@@ -274,7 +281,7 @@ choice_check() {
 	if [ -z "${n}" ]; then
 		usage
 		print red "You must provide a name for the new script !!!"
-		exit 0
+		exit 5
 	fi
 }
 
