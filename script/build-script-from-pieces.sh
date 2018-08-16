@@ -113,14 +113,15 @@ print() {
 	esac
 }
 
-# DESC: Generic script initialisation
-# ARGS: $@ (optional): Arguments provided to the script
-# OUTS: $exec_path: The current working directory when the script was run
-#       $script_path: The full path to the script
-#       $script_dir: The directory path of the script
-#       $script_name: The file name of the script
+script_init() {
 
-function script_init() {
+	# DESC: Generic script initialisation
+	# ARGS: $@ (optional): Arguments provided to the script
+	# OUTS: $exec_path: The current working directory when the script was run
+	#       $script_path: The full path to the script
+	#       $script_dir: The directory path of the script
+	#       $script_name: The file name of the script
+
 	local exec_path="$PWD"
 	readonly script_path="${BASH_SOURCE[1]}"
 	readonly script=$(readlink -f $0)
@@ -139,12 +140,12 @@ function script_init() {
 	fi
 }
 
-# DESC: print usage information
-# ARGS: None
-# OUTS: None
-# NOTE: must be customised to script to provide sensible info, duh.
-
 usage() {
+
+	# DESC: print usage information
+	# ARGS: None
+	# OUTS: None
+	# NOTE: must be customised to script to provide sensible info, duh.
 
 	print RED "./${script_name} [NAME]...[DEPENDENCY OPTION]..."
 	print "
@@ -178,11 +179,12 @@ Script Version: ${version}
 	"
 }
 
-# DESC: Trap exits with cleanup function
-# ARGS: exit code -> trap <script_finish> EXIT INT TERM
-# OUTS: None (so far)
-
 script_finish() {
+
+	# DESC: Trap exits with cleanup function
+	# ARGS: exit code -> trap <script_finish> EXIT INT TERM
+	# OUTS: None (so far)
+
 	local ERROR_CODE="$?"
 	local name="${name}"
 	local directory="${script_dir}"
@@ -203,29 +205,14 @@ script_finish() {
 	fi
 }
 
-# DESC: Initialise colour variables
-# ARGS: None
-# OUTS: Read-only variables with ANSI control codes
-# NOTE: If --no-colour was set the variables will be empty
-
-color_init() {
-	readonly RED='\033[0;31m'
-	readonly YELLOW='\e[33m'
-	readonly NOC='\033[0m'
-	readonly BLUE='\e[34m'
-	readonly GREEN='\e[0;32m'
-}
-
-# DESC: any and all flags go here for evaluation
-# ARGS: $@: Arguments provided to the script
-# OUTS: go for main
-
 # if array variable exists do nothing
-if [[ -z "${e}" ]]; then
-	declare -a e="init"
-fi
+#declare -a e="init"
 
 choice_init() {
+
+	# DESC: any and all flags go here for evaluation
+	# ARGS: $@: Arguments provided to the script
+	# OUTS: go for main
 
 	# if not set, dependency setting is false
 	t=false
@@ -239,8 +226,7 @@ choice_init() {
 			t=true
 			;;
 		e) # elements (to add to the file, like init but not unit-file, but also logging...)
-			e+=" "
-			e+="${OPTARG}"
+			e+=("${OPTARG}")
 			;;
 		h)
 			usage
@@ -342,7 +328,7 @@ build_from_template() {
 
 		# add featured tie-ins
 		for feature in "${features[@]}"; do
-			echo  -e "\n#####\n" >>"${directory}/${name}.${ext}"
+			echo -e "\n#####\n" >>"${directory}/${name}.${ext}"
 			cat $feature >>"${directory}/${name}.${ext}"
 		done
 
@@ -399,17 +385,17 @@ readonly ERROR_CHOICE_INVALID=35
 
 main() {
 
-	print line -
+	print line
 	local name="${n}"
 	local dependency="${t}"
-	declare -a elements=("${e}")
+	local elements=("${e}")
 
 	for element in "${elements[@]}"; do
 		echo "$element is my friend"
 	done
 
-	print line -
-	local elements=("init" "choice" "log")
+	print line
+	local elements=("init1" "choice1" "log1")
 	for element in "${elements[@]}"; do
 		echo "$element is my friend"
 	done
@@ -436,7 +422,6 @@ main() {
 # init the helpers
 choice_init "${@}"
 script_init
-color_init
 
 trap script_finish EXIT INT TERM
 
