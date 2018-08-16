@@ -201,6 +201,8 @@ script_finish() {
 		print "\tallowed characters: [a-zA-Z0-9_-.]"
 	elif [[ "${ERROR_CODE}" == 5 ]]; then
 		print YELLOW "no script created, exiting"
+	elif [[ "${ERROR_CODE}" == 6 ]]; then
+		print YELLOW "Invalid name choice, exiting"
 	elif [[ "${ERROR_CODE}" != 0 ]]; then
 		# if "${directory}/${name}.sh" exists, we delete
 		if [[ -f "${directory}/${name}.sh" ]]; then
@@ -211,9 +213,6 @@ script_finish() {
 		print "new script ${name} created. Exiting."
 	fi
 }
-
-# if array variable exists do nothing
-declare -a e
 
 choice_init() {
 
@@ -233,8 +232,13 @@ choice_init() {
 			t=true
 			;;
 		e) # elements (to add to the file, like init but not unit-file, but also logging...)
-			e+=("${OPTARG}")
+			elements+=("${OPTARG}") # use array -> ARGS MUST BE -e <thing1> -e <thing2>
 			;;
+		#		f) # Felements -> # use single variable -> ARGS MUST BE -f "thing1 thing2" separated by space
+		#			set -f 					# disable glob
+		#            IFS=' ' 				# split on space characters#
+		#			felements=($OPTARG) # use the split+glob operator#
+		#			;;
 		h)
 			usage
 			;;
@@ -397,26 +401,20 @@ main() {
 	print line
 	local name="${n}"
 	local dependency="${t}"
-	local elements=("${e}")
 
+	# get the elements
 	for element in "${elements[@]}"; do
 		echo "$element is my friend"
 	done
-
-	print line
-	local elements=("init1" "choice1" "log1")
-	for element in "${elements[@]}"; do
-		echo "$element is my friend"
-	done
+	echo "The whole list of values is '${elements[@]}'"
+	echo "contains ${#elements[@]} values"
 
 	choice_check "${name}"
 	# retrurning the code does not work this way....
 	# -> this gets me straight to 'the' trap
 	if [[ $(choice_is_valid) == 'INVALID' ]]; then
-		echo "hmmm"
-		exit 0
+		exit 6
 	fi
-	print "${elements}"
 	print "name: ${name}.sh, build with dependencies: ${dependency}"
 
 	read -rp $'Continue (Y/n)? ' -ei $'Y' key
