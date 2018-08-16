@@ -2,7 +2,7 @@
 # BASH SCRIPT TEMPLATE
 #   HISTORY:
 #		XXXX-XX-XX		Script initially created
-# 
+#
 # ######################################################################################
 
 #   VERSION
@@ -22,13 +22,19 @@ script_finish() {
 
 	local ERROR_CODE="$?"
 	if [[ "${ERROR_CODE}" == 0 ]]; then
-		echo -e "${GREEN}exit green, no errors${NOC}"
-		echo -e "ERROR CODE: ${ERROR_CODE}"
+		print GREEN "exit green, no errors"
 	elif [[ "${ERROR_CODE}" == 20 ]]; then
-		echo -e "${RED}user is unknown to the system!${NOC}"
+		print RED "name check: ${name} contains disallowed characters!"
+		print "\tallowed characters: [a-zA-Z0-9_-.]"
+		print LINE
+	elif [[ "${ERROR_CODE}" == 5 ]]; then
+		print YELLOW "no script created, exiting"
+		print LINE
+	elif [[ "${ERROR_CODE}" == 6 ]]; then
+		print YELLOW "Invalid name choice, exiting"
+		print LINE
+	elif [[ "${ERROR_CODE}" != 0 ]]; then
 	else
-		echo -e "${RED}exit RED${NOC}"
-		echo -e "ERROR CODE: ${ERROR_CODE}"
+		echo "somesin"
 	fi
-	echo -e "${YELLOW}trap::script_finish::handler -> ${ERROR_CODE}${NOC}"
 }
