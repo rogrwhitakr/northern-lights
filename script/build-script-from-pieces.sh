@@ -107,6 +107,16 @@ print() {
 		line+="]"
 		printf "${line}" # regurgitate to terminal
 		;;
+	COMMENTLINE)
+		separator="-"            # separator default
+		line="#"                 # adding to a "line" variable
+		term_size="$(tput cols)" # get number of columns
+		for ((i = 1; i <= "${term_size}-2"; i++)); do # make the line
+			line+="${separator}"
+		done
+		line+="#"
+		printf "${line}" # regurgitate to terminal
+		;;
 	*)
 		printf '\033[0m%s\033[0m\n' "${1}"
 		;;
@@ -319,7 +329,7 @@ build_from_template() {
 	local dependency=${2}
 	local helper_dir=${directory}"/helpers"
 	local template_dir=${directory}"/template"
-	local element_separator="$(print line)"
+	local element_separator="$(print commentline)"
 	print "creating template in ${directory}, name ${name}"
 
 	local new_script="${directory}/${name}"
@@ -335,6 +345,9 @@ build_from_template() {
 
 		# add it the main header, maybe setting the version and stuff along the way..
 		cat ${template_dir}"/main.header.bash" >>"${new_script}"
+
+		# change date to today
+		sed -i 's/XXXX-XX-XX/"$(date +%Y-%m-%d)"/g' "${new_script}"
 
 		# add featured tie-ins
 		for element in "${elements[@]}"; do
