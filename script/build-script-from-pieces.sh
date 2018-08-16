@@ -265,11 +265,12 @@ choice_init() {
 	shift $((OPTIND - 1))
 }
 
-# DESC: null-checks inputs provided to choice_init
-# ARGS: $@: Arguments set in choice_init
-# OUTS: go for main / usage if not
-
 choice_check() {
+
+	# DESC: null-checks inputs provided to choice_init
+	# ARGS: $@: Arguments set in choice_init
+	# OUTS: go for main / usage if not
+
 	if [ -z "${n}" ]; then
 		usage
 		print red "You must provide a name for the new script !!!"
@@ -277,25 +278,26 @@ choice_check() {
 	fi
 }
 
-# DESC: validity-checks inputs provided to choice_init
-# ARGS: $@: Arguments set in choice_init
-# OUTS: go for main / usage if not
-
 choice_is_valid() {
+
+	# DESC: validity-checks inputs provided to choice_init
+	# ARGS: $@: Arguments set in choice_init
+	# OUTS: go for main / usage if not
+
 	local name="${name}"
 	[[ ${name} =~ ^[a-zA-Z0-9_.\-]{1,255}$ ]] && echo "VALID" || echo "INVALID"
 }
 
-# DESC: copies template from set directory
-#		renames template to set name
-# ARGS: name
-#		dependency yes/no
-#		template location
-#		usage location
-# OUTS: renamed and copied template file
-#[[ -ef is path comparison]]
-
 build_from_template() {
+
+	# DESC: copies template from set directory
+	#		renames template to set name
+	# ARGS: name
+	#		dependency yes/no
+	#		template location
+	#		usage location
+	# OUTS: renamed and copied template file
+	#[[ -ef is path comparison]]
 
 	local directory=${script_dir}
 	local name=${1}
