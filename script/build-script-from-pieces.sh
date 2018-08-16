@@ -213,7 +213,7 @@ script_finish() {
 }
 
 # if array variable exists do nothing
-#declare -a e="init"
+declare -a e
 
 choice_init() {
 
