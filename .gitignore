@@ -1,3 +1,4 @@
 coreutils/*.log
 coreutils/*.json
 apps/ansible/*.retry
+script/BUILDTEST.*
