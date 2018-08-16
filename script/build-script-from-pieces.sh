@@ -344,7 +344,7 @@ build_from_template() {
 
 		# add featured tie-ins
 		for feature in "${features[@]}"; do
-			print "\n#################################################################\n" >>"${directory}/${name}.${ext}"
+			print line >>"${directory}/${name}.${ext}"
 			cat $feature >>"${directory}/${name}.${ext}"
 		done
 
