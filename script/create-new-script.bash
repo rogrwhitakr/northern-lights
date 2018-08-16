@@ -1,7 +1,7 @@
 #! /usr/bin/env bash
 
 # TODOS
-#		if args empty show usage 
+#		if args empty show usage
 #		if run without args, just show usage, no specifier
 #		make usage contain info required:recomendend:optional flags and params
 #		already exists, maybe use colors?
@@ -52,7 +52,7 @@ flags_init() {
 	set -o errexit
 
 	if [[ "${verbose}" == "1" ]]; then
-		echo -e "
+		print "
         Flag settings:
         quiet   =${quiet}
         verbose =${verbose}
@@ -62,14 +62,76 @@ flags_init() {
 	fi
 }
 
-# DESC: Generic script initialisation
-# ARGS: $@ (optional): Arguments provided to the script
-# OUTS: $exec_path: The current working directory when the script was run
-#       $script_path: The full path to the script
-#       $script_dir: The directory path of the script
-#       $script_name: The file name of the script
+print() {
 
-function script_init() {
+	# DESC: pretty print text, lines
+	# ARGS: 1 -> Color, line
+	#		choices are:
+	#			RED
+	#			YELLOW
+	#			BLUE
+	#			GREEN
+	#			NOC (no color)
+	#			LINE
+	#
+	# ARGS: 2 -> Text, line element
+	# OUTS: colorised text, (non-colorised) line
+	# LIMITS:
+	#		cannot take formatters (newline,tabs,etc...)
+	# EXAMPLE:
+	#		print RED "text to be printed red"
+	#		print "text to be printed without color"
+	#		print LINE
+	#		print LINE #
+
+	case "${1^^}" in
+	RED)
+		printf '\033[0;31m%s\033[0m\n' "${2}"
+		;;
+	YELLOW)
+		printf '\e[33m%s\033[0m\n' "${2}"
+		;;
+	BLUE)
+		printf '\e[33m%s\033[0m\n' "${2}"
+		;;
+	GREEN)
+		printf '\e[0;32m%s\033[0m\n' "${2}"
+		;;
+	LINE)
+		separator="-"            # separator default
+		line="["                 # adding to a "line" variable
+		term_size="$(tput cols)" # get number of columns
+		for ((i = 1; i <= "${term_size}-2"; i++)); do # make the line
+			line+="${separator}"
+		done
+		line+="]"
+		printf "${line}" # regurgitate to terminal
+		;;
+	COMMENTLINE)
+		separator="-"            # separator default
+		line="#"                 # adding to a "line" variable
+		term_size="$(tput cols)" # get number of columns
+		for ((i = 1; i <= "${term_size}-2"; i++)); do # make the line
+			line+="${separator}"
+		done
+		line+="#"
+		printf "${line}" # regurgitate to terminal
+		;;
+	*)
+		printf '\033[0m%s\033[0m\n' "${1}"
+		;;
+	esac
+}
+
+script_init() {
+
+	# DESC: Generic script initialisation
+	# ARGS: $@ (optional): Arguments provided to the script
+	# OUTS: $exec_path: The current working directory when the script was run
+	#       $script_path: The full path to the script
+	#       $script_dir: The directory path of the script
+	#       $script_name: The file name of the script
+
 	local exec_path="$PWD"
 	readonly script_path="${BASH_SOURCE[1]}"
 	readonly script=$(readlink -f $0)
@@ -78,7 +140,7 @@ function script_init() {
 	readonly script_params="$*"
 
 	if [[ "${verbose}" == "1" ]]; then
-		echo -e "
+		print "
         script settings:
         script_path   		=${script_path}
         script_full_path	=${script}
@@ -88,87 +150,62 @@ function script_init() {
 	fi
 }
 
-# DESC: print usage information
-# ARGS: None
-# OUTS: None
-# NOTE: must be customised to script to provide sensible info, duh.
-
 usage() {
 
-	echo -e "${RED}./${script_name} [NAME]...[DEPENDENCY OPTION]...${NOC}
+	# DESC: print usage information
+	# ARGS: None
+	# OUTS: None
+	# NOTE: must be customised to script to provide sensible info, duh.
 
+	print RED "./${script_name} [NAME]...[DEPENDENCY OPTION]..."
+	print "
 # DESC: Helper for setting up a new script
 # ARGS: name of the future script
 # OUTS: copy of the script template in <repo>/script named to specification
 #       copy of usage depencency named to specification
 
 Script Version: ${version}
+	"
+	print RED "OPTIONS:"
+	print "
+  -n  future script name			<REQUIRED>
+  -e  elements to include			<OPTIONAL>
+	init
+	choice
+	log
+	unitfile
+	usage
 
-${RED} OPTIONS:${NOC}
-    -n  future script name					<REQUIRED>
-    -t  use dependency template				<OPTIONAL>
+    -t  use dependency template			<OPTIONAL>
     -h  Display help, version and exit		<OPTIONAL>
 
     Debugging options:
     -s  Exit script with null variables.  i.e 'set -o nounset'
     -v  verbose
     -d  run script in debug-mode (set -x)
-
-${RED} PREREQUISITES / REQUIREMENTS:${NOC}
-    - name of future script
+	"
+	print RED "PREREQUISITES / REQUIREMENTS:"
+	print "    - name of future script
     - location is <repo>/script
-
-${RED} EXAMPLES:${NOC}
-    - Create a script with dependencies 
+	"
+	print RED "EXAMPLES:"
+	print "    - Create a script with dependencies 
         ./${script_name} -n testing-NICs.sh -d
     - Create a script with a single file
         ./${script_name} -n testing-NICs.sh
-"
+	"
 }
-
-# DESC: Trap exits with cleanup function
-# ARGS: exit code -> trap <script_finish> EXIT INT TERM
-# OUTS: None (so far)
-
-script_finish() {
-	local ERROR_CODE="$?"
-	local name="${name}"
-	local directory="${script_dir}"
-
-	if [[ "${ERROR_CODE}" != 0 ]]; then
-		# if "${directory}/${name}.sh" exists, we delete
-		if [[ -f "${directory}/${name}.sh" ]]; then
-			rm -f "${directory}/${name}.sh"
-			rm -f "${directory}/${name}.usage.sh"
-		fi
-	else
-		echo -e "new script ${name} created. Exiting."
-	fi
-}
-
-# DESC: Initialise colour variables
-# ARGS: None
-# OUTS: Read-only variables with ANSI control codes
-# NOTE: If --no-colour was set the variables will be empty
-
-color_init() {
-	readonly RED='\033[0;31m'
-	readonly YELLOW='\e[33m'
-	readonly NOC='\033[0m'
-	readonly BLUE='\e[34m'
-	readonly GREEN='\e[0;32m'
-}
-
-# DESC: any and all flags go here for evaluation
-# ARGS: $@: Arguments provided to the script
-# OUTS: go for main
 
 choice_init() {
+
+	# DESC: any and all flags go here for evaluation
+	# ARGS: $@: Arguments provided to the script
+	# OUTS: go for main
 
 	# if not set, dependency setting is false
 	t=false
 
-	while getopts ":n:thsvd" opt; do
+	while getopts ":n:e:thsvd" opt; do
 		case "${opt}" in
 		n) # script name
 			readonly n=${OPTARG}
@@ -176,6 +213,14 @@ choice_init() {
 		t) # dependency template or all-in-one template?
 			t=true
 			;;
+		e) # elements (to add to the file, like init but not unit-file, but also logging...)
+			elements+=("${OPTARG}") # use array -> ARGS MUST BE -e <thing1> -e <thing2>
+			;;
+		#		f) # Felements -> # use single variable -> ARGS MUST BE -f "thing1 thing2" separated by space
+		#			set -f 					# disable glob
+		#            IFS=' ' 				# split on space characters#
+		#			felements=($OPTARG) # use the split+glob operator#
+		#			;;
 		h)
 			usage
 			;;
@@ -205,7 +250,7 @@ choice_init() {
 			;;
 
 		*)
-			echo -e "in *)...\nThis happens, if a flag i spassed that is defined, yet no case..in is available for it"
+			print "in *)...\nThis happens, if a flag i spassed that is defined, yet no case..in is available for it"
 			;;
 		esac
 	done
@@ -213,72 +258,152 @@ choice_init() {
 	shift $((OPTIND - 1))
 }
 
-# DESC: null-checks inputs provided to choice_init
-# ARGS: $@: Arguments set in choice_init
-# OUTS: go for main / usage if not
+choice_null_check() {
 
-choice_check() {
+	# DESC: null-checks inputs provided to choice_init
+	# ARGS: $@: Arguments set in choice_init
+	# OUTS: go for main / usage if not
+
 	if [ -z "${n}" ]; then
-		echo -e "${RED}You must provide a name for the new script !!!${NOC}
-
-printing usage, and exiting script
-
-${RED}usage:${NOC}
-"
 		usage
-		exit 0
+		print red "You must provide a name for the new script !!!"
+		exit 5
 	fi
 }
 
-# DESC: validity-checks inputs provided to choice_init
-# ARGS: $@: Arguments set in choice_init
-# OUTS: go for main / usage if not
+choice_is_valid() {
 
-choice_verify() {
+	# DESC: validity-checks inputs provided to choice_init
+	# ARGS: $@: Arguments set in choice_init
+	# OUTS: go for main / usage if not
+
 	local name="${name}"
-	if [[ ${name} =~ ^[a-zA-Z0-9_.\-]{1,255}$ ]]; then
-		return true
+	[[ ${name} =~ ^[a-zA-Z0-9_.\-]{1,255}$ ]] && echo "VALID" || echo "INVALID"
+}
+
+script_finish() {
+
+	# DESC: Trap exits with cleanup function
+	# ARGS: exit code -> trap <script_finish> EXIT INT TERM
+	# OUTS: None (so far)
+
+	local ERROR_CODE="$?"
+	local name="${n}"
+	local directory="${script_dir}"
+
+	if [[ "${ERROR_CODE}" == 25 ]]; then
+		print RED "name check: ${name} contains disallowed characters!"
+		print "\tallowed characters: [a-zA-Z0-9_-.]"
+		print LINE
+	elif [[ "${ERROR_CODE}" == 5 ]]; then
+		print YELLOW "no script created, exiting"
+		print LINE
+	elif [[ "${ERROR_CODE}" == 6 ]]; then
+		print YELLOW "Invalid name choice, exiting"
+		print LINE
+	elif [[ "${ERROR_CODE}" != 0 ]]; then
+		# if "${directory}/${name}.sh" exists, we delete
+		if [[ -f "${directory}/${name}" ]]; then
+			rm -f "${directory}/${name}"
+		fi
+		print LINE
 	else
-		return false
+		print "new script ${name} created. Exiting."
+		print LINE
 	fi
 }
 
-# DESC: copies template from set directory
-#		renames template to set name
-# ARGS: name
-#		dependency yes/no
-#		template location
-#		usage location
-# OUTS: renamed and copied template file
+build_from_template() {
 
-copy_template() {
+	# DESC: copies template from set directory
+	#		renames template to set name
+	# ARGS: name
+	#		dependency yes/no
+	#		template location
+	#		usage location
+	# OUTS: renamed and copied template file
+	#[[ -ef is path comparison]]
 
 	local directory=${script_dir}
 	local name=${1}
 	local dependency=${2}
-	local TEMPLATE_WITH_DEPENDENCY="/home/admin/MyScripts/script/template/_TEMPLATE.DEPENDENCY.bash"
-	local TEMPLATE_NO_DEPENDENCY="/home/admin/MyScripts/script/template/_TEMPLATE.bash"
-	local USAGE="/home/admin/MyScripts/script/helpers/usage.sh"
+	local helper_dir=${directory}"/helpers"
+	local template_dir=${directory}"/template"
+	local element_separator="$(print commentline)"
+	print "creating template in ${directory}, name ${name}"
 
-	echo -e "copying template to ${directory}, name ${name}"
-	if [[ "${dependency}" == true ]]; then
+	local new_script="${directory}/${name}"
 
-		local directory=${script_dir}
+	if [[ "${dependency}" == false ]]; then
+
+		# create file with name
+		if [[ -f "${new_script}" ]]; then
+			print "file ${new_script} already exists. Remove and start from scratch?"
+			rm -vi "${new_script}"
+		fi
+		touch "${new_script}"
+
+		# add it the main header, maybe setting the version and stuff along the way..
+		cat ${template_dir}"/main.header.bash" >>"${new_script}"
+
+		# change date to today
+		sed -i 's/XXXX-XX-XX/"$(date +%Y-%m-%d)"/g' "${new_script}"
+
+		# add featured tie-ins
+		for element in "${elements[@]}"; do
+			print "adding element \"$element\" to new script"
+			print "${element_separator}" >>"${new_script}"
+			find "${helper_dir}" -name "${element}.bash" -exec cat {} \; >>"${new_script}" ||
+				print RED "element ${element}.bash not found! Continuing..."
+		done
+
+		# get the init functions
+		# grep -h 'init() {' ${helpers} | sed 's/() {//g' >>"${new_script}"
+		# finally, add it the main header
+		cat ${template_dir}"/main.bash" >>"${new_script}"
+		print GREEN "finished"
+
+	else
+
+		# create file with name
+		if [[ -f "${new_script}" ]]; then
+			print "file ${new_script} already exists. Remove and start from scratch?"
+			rm -vi "${new_script}"
+		fi
+		touch "${new_script}"
+
+		# add it the main header, maybe setting the version and stuff along the way..
+		cat ${template_dir}"/main.header.bash" >>"${new_script}"
+
+		# add empty line
+		print "\n" >>"${new_script}"
+
+		# add sourcing
+		for feature in "${features[@]}"; do
+			echo "source ${feature}" >>"${new_script}"
+		done
+
+		# get the init functions
+		grep -h 'init() {' ${helpers} | sed 's/() {//g' >>"${new_script}"
+
+		# finally, add it the main header
+		cat ${template_dir}"/main.bash" >>"${new_script}"
 
 		# copy necessary files
-		cp "${TEMPLATE_WITH_DEPENDENCY}" "${directory}/${name}.sh"
-		cp "${USAGE}" "${directory}/${name}.usage.sh"
+		#		cp "${helper_dir}" "${new_script}"
+		#		cp "${USAGE}" "${directory}/${name}.usage.sh"
 
 		# for the depenedncy one we need to copy the usage file
 		# amend the usage file sourcing
 
-		sed -i "s/source .\/helpers\/usage.sh/source .\/${name}.usage.sh/g" "${directory}/${name}.sh"
-	elif [[ "${dependency}" == false ]]; then
-		local directory=${script_dir}
-		cp "${TEMPLATE_NO_DEPENDENCY}" "${directory}/${name}.sh"
-	else
-		echo -e "${RED}something went wrong while copying / modifiying the template files${NOC}"
-		exit 5
+		#		sed -i "s/source .\/helpers\/usage.sh/source .\/${name}.usage.sh/g" "${directory}/${name}.sh"
+		#	elif [[ "${dependency}" == false ]]; then
+		#		local directory=${script_dir}
+		#		cp "${TEMPLATE_NO_DEPENDENCY}" "${directory}/${name}.sh"
+		#	else
+		#		print RED "something went wrong while copying / modifiying the template files"
+		#		exit 5
+		print GREEN "went here, all okay"
 	fi
 }
 
@@ -286,31 +411,47 @@ main() {
 
 	local name="${n}"
 	local dependency="${t}"
+	local extension=".sh"
 
-	choice_check "${name}"
-	# retrurning the code does not work this way....
-	# -> this gets me straight to the trap
-	#	choice_verify "${name}"
-	if [[ $(choice_verify "${name}") == false ]]; then
-		echo "hmmm"
-		exit 0
+	# start
+	print line
+	print GREEN "${script_name}: Building a new script from template(s)"
+
+	# checking name
+	choice_null_check "${name}"
+	if [[ $(choice_is_valid) == 'INVALID' ]]; then
+		exit 6
 	fi
 
-	echo -e "name: ${name}.sh, build with dependencies: ${dependency}"
+	# append ext if not passed
+	if [[ "${name#*.}" != "bash" ]]; then
+		if [[ "${name#*.}" != "sh" ]]; then
+			print YELLOW "appending name: extension \"${extension}\""
+			local name=${name}${extension}
+		fi
+	fi
 
+	# intro
+	print "name: ${name}, build with dependencies: ${dependency}"
+	print "using ${#elements[@]} dependency elements:"
+	for element in "${elements[@]}"; do
+		print "	- $element"
+	done
+
+	# user callback
 	read -rp $'Continue (Y/n)? ' -ei $'Y' key
 	if [[ "${key}" == "Y" ]]; then
-		copy_template "${name}" "${dependency}"
+		print line
+		build_from_template "${name}" "${dependency}"
 	else
-		echo -e "${RED}aborted by user. Exiting${NOC}"
-		exit 0
+		print RED "script creation aborted by user."
+		exit 5
 	fi
 }
 
 # init the helpers
 choice_init "${@}"
 script_init
-color_init
 
 trap script_finish EXIT INT TERM
 
