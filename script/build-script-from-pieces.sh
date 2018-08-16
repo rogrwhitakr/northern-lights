@@ -225,7 +225,7 @@ color_init() {
 
 # if array variable exists do nothing
 if [[ -z "${e}" ]]; then
-	declare -A e=("init")
+	declare -a e="init"
 fi
 
 choice_init() {
@@ -242,6 +242,7 @@ choice_init() {
 			t=true
 			;;
 		e) # elements (to add to the file, like init but not unit-file, but also logging...)
+			e+=" "
 			e+="${OPTARG}"
 			;;
 		h)
@@ -344,12 +345,12 @@ build_from_template() {
 
 		# add featured tie-ins
 		for feature in "${features[@]}"; do
-			print line >>"${directory}/${name}.${ext}"
+			echo  -e "\n#####\n" >>"${directory}/${name}.${ext}"
 			cat $feature >>"${directory}/${name}.${ext}"
 		done
 
 		# get the init functions
-		grep -h 'init() {' ${helpers} | sed 's/() {//g' >>"${directory}/${name}.${ext}"
+		# grep -h 'init() {' ${helpers} | sed 's/() {//g' >>"${directory}/${name}.${ext}"
 		# finally, add it the main header
 		cat ${template_dir}"/main.bash" >>"${directory}/${name}.${ext}"
 
@@ -393,6 +394,7 @@ build_from_template() {
 		#	else
 		#		print RED "something went wrong while copying / modifiying the template files"
 		#		exit 5
+		print GREEN "went here, all okay"
 	fi
 }
 
@@ -400,10 +402,17 @@ readonly ERROR_CHOICE_INVALID=35
 
 main() {
 
+	print line -
 	local name="${n}"
 	local dependency="${t}"
-	declare -a elements="${e}"
+	declare -a elements=("${e}")
 
+	for element in "${elements[@]}"; do
+		echo "$element is my friend"
+	done
+
+	print line -
+	local elements=("init" "choice" "log")
 	for element in "${elements[@]}"; do
 		echo "$element is my friend"
 	done
@@ -422,7 +431,7 @@ main() {
 	if [[ "${key}" == "Y" ]]; then
 		build_from_template "${name}" "${dependency}"
 	else
-		print RED "aborted by user. Exiting"
+		print RED "script creation aborted by user."
 		exit 5
 	fi
 }
