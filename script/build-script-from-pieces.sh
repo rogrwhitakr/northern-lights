@@ -101,9 +101,6 @@ print() {
 		separator="-"            # separator default
 		line="["                 # adding to a "line" variable
 		term_size="$(tput cols)" # get number of columns
-		if ([[ ! -z "$2" ]] && [[ "${#2}" == 1 ]]); then # set custom the separator (length must be 1)
-			separator="${2}"
-		fi
 		for ((i = 1; i <= "${term_size}-2"; i++)); do # make the line
 			line+="${separator}"
 		done
