@@ -52,7 +52,7 @@ flags_init() {
 	set -o errexit
 
 	if [[ "${verbose}" == "1" ]]; then
-		echo -e "
+		print "
         Flag settings:
         quiet   =${quiet}
         verbose =${verbose}
@@ -132,7 +132,7 @@ function script_init() {
 	readonly script_params="$*"
 
 	if [[ "${verbose}" == "1" ]]; then
-		echo -e "
+		print "
         script settings:
         script_path   		=${script_path}
         script_full_path	=${script}
@@ -192,7 +192,9 @@ script_finish() {
 
 	if [[ "${ERROR_CODE}" == 25 ]]; then
 		print RED "name check: ${name} contains disallowed characters!"
-		echo -e "\tallowed characters: [a-zA-Z0-9_-.]"
+		print "\tallowed characters: [a-zA-Z0-9_-.]"
+	elif [[ "${ERROR_CODE}" == 5 ]]; then
+		print YELLOW "no script created, exiting"
 	elif [[ "${ERROR_CODE}" != 0 ]]; then
 		# if "${directory}/${name}.sh" exists, we delete
 		if [[ -f "${directory}/${name}.sh" ]]; then
@@ -200,7 +202,7 @@ script_finish() {
 			rm -f "${directory}/${name}.usage.sh"
 		fi
 	else
-		echo -e "new script ${name} created. Exiting."
+		print "new script ${name} created. Exiting."
 	fi
 }
 
@@ -221,6 +223,11 @@ color_init() {
 # ARGS: $@: Arguments provided to the script
 # OUTS: go for main
 
+# if array variable exists do nothing
+if [[ -z "${e}" ]]; then
+	declare -A e=("init")
+fi
+
 choice_init() {
 
 	# if not set, dependency setting is false
@@ -235,8 +242,7 @@ choice_init() {
 			t=true
 			;;
 		e) # elements (to add to the file, like init but not unit-file, but also logging...)
-			e="main"
-			e+=${OPTARG} 
+			e+="${OPTARG}"
 			;;
 		h)
 			usage
@@ -267,7 +273,7 @@ choice_init() {
 			;;
 
 		*)
-			echo -e "in *)...\nThis happens, if a flag i spassed that is defined, yet no case..in is available for it"
+			print "in *)...\nThis happens, if a flag i spassed that is defined, yet no case..in is available for it"
 			;;
 		esac
 	done
@@ -315,7 +321,7 @@ build_from_template() {
 	local template_dir="/home/admin/MyScripts/script/template"
 	local ext="sh"
 
-	echo -e "creating template in ${directory}, name ${name}.${ext}"
+	print "creating template in ${directory}, name ${name}.${ext}"
 	# get an array of the files to be added, may enable ordering
 	# this is somewhat problematic. i amy have to revert to manual sequence selection of files to source
 	# ATM the unit file one is the first, that is not sensible
@@ -328,7 +334,7 @@ build_from_template() {
 
 		# create file with name
 		if [[ -f "${directory}/${name}.${ext}" ]]; then
-			echo -e "file ${directory}/${name}.${ext} already exists. Remove and start from scratch?"
+			print "file ${directory}/${name}.${ext} already exists. Remove and start from scratch?"
 			rm -vi "${directory}/${name}.${ext}"
 		fi
 		touch "${directory}/${name}.${ext}"
@@ -338,7 +344,7 @@ build_from_template() {
 
 		# add featured tie-ins
 		for feature in "${features[@]}"; do
-			echo -e "\n#################################################################\n" >>"${directory}/${name}.${ext}"
+			print "\n#################################################################\n" >>"${directory}/${name}.${ext}"
 			cat $feature >>"${directory}/${name}.${ext}"
 		done
 
@@ -351,7 +357,7 @@ build_from_template() {
 
 		# create file with name
 		if [[ -f "${directory}/${name}.${ext}" ]]; then
-			echo -e "file ${directory}/${name}.${ext} already exists. Remove and start from scratch?"
+			print "file ${directory}/${name}.${ext} already exists. Remove and start from scratch?"
 			rm -vi "${directory}/${name}.${ext}"
 		fi
 		touch "${directory}/${name}.${ext}"
@@ -360,7 +366,7 @@ build_from_template() {
 		cat ${template_dir}"/main.header.bash" >>"${directory}/${name}.${ext}"
 
 		# add empty line
-		echo -e "\n" >>"${directory}/${name}.${ext}"
+		print "\n" >>"${directory}/${name}.${ext}"
 
 		# add sourcing
 		for feature in "${features[@]}"; do
@@ -396,7 +402,11 @@ main() {
 
 	local name="${n}"
 	local dependency="${t}"
-	local elements="${e}"
+	declare -a elements="${e}"
+
+	for element in "${elements[@]}"; do
+		echo "$element is my friend"
+	done
 
 	choice_check "${name}"
 	# retrurning the code does not work this way....
@@ -405,15 +415,15 @@ main() {
 		echo "hmmm"
 		exit 0
 	fi
-	echo -e "${elements}"
-	echo -e "name: ${name}.sh, build with dependencies: ${dependency}"
+	print "${elements}"
+	print "name: ${name}.sh, build with dependencies: ${dependency}"
 
 	read -rp $'Continue (Y/n)? ' -ei $'Y' key
 	if [[ "${key}" == "Y" ]]; then
 		build_from_template "${name}" "${dependency}"
 	else
 		print RED "aborted by user. Exiting"
-		exit 0
+		exit 5
 	fi
 }
 
