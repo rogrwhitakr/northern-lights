@@ -316,68 +316,65 @@ build_from_template() {
 	local helper_dir="/home/admin/MyScripts/script/helpers"
 	local helpers="/home/admin/MyScripts/script/helpers/*.sh"
 	local template_dir="/home/admin/MyScripts/script/template"
-	local ext="sh"
 
-	print "creating template in ${directory}, name ${name}.${ext}"
-	# get an array of the files to be added, may enable ordering
-	# this is somewhat problematic. i amy have to revert to manual sequence selection of files to source
-	# ATM the unit file one is the first, that is not sensible
-	# i could reverse the array, ba this rests entirely on the naming of the source files
-	# on the other hand "find" has a somewhat dynamic element to it....
+	print "creating template in ${directory}, name ${name}"
 
-	readarray features < <(find ${helper_dir} -type f)
+	local new_script="${directory}/${name}"
 
 	if [[ "${dependency}" == false ]]; then
 
 		# create file with name
-		if [[ -f "${directory}/${name}.${ext}" ]]; then
-			print "file ${directory}/${name}.${ext} already exists. Remove and start from scratch?"
-			rm -vi "${directory}/${name}.${ext}"
+		if [[ -f "${new_script}" ]]; then
+			print "file ${new_script} already exists. Remove and start from scratch?"
+			rm -vi "${new_script}"
 		fi
-		touch "${directory}/${name}.${ext}"
+		touch "${new_script}"
 
 		# add it the main header, maybe setting the version and stuff along the way..
-		cat ${template_dir}"/main.header.bash" >>"${directory}/${name}.${ext}"
+		cat ${template_dir}"/main.header.bash" >>"${new_script}"
 
 		# add featured tie-ins
+		for element in "${elements[@]}"; do
+			print "	- $element"
+		done
 		for feature in "${features[@]}"; do
-			echo -e "\n#####\n" >>"${directory}/${name}.${ext}"
-			cat $feature >>"${directory}/${name}.${ext}"
+			echo -e "\n#####\n" >>"${new_script}"
+			cat $feature >>"${new_script}"
 		done
 
 		# get the init functions
-		# grep -h 'init() {' ${helpers} | sed 's/() {//g' >>"${directory}/${name}.${ext}"
+		# grep -h 'init() {' ${helpers} | sed 's/() {//g' >>"${new_script}"
 		# finally, add it the main header
-		cat ${template_dir}"/main.bash" >>"${directory}/${name}.${ext}"
+		cat ${template_dir}"/main.bash" >>"${new_script}"
 
 	else
 
 		# create file with name
-		if [[ -f "${directory}/${name}.${ext}" ]]; then
-			print "file ${directory}/${name}.${ext} already exists. Remove and start from scratch?"
-			rm -vi "${directory}/${name}.${ext}"
+		if [[ -f "${new_script}" ]]; then
+			print "file ${new_script} already exists. Remove and start from scratch?"
+			rm -vi "${new_script}"
 		fi
-		touch "${directory}/${name}.${ext}"
+		touch "${new_script}"
 
 		# add it the main header, maybe setting the version and stuff along the way..
-		cat ${template_dir}"/main.header.bash" >>"${directory}/${name}.${ext}"
+		cat ${template_dir}"/main.header.bash" >>"${new_script}"
 
 		# add empty line
-		print "\n" >>"${directory}/${name}.${ext}"
+		print "\n" >>"${new_script}"
 
 		# add sourcing
 		for feature in "${features[@]}"; do
-			echo "source ${feature}" >>"${directory}/${name}.${ext}"
+			echo "source ${feature}" >>"${new_script}"
 		done
 
 		# get the init functions
-		grep -h 'init() {' ${helpers} | sed 's/() {//g' >>"${directory}/${name}.${ext}"
+		grep -h 'init() {' ${helpers} | sed 's/() {//g' >>"${new_script}"
 
 		# finally, add it the main header
-		cat ${template_dir}"/main.bash" >>"${directory}/${name}.${ext}"
+		cat ${template_dir}"/main.bash" >>"${new_script}"
 
 		# copy necessary files
-		#		cp "${helper_dir}" "${directory}/${name}.${ext}"
+		#		cp "${helper_dir}" "${new_script}"
 		#		cp "${USAGE}" "${directory}/${name}.usage.sh"
 
 		# for the depenedncy one we need to copy the usage file
