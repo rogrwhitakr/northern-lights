@@ -44,3 +44,5 @@ EXAMPLES:
     - Create a script with a single file
         ./${script_name} -n testing-NICs.sh
 usage_end
+
+cat
