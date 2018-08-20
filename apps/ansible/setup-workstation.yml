@@ -41,6 +41,29 @@
     - wireshark
     - postgresql
 
+  - name: Install all that cool but obscure stuff
+    dnf: name={{item}} state=present
+    with_items:
+    - dstat 
+    - sar
+    - dstat 
+    - screenshot
+    - slurm
+    - screen
+    - dtach
+    - powertop
+    - qalc
+    - htop
+    - atop
+    - glances
+    - ttyrec
+    - mtr
+    - socat
+    - netpipes
+    - iftop
+    - iptraf
+    - nethogs
+
   - name: Install database software
     dnf: name={{item}} state=present
     with_items:
