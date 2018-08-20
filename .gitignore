@@ -2,3 +2,5 @@ coreutils/*.log
 coreutils/*.json
 apps/ansible/*.retry
 script/BUILDTEST.*
+script/TESTBUILD.*
+script/TEST*.*
