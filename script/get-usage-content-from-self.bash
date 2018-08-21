@@ -1,6 +1,7 @@
 #! /usr/bin/env bash
 
-usage_start
+cat <<EOF
+
 
 ./${script_name} [NAME]...[DEPENDENCY OPTION]...
  
@@ -43,6 +44,5 @@ EXAMPLES:
         ./${script_name} -n testing-NICs.sh -d
     - Create a script with a single file
         ./${script_name} -n testing-NICs.sh
-usage_end
 
-cat
+EOF
