@@ -1,4 +1,4 @@
-#! /bin/bash
+#! /usr/bin/bash
 
 rm -vfr ~/named
 

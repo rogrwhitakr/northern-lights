@@ -1,7 +1,8 @@
 ;
-; reverse pointers for 192.168.150.0/24 subnet
+; "normal"? pointers for 192.168.150.0/24 subnet
 ;
-$ORIGIN 150.168.192.in-addr.arpa.
+;$ORIGIN 150.168.192.in-addr.arpa.
+
 $TTL 1D
 @     IN SOA  magellan.northernlights.io. root.northernlights.io. (
               201710013  ; serial
@@ -11,7 +12,6 @@ $TTL 1D
               86400      ; minimum (1 day)
               )
 ; define the authoritative name server
-    IN     NS      magellan.northernlights.io.
-    IN     PTR     northernlights.io.
-    IN     A       255.255.255.0 
-1   IN     PTR     magellan.northernlights.io.
+            IN      NS      magellan.northernlights.io.
+            IN      A       192.168.150.10
+magellan    IN      A       192.168.150.10
