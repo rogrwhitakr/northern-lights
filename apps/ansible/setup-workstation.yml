@@ -60,8 +60,12 @@
     dnf: name={{item}} state=present
     with_items:
     - pgadmin3
+    - sequeler
     - postgresql-server
     - postgresql
+    - mariadb-server
+    - mongodb
+    - mongodb-server
 
   - name: Install Python Environment 
     dnf: name={{item}} state=present

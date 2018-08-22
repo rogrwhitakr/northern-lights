@@ -16,6 +16,14 @@ CREATE TABLE IF NOT EXISTS occupation (
 	Description			VARCHAR(50) NOT NULL
 	);	
 
+INSERT INTO occupation (Description) VALUES 
+	('Ninja'),
+	('Desktop Warrior'),
+	('Sun Starer'),
+	('Angel Healer'),
+	('Faith Healer'),
+	('blubb');
+
 CREATE TABLE IF NOT EXISTS person (
 	person_ID			SERIAL UNIQUE PRIMARY KEY,
 	firstname             VARCHAR(50) NOT NULL,
