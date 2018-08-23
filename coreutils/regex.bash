@@ -28,15 +28,31 @@ cd ~/Videos
 #file='Ansible - an absolute basic overview-MfoAb50Br94.mp4'
 pwd
 # get the files
-files=( "$(ls *.mp4)" )
-echo ${#files[@]}
 
+files=()
+for file in *.webm; do
+	print GREEN "processing file ${file}"
+	src="${file}"
+	print YELLOW "removing the trailing part, that youtube-dl creates."
+	file="${file%-*.mp4}.mp4"
+	print YELLOW "removing dashes,commas,etc"
+	file="${file//-/}"
+	file="${file//,/}"
+	file="${file//(/}"
+	file="${file//)/}"
+	print YELLOW "replacing all spaces with dashes"
+	file="${file// /-}"
+	print RED "renaming file ${src} to ${file}"
+	mv "${src}" "${file}"
+	print GREEN "processed file: ${file}"
+	print LINE
+done
+echo ${files[@]}
+echo ${#files[@]}
+exit 0
 # You can parameterize the substrings.
 substring='a.C'
 
-for file in "${files[@]}"; do
-	print YELLOW "file is now: ${file}"
-done
 # remove the trailing part
 print YELLOW "removing the trailing part"
 file="${file%-*.mp4}.mp4"
