@@ -65,6 +65,7 @@
     - postgresql
     - mariadb-server
     - mongodb
+    - mongo-tools
     - mongodb-server
 
   - name: Install Python Environment 
