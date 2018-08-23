@@ -14,3 +14,19 @@ date="20180s12"
 #           |          either 01...09      either 01..09     end of line
 # start of line            or 10,11,12         or 10..29
 #                                              or 30, 31
+
+# ATM there are some downloaded youtube videos in ~/Videos
+# named like so:
+#   'Ansible - an absolute basic overview-MfoAb50Br94.mp4'
+# todo:
+#   replace spaces with dashes
+#   remove trailing whatevers 
+
+cd ~/Videos
+file='Ansible - an absolute basic overview-MfoAb50Br94.mp4'
+
+# You can parameterize the substrings.
+X=' '
+
+echo "${file##$X}"
+echo "${file#$X}"
