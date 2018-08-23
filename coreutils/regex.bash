@@ -1,5 +1,7 @@
 #! /usr/bin/env bash
 
+source "../MyScripts/script/helpers/init.bash"
+
 # from stackoverflow:
 # check validity of a date, format yyyymmdd
 date="20180212"
@@ -20,13 +22,34 @@ date="20180s12"
 #   'Ansible - an absolute basic overview-MfoAb50Br94.mp4'
 # todo:
 #   replace spaces with dashes
-#   remove trailing whatevers 
+#   remove trailing whatevers
 
 cd ~/Videos
-file='Ansible - an absolute basic overview-MfoAb50Br94.mp4'
+#file='Ansible - an absolute basic overview-MfoAb50Br94.mp4'
+pwd
+# get the files
+files=( "$(ls *.mp4)" )
+echo ${#files[@]}
 
 # You can parameterize the substrings.
-X=' '
+substring='a.C'
 
-echo "${file##$X}"
-echo "${file#$X}"
+for file in "${files[@]}"; do
+	print YELLOW "file is now: ${file}"
+done
+# remove the trailing part
+print YELLOW "removing the trailing part"
+file="${file%-*.mp4}.mp4"
+echo "file is now: ${file}"
+
+# ${string//pattern/replacement}
+# ${string/#pattern/replacement} replace beginning
+# ${string/%pattern/replacement} replace end
+# ${string//replacement} remove all occurences of replacement
+
+# remove dash
+file="${file//-/}"
+# replace all spaces with dashes
+file="${file// /-}"
+
+echo "file is now: ${file}"
