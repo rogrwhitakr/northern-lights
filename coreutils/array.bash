@@ -60,3 +60,12 @@ reverse_array() {
 
     printf "\\n"
 }
+
+# ADD FILES TO AN ARRAY. THE RIGHT WAY
+files=()
+for file in *.mp4; do
+	print RED "${file}"
+    [[ -e ${file} ]] && files+=("${file}") || echo "WHAT"
+done
+echo ${files[@]}
+echo ${#files[@]}
