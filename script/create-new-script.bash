@@ -352,12 +352,17 @@ build_from_template() {
 		# add featured tie-ins
 		for element in "${elements[@]}"; do
 			print "adding element \"$element\" to new script"
+			echo -e "" >>"${new_script}"
+			echo -e "###### \"$element\" element #####" >>"${new_script}"
+			echo -e "" >>"${new_script}"
 			find "${helper_dir}" -name "${element}.bash" -exec cat {} \; >>"${new_script}" ||
 				print RED "element ${element}.bash not found! Continuing..."
 		done
 
 		grep '^[a-z].*()' "${new_script}" | sed 's/() {//' >>"${new_script}" || echo "njet"
 
+# todo:
+# delete functions that are special
 		# get the init functions
 		# grep -h 'init() {' ${helpers} | sed 's/() {//g' >>"${new_script}"
 		# finally, add it the main header

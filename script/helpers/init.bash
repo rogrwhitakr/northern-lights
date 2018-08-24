@@ -1,8 +1,4 @@
-# ######################################################################################
-# variables
-#   maybe look into replacing with true / false as the man page for "false" hilariously
-#   lets you know:NAME
-#       false - do nothing, unsuccessfully
+##### variables ###
 
 quiet=0
 verbose=0
@@ -10,8 +6,7 @@ force=0
 strict=0
 debug=0
 
-# ######################################################################################
-# functions
+##### functions ###
 
 flags_init() {
 
@@ -143,3 +138,4 @@ print() {
 		;;
 	esac
 }
+
