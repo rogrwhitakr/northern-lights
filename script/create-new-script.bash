@@ -1,11 +1,10 @@
 #! /usr/bin/env bash
 
 # TODOS
-#		if args empty show usage
-#		if run without args, just show usage, no specifier
-#		make usage contain info required:recomendend:optional flags and params
 #		already exists, maybe use colors?
 # DONE
+#		if args empty show usage
+#		if run without args, just show usage, no specifier
 
 # GLOBAL
 #
@@ -14,7 +13,7 @@
 # OUTS: copy of the script template in <repo>/script named to specification
 #       copy of usage depencency named to specification
 
-version="1.0.0"
+version="1.1.0"
 
 quiet=0
 verbose=0
@@ -329,7 +328,7 @@ build_from_template() {
 	local dependency=${2}
 	local helper_dir=${directory}"/helpers"
 	local template_dir=${directory}"/template"
-	local element_separator="$(print commentline)"
+
 	print "creating template in ${directory}, name ${name}"
 
 	local new_script="${directory}/${name}"
@@ -347,15 +346,17 @@ build_from_template() {
 		cat ${template_dir}"/main.header.bash" >>"${new_script}"
 
 		# change date to today
-		sed -i 's/XXXX-XX-XX/"$(date +%Y-%m-%d)"/g' "${new_script}"
+		version_date="$(date +%Y-%m-%d)"
+		sed -i 's/XXXX-XX-XX/${version_date}/g' "${new_script}"
 
 		# add featured tie-ins
 		for element in "${elements[@]}"; do
 			print "adding element \"$element\" to new script"
-			print "${element_separator}" >>"${new_script}"
 			find "${helper_dir}" -name "${element}.bash" -exec cat {} \; >>"${new_script}" ||
 				print RED "element ${element}.bash not found! Continuing..."
 		done
+
+		grep '^[a-z].*()' "${new_script}" | sed 's/() {//' >>"${new_script}" || echo "njet"
 
 		# get the init functions
 		# grep -h 'init() {' ${helpers} | sed 's/() {//g' >>"${new_script}"

@@ -15,16 +15,6 @@ user_unit_file_var_init() {
 	readonly executable="$(find /home/${user} -name profile-generator.sh -executable)"
 }
 
-# DESC: error codes init
-# ARGS: none
-# OUTS: unit file error codes
-# NOTE:	unsure if this is the way to go...
-#		or if i will use it at all..
-
-unit_file_error_code_init() {
-	readonly ERROR_UNIT_FILE_UNKNOWN_EXTENSION=41
-}
-
 verify_unit_file_syntax() {
 
 	# DESC: verify unit file syntax

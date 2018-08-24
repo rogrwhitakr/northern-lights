@@ -1,7 +1,3 @@
-# PROVIDES: choice_init
-# PROVIDES: choice_check
-# PROVIDES: choice_verify
-
 choice_init() {
 
 	# DESC: any and all flags go here for evaluation
@@ -35,6 +31,14 @@ choice_init() {
 				usage
 			fi
 			;;
+		e) # elements (to add to the file, like init but not unit-file, but also logging...)
+			elements+=("${OPTARG}") # use array -> ARGS MUST BE -e <thing1> -e <thing2>
+			;;
+		#		f) # Felements -> # use single variable -> ARGS MUST BE -f "thing1 thing2" separated by space
+		#			set -f 					# disable glob
+		#            IFS=' ' 				# split on space characters#
+		#			felements=($OPTARG) # use the split+glob operator#
+		#			;;
 		u) # user
 			readonly u=${OPTARG}
 			id -u "${u}" &&
@@ -104,14 +108,15 @@ choice_init() {
 	shift $((OPTIND - 1))
 }
 
-# DESC: null-checks inputs provided to choice_init
-# ARGS: $@: Arguments set in choice_init
-# OUTS: go for main / usage if not
-# TODO: check if we can get a list of the flags
-#       sed the file for getopts flags, maybe..
-#       otherwise its a manual set everytime. probably better
-
 choice_check() {
+
+	# DESC: null-checks inputs provided to choice_init
+	# ARGS: $@: Arguments set in choice_init
+	# OUTS: go for main / usage if not
+	# TODO: check if we can get a list of the flags
+	#       sed the file for getopts flags, maybe..
+	#       otherwise its a manual set everytime. probably better
+
 	# multiple check
 	# if [ -z "${s}" ] || [ -z "${p}" ] || [ -z "${m}" ]; then
 	# single check
