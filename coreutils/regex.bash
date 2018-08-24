@@ -24,7 +24,7 @@ date="20180s12"
 #   replace spaces with dashes
 #   remove trailing whatevers
 
-cd ~/Videos
+cd ~/Downloads
 #file='Ansible - an absolute basic overview-MfoAb50Br94.mp4'
 pwd
 # get the files
