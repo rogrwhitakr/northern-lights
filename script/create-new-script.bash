@@ -351,7 +351,7 @@ build_from_template() {
 
 		# add featured tie-ins
 		for element in "${elements[@]}"; do
-			print "adding element \"$element\" to new script"
+			print YELLOW "adding element \"$element\" to new script"
 			echo -e "" >>"${new_script}"
 			echo -e "###### \"$element\" element #####" >>"${new_script}"
 			echo -e "" >>"${new_script}"
@@ -359,15 +359,16 @@ build_from_template() {
 				print RED "element ${element}.bash not found! Continuing..."
 		done
 
-		grep '^[a-z].*()' "${new_script}" | sed 's/() {//' >>"${new_script}" || echo "njet"
-
-# todo:
-# delete functions that are special
-		# get the init functions
-		# grep -h 'init() {' ${helpers} | sed 's/() {//g' >>"${new_script}"
-		# finally, add it the main header
+		# add main
 		cat ${template_dir}"/main.bash" >>"${new_script}"
-		print GREEN "finished"
+		print GREEN "added all elements"
+
+		print YELLOW "adding function calls"
+		grep '^[a-z].*()' "${new_script}" | sed 's/() {//' >>"${new_script}" || echo "njet"
+		print YELLOW "taking care of special functions"
+		sed -i 's/^choice_init$/choice_init \"${@}\"/g' "${new_script}"
+		sed -i 's/^main$/main \"${@}\"/g' "${new_script}"
+		sed -i 's/^script_finish$/trap script_finish EXIT INT TERM/g' "${new_script}"
 
 	else
 
@@ -411,6 +412,9 @@ build_from_template() {
 		#		exit 5
 		print GREEN "went here, all okay"
 	fi
+
+	print GREEN "making script executable..."
+	chmod u+x "${new_script}"
 }
 
 main() {

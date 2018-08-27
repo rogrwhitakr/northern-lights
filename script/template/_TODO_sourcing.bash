@@ -1,5 +1,15 @@
-#!/usr/bin/env bash
-# Bash3 Boilerplate. Copyright (c) 2014, kvz.io
+#! /usr/bin/env bash
+
+source "${BASH_SOURCE[1]%/*}/helpers/initialisation.sh"
+source "${BASH_SOURCE[1]%/*}/helpers/logging.sh"
+USAGE=${BASH_SOURCE[1]%/*}/log-dependency-test.usage.sh
+echo -e "${USAGE}"
+source ${USAGE}
+echo -e "${BASH_SOURCE[1]}"
+# this is it!!
+echo -e "${BASH_SOURCE[1]%/*}"
+
+# Bash3 Boilerplate. from somewhere
 
 set -o errexit
 set -o pipefail

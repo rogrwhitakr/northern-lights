@@ -34,6 +34,7 @@ script_finish() {
 		print YELLOW "Invalid name choice, exiting"
 		print LINE
 	elif [[ "${ERROR_CODE}" != 0 ]]; then
+		print GREEN "all OK"
 	else
 		echo "somesin"
 	fi

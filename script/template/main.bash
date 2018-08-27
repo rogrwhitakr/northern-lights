@@ -1,6 +1,5 @@
-# TOTO get list of functions
 
-function main() {
+main() {
 
 	# DESC: the core function of the script
 	# ARGS: $@: Arguments provided to the script
@@ -15,15 +14,3 @@ function main() {
 	echo -e "${script_name}"
 	echo -e "${YELLOW}within main${NOC}"
 }
-
-# init the helpers
-#<REPLACE_WITH_FUNCTIONS>
-
-#alias functions="declare -f | grep '^[a-z].* ()' | sed 's/{$//'"
-color_init
-flags_init
-script_init
-trap script_finish EXIT INT TERM
-
-# Make it rain
-main "$@"
