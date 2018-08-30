@@ -1,6 +1,6 @@
 #! /usr/bin/env bash
 
-source "../MyScripts/script/helpers/init.bash"
+source "/home/admin/MyScripts/script/helpers/init.bash"
 
 # from stackoverflow:
 # check validity of a date, format yyyymmdd
@@ -25,21 +25,22 @@ date="20180s12"
 #   remove trailing whatevers
 
 cd ~/Downloads
-cd /mnt/backup/video
+cd "/mnt/backup/video/temps (3. Kopie)"
 #file='Ansible - an absolute basic overview-MfoAb50Br94.mp4'
 pwd
 # get the files
 
-# do something depedning on extension (or any other part of the name, really...) 
+# do something depedning on extension (or any other part of the name, really...)
 for file in *; do
 	case "${file#*.}" in
 	mp4)
-		variable=gay
-		print GREEN "${variable}"
+		extension=MP4
+		print GREEN "${extension}"
+		stat "${file}"
 		;;
 	webm)
-		b="relative"
-		print YELLOW "${b}"
+		extension=WEBEM
+		print YELLOW "${extension}"
 		;;
 	*)
 		print RED "${file}"
@@ -50,16 +51,27 @@ done
 
 for file in *; do
 	print GREEN "processing file ${file}"
+	yt_id_chars=11
 	src="${file}"
 	ext="${file#*.}"
-	print YELLOW "removing the trailing part, that youtube-dl creates."
-	file="${file%-*.${ext}}.${ext}"
+
+	# this hast issues. cannot be executed repeatedly, b/c i named the separator character "-"!
+	# when excuting this it simply removes the trailing part, making the string shorter every time
+	#	file="${file%-*.${ext}}.${ext}"
+
+	print GREEN "removing $((${yt_id_chars} + 2 + ${#ext})) characters from end-of-string"
+	# number of characters in string
+	# - offset of youtube characters at the end
+	# - dot separating ext and file name, dash at the end.. (-2)
+	# - extension
+	# reappending extension
+
+	file="${file::$((${#file} - ${yt_id_chars} - 2 - ${#ext}))}"
+	file="${file}.${ext}"
+
 	print YELLOW "removing dashes,commas,etc"
-# this is a problem when reexecuting!!
-#	file="${file//-/}"
-	file="${file//,/}"
-	file="${file//(/}"
-	file="${file//)/}"
+	file="${file//[,/(/)_]/}"
+	print GREEN "processed file: ${file}, has ${#file} characters"
 	print YELLOW "replacing all spaces with dashes"
 	file="${file// /-}"
 	print RED "renaming file ${src} to ${file}"
@@ -67,8 +79,7 @@ for file in *; do
 	print GREEN "processed file: ${file}"
 	print LINE
 done
-echo ${files[@]}
-echo ${#files[@]}
+
 exit 0
 # You can parameterize the substrings.
 substring='a.C'
