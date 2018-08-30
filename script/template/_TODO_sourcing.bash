@@ -1,19 +1,17 @@
 #! /usr/bin/env bash
 
-source "${BASH_SOURCE[1]%/*}/helpers/initialisation.sh"
-source "${BASH_SOURCE[1]%/*}/helpers/logging.sh"
-USAGE=${BASH_SOURCE[1]%/*}/log-dependency-test.usage.sh
-echo -e "${USAGE}"
-source ${USAGE}
+# this assumes, the script is one level down
+#source "${BASH_SOURCE[1]%/*}../helpers/init.bash"
+#source "${BASH_SOURCE[1]%/*}../helpers/log.bash"
 echo -e "${BASH_SOURCE[1]}"
+echo -e "${BASH_SOURCE[0]}"
 # this is it!!
 echo -e "${BASH_SOURCE[1]%/*}"
+echo -e "$(dirname "${BASH_SOURCE[0]}")"
 
-# Bash3 Boilerplate. from somewhere
-
-set -o errexit
-set -o pipefail
-set -o nounset
+#set -o errexit
+#set -o pipefail
+#set -o nounset
 # set -o xtrace
 
 # Set magic variables for current file & dir
