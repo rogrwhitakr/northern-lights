@@ -31,6 +31,9 @@ declare -ir readonly_int=5
 
 echo "$(( ${int} ** ${readonly_int} ))"
 
+# subtract
+$((${#file}-11))
+
 # using shell built-in RANDOM
 
 echo -e $RANDOM
