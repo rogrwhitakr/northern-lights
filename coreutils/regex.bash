@@ -25,7 +25,7 @@ date="20180s12"
 #   remove trailing whatevers
 
 cd ~/Downloads
-cd "/mnt/backup/video/temps (3. Kopie)"
+cd "/mnt/backup/video"
 #file='Ansible - an absolute basic overview-MfoAb50Br94.mp4'
 pwd
 # get the files
@@ -55,7 +55,7 @@ for file in *; do
 	src="${file}"
 	ext="${file#*.}"
 
-	# this hast issues. cannot be executed repeatedly, b/c i named the separator character "-"!
+	# this has issues. cannot be executed repeatedly, b/c i named the separator character "-"!
 	# when excuting this it simply removes the trailing part, making the string shorter every time
 	#	file="${file%-*.${ext}}.${ext}"
 

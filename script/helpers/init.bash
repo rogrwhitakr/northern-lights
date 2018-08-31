@@ -49,20 +49,6 @@ flags_init() {
 	fi
 }
 
-color_init() {
-
-	# DESC: Initialise colour variables
-	# ARGS: None
-	# OUTS: Read-only variables with ANSI control codes
-	# NOTE: If --no-colour was set the variables will be empty
-
-	readonly RED='\033[0;31m'
-	readonly YELLOW='\e[33m'
-	readonly NOC='\033[0m'
-	readonly BLUE='\e[34m'
-	readonly GREEN='\e[0;32m'
-}
-
 script_init() {
 
 	# DESC: Generic script initialisation
@@ -87,7 +73,7 @@ script_init() {
 
 print() {
 
-	# DESC: pretty print text, lines 
+	# DESC: pretty print text, lines
 	# ARGS: 1 -> Color, line
 	#		choices are:
 	#			RED
@@ -121,21 +107,42 @@ print() {
 		printf '\e[0;32m%s\033[0m\n' "${2}"
 		;;
 	LINE)
-		separator="-"										# separator default
-		line="["											# adding to a "line" variable
-		term_size="$(tput cols)"							# get number of columns
-		if ([[ ! -z "$2" ]] && [[ "${#2}" == 1 ]]); then	# set custom the separator (length must be 1)
+		separator="-"            # separator default
+		line="["                 # adding to a "line" variable
+		term_size="$(tput cols)" # get number of columns
+		if ([[ ! -z "$2" ]] && [[ "${#2}" == 1 ]]); then # set custom the separator (length must be 1)
 			separator="${2}"
 		fi
-		for ((i = 1; i <= "${term_size}-2"; i++)); do		# make the line
+		for ((i = 1; i <= "${term_size}-2"; i++)); do # make the line
 			line+="${separator}"
 		done
 		line+="]"
-		printf "${line}"									# regurgitate to terminal
+		printf "${line}" # regurgitate to terminal
+		;;
+	ABSCHLUSS)
+		separator="-" # separator default
+		line="["      # adding to a "line" variable
+
+		if [[ ! -z "$2" ]]; then # set the separator
+			line+="${separator}"
+			line+="${2}"
+			line+="${separator}"
+		fi
+		
+		line+="]"
+
+		term_size="$(tput cols)" # get number of columns
+		echo "$((${term_size} - ${#line}))"
+		term_size="$(($(tput cols) - ${#line}))"
+		echo "$term_size"
+		for ((i = 1; i <= $((${term_size} - ${#line})); i++)); do
+			line+="${separator}"
+		done
+		echo "${#line}"
+		printf "${line}" # regurgitate to terminal
 		;;
 	*)
 		printf '\033[0m%s\033[0m\n' "${1}"
 		;;
 	esac
 }
-
