@@ -1,7 +1,7 @@
 
 ---
 - name: Setup local test servers
-  hosts: cortez magellan
+  hosts: cortez magellan dortmunder
   remote_user: admin
   become: yes
 
