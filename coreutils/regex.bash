@@ -23,6 +23,7 @@ date="20180s12"
 # todo:
 #   replace spaces with dashes
 #   remove trailing whatevers
+readonly bypass="YES"
 
 cd ~/Downloads
 cd "/mnt/backup/video/regex.1"
@@ -49,78 +50,97 @@ for file in *; do
 	esac
 done
 
-##for file in *; do
-#	print GREEN "processing file ${file}"
-#	yt_id_chars=11
-#	src="${file}"
-#	ext="${file#*.}"
-#
-#	# this has issues. cannot be executed repeatedly, b/c i named the separator character "-"!
-#	# when excuting this it simply removes the trailing part, making the string shorter every time
-#	#	file="${file%-*.${ext}}.${ext}"
-#
-#	print GREEN "removing $((${yt_id_chars} + 2 + ${#ext})) characters from end-of-string"
-#	# number of characters in string
-#	# - offset of youtube characters at the end
-#	# - dot separating ext and file name, dash at the end.. (-2)
-#	# - extension
-#	# reappending extension
-#
-#	file="${file::$((${#file} - ${yt_id_chars} - 2 - ${#ext}))}"
-#	file="${file}.${ext}"
-#
-#	print YELLOW "removing dashes,commas,etc"
-#	file="${file//[,/(/)_]/}"
-#	print GREEN "processed file: ${file}, has ${#file} characters"
-#	print YELLOW "replacing all spaces with dashes"
-#	file="${file// /-}"
-#	print RED "renaming file ${src} to ${file}"
-#	mv "${src}" "${file}"
-#	print GREEN "processed file: ${file}"
-#	print LINE
-#done
+if [[ "${bypass}" != "YES" ]]; then
+	for file in *; do
+		print GREEN "processing file ${file}"
+		yt_id_chars=11
+		src="${file}"
+		ext="${file#*.}"
+
+		# this has issues. cannot be executed repeatedly, b/c i named the separator character "-"!
+		# when excuting this it simply removes the trailing part, making the string shorter every time
+		#	file="${file%-*.${ext}}.${ext}"
+
+		print GREEN "removing $((${yt_id_chars} + 2 + ${#ext})) characters from end-of-string"
+		# number of characters in string
+		# - offset of youtube characters at the end
+		# - dot separating ext and file name, dash at the end.. (-2)
+		# - extension
+		# reappending extension
+
+		file="${file::$((${#file} - ${yt_id_chars} - 2 - ${#ext}))}"
+		file="${file}.${ext}"
+
+		print YELLOW "removing dashes,commas,etc"
+		file="${file//[,/(/)_]/}"
+		print GREEN "processed file: ${file}, has ${#file} characters"
+		print YELLOW "replacing all spaces with dashes"
+		file="${file// /-}"
+		print RED "renaming file ${src} to ${file}"
+		#	mv "${src}" "${file}"
+		print GREEN "processed file: ${file}"
+		print LINE
+	done
+fi
+
 read -rp $'Continue (Y/n) : ' -ei $'Y' key
 [ "${key}" != "Y" ] && exit 0
 
-for file in *; do
-	print GREEN "processing file ${file}"
-	src="${file}"
-	ext="${file#*.}"
-	yt_id_chars=11
+if [[ "${bypass}" != "YES" ]]; then
+	for file in *; do
+		print GREEN "processing file ${file}"
+		src="${file}"
+		ext="${file#*.}"
+		yt_id_chars=11
 
-	print YELLOW "removing dashes,commas,etc"
-	file="${file//[,/(/)]/}"
-	file="${file//_/}"
-	file="${file//\-.*/-}"
-	print RED "${file}"
+		print YELLOW "removing dashes,commas,etc"
+		file="${file//[,/(/)]/}"
+		file="${file//_/}"
+		file="${file//\-.*/-}"
+		print RED "${file}"
 
-	# if the file has been processed before it will have dashes in it
-	# so we check for FIRST dash available. that is  still not tha awesome...
-	#	file="${file::$((${#file} - ${yt_id_chars} - 2 - ${#ext}))}"
-	#	print RED "${file:$((${#file} - ${yt_id_chars} - 2 - ${#ext}))}"
-	#	print RED "${file::$((${#file} - ${yt_id_chars} - 2 - ${#ext}))}"
-	#	[[ "${file#*-}" =~ "-" ]] && echo "${file#*-}"
-	print YELLOW "replacing all spaces with *"
-	file="${file// /*}"
-	print YELLOW "replacing all dashes with *"
-	file="${file//-/*}"
+		# if the file has been processed before it will have dashes in it
+		# so we check for FIRST dash available. that is  still not tha awesome...
+		#	file="${file::$((${#file} - ${yt_id_chars} - 2 - ${#ext}))}"
+		#	print RED "${file:$((${#file} - ${yt_id_chars} - 2 - ${#ext}))}"
+		#	print RED "${file::$((${#file} - ${yt_id_chars} - 2 - ${#ext}))}"
+		#	[[ "${file#*-}" =~ "-" ]] && echo "${file#*-}"
+		print YELLOW "replacing all spaces with *"
+		file="${file// /*}"
+		print YELLOW "replacing all dashes with *"
+		file="${file//-/*}"
 
-	# we could remove all with dash separator
-	# measured against a set length parameter that we know
+		# we could remove all with dash separator
+		# measured against a set length parameter that we know
 
-	print YELLOW "removing all dash separated bits and pieces from the end"
-	file="${file%%-*.${ext}}"
+		print YELLOW "removing all dash separated bits and pieces from the end"
+		file="${file%%-*.${ext}}"
 
-	print YELLOW "replacing all stars with dashes"
-	file="${file//\*/-}"
-	print YELLOW "reappending extension ${ext}"
-	file="${file}.${ext}"
-	#	print RED "renaming file ${src} to ${file}"
-	#	mv "${src}" "${file}"
-	print GREEN "processed file: ${file}"
-	print LINE
-done
+		print YELLOW "replacing all stars with dashes"
+		file="${file//\*/-}"
+		print YELLOW "reappending extension ${ext}"
+		file="${file}.${ext}"
+		#	print RED "renaming file ${src} to ${file}"
+		#	mv "${src}" "${file}"
+		print GREEN "processed file: ${file}"
+		print LINE
+	done
+fi
 
+if [[ "${bypass}" == "YES" ]]; then
+	for file in *; do
+		print LINE
+		print YELLOW "BEFORE: ${file}"
+		src="${file}"
+		ext="${file#*.}"
+
+		print YELLOW "removing everything that is NOT [A-Za-z0-9]"
+		file="${file//[^A-Za-z0-9]/-}"
+		file="${file//[\-]\{2,99\}}"
+		file="${file%--.*}"
+		print GREEN "AFTER: ${file}"
+	done
+fi
 exit 0
 # You can parameterize the substrings.
 substring='a.C'
