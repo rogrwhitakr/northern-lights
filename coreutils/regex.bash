@@ -34,7 +34,7 @@ pwd
 # get the files
 
 regexp_rename() {
-	if [[ ! -z "${1}" ]]; then
+	if [[ -f "${1}" ]]; then
 
 		print YELLOW "BEFORE: ${file}"
 		src="${file}"
@@ -64,7 +64,7 @@ regexp_rename() {
 		fi
 		print GREEN "AFTER: ${file}"
 	else
-		print RED "no file passed. exiting"
+		print RED "no regular file passed. exiting"
 		exit 0
 	fi
 }
@@ -76,7 +76,7 @@ for file in *; do
 		extension=MP4
 		print LINE
 		regexp_rename "${file}"
-		#		stat "${file}"
+		# stat "${file}"
 		;;
 	webm)
 		extension=WEBEM
