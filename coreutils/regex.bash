@@ -2,6 +2,10 @@
 
 source "/home/admin/MyScripts/script/helpers/init.bash"
 
+strict=0
+debug=1
+
+flags_init
 # from stackoverflow:
 # check validity of a date, format yyyymmdd
 date="20180212"
@@ -23,25 +27,62 @@ date="20180s12"
 # todo:
 #   replace spaces with dashes
 #   remove trailing whatevers
-readonly bypass="YES"
 
-cd ~/Downloads
 cd "/mnt/backup/video/regex.1"
 #file='Ansible - an absolute basic overview-MfoAb50Br94.mp4'
 pwd
 # get the files
+
+regexp_rename() {
+	if [[ ! -z "${1}" ]]; then
+
+		print YELLOW "BEFORE: ${file}"
+		src="${file}"
+		ext="${file#*.}"
+
+		# remove extension
+		file="${file//.${ext}/}"
+		# remove youtube specifier
+		file="${file%%-*}"
+		# removing everything that is NOT [A-Za-z0-9]"
+		file="${file//[^A-Za-z0-9]/_}"
+
+		# removing doubles and triples and so forth
+		# this should work better. why cant I do [asderf]{2,3}?
+		file="${file//____/_}"
+		file="${file//___/_}"
+		file="${file//__/_}"
+
+		regex="[äüö]"      # this works
+		regex="[äüö]{1,3}" # this does not seem to work
+		regex="---"           # this does not seem to work
+
+		# reappending extension
+		file="${file}.${ext}"
+		if [[ "${src}" != "${file}" ]]; then
+			mv "${src}" "${file}"
+		fi
+		print GREEN "AFTER: ${file}"
+	else
+		print RED "no file passed. exiting"
+		exit 0
+	fi
+}
 
 # do something depedning on extension (or any other part of the name, really...)
 for file in *; do
 	case "${file#*.}" in
 	mp4)
 		extension=MP4
-		print GREEN "${extension}"
+		print LINE
+		regexp_rename "${file}"
 		#		stat "${file}"
 		;;
 	webm)
 		extension=WEBEM
-		print YELLOW "${extension}"
+		print LINE
+		print GREEN "renaming ${extension} file ${file}"
+		regexp_rename "${file}"
 		;;
 	*)
 		print RED "${file}"
@@ -50,97 +91,6 @@ for file in *; do
 	esac
 done
 
-if [[ "${bypass}" != "YES" ]]; then
-	for file in *; do
-		print GREEN "processing file ${file}"
-		yt_id_chars=11
-		src="${file}"
-		ext="${file#*.}"
-
-		# this has issues. cannot be executed repeatedly, b/c i named the separator character "-"!
-		# when excuting this it simply removes the trailing part, making the string shorter every time
-		#	file="${file%-*.${ext}}.${ext}"
-
-		print GREEN "removing $((${yt_id_chars} + 2 + ${#ext})) characters from end-of-string"
-		# number of characters in string
-		# - offset of youtube characters at the end
-		# - dot separating ext and file name, dash at the end.. (-2)
-		# - extension
-		# reappending extension
-
-		file="${file::$((${#file} - ${yt_id_chars} - 2 - ${#ext}))}"
-		file="${file}.${ext}"
-
-		print YELLOW "removing dashes,commas,etc"
-		file="${file//[,/(/)_]/}"
-		print GREEN "processed file: ${file}, has ${#file} characters"
-		print YELLOW "replacing all spaces with dashes"
-		file="${file// /-}"
-		print RED "renaming file ${src} to ${file}"
-		#	mv "${src}" "${file}"
-		print GREEN "processed file: ${file}"
-		print LINE
-	done
-fi
-
-read -rp $'Continue (Y/n) : ' -ei $'Y' key
-[ "${key}" != "Y" ] && exit 0
-
-if [[ "${bypass}" != "YES" ]]; then
-	for file in *; do
-		print GREEN "processing file ${file}"
-		src="${file}"
-		ext="${file#*.}"
-		yt_id_chars=11
-
-		print YELLOW "removing dashes,commas,etc"
-		file="${file//[,/(/)]/}"
-		file="${file//_/}"
-		file="${file//\-.*/-}"
-		print RED "${file}"
-
-		# if the file has been processed before it will have dashes in it
-		# so we check for FIRST dash available. that is  still not tha awesome...
-		#	file="${file::$((${#file} - ${yt_id_chars} - 2 - ${#ext}))}"
-		#	print RED "${file:$((${#file} - ${yt_id_chars} - 2 - ${#ext}))}"
-		#	print RED "${file::$((${#file} - ${yt_id_chars} - 2 - ${#ext}))}"
-		#	[[ "${file#*-}" =~ "-" ]] && echo "${file#*-}"
-		print YELLOW "replacing all spaces with *"
-		file="${file// /*}"
-		print YELLOW "replacing all dashes with *"
-		file="${file//-/*}"
-
-		# we could remove all with dash separator
-		# measured against a set length parameter that we know
-
-		print YELLOW "removing all dash separated bits and pieces from the end"
-		file="${file%%-*.${ext}}"
-
-		print YELLOW "replacing all stars with dashes"
-		file="${file//\*/-}"
-		print YELLOW "reappending extension ${ext}"
-		file="${file}.${ext}"
-		#	print RED "renaming file ${src} to ${file}"
-		#	mv "${src}" "${file}"
-		print GREEN "processed file: ${file}"
-		print LINE
-	done
-fi
-
-if [[ "${bypass}" == "YES" ]]; then
-	for file in *; do
-		print LINE
-		print YELLOW "BEFORE: ${file}"
-		src="${file}"
-		ext="${file#*.}"
-
-		print YELLOW "removing everything that is NOT [A-Za-z0-9]"
-		file="${file//[^A-Za-z0-9]/-}"
-		file="${file//[\-]\{2,99\}}"
-		file="${file%--.*}"
-		print GREEN "AFTER: ${file}"
-	done
-fi
 exit 0
 # You can parameterize the substrings.
 substring='a.C'
@@ -160,4 +110,19 @@ file="${file//-/}"
 # replace all spaces with dashes
 file="${file// /-}"
 
-echo "file is now: ${file}"
+# remove with offset:
+# number of characters in string
+# - offset of  characters at the end
+# - dot separating ext and file name, dash at the end.. (-2)
+# - extension
+# two :: mean offset from end?
+
+file="${file::$((${#file} - ${yt_id_chars} - 2 - ${#ext}))}"
+file="${file:$((${#file} - ${yt_id_chars} - 2 - ${#ext}))}"
+
+# replacing all stars with dashes
+file="${file//\*/-}"
+
+# removing a bunch of things
+file="${file//[,/(/)]/}"
+file="${file//[,/(/)_]/}"
