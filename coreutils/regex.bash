@@ -28,7 +28,7 @@ date="20180s12"
 #   replace spaces with dashes
 #   remove trailing whatevers
 
-cd "/mnt/backup/video/regex.1"
+cd "/mnt/backup/video/regex.2"
 #file='Ansible - an absolute basic overview-MfoAb50Br94.mp4'
 pwd
 # get the files
@@ -86,12 +86,15 @@ for file in *; do
 		;;
 	*)
 		print RED "${file}"
-		print RED "Unexpected expression '${file#*.}'"
+		print RED "Unexpected extension '${file#*.}'. it is not defined!"
 		;;
 	esac
 done
 
-exit 0
+print RED "now to the new stuff"
+src="/mnt/backup/video/Adam Jacob + Chef Automate demo by Seth Falcon & Dominik Richter  - ChefConf 2017 Keynote-r7_f8fIn-Yo.mp4"
+file="/mnt/backup/video/Adam Jacob + Chef Automate demo by Seth Falcon & Dominik Richter  - ChefConf 2017 Keynote-r7_f8fIn-Yo.mp4"
+ext="${file#*.}"
 # You can parameterize the substrings.
 substring='a.C'
 
@@ -116,10 +119,13 @@ file="${file// /-}"
 # - dot separating ext and file name, dash at the end.. (-2)
 # - extension
 # two :: mean offset from end?
-
-file="${file::$((${#file} - ${yt_id_chars} - 2 - ${#ext}))}"
-file="${file:$((${#file} - ${yt_id_chars} - 2 - ${#ext}))}"
-
+#file="/mnt/backup/video/Adam Jacob + Chef Automate demo by Seth Falcon & Dominik Richter  - ChefConf 2017 Keynote-r7_f8fIn-Yo.mp4"
+file=""
+file="/mnt/backup/video/Impulse/Impulse - Ep 2 'State of Mind'-dNJMI92NZJ0.mp4"
+yt_chars=11
+count1="${file%%-*}"
+count2="${file:$((${#file} - ${yt_chars} - 2 - ${#ext}))}"
+print YELLOW "counts: ${#count1} :: ${#count2} :: $((${yt_chars} + 2 + ${#ext}))"
 # replacing all stars with dashes
 file="${file//\*/-}"
 
