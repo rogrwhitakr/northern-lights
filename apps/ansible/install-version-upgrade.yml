@@ -1,30 +1,35 @@
 ---
 - name: Upgrade Fedora Major Version
-  hosts: localhost
+  hosts: dortmunder
   become: yes
 
   # query which version to install
   # maybe put this elsewehere, or simply edit in this file, i dont know
-  vars_prompt:
-  - name: version
-    prompt: Which Version should we upgrade to?
-
+#  vars_prompt:
+#  - name: version
+#    prompt: Which Version should we upgrade to?
   tasks:
-    # first we install the plugin
+  - name: get release info
+    slurp:
+      src: /etc/os-release
+    register: fedora
+  - debug:
+    msg: "{{ fedora['content'] | b64decode }}"
+
   - name: Install the DNF plugin
     dnf:
       name: dnf-plugin-system-upgrade
       state: latest  
   
-  # this must be solved differently, need to check when i have network 
   - name: Update software and back up your system
-    dnf: 
-      name: dnf upgrade --refresh
+    raw: /usr/bin/dnf upgrade --refresh -y
 
   - name: Start the update with the download
-    dnf:
-      name: system-upgrade download --releasever={{ version }}
+    raw: /usr/bin/dnf system-upgrade download --releasever=28 
+#    raw: /usr/sbin/dnf system-upgrade download --releasever={{ version }}
 
   - name: reboot and upgrade
-    dnf:
-      name: system-upgrade reboot
+    raw: /usr/bin/dnf system-upgrade reboot
+
+  - name: reboot system 
+    raw: /usr/sbin/reboot
