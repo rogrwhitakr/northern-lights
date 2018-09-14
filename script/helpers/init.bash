@@ -106,6 +106,9 @@ print() {
 	GREEN)
 		printf '\e[0;32m%s\033[0m\n' "${2}"
 		;;
+	LOG)
+		printf '%(%F %T)T :: %s\n' -1 "${2}"
+		;;
 	LINE)
 		separator="-"            # separator default
 		line="["                 # adding to a "line" variable

@@ -22,7 +22,7 @@ regexp_rename_spec() {
 		local src="${file}"
 		local ext="${file##*.}"
 
-		print RED "BEFORE: ${file}"
+		print LOG "BEFORE: ${file}"
 		# remove extension
 		file="${file//.${ext}/}"
 		# remove youtube specifier
@@ -48,9 +48,9 @@ regexp_rename_spec() {
 		if [[ "${src}" != "${file}" ]]; then
 			mv "${src}" "${file}"
 		fi
-		print GREEN "AFTER: ${file}"
+		print LOG "AFTER: ${file}"
 	else
-		print RED "no regular file passed. doing nothing"
+		print LOG "no regular file passed. doing nothing"
 	fi
 }
 
@@ -69,7 +69,7 @@ main() {
 		elif [[ "$((${#file} - ${#nac} - ${#ye}))" == 0 ]]; then
 			regexp_rename_spec "${file}" false
 		else
-			print "not renaming file "${file}". Continuing"
+			print LOG "not renaming file "${file}". Continuing"
 		fi
 	done
 }
