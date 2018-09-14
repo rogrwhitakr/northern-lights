@@ -69,6 +69,47 @@ regexp_rename() {
 	fi
 }
 
+regexp_rename_spec() {
+	if ([[ -f "${1}" ]] && [[ ! -z "${2}" ]]); then
+		local file="${1}"
+		local qualifier="${2}"
+
+		local src="${file}"
+		local ext="${file##*.}"
+
+		print RED "BEFORE: ${file}"
+		# remove extension
+		file="${file//.${ext}/}"
+		# remove youtube specifier
+		if [[ "${qualifier}" == true ]]; then
+			file="${file%%-*}"
+		elif [[ "${qualifier}" == false ]]; then
+			file="${file%-*}"
+		fi
+		# removing everything that is NOT [A-Za-z0-9]"
+		file="${file//[^A-Za-z0-9]/_}"
+
+		# removing doubles and triples and so forth
+		file="${file//______/_}"
+		file="${file//_____/_}"
+		file="${file//____/_}"
+		file="${file//___/_}"
+		file="${file//__/_}"
+
+		# removing any leftover underscores from end of string
+		file="${file%_*}"
+		# reappending extension
+		file="${file}.${ext}"
+		if [[ "${src}" != "${file}" ]]; then
+			mv "${src}" "${file}"
+		fi
+		print GREEN "AFTER: ${file}"
+	else
+		print RED "no regular file passed. exiting"
+		exit 0
+	fi
+}
+
 # do something depedning on extension (or any other part of the name, really...)
 for file in *; do
 	case "${file#*.}" in
@@ -113,6 +154,10 @@ file="${file//-/}"
 # replace all spaces with dashes
 file="${file// /-}"
 
+# removing a bunch of things. unsure if works
+file="${file//[,/(/)]/}"
+file="${file//[,/(/)_]/}"
+
 # remove with offset:
 # number of characters in string
 # - offset of  characters at the end
@@ -122,13 +167,33 @@ file="${file// /-}"
 #file="/mnt/backup/video/Adam Jacob + Chef Automate demo by Seth Falcon & Dominik Richter  - ChefConf 2017 Keynote-r7_f8fIn-Yo.mp4"
 file=""
 file="/mnt/backup/video/Impulse/Impulse - Ep 2 'State of Mind'-dNJMI92NZJ0.mp4"
-yt_chars=11
-count1="${file%%-*}"
-count2="${file:$((${#file} - ${yt_chars} - 2 - ${#ext}))}"
-print YELLOW "counts: ${#count1} :: ${#count2} :: $((${yt_chars} + 2 + ${#ext}))"
-# replacing all stars with dashes
-file="${file//\*/-}"
 
-# removing a bunch of things
-file="${file//[,/(/)]/}"
-file="${file//[,/(/)_]/}"
+print LINE
+
+cd "/mnt/backup/video"
+
+for file in *.mp4; do
+	print GREEN "${file}"
+	yt_chars=11
+	ac="${file%%-*}"                                       # aggressive_count
+	nac="${file%-*}"                                       # non_aggressive_count
+	ye="${file:$((${#file} - ${yt_chars} - 2 - ${#ext}))}" # youtube+extension
+
+	print YELLOW "aggressive count: file: ${#file} :: file%%-*: ${#ac} :: ytext: ${#ye}"
+	print YELLOW "aggressive count: file: ${#file} :: file%-*: ${#nac} :: ytext: ${#ye}"
+	if [[ "$((${#file} - ${#ac} - ${#ye}))" == 0 ]]; then
+		echo 'first'
+		echo "file should be:"
+		print RED "${ac}"
+		regexp_rename_spec "${file}" true
+	elif [[ "$((${#file} - ${#nac} - ${#ye}))" == 0 ]]; then
+		echo 'segundo'
+		echo "file should be:"
+		print RED "${nac}"
+		regexp_rename_spec "${file}" false
+	else
+		echo 'thirto. maybe do nothing'
+		echo "$((${#file} - ${#nac} - ${#ye}))"
+		echo "$((${#file} - ${#ac} - ${#ye}))"
+	fi
+done
