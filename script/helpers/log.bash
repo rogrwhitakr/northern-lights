@@ -7,6 +7,7 @@ log_init() {
 	# OUTS: log file creation
 
 	# we cut of the extension
+	
 	local log_file="/var/log/${script_name%%.*}.log"
 
 	# create the file if it doesnt exit
