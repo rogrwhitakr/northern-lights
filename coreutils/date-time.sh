@@ -33,6 +33,8 @@ $COMMAND
 DATE=$(date +"%m-%d-%Y")
 TIME=$(date +"%h:%m")
 
+DATE=$(date +"%m-%d-%Y %h:%m")
+
 echo -e "$DATE\n$TIME"
 
 # there exists the variable HISTTIMEFORMAT
