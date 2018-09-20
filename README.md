@@ -58,3 +58,9 @@
 - rd: is it good practice in bash to let traps handle different error conditions, like example?
 
 - have the web server deliver a wiki
+
+- local engineering plan - a demo one
+
+- local engineering plan -> get a demo one
+
+- service request model (SRM) -> demo one also
