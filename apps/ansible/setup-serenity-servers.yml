@@ -16,13 +16,6 @@
       name: libselinux-python
       state: latest
 
-  - name: get release info
-    slurp:
-      src: /etc/os-release
-    register: fedora
-  - debug:
-    msg: "{{ fedora['content'] | b64decode }}"
-
   - name: Install basics
     dnf: name={{item}} state=present
     with_items:

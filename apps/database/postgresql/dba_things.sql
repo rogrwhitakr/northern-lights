@@ -44,3 +44,8 @@ pg_dump -h host1 dbname | psql -h host2 dbname
 -- Important: The dumps produced by pg_dump are relative to template0. 
 -- This means that any languages, procedures, etc. added via template1 will also be dumped by pg_dump. 
 -- As a result, when restoring, if you are using a customized template1, you must create the empty database from template0.
+
+-- i created a directory scripts in 
+-- /var/lib/pgsql
+-- this is postgres "home"
+-- chown this as postgres.postgres
