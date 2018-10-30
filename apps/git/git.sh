@@ -84,7 +84,8 @@ git remote add <repository-name> https://github.com/<github-user>/<repository-na
 
 git remote set-url <repository-name> git@github.com:<github-user>/<repository-name>.git
 
-push --set-upstream <repository-name> master
+# allow track so that you can push changes
+git branch --set-upstream-to <repository-name>/master
 
 #################################################
 # how to connect to github
