@@ -37,24 +37,30 @@ regexp_rename_spec() {
 		print "BEFORE: ${file}" | systemd-cat
 		# remove extension
 		file="${file//.${ext}/}"
+		print "remove extension: ${file}" | systemd-cat
 		# remove youtube specifier
 		if [[ "${qualifier}" == true ]]; then
 			file="${file%%-*}"
 		elif [[ "${qualifier}" == false ]]; then
 			file="${file%-*}"
 		fi
+		print "removing youtube specifier: ${file}" | systemd-cat
 		# removing everything that is NOT [A-Za-z0-9]"
 		file="${file//[^A-Za-z0-9]/_}"
-
+		print "removing everything that is NOT [A-Za-z0-9]: ${file}" | systemd-cat
+		
 		# removing doubles and triples and so forth
 		file="${file//______/_}"
 		file="${file//_____/_}"
 		file="${file//____/_}"
 		file="${file//___/_}"
 		file="${file//__/_}"
+		print "removing doubles and triples and so forth: ${file}" | systemd-cat
 
 		# removing any leftover underscores from end of string
 		file="${file%_*}"
+		print "removing any leftover underscores from end of string: ${file}" | systemd-cat
+
 		# reappending extension
 		file="${file}.${ext}"
 		if [[ "${src}" != "${file}" ]]; then
@@ -75,7 +81,8 @@ main() {
 		ye="${file:$((${#file} - ${yt_chars} - 2 - ${#ext}))}" # youtube+extension
 
 		print YELLOW "aggressive count: file: ${#file} :: file%%-*: ${#ac} :: ytext: ${#ye}" | systemd-cat
-		print YELLOW "aggressive count: file: ${#file} :: file%-*: ${#nac} :: ytext: ${#ye}" | systemd-cat
+		print YELLOW "non-aggressive count: file: ${#file} :: file%-*: ${#nac} :: ytext: ${#ye}" | systemd-cat
+
 		if [[ "$((${#file} - ${#ac} - ${#ye}))" == 0 ]]; then
 			regexp_rename_spec "${file}" true
 		elif [[ "$((${#file} - ${#nac} - ${#ye}))" == 0 ]]; then
