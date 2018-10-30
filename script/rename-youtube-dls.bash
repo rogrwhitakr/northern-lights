@@ -1,5 +1,17 @@
 #! /usr/bin/env bash
 
+# ######################################################################################
+# BASH SCRIPT TEMPLATE
+#   HISTORY:
+#		2018-09-10		Script initially created
+#		2018-10-30		moved to systemd logging - using systemd-cat
+#						reworked the choice function
+#
+# ######################################################################################
+
+#   VERSION
+version="1.0.1"
+
 source "/home/admin/MyScripts/script/helpers/init.bash"
 source "/home/admin/MyScripts/script/helpers/log.bash"
 
@@ -22,7 +34,7 @@ regexp_rename_spec() {
 		local src="${file}"
 		local ext="${file##*.}"
 
-		print LOG "BEFORE: ${file}"
+		print "BEFORE: ${file}" | systemd-cat
 		# remove extension
 		file="${file//.${ext}/}"
 		# remove youtube specifier
@@ -48,9 +60,9 @@ regexp_rename_spec() {
 		if [[ "${src}" != "${file}" ]]; then
 			mv "${src}" "${file}"
 		fi
-		print LOG "AFTER: ${file}"
+		print "AFTER: ${file}" | systemd-cat
 	else
-		print LOG "no regular file passed. doing nothing"
+		print "no regular file passed. doing nothing" | systemd-cat
 	fi
 }
 
@@ -62,14 +74,14 @@ main() {
 		ext="${file##*.}"                                      # extension
 		ye="${file:$((${#file} - ${yt_chars} - 2 - ${#ext}))}" # youtube+extension
 
-		#	print YELLOW "aggressive count: file: ${#file} :: file%%-*: ${#ac} :: ytext: ${#ye}"
-		#	print YELLOW "aggressive count: file: ${#file} :: file%-*: ${#nac} :: ytext: ${#ye}"
+		print YELLOW "aggressive count: file: ${#file} :: file%%-*: ${#ac} :: ytext: ${#ye}" | systemd-cat
+		print YELLOW "aggressive count: file: ${#file} :: file%-*: ${#nac} :: ytext: ${#ye}" | systemd-cat
 		if [[ "$((${#file} - ${#ac} - ${#ye}))" == 0 ]]; then
 			regexp_rename_spec "${file}" true
 		elif [[ "$((${#file} - ${#nac} - ${#ye}))" == 0 ]]; then
 			regexp_rename_spec "${file}" false
 		else
-			print LOG "not renaming file "${file}". Continuing"
+			print "not renaming file "${file}". Continuing" | systemd-cat
 		fi
 	done
 }
