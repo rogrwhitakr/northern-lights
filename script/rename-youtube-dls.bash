@@ -79,7 +79,7 @@ main() {
 		ext="${file##*.}"                                      # extension
 		ye="${file:$((${#file} - ${yt_chars} - 2 - ${#ext}))}" # youtube+extension
 
-		print LINE
+		print LOGLINE
 		print YELLOW "aggressive count: file: ${#file} :: file%%-*: ${#ac} :: ytext: ${#ye}"
 		print YELLOW "non-aggressive count: file: ${#file} :: file%-*: ${#nac} :: ytext: ${#ye}"
 
@@ -93,9 +93,9 @@ main() {
 	done
 }
 
-print LINE
+print LOGLINE
 print GREEN "Start of script ${0}"
-print LINE
+print LOGLINE
 print ""
 
 main "${@}"
