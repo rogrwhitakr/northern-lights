@@ -110,9 +110,9 @@ print() {
 		printf '%(%F %T)T :: %s\n' -1 "${2}"
 		;;
 	LOGLINE)
-		separator="-"            # separator default
-		line="["                
-		for ((i = 1; i <= 120"; i++)); do # make the line
+		separator="-" # separator default
+		line="["
+		for ((i = 1; i <= 120; i++)); do # make the line
 			line+="${separator}"
 		done
 		line+="]"
@@ -140,7 +140,7 @@ print() {
 			line+="${2}"
 			line+="${separator}"
 		fi
-		
+
 		line+="]"
 
 		term_size="$(tput cols)" # get number of columns
