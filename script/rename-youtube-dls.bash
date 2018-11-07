@@ -95,7 +95,7 @@ main() {
 
 print LOGLINE
 print GREEN "Start of script ${0}"
-print LOGLINE
+
 print ""
 
 main "${@}"
