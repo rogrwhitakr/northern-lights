@@ -116,7 +116,7 @@ print() {
 	LOGLINE)
 		separator="-" # separator default
 		line="["
-		for ((i = 1; i <= 120; i++)); do # make the line
+		for ((i = 1; i <= 50; i++)); do # make the line
 			line+="${separator}"
 		done
 		line+="]"
