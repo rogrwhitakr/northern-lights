@@ -109,6 +109,15 @@ print() {
 	LOG)
 		printf '%(%F %T)T :: %s\n' -1 "${2}"
 		;;
+	LOGLINE)
+		separator="-"            # separator default
+		line="["                
+		for ((i = 1; i <= 120"; i++)); do # make the line
+			line+="${separator}"
+		done
+		line+="]"
+		printf "${line}" # regurgitate to terminal
+		;;
 	LINE)
 		separator="-"            # separator default
 		line="["                 # adding to a "line" variable
