@@ -47,7 +47,7 @@ regexp_rename_spec() {
 		# removing everything that is NOT [A-Za-z0-9]"
 		file="${file//[^A-Za-z0-9]/_}"
 		print "removing everything that is NOT [A-Za-z0-9]: ${file}"
-		
+
 		# removing doubles and triples and so forth
 		file="${file//______/_}"
 		file="${file//_____/_}"
@@ -57,8 +57,8 @@ regexp_rename_spec() {
 		print "removing doubles and triples and so forth: ${file}"
 
 		# removing any leftover underscores from end of string
-		file="${file%_*}"
-		print "removing any leftover underscores from end of string: ${file}"
+		#file="${file%_*}"
+		#print "removing any leftover underscores from end of string: ${file}"
 
 		# reappending extension
 		file="${file}.${ext}"
