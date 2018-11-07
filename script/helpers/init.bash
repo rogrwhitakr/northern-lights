@@ -109,6 +109,10 @@ print() {
 	LOG)
 		printf '%(%F %T)T :: %s\n' -1 "${2}"
 		;;
+
+	# this option is for running a script with systemd
+	# systemd does not create a terminal (and its size),
+	# so the $TERM variable stays empty. using a fixed length
 	LOGLINE)
 		separator="-" # separator default
 		line="["
