@@ -72,6 +72,10 @@ regexp_rename_spec() {
 }
 
 main() {
+
+	print LOGLINE
+	print GREEN "Start of script ${0}"
+
 	for file in *; do
 		yt_chars=11
 		ac="${file%%-*}"                                       # aggressive_count
@@ -80,8 +84,8 @@ main() {
 		ye="${file:$((${#file} - ${yt_chars} - 2 - ${#ext}))}" # youtube+extension
 
 		print LOGLINE
-		print YELLOW "aggressive count: file: ${#file} :: file%%-*: ${#ac} :: ytext: ${#ye}"
-		print YELLOW "non-aggressive count: file: ${#file} :: file%-*: ${#nac} :: ytext: ${#ye}"
+		#		print YELLOW "aggressive count: file: ${#file} :: file%%-*: ${#ac} :: ytext: ${#ye}"
+		#		print YELLOW "non-aggressive count: file: ${#file} :: file%-*: ${#nac} :: ytext: ${#ye}"
 
 		if [[ "$((${#file} - ${#ac} - ${#ye}))" == 0 ]]; then
 			regexp_rename_spec "${file}" true
@@ -91,11 +95,10 @@ main() {
 			print "not renaming file "${file}". Continuing"
 		fi
 	done
+
+	print LOGLINE
+	print GREEN "all finished :: ${0}"
+
 }
-
-print LOGLINE
-print GREEN "Start of script ${0}"
-
-print ""
 
 main "${@}"
