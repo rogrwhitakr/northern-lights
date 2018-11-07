@@ -64,3 +64,7 @@
 - local engineering plan -> get a demo one
 
 - service request model (SRM) -> demo one also
+
+- what is systemd-nspawn?
+
+- what is busy-box?
