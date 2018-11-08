@@ -115,12 +115,12 @@ print() {
 	# so the $TERM variable stays empty. using a fixed length
 	LOGLINE)
 		separator="-" # separator default
-		line="["
+		logline="["
 		for ((i = 1; i <= 50; i++)); do # make the line
-			line+="${separator}"
+			logline+="${separator}"
 		done
-		line+="]"
-		printf "${line}" # regurgitate to terminal
+		logline+="]"
+		printf '%s\n' "${logline}" # regurgitate to terminal
 		;;
 	LINE)
 		separator="-"            # separator default
@@ -133,29 +133,7 @@ print() {
 			line+="${separator}"
 		done
 		line+="]"
-		printf "${line}" # regurgitate to terminal
-		;;
-	ABSCHLUSS)
-		separator="-" # separator default
-		line="["      # adding to a "line" variable
-
-		if [[ ! -z "$2" ]]; then # set the separator
-			line+="${separator}"
-			line+="${2}"
-			line+="${separator}"
-		fi
-
-		line+="]"
-
-		term_size="$(tput cols)" # get number of columns
-		echo "$((${term_size} - ${#line}))"
-		term_size="$(($(tput cols) - ${#line}))"
-		echo "$term_size"
-		for ((i = 1; i <= $((${term_size} - ${#line})); i++)); do
-			line+="${separator}"
-		done
-		echo "${#line}"
-		printf "${line}" # regurgitate to terminal
+		printf '%s\n' "${line}" # regurgitate to terminal
 		;;
 	*)
 		printf '\033[0m%s\033[0m\n' "${1}"
