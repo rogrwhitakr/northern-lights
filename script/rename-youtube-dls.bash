@@ -83,7 +83,6 @@ main() {
 		ext="${file##*.}"                                      # extension
 		ye="${file:$((${#file} - ${yt_chars} - 2 - ${#ext}))}" # youtube+extension
 
-		print LOGLINE
 		#		print YELLOW "aggressive count: file: ${#file} :: file%%-*: ${#ac} :: ytext: ${#ye}"
 		#		print YELLOW "non-aggressive count: file: ${#file} :: file%-*: ${#nac} :: ytext: ${#ye}"
 
@@ -92,7 +91,7 @@ main() {
 		elif [[ "$((${#file} - ${#nac} - ${#ye}))" == 0 ]]; then
 			regexp_rename_spec "${file}" false
 		else
-			print "not renaming file "${file}". Continuing"
+			print "file: ${file}, not renaming. Continuing"
 		fi
 	done
 

@@ -68,3 +68,9 @@
 - what is systemd-nspawn?
 
 - what is busy-box?
+
+- local engineering plan - a demo one
+
+- install sql workbench
+
+- who is simon peter? where is simon peter?
