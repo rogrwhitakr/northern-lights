@@ -74,3 +74,5 @@
 - install sql workbench
 
 - who is simon peter? where is simon peter?
+
+- what is dbus-broker?
