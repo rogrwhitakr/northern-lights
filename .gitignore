@@ -4,3 +4,4 @@ apps/ansible/*.retry
 script/BUILDTEST.*
 script/TESTBUILD.*
 script/TEST*.*
+*.code-workspace
