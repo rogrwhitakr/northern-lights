@@ -17,21 +17,12 @@ do
   echo ${friends[$i]}
 done
 
+# read all files into an array WITHOUT NEWLINE
+declare -a files
+readarray -t files < <(find "${source_dir}" -mindepth 1 -maxdepth 1 -type f -print)
 
-# array     -> use ()
-#           -> use a while or for loop
-# for i in ${array[@]}
-# do
-#    echo $i
-# done
-
-# or in a while loop
-# i=0;
-# while [ $i -lt ${#array[@]} ]
-# do
-#     echo $i: ${array[$i]}
-#     ((i++))
-# done
+readarray myarray < file_pathname # Include newline.
+readarray -t myarray < file_pathname # Exclude newline.
 
 # read into array
 readarray arr < <( echo a; echo b; echo c )
