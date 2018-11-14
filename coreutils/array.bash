@@ -60,3 +60,49 @@ for file in *.mp4; do
 done
 echo ${files[@]}
 echo ${#files[@]}
+
+# ASSOCIATIVE ARRAY
+
+# helper function
+get_them_results() {
+	echo "${DEMORESULT[@]}"
+	# Accessing the array
+	print YELLOW '# Returns all items'
+	echo "${DEMORESULT[*]}" # Returns all items
+	print YELLOW '# Returns all indizes'
+	echo "${!DEMORESULT[*]}" # Returns all indizes
+	print YELLOW '# Number elements'
+	echo "${#DEMORESULT[*]}" # Number elements
+	print YELLOW '# Length of $nth item, n is 1'
+	echo "${#DEMORESULT[${n-1}]}" # Length of $nth item
+}
+
+# declare array 
+declare -A DEMORESULT
+
+# populate array
+DEMORESULT=([foo]="bar" [foo2]="bar2" [foo3]="bar3")
+
+DEMORESULT+=(["filetype"]="filename1")
+DEMORESULT+=(["filetype"]="filename2")
+DEMORESULT+=(["filetypy"]="1")
+DEMORESULT+=(["filetypy"]="1")
+DEMORESULT["filetypy"]+="1"
+echo "${DEMORESULT[foo2]}"
+echo "${DEMORESULT[filetypy]}"
+
+# get them values
+echo "{DEMORESULT[@]}"
+get_them_results
+
+
+# now, the info variable does not yet exist, is unbound - seems to work
+result+=(["${info:-$placeholder}"]="1")
+
+# populate array
+# for this we get a file that exists, like
+file="/mnt/backup/video/How_to_join_a_Linux_client_to_a_Samba_server.mp4"
+info="$(file -b ${file})"
+
+# THEN, we do array stuff....
+result+=(["${info:-$placeholder}"]="1")
