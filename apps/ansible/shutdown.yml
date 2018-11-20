@@ -10,12 +10,11 @@
   become: yes
   become_method: sudo
 
-# this works technically, but there is always an error because of a closed connection
-# if this is the target, how to handle gracefully??? 
+# handle gracefully - this works, unsure why !!! 
   tasks:
-  - name: wait for ssh to go down... ? this dont make sense...
+  - name: wait for ssh to go down
     local_action: wait_for host={{ ansible_ssh_host }} port=22 state=stopped  
 
-    # shutdowon one minute from now
+    # shutdown one minute from now
   - name: user-instigated shutdown of "{{ host }}"
     command: /sbin/shutdown -h +1 
