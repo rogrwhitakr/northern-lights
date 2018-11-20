@@ -1,12 +1,17 @@
 ---
+# ansible provides 16! different places from which it reads
+# runtime variables
+# vars_prompt overrides them all
+
+# there are 16!! var fields / locations that ansible reads from. it uses whatever it finds first
+# so if default dir is /home/admin/apps/ansible -> this directory can contain a config file that applies (and only that?)
+
+# [-----------------------------------------]
+# vars_prompt overrides them all
+
 - name: EXPLAINER FOR VARIABLES - HOW TO
   hosts: cortez
   become: yes
-# ansible provides 16! different places from which it reads
-
-# runtime variables
-# vars_prompt overrides them all
-# must be before tasks in yaml document?
 
   vars_prompt:
   - name: username
@@ -24,4 +29,16 @@
     user: name={{ username }}
           state=absent
           groups="geoclue"
-          password={{ password }}    
+          password={{ password }}   
+          
+
+# [-----------------------------------------]
+# ansible-playbook {this_file}.yml --extra-vars="fileName=DEMOFILE" --ask-become-pass
+# pass an extra var that has been defined in the yaml
+# yaml looks like this:
+  - name: make a file, using a command line passed variable
+    file: 
+      path: /tmp/{{ fileName }}.txt
+      state: touch
+      mode: 0644     
+          
