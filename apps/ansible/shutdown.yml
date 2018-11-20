@@ -1,9 +1,9 @@
 ---
 - name: Shutdown a remote computer
+  gather_facts: no
   hosts: "{{ host }}"
   remote_user: admin
   become: yes
-  gather_facts: no
 
   tasks:
   - name: user-instigated shutdown
