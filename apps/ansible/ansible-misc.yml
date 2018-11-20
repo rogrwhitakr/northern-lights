@@ -3,27 +3,7 @@
   hosts: localhost
   become: yes
 
-# get runtime variables -> ansible provides 16! different places from which it reads
-#  vars_prompt overrides them all
-# must be before tasks in yaml document?
-  vars_prompt:
-  - name: username
-    prompt: What is a Username (fist initial lastname i.e. "George Allen" = gallen)?
-  - name: password
-    prompt: What is a password?
-
   tasks:
-  - name: create a new user
-    user: name={{ username }}
-          state=present
-          groups="geoclue"
-          password={{ password }}
-  - name: remove the user again
-    user: name={{ username }}
-          state=absent
-          groups="geoclue"
-          password={{ password }}
-
 # after update maybe ->
   - name: Update and restart ssh if it is updated
     dnf:
