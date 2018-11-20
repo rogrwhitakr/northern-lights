@@ -16,5 +16,6 @@
   - name: wait for ssh to go down... ? this dont make sense...
     local_action: wait_for host={{ ansible_ssh_host }} port=22 state=stopped  
 
+    # shutdowon one minute from now
   - name: user-instigated shutdown of "{{ host }}"
-    command: /sbin/shutdown -h now
+    command: /sbin/shutdown -h +1 
