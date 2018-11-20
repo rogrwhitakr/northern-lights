@@ -1,0 +1,27 @@
+---
+- name: EXPLAINER FOR VARIABLES - HOW TO
+  hosts: cortez
+  become: yes
+# ansible provides 16! different places from which it reads
+
+# runtime variables
+# vars_prompt overrides them all
+# must be before tasks in yaml document?
+
+  vars_prompt:
+  - name: username
+    prompt: What is a Username (fist initial lastname i.e. "George Allen" = gallen)?
+  - name: password
+    prompt: What is a password?
+
+  tasks:
+  - name: create a new user
+    user: name={{ username }}
+          state=present
+          groups="geoclue"
+          password={{ password }}
+  - name: remove the user again
+    user: name={{ username }}
+          state=absent
+          groups="geoclue"
+          password={{ password }}    
