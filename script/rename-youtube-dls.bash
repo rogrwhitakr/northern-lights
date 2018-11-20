@@ -47,7 +47,7 @@ regexp_rename_spec() {
 		# removing everything that is NOT [A-Za-z0-9]"
 		file="${file//[^A-Za-z0-9]/_}"
 		print "removing everything that is NOT [A-Za-z0-9]: ${file}"
-		
+
 		# removing doubles and triples and so forth
 		file="${file//______/_}"
 		file="${file//_____/_}"
@@ -57,8 +57,8 @@ regexp_rename_spec() {
 		print "removing doubles and triples and so forth: ${file}"
 
 		# removing any leftover underscores from end of string
-		file="${file%_*}"
-		print "removing any leftover underscores from end of string: ${file}"
+		#file="${file%_*}"
+		#print "removing any leftover underscores from end of string: ${file}"
 
 		# reappending extension
 		file="${file}.${ext}"
@@ -72,6 +72,10 @@ regexp_rename_spec() {
 }
 
 main() {
+
+	print LOGLINE
+	print GREEN "Start of script ${0}"
+
 	for file in *; do
 		yt_chars=11
 		ac="${file%%-*}"                                       # aggressive_count
@@ -79,23 +83,21 @@ main() {
 		ext="${file##*.}"                                      # extension
 		ye="${file:$((${#file} - ${yt_chars} - 2 - ${#ext}))}" # youtube+extension
 
-		print LOGLINE
-		print YELLOW "aggressive count: file: ${#file} :: file%%-*: ${#ac} :: ytext: ${#ye}"
-		print YELLOW "non-aggressive count: file: ${#file} :: file%-*: ${#nac} :: ytext: ${#ye}"
+		#		print YELLOW "aggressive count: file: ${#file} :: file%%-*: ${#ac} :: ytext: ${#ye}"
+		#		print YELLOW "non-aggressive count: file: ${#file} :: file%-*: ${#nac} :: ytext: ${#ye}"
 
 		if [[ "$((${#file} - ${#ac} - ${#ye}))" == 0 ]]; then
 			regexp_rename_spec "${file}" true
 		elif [[ "$((${#file} - ${#nac} - ${#ye}))" == 0 ]]; then
 			regexp_rename_spec "${file}" false
 		else
-			print "not renaming file "${file}". Continuing"
+			print "file: ${file}, not renaming. Continuing"
 		fi
 	done
-}
 
-print LOGLINE
-print GREEN "Start of script ${0}"
-print LOGLINE
-print ""
+	print LOGLINE
+	print GREEN "all finished :: ${0}"
+
+}
 
 main "${@}"

@@ -64,3 +64,15 @@
 - local engineering plan -> get a demo one
 
 - service request model (SRM) -> demo one also
+
+- what is systemd-nspawn?
+
+- what is busy-box?
+
+- local engineering plan - a demo one
+
+- install sql workbench
+
+- who is simon peter? where is simon peter?
+
+- what is dbus-broker?
