@@ -1,5 +1,3 @@
-
----
 - name: HOW TO DO STUFF WITH FILES
   hosts: cortez
   remote_user: admin
@@ -7,10 +5,30 @@
 
 - name: Create a file
   tasks:
-    - name: file created at tmp, with varaible as input
+    - name: file created at tmp, with variable as input
       vars:
         - fileName: file-touched-by-ansible
       file:
         path: /tmp/{{ fileName }}.txt
         state: touch
         mode: 0644
+
+- name: edit a file
+  tasks:
+    - name: edit the temp file
+      lineinfile:
+        path: /tmp/{{ fileName }}.txt
+        line: added a single line
+
+- name: blockedit a file
+  tasks:
+    - name: blockedit the temp file
+      blockinfile:
+        path: /tmp/{{ fileName }}.txt
+        block: |
+          if [ -f `which powerline-daemon` ]; then
+            powerline-daemon -q
+            POWERLINE_BASH_CONTINUATION=1
+            POWERLINE_BASH_SELECT=1
+            . /usr/share/powerline/bash/powerline.sh
+          fi
