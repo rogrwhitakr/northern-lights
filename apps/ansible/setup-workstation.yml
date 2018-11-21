@@ -40,7 +40,7 @@
 
   - name: Install database software
     dnf: 
-      name: ['pgadmin4-desktop-gnome', 'sequeler', 'postgresql-server', 'postgresql', 'mariadb-server', 'mongodb', 'mongo-tools', 'mongodb-server']
+      name: ['sequeler', 'postgresql-server', 'postgresql', 'mariadb-server', 'mongodb', 'mongo-tools', 'mongodb-server']
 
   - name: Install Python Environment 
     dnf: 

@@ -3,7 +3,7 @@
 # from https://mywiki.wooledge.org/BashGuide/Parameters#Parameter_Expansion
 
 parameter="/usr/lib/sysusers.d/dnsmasq.conf"
-
+parameter="/home/benno/northern-lights/coreutils/parameter-expansion.bash"
 # Use Default Value. If 'parameter' is unset or null, 'word' (which may be an expansion) is substituted. 
 # Otherwise, the value of 'parameter' is substituted.
 ${parameter:-word}
