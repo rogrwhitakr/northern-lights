@@ -1,9 +1,8 @@
-- name: different stuffs
+- name: _MODULES DCONF
   hosts: localhost
   become: yes
 
   tasks:
-    # edit dconf module, enable, then disable
     - name: Enable Night Light
       dconf:
         key: /org/gnome/settings-daemon/plugins/color/night-light-enabled
@@ -16,5 +15,3 @@
       dconf:
         key: /org/gnome/settings-daemon/plugins/color/night-light-enabled
         value: false
-
-

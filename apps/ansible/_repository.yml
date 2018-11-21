@@ -1,0 +1,14 @@
+---
+- name: _REPOSITORIES
+  hosts: cortez
+  remote_user: admin
+  become: yes
+
+  tasks:
+  - name: how add a repository correctly 
+    yum_repository:
+      name: code
+      description: Repository for Microsoft VS CODE
+      baseurl: https://packages.microsoft.com/yumrepos/vscode
+      gpgkey: https://packages.microsoft.com/keys/microsoft.asc
+      gpgcheck: yes
