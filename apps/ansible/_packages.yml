@@ -1,6 +1,6 @@
 
 ---
-- name: _CONDITIONALS
+- name: _PACKAGE_MANAGEMENT
   hosts: cortez magellan
   become: yes
 
