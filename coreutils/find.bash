@@ -28,3 +28,6 @@ find /var/www/html -type f ! -uid $(id -u "apache") ! -gid $(id -g "apache") -ex
 
 # find backup log, that is sized > 1, < 2 MB
 sudo find . -name data_backup.log -size +1M -not -size +2M
+
+# remove all retry files from current dir
+find . -name *.retry -print -delete

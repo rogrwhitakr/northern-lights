@@ -1,0 +1,23 @@
+
+---
+- name: _PACKAGE_MANAGEMENT
+  hosts: cortez magellan
+  become: yes
+
+  tasks:
+  - name: LOOP INSTALL -> DEPRICATED
+    dnf: name={{item}} state=present
+    with_items:
+    - htop
+    - nano
+    - nmap
+
+  - name: INSTALL SOFTWARE -> CURRENT BEST-PRACTICE
+    dnf: 
+      name: ['htop', 'nmap', 'nano']
+
+  - name: UNINSTALL 
+    dnf: 
+      name: ['htop', 'nmap', 'nano']
+      state: absent
+    
