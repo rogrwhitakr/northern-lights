@@ -32,3 +32,21 @@
             POWERLINE_BASH_SELECT=1
             . /usr/share/powerline/bash/powerline.sh
           fi
+
+- name: Copy a file to a destination
+  copy:
+    src: /tmp/{{ fileName }}.txt
+    dest: /usr/local/bin/{{ fileName }}.txt
+
+# optional but possible:
+#   owner: "{{userId}}"
+#   group: "{{groupId}}"
+#   remote_src: yes
+#   mode: 0755
+
+- name: remove a file
+  tasks:
+    - name: file created in /tmp will be removed
+      file:
+        path: /tmp/{{ fileName }}.txt
+        state: absent

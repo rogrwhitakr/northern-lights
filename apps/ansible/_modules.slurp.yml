@@ -1,10 +1,10 @@
 ---
-- name: test the getting of info
+- name: _GET FILE INFO USING... 
   hosts: localhost
   become: yes
 
   tasks:
-  - name: get release info
+  - name: ...USING SLURP
     slurp:
       src: /etc/os-release
     register: release
