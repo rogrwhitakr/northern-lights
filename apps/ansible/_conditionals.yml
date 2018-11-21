@@ -1,0 +1,19 @@
+- name: _CONDITIONALS
+  hosts: cortez magellan
+  become: yes
+
+- name: DO SOMETHING -> WHEN
+  tasks:
+    - name: when something applies, execute command
+      when:
+        file:
+          path: /etc/os-release
+          state: present
+      command: echo "I WILL BE CALLED IF SUCCESSFUL"
+
+- name: CHANGED_WHEN -> THEN
+  tasks:
+    - name: get SE Linux status
+      command: getenforce
+      register: sestatus
+      changed_when: false

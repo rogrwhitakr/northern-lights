@@ -1,0 +1,21 @@
+
+---
+- name: _SERVICES
+  hosts: cortez
+  become: yes
+
+  tasks:
+  - name: Update and restart ssh if it is updated
+    dnf:
+      name: "httpd"
+      state: latest
+    notify:
+    - name: Restart Apache
+    handlers:
+    - name: Restart Apache
+      service:
+        name: httpd
+        state: restarted   
+
+  - name: restart apache
+    service: name=httpd state=started enabled=yes      
