@@ -3,8 +3,6 @@
 # check all things regarding disk size
 source /home/admin/MyScripts/script/helpers/init.bash
 
-BASE=$(basename /)
-
 get_directory_file_usage(){
 
 	# DESC: returns sorted list of files based upon size
@@ -17,15 +15,18 @@ get_directory_file_usage(){
     print YELLOW "getting the ${_output:-10} largest files in directory ${_base:-"/"}"
     du -a "${_base:-"/"}" 2>/dev/null | sort -nr | head -"${_output:-10}"
 }
+
 dir="/home/admin"
 get_directory_file_usage "${dir}" 35
+get_directory_file_usage $HOME 25
 get_directory_file_usage 
 get_directory_file_usage /var
 
 #check user
 
 if [ "$(id -u)" != "0" ]; then
-   echo "This script must be run as root" 1>&2
+   print RED "as some of these command require \"sudo\" privileges, this script must be run privileged" 1>&2
+   print "Exiting..."
    exit 1
 fi
 
