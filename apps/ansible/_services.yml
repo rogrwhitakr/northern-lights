@@ -1,5 +1,7 @@
-- name: _SERVICES
-  hosts: cortez
+---
+- name: HOW TO HANDLE SERVICES
+  hosts: cortez magellan
+  remote_user: admin
   become: yes
 
   tasks:
