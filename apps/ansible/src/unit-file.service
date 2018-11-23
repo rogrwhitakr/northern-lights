@@ -1,16 +1,12 @@
 [Unit]
-Description=Start script "rename-youtube-dls.bash" on graphical logon
-After=syslog.target
+Description=generic unit file for verification
 After=network.target
 
 [Service]
 Type=simple
-User=admin
-Group=admin
-ExecStart=/bin/bash /usr/lib/systemd/scripts/rename-youtube-dls.bash
+ExecStart=/usr/bin/bash echo "it werks!"
 
-# Give a reasonable amount of time for the server to start up/shut down
 TimeoutSec=300
 
 [Install]
-WantedBy=graphical.target
+WantedBy=multi-user.target
