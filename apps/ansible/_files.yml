@@ -1,4 +1,3 @@
----
 - name: HOW TO DO STUFF WITH FILES
   hosts: cortez magellan
   remote_user: admin
@@ -18,7 +17,7 @@
         path: /tmp/{{ fileName }}.txt
         line: added a single line
 
-    - name: add another line     
+    - name: add another line
       lineinfile:
         path: /tmp/{{ fileName }}.txt
         line: added a single line
@@ -44,10 +43,11 @@
 
     - name: Copy a [local] file to a [remote] destination
       copy:
-        src: /src/unit-file.service
+        src: /home/admin/MyScripts/apps/ansible/src/unit-file.service
         dest: /tmp/unit-file.service
-        validate: /usr/bin/systemd-analyze verify %s
-
+        
+        # does not work at the moment
+        # validate: /usr/bin/systemd-analyze verify %s
 
     - name: Copy a [local] file to a [remote] destination, and validate it
       copy:
@@ -79,5 +79,5 @@
         mode: 0755
     - name: Delete alertmanager tmp folder
       file:
-        path: '/tmp/alertmanager-{{ version }}.linux-amd64'
+        path: "/tmp/alertmanager-{{ version }}.linux-amd64"
         state: absent
