@@ -1,0 +1,9 @@
+---
+# referenced in _modules.user.yml
+user: jaynecobb
+group: jaynecobb
+password: $6$4bps8CQ5qiNFOtc3$42kUjpcD00.8LTUF5rmW1hgSD/DfMmubGlUmm3FeoKpRksQaDgBLmy12O3/Y/TtWXK8/KvpJcfeyb95eOgpoV.
+
+user_no_login: rivertam
+group_no_login: rivertam
+password_no_login: $6$i6lW5heRJGw.1pKj$lHNGNDLKP8M3JN6w8L0asbQr209FDCmiYQ6CNQI9gmER.Bsb3xM.iwRkKAE5Qf36NOZuR/KE2exw65rGMt/VK/
