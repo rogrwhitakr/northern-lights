@@ -1,0 +1,39 @@
+---
+- name: Install SQL Workbench/J locally
+  hosts: localhost
+  become: yes
+
+  tasks:
+  - name: Create directory for Workbench/J
+    file: 
+      dest: /usr/local/bin/workbench
+      state: directory
+      mode: 0755
+    tags: installation
+
+  - name: Download latest binary of Workbench/J
+    unarchive:
+      src: https://www.sql-workbench.eu/Workbench-Build124.zip
+      dest: /usr/local/bin/workbench
+      remote_src: yes
+    tags: installation
+     
+  - name: Add a desktop shortcut file
+    file:
+      path: /usr/share/applications/workbench.desktop
+      state: touch
+    tags: shortcut
+
+  - name: Edit Shortcut file
+    blockinfile:
+      path: /usr/share/applications/workbench.desktop
+      block: |
+        [Desktop Entry]
+        Type=Application
+        Encoding=UTF-8
+        Name=SQL Workbench
+        Comment=SQL Workbench/J
+        Exec=/usr/bin/bash  /usr/local/bin/workbench/sqlworkbench.sh
+        Icon=/usr/local/bin/workbench/workbench32.png
+        Terminal=false
+    tags: shortcut        

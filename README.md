@@ -50,29 +50,15 @@
 - TODO: extraction script, using the latest backup (or one that can be chosen?)
 
 
-
-- what is the best usage of ninj?
-
-- how do i know something somesin somesin with quotes?
-
 - rd: is it good practice in bash to let traps handle different error conditions, like example?
 
 - have the web server deliver a wiki
-
 - local engineering plan - a demo one
-
 - local engineering plan -> get a demo one
-
 - service request model (SRM) -> demo one also
-
 - what is systemd-nspawn?
-
 - what is busy-box?
-
 - local engineering plan - a demo one
-
 - install sql workbench
-
 - who is simon peter? where is simon peter?
-
 - what is dbus-broker?
