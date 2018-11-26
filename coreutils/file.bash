@@ -46,7 +46,7 @@ for file in "${files[@]}"; do
 
 	# THEN, we do array stuff....
 	# add the info, if null or empty add the placeholder instead
-	result+=(["${info:-$placeholder}"]="${file:-$placeholder}")
+	result+=(["[${info:-$placeholder}]"]="${file:-$placeholder}")
 done
 
 # display reuslt

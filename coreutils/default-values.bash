@@ -1,20 +1,17 @@
 #!/usr/bin/env bash
 
 # If null, use default value
-FOO=first
-echo "The ${FOO-second} choice"
-unset $FOO
-echo "The ${FOO-second} choice"
+echo "The ${Null-second} choice"
+Null=first
+echo "The ${Null-second} choice"
 
 # If null or empty, use default value
-FOO=first
-echo "The ${FOO:-second} choice"
-unset $FOO
-echo "The ${FOO:-second} choice"
+echo "The ${NullOrEmpty:-second} choice"
+NullOrEmpty=first
+echo "The ${NullOrEmpty:-second} choice"
 
 # Default value can be a variable
-FOO=first
-BAR=second
-echo "The ${FOO:-$BAR} choice"
-unset $FOO
-echo "The ${FOO:-$BAR} choice"
+set_by_variable=third
+echo "The ${Default:-$set_by_variable} choice"
+Default=second
+echo "The ${Default:-$set_by_variable} choice"
