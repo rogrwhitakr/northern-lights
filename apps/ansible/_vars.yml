@@ -1,67 +1,77 @@
----
 # ansible provides 16! different places from which it reads
 # runtime variables
 
-# ansibe uses variables that are found first...is that true?
-# so if default dir is /home/admin/apps/ansible 
+# ansible uses variables that are found first...is that true?
+# so if default dir is /home/admin/apps/ansible
 # -> this directory can contain a config file that applies (and only that?)
+
+# FROM ANSIBLE DOCUMENTATION:
+#   Variable names should be letters, numbers, and underscores. 
+#   Variables should always start with a letter.
+#   foo_port is a great variable. foo5 is fine too.
+#   foo-port, foo port, foo.port and 12 are not valid variable names.
 
 - name: EXPLAINER FOR VARIABLES - HOW TO
   hosts: cortez
   remote_user: admin
   become: yes
 
-# [-----------------------------------------]
-# vars modules: provide static per-playbook variables, like so:
+  # [-----------------------------------------]
+  # vars modules: provide static per-playbook variables, like so:
 
   vars:
-    fileName: file-touched-by-ansible-VARS-play
+    file_name: file-touched-by-ansible-VARS-play
 
-# [-----------------------------------------]
-# vars_prompt : provide interactive variables, like so:
-# on executing "ansible-playbook ./${0}", user is prompted for these inputs 
+  # [-----------------------------------------]
+  # vars_prompt : provide interactive variables, like so:
+  # on executing "ansible-playbook ./${0}", user is prompted for these inputs
 
   vars_prompt:
-  - name: username
-    prompt: Provide a Username [POI!]
-  - name: password
-    prompt: Provide a password
-  - name: primary_group
-    prompt: Provide a group name
-  
+    - name: username
+      prompt: Provide a Username [POI!]
+    - name: password
+      prompt: Provide a password
+    - name: primary_group
+      prompt: Provide a group name
+
   tasks:
-  - name: Create user group
-    group: 
-    - name: "{{ primary_group }}"
-      state: "present"
-    
-  - name: create a new user
-    user: 
-    - name: "{{ username }}"
-      state: present
-      groups: "{{ primary_group }}"
-      password: "{{ password }}"
+    - name: Create user group
+      group:
+          name: "{{ primary_group }}"
+          state: "present"
+      tags: prompted_vars
 
-  - name: remove the user again
-    user: 
-    - name: "{{ username }}"
-      state: absent
-      groups: "{{ primary_group }}"
-      password: "{{ password }}"
-          
-  - name: Remove user group
-    group: 
-      name: "{{ primary_group }}"
-      state: absent
+    - name: create a new user
+      user:
+          name: "{{ username }}"
+          state: present
+          groups: "{{ primary_group }}"
+          password: "{{ password }}"
+      tags: prompted_vars
 
-# [-----------------------------------------]
-# ansible-playbook {this_file}.yml --extra-vars="fileName=DEMOFILE" --ask-become-pass
-# pass an extra var that has been defined in the yaml
-# yaml looks like this:
-# can we default to something if nothing is provided?
-  - name: make a file, using a command line passed variable
-    file: 
-      path: /tmp/{{ fileName }}.txt
-      state: touch
-      mode: 0644     
-          
+    - name: remove the user again
+      user:
+          name: "{{ username }}"
+          state: absent
+          groups: "{{ primary_group }}"
+          password: "{{ password }}"
+      tags: prompted_vars
+
+    - name: Remove user group
+      group:
+        name: "{{ primary_group }}"
+        state: absent
+      tags: prompted_vars
+
+    # [-----------------------------------------]
+    # ansible-playbook {this_file}.yml --extra-vars="fileName=DEMOFILE" --ask-become-pass
+    # pass an extra var that has been defined in the yaml
+    # yaml looks like this:
+    # can we default to something if nothing is provided?
+
+    - name: make a file, using a command line passed variable, overriding set var
+      file:
+        path: /tmp/{{ file_name }}.txt
+        state: touch
+        mode: 0644
+      tags: overriding_vars
