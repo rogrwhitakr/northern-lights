@@ -15,6 +15,7 @@ filetype:
 
 # filetype['audio']
 # filetype.audio
+# example see _debug.message.yml
 
 # BUT:
 # However, if you choose to use dot notation be aware that some keys can cause problems 
