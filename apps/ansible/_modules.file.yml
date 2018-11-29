@@ -16,9 +16,9 @@
   - name: "create a file wihtin that deep directory, can i do this in one play? conditionals?"
     file:
       path: "/home/admin/conf.d/sub-conf.d/more-sub-conf.d/a/b/c/d/{{ ansible_facts['nodename'] }}"
-      state: present
+      state: touch
 
-  - name: "remove a deep directory?"
+  - name: "remove a deep directory"
     file:
-      path: /home/admin/conf.d/sub-conf.d/more-sub-conf.d/a/b/c/d
-      state: directory
+      path: /home/admin/conf.d
+      state: absent

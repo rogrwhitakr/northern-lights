@@ -81,3 +81,24 @@
       file:
         path: "/tmp/alertmanager-{{ version }}.linux-amd64"
         state: absent
+
+    - name: "create a deep directory"
+      file:
+        path: /home/admin/conf.d/sub-conf.d/more-sub-conf.d/a/b/c/d
+        state: directory
+        owner: admin
+        group: admin
+        mode: 0755 
+
+    - name: "create a file wihtin that deep directory, can i do this in one play? conditionals?"
+      file:
+        path: "/home/admin/conf.d/sub-conf.d/more-sub-conf.d/a/b/c/d/{{ ansible_facts['nodename'] }}"
+        state: touch
+        owner: admin
+        group: admin
+        mode: 0755         
+
+    - name: "remove a deep directory"
+      file:
+        path: /home/admin/conf.d
+        state: absent
