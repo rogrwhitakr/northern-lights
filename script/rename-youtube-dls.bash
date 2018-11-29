@@ -67,7 +67,8 @@ regexp_rename_spec() {
 		fi
 		print "AFTER: ${file}"
 	else
-		print "no regular file passed. doing nothing"
+		continue
+		#		print "no regular file passed. doing nothing"
 	fi
 }
 
@@ -91,7 +92,8 @@ main() {
 		elif [[ "$((${#file} - ${#nac} - ${#ye}))" == 0 ]]; then
 			regexp_rename_spec "${file}" false
 		else
-			print "file: ${file}, not renaming. Continuing"
+			continue
+			#	print "file: ${file}, not renaming. Continuing"
 		fi
 	done
 
@@ -101,3 +103,5 @@ main() {
 }
 
 main "${@}"
+
+find . -mindepth 1 -maxdepth 1 -type f | wc | cut -d 1
