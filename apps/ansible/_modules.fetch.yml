@@ -4,25 +4,25 @@
   remote_user: admin
 
   tasks:
-  # Store file into /tmp/fetched/host.example.com/tmp/somefile
-  - fetch:
+  - name: fetch file from remote, write content to /tmp/ansible/magellan/home/admin/.bashrc 
+    fetch:
       src: /home/admin/.bashrc
-      dest: /tmp/fetched
+      dest: /tmp/ansible
 
-  # Specifying a path directly
-  - fetch:
+  - name: "fetch a file, write its content to a file named {{ dest }}" 
+    fetch: 
       src: /home/admin/.bash_history
-      dest: /tmp/prefix-{{ inventory_hostname }}
+      dest: /tmp/ansible/prefix-{{ ansible_facts['nodename'] }}
       flat: yes
 
-  # Specifying a destination path
-  - fetch:
+  - name: "fetch a file, write its content to a file named dest_dir / .bash_profile"
+    fetch:
       src: /home/admin/.bash_profile
-      dest: /tmp/special/
+      dest: /tmp/ansible/
       flat: yes
 
-  # Storing in a path relative to the playbook
-  - fetch:
+  - name: Storing in a path relative to the playbook
+    fetch:
       src: /home/admin/.bash_logout
       dest: special/prefix-{{ inventory_hostname }}
       flat: yes
