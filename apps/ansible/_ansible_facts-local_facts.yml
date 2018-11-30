@@ -57,9 +57,10 @@
           testy: test
       tags: use_local_facts
 
+    #  even though we named the file "local.fact", one needs to query for "preferences"
     - debug: 
         var: ansible_local
     - debug:    
-        var: ansible_local.local.motd.zabbix
+        var: ansible_local.preferences.motd.zabbix
     - debug:    
-        var: ansible_local['local']['{{ ansible_facts['nodename'] }}']['testy']  
+        var: ansible_local['preferences']['{{ ansible_facts['nodename'] }}']['testy']  
