@@ -1,0 +1,28 @@
+---
+- name: EXPLAINER FOR FETCHING FILES FROM REMOTE SYSTEMS - USING FETCH MODULE
+  hosts: magellan
+  remote_user: admin
+
+  tasks:
+  # Store file into /tmp/fetched/host.example.com/tmp/somefile
+  - fetch:
+      src: /home/admin/.bashrc
+      dest: /tmp/fetched
+
+  # Specifying a path directly
+  - fetch:
+      src: /home/admin/.bash_history
+      dest: /tmp/prefix-{{ inventory_hostname }}
+      flat: yes
+
+  # Specifying a destination path
+  - fetch:
+      src: /home/admin/.bash_profile
+      dest: /tmp/special/
+      flat: yes
+
+  # Storing in a path relative to the playbook
+  - fetch:
+      src: /home/admin/.bash_logout
+      dest: special/prefix-{{ inventory_hostname }}
+      flat: yes

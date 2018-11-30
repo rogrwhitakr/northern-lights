@@ -65,5 +65,4 @@
 - install decode-dimms for trials
 - install plotinus -> CTRL + ALT?/SHIFT? + P -> search opens
 - systemd-service with cpu cycle control elements, as the borg backup has consumed everything it could
-
 - gnome reverse polarity,night vision. same for chrome browser...
