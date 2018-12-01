@@ -51,7 +51,7 @@
 
     - name: Copy a [local] file to a [remote] destination, and validate it
       copy:
-        src: /src/wall-message.txt
+        src: src/wall-message.txt
         dest: /tmp/wall-message.txt
 
     # optional but possible:
@@ -69,7 +69,7 @@
         dest: /tmp/
         remote_src: yes
 
-    - name: Copy alertmanager executable to bin
+    - name: "Copy alertmanager executable to bin :: INSTALL"
       copy:
         src: "/tmp/alertmanager-{{ version }}.linux-amd64/alertmanager"
         dest: "/usr/local/bin/alertmanager"
@@ -77,6 +77,7 @@
         group: "{{groupId}}"
         remote_src: yes
         mode: 0755
+
     - name: Delete alertmanager tmp folder
       file:
         path: "/tmp/alertmanager-{{ version }}.linux-amd64"
@@ -89,6 +90,7 @@
         owner: admin
         group: admin
         mode: 0755 
+      tags: deep-dir
 
     - name: "create a file wihtin that deep directory, can i do this in one play? conditionals?"
       file:
@@ -97,8 +99,26 @@
         owner: admin
         group: admin
         mode: 0755         
+      tags: deep-dir
 
     - name: "remove a deep directory"
       file:
         path: /home/admin/conf.d
         state: absent
+      tags: deep-dir
+
+    # [-------------------------------------------]
+    #  create a file and add content
+    #  two ways
+    #   - touch + lineinfile / blockinfile
+    #   - use the copy module
+       
+    - name: creating a file with content using the copy module"
+      copy:
+        dest: "/tmp/file-on-{{ ansible_facts[nodename] }}-with-content.txt"
+        content: |
+          echo -e "${RED}there are ${#objects[@]} objects${NOC}"
+          for object in "${objects[@]}"; do
+          	echo -e "${RED}Object: $object${NOC}"
+          	ip ${object}
+          done       
