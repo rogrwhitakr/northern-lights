@@ -17,26 +17,20 @@
       state: latest
 
   - name: Install basics
-    dnf: name={{item}} state=present
-    with_items:
-    - nano
-    - python3
-    - python
+    dnf: 
+      name: ['nano','python3','python']
+      state: present
 
   - name: Install monitoring software
-    dnf: name={{item}} state=present
-    with_items:
-    - htop
-    - sysstat
-    - iotop
-    - dmidecode
-
+    dnf: 
+      name: ['htop','sysstat','iotop','dmidecode']
+      state: present
+    
   - name: Install Powerline for pleasant commandline operation
-    dnf: name={{item}} state=present
-    with_items:
-    - powerline
-    - powerline-fonts
-
+    dnf: 
+      name: ['powerline','powerline-fonts'] 
+      state: present
+    
   - name: edit .bashrc to enable powerline usage
     blockinfile:
       path: /home/admin/.bashrc
@@ -49,8 +43,6 @@
         fi
 
   - name: Remove unwanted default packages 
-    dnf: name={{item}} state=absent
-    with_items:
-      - rhythmbox
-      - shotwell
-      - builder
+    dnf: 
+      name: ['rhythmbox','shotwell','builder']
+      state: absent
