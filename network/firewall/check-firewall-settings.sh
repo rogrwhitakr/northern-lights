@@ -1,28 +1,17 @@
-#! /bin/sh
+#! /usr/bin/env bash
 
-#################
-### variables ###
-#################
-
-NOC='\033[0m'
-RED='\033[0;31m'
-YELLOW='\033[1;33m'
-GREEN='\033[0;32m'
+source ../../scripts/helpers/init.bash
 
 user=$(id -un) 
 
-#################
-### execution ###
-#################
-
-echo -e "${RED}$0 tests firefall settings${NOC}"
-echo -e "${GREEN}checking firewall status on $(cat /etc/hostname)${NOC}"
+print RED "$0 tests firefall settings"
+print GREEN "checking firewall status on $(cat /etc/hostname)"
 
 sudo systemctl status firewalld
 
-echo -e "${RED}Zones${NOC}"
+print RED "Zones"
 firewall-cmd --get-active-zones
-echo -e "${RED}Services${NOC}"
+print RED "Services"
 firewall-cmd --get-services
 
 firewall-cmd --zone=public --list-all
