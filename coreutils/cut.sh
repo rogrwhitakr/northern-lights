@@ -61,9 +61,8 @@ print LINE
 ls | wc
 ls | wc | cut -c7
 print LINE
-ls | wc | cut -f1 -d' '
-ls | wc | cut -f2 -d' '
-ls | wc | cut -f3
-ls | wc | cut -d' ' -f 1
+
+# this works well!!!
+ls | wc | column --table | cut -d' ' -f1
 
 print YELLOW "$(ls | wc | cut -d' ' -f 1 )"
