@@ -6,6 +6,11 @@
   become: yes
 
   tasks:
+  - name: "Get version info"
+    debug: 
+      var: 'ansible_facts.distribution_major_version'
+    tags: get_version
+
   - name: update all packages
     dnf:
       name: "*"
