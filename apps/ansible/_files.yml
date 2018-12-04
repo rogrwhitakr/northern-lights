@@ -4,6 +4,7 @@
   become: yes
   vars:
     fileName: file-touched-by-ansible
+    version: "0.15.3"
 
   tasks:
     - name: Create a file
@@ -73,8 +74,6 @@
       copy:
         src: "/tmp/alertmanager-{{ version }}.linux-amd64/alertmanager"
         dest: "/usr/local/bin/alertmanager"
-        owner: "{{userId}}"
-        group: "{{groupId}}"
         remote_src: yes
         mode: 0755
 
@@ -113,12 +112,13 @@
     #   - touch + lineinfile / blockinfile
     #   - use the copy module
        
-    - name: creating a file with content using the copy module"
+    - name: "creating a file with content using the copy module"
       copy:
-        dest: "/tmp/file-on-{{ ansible_facts[nodename] }}-with-content.txt"
+        dest: "/tmp/file-on-{{ ansible_facts['nodename'] }}-with-content.txt"
         content: |
-          echo -e "${RED}there are ${#objects[@]} objects${NOC}"
-          for object in "${objects[@]}"; do
-          	echo -e "${RED}Object: $object${NOC}"
-          	ip ${object}
-          done       
+          # access available tasks
+          ansible-playbook MyScripts/apps/ansible/_modules.user.yml --list-tags
+
+          # execute specific sections of playbook using a tag (-t / --tags flag)
+          ansible-playbook MyScripts/apps/ansible/_modules.user.yml --ask-become-pass -t ftp_user
+      tags: create_and_add_content    
