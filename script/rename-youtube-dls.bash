@@ -6,6 +6,10 @@
 #		2018-09-10		Script initially created
 #		2018-10-30		moved to systemd logging - using systemd-cat
 #						reworked the choice function
+#		2018-12-04		systemd-cat has another function, really
+#						just regurgitate to stout / sterr, that will be in logging
+#						added an amount output
+#						made script less verbose
 #
 # ######################################################################################
 
@@ -74,8 +78,10 @@ regexp_rename_spec() {
 
 main() {
 
+	amount="$(find . -mindepth 1 -maxdepth 1 -type f | wc | column --table | cut -d' ' -f1)"
 	print LOGLINE
 	print GREEN "Start of script ${0}"
+	print "There are currently ${amount} files in directory $(pwd)"
 
 	for file in *; do
 		yt_chars=11
@@ -103,5 +109,3 @@ main() {
 }
 
 main "${@}"
-
-find . -mindepth 1 -maxdepth 1 -type f | wc | cut -d 1
