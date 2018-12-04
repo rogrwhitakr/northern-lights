@@ -21,6 +21,8 @@
         mode: 0644
 
     - debug: 
+        var: ansible_facts.distribution_major_version
+    - debug: 
         var: ansible_facts.distribution
     - debug:    
         var: ansible_facts.selinux.status
