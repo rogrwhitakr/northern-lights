@@ -2,6 +2,8 @@ log_init() {
 
 	# DESC: Generic logging initialisation
 	#		logging to /var/log/>script_name>
+	#		we use this if we do not want journald handling our messaging
+	#
 	# ARGS: script name
 	#		user name
 	# OUTS: log file creation
