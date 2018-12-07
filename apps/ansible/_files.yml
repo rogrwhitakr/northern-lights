@@ -122,3 +122,19 @@
           # execute specific sections of playbook using a tag (-t / --tags flag)
           ansible-playbook MyScripts/apps/ansible/_modules.user.yml --ask-become-pass -t ftp_user
       tags: create_and_add_content    
+
+    - name: create content using copy module and a json feed
+      copy: 
+        content: "{{ your_json_feed }}" 
+        dest: "/tmp/file-on-{{ ansible_facts['nodename'] }}-with-json-feed.txt"
+
+    - name: "unsure if still viable...:Ansible create multiple files example"
+      file: 
+        path: "/tmp/{{ item }}"
+        state: touch
+        mode: 0775
+      with_items:
+      - int1.txt
+      - int2.txt
+      - int3.txt
+      - int4.txt    
