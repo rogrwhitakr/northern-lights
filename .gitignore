@@ -5,3 +5,4 @@ script/BUILDTEST.*
 script/TESTBUILD.*
 script/TEST*.*
 *.code-workspace
+*.man
