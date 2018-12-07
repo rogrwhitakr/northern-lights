@@ -70,9 +70,6 @@ regexp_rename_spec() {
 			mv "${src}" "${file}"
 		fi
 		print "AFTER: ${file}"
-	else
-		continue
-		#		print "no regular file passed. doing nothing"
 	fi
 }
 
