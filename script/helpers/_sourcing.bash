@@ -1,5 +1,3 @@
-#! /usr/bin/env bash
-set -x
 
 # [--------------------------------------------------------------]
 
@@ -14,6 +12,8 @@ set -x
 # -> most important: do not build shit I DO NOT NEED / MAKES IT MORE COMNPLICATED THEN IT NEED BE
 
 # [--------------------------------------------------------------]
+
+#!/usr/bin/env bash
 
 #   VERSION
 version="1.0.1"
