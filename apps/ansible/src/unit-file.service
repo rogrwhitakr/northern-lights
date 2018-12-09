@@ -1,6 +1,6 @@
 [Unit]
 Description=generic unit file for verification
-After=network.target
+After=multi-user.target
 
 [Service]
 Type=simple
