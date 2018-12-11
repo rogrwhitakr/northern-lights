@@ -1,0 +1,27 @@
+---
+- name: "LOOPS (https://docs.ansible.com/ansible/latest/user_guide/playbooks_loops.html)"
+  hosts: "magellan"
+  gather_facts: yes
+  become: yes
+
+  vars_files:
+    - /home/admin/MyScripts/apps/ansible/src/externalised_list_var.yml
+    
+  tasks:
+  - name: add several users in a loop
+    user:
+      name: "{{ item }}"
+      state: present
+      groups: "users"
+    loop:
+       - finch
+       - reese
+       - simmons
+       - wheeler
+
+  - name: add several users from external YAML file
+    user:
+      name: "{{ item.name }}"
+      state: present
+      groups: "{{ item.groups }}"
+    loop: {{  }}
