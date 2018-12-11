@@ -1,5 +1,7 @@
 #! /usr/bin/env bash
 
+# https://lzone.de/cheat-sheet/Bash%20Associative%20Array
+
 # Arrays are friends....
 friends=( "Marcus The Rich" "JJ The Short" "Timid Thomas" "Michelangelo The Mobster" )
 for friend in "${friends[@]}";do
