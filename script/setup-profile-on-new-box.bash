@@ -9,22 +9,8 @@
 #
 # ######################################################################################
 
-# VARIABLES
-version="0.7.0"
-quiet=0
-verbose=0
-force=0
-strict=1
-debug=1
-
-# SOURCES
-# these may need to be downloaded on first execution, yes???!
-source '/home/admin/MyScripts/script/helpers/vars.bash'
-source '/home/admin/MyScripts/script/helpers/init.bash'
-
-flags_init
-vars_init
-script_init
+# global vars
+readonly version="0.7.0"
 
 usage() {
 	cat <<EOF
@@ -63,41 +49,38 @@ script_finish() {
 	#       (and i dont care for knowing "echo" ran successfully...)
 
 	local ERROR_CODE="$?"
-	if [[ "${ERROR_CODE}" == 0 ]]; then
-		print "exit green, no errors"
-		echo -e "ERROR CODE: ${ERROR_CODE}"
-	else
-		echo -e "${RED}exit RED"
-		echo -e "ERROR CODE: ${ERROR_CODE}"
+	if [[ "${ERROR_CODE}" != 0 ]]; then
+		printf "ERROR"
+		usage
+		# remove directory .bashrc.d ?
+		# rm -fr ~/.bashrc.d
 	fi
-	echo -e "${YELLOW}trap::script_finish::handler -> ${ERROR_CODE}"
 }
-
-# DESC: the core function of the script
-# NOTE: main
-# ARGS: $@: Arguments provided to the script
-# OUTS: Magic!
 
 function main() {
 
-	usage
+	# DESC: the core function of the script
+	# NOTE: main
+	# ARGS: $@: Arguments provided to the script
+	# OUTS: Magic!
+
+	# vars
+	readonly _directory=".bashrc.d"
+	readonly url="https://raw.githubusercontent.com/rogrwhitakr/northern-lights/master/conf/dotfiles/.bashrc.d"
+
+	declare -a sources=('.bashrc' '.bash_profile')
+	declare -a files=('alias.bash' 'function.bash' 'export.bash' 'program.bash')
+
 	trap script_finish EXIT INT TERM
 
-	print RED 'all is well'
-	print LINE
-	exit 0
-
 	# we start out in the executing users home dir
+	# we create in the home of the user excuting the unit file!
 	cd ~
 
 	# we create .bashrc if it doesn't exist
-	# TODO correct path
-	# we create in the home of the user excuting the unit file!
-
-	declare -a sources=('.bashrc' '.bash_profile')
 	for source in "${sources[@]}"; do
 		if [[ ! -f ~/"${source}" ]]; then
-			print "creating ${source}"
+			printf "\ncreating ${source}"
 			touch ~/"${source}"
 		fi
 	done
@@ -105,23 +88,19 @@ function main() {
 	# setting up directory
 	# -> parentheses here DO NOT WORK
 	# they hinder expansion of ~
-	if [[ ! -d ~/.bashrc.d ]]; then
-		print "Creating directory ~/.bashrc.d"
-		mkdir ~/.bashrc.d && cd ~/.bashrc.d
+	if [[ ! -d ~/"${_directory:-.bashrc.d}" ]]; then
+		printf "\nCreating directory ~/${_directory:-.bashrc.d}"
+		mkdir ~/"${_directory:-.bashrc.d}"
+		cd ~/"${_directory:-.bashrc.d}"
 	else
-		cd ~/.bashrc.d
+		cd ~/"${_directory:-.bashrc.d}"
 	fi
 
-	# getting stuff
-	cd ~/.bashrc.d
-
-	# i guess this `could' be handled by curl. 
+	# i guess this `could' be handled by curl.
 	# what if the amount of files changes?
-	declare -a files=('.alias' '.functions' '.export' '.programs')
 
 	for file in "${files[@]}"; do
-		print "collecting raw file from github: ${file}. Saving to $(pwd)"
-		local url="https://raw.githubusercontent.com/rogrwhitakr/northern-lights/master/conf/bashrc.d/system"
+		printf "\ncollecting raw file from github: ${file}. Saving to $(pwd)"
 		wget "${url}/${file}" -O "${file}"
 	done
 
@@ -131,8 +110,11 @@ function main() {
 	# okay apparently sed is at its best when looking at one individual line
 	# potentially anything not named .* will suffer in the second line command
 
+	# source might also work!
+	# why is this not a default??????
+
 	for file in "${files[@]}"; do
-		echo -e "removing definition for ${file}"
+		printf "\nremoving definition for ${file}"
 		sed --in-place "/# Source user ${file} definitions/d" ~/.bashrc
 		sed --in-place "/${file}/d" ~/.bashrc
 		sed --in-place "/fi # <- end source/d" ~/.bashrc
@@ -147,12 +129,15 @@ function main() {
 	# fi # <- end sources
 
 	for file in "${files[@]}"; do
-		echo -e "${YELLOW}adding sourcing for ${file}"
+		printf "adding sourcing for ${file}"
 		echo -e "# Source user ${file} definitions
 if [[ -f ~/.dotfiles/${file} ]]; then
 	. ~/.dotfiles/${file}
 fi # <- end source" >>~/.bashrc
 	done
+
+	printf "\nCompleted."
+	printf "\n"
 
 }
 
