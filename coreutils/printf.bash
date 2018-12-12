@@ -15,7 +15,7 @@ printf '%(%F %T)T :: %s\n' -1 "thest inpot"
 printf '%(%F %T)T :: %s\n' -1 "thest inpot"
 
 # simple print
-printf "dat gay ninj\nsomewhat"
+printf "\ndat gay ninj\nsomewhat"
 
-printf "one"
-printf "two"
+printf "\none"
+printf "\ntwo"
