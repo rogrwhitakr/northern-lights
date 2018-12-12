@@ -12,7 +12,7 @@
 # global vars
 readonly version="0.7.0"
 
-function usage {
+function usage() {
 	cat <<EOF
 ${script_name} [OPTION]... [FILE]...
 
@@ -21,7 +21,7 @@ this script sets up sourcing of:
 	.bashrc
 	.bashrc.d/*.bash
 
-it creates a subdirectory ~/.bashrc.d/, which is in turn populated with distinct files containing:
+it creates a subdirectory "$HOME"/.bashrc.d/, which is in turn populated with distinct files containing:
 	alias.bash => holding aliases
 	functions.bash => folding function definitions
 	application specifics => (TBD)
@@ -39,7 +39,7 @@ VERSION:
 EOF
 }
 
-function script_finish {
+function script_finish() {
 
 	# DESC: Trap exits with cleanup function
 	# ARGS: exit code -> trap <script_finish> EXIT INT TERM
@@ -53,11 +53,34 @@ function script_finish {
 		printf "ERROR"
 		usage
 		# remove directory .bashrc.d ?
-		# rm -fr ~/.bashrc.d
+		rm -fr "$HOME"/.bashrc.d
 	fi
 }
 
-function main {
+function add_to_file() {
+	local destination="${1}"
+	local file="${2}"
+	local directory="${3}"
+
+	echo -e "
+# SOURCE USER ${file^^} DEFINITIONS
+if [[ -f "$HOME"/${directory}/${file} ]]; then
+	. "$HOME"/${directory}/${file}
+fi 
+# <- END SOURCE" >>"$HOME/${destination}"
+}
+
+function remove_from_file() {
+
+	local destination="${1}"
+	local file="${2}"
+
+	sed -e "/# SOURCE USER ${file^^} DEFINITIONS/Id" "$HOME/${destination}"
+	sed -e "/${file}/,+3d" "$HOME/${destination}"
+#	sed -e "/fi # <- END SOURCE/Id" "$HOME/${destination}"
+}
+
+function main() {
 
 	# DESC: the core function of the script
 	# NOTE: main
@@ -75,25 +98,25 @@ function main {
 
 	# we start out in the executing users home dir
 	# we create in the home of the user excuting the unit file!
-	cd ~
+	cd "$HOME"
 
 	# we create .bashrc if it doesn't exist
 	for source in "${sources[@]}"; do
-		if [[ ! -f ~/"${source}" ]]; then
+		if [[ ! -f "$HOME"/"${source}" ]]; then
 			printf "\ncreating ${source}"
-			touch ~/"${source}"
+			touch "$HOME"/"${source}"
 		fi
 	done
 
 	# setting up directory
 	# -> parentheses here DO NOT WORK
-	# they hinder expansion of ~
-	if [[ ! -d ~/"${_directory:-.bashrc.d}" ]]; then
-		printf "\nCreating directory ~/${_directory:-.bashrc.d}"
-		mkdir ~/"${_directory:-.bashrc.d}"
-		cd ~/"${_directory:-.bashrc.d}"
+	# they hinder expansion of "$HOME"
+	if [[ ! -d "$HOME"/"${_directory:-.bashrc.d}" ]]; then
+		printf "\nCreating directory "$HOME"/${_directory:-.bashrc.d}"
+		mkdir "$HOME"/"${_directory:-.bashrc.d}"
+		cd "$HOME"/"${_directory:-.bashrc.d}"
 	else
-		cd ~/"${_directory:-.bashrc.d}"
+		cd "$HOME"/"${_directory:-.bashrc.d}"
 	fi
 
 	# i guess this `could' be handled by curl.
@@ -112,34 +135,24 @@ function main {
 
 	# source might also work!
 	# why is this not a default??????
+	set -x
 
-	for file in "${files[@]}"; do
-		printf "\nremoving definition for ${file}"
-		sed --in-place "/# Source user ${file} definitions/d" ~/.bashrc
-		sed --in-place "/${file}/d" ~/.bashrc
-		sed --in-place "/fi # <- end source/d" ~/.bashrc
+	for source in "${sources[@]}"; do
+		for file in "${files[@]}"; do
+			printf "\nremoving definition for ${file}"
+			remove_from_file "${source}" "${file}"
+		done
 	done
+	set +x
 
-for source in "${sources[@]}"; do
-	for file in "${files[@]}"; do
-		printf "adding sourcing for ${file}"
-		add_to_file "${source}" "${file}" "${_directory}" 
+	for source in "${sources[@]}"; do
+		for file in "${files[@]}"; do
+			printf "adding sourcing for ${file}"
+			add_to_file "${source}" "${file}" "${_directory}"
+		done
 	done
-done
 	printf "\nCompleted."
 	printf "\n"
-
-}
-
-function add_to_file {
-	local destination="${1:-~/.bashrc}"
-	local file="${2}"
-	local directory="${3}"
-
-echo "# SOURCE USER ${file} DEFINITIONS
-if [[ -f ~/${directory}/${file} ]]; then
-	. ~/${directory}/${file}
-fi # <- END SOURCE" >> "${destination}"
 
 }
 
