@@ -15,6 +15,10 @@
 
 #!/usr/bin/env bash
 
+
+test -x ~/.bashrc.d/functions.bash && echo "ya" 
+test -x ~/.bashrc.d/klar.bash && echo "ya"
+exit 0
 #   VERSION
 version="1.0.1"
 
@@ -44,3 +48,4 @@ __root="$(cd "$(dirname "${__dir}")" && pwd)" # <-- change this as it depends on
 arg1="${1:-}"
 
 # [--------------------------------------------------------------]
+

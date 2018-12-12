@@ -1,5 +1,8 @@
 #! /usr/bin/env bash
 
+# global vars
+readonly version="0.7.0"
+
 # okay, couple of things:
 # works, but on screen formatting could be better / more uniform / needs a guideline
 # TODO:

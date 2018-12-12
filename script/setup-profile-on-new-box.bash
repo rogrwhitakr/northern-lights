@@ -12,7 +12,7 @@
 # global vars
 readonly version="0.7.0"
 
-usage() {
+function usage {
 	cat <<EOF
 ${script_name} [OPTION]... [FILE]...
 
@@ -39,7 +39,7 @@ VERSION:
 EOF
 }
 
-script_finish() {
+function script_finish {
 
 	# DESC: Trap exits with cleanup function
 	# ARGS: exit code -> trap <script_finish> EXIT INT TERM
@@ -57,7 +57,7 @@ script_finish() {
 	fi
 }
 
-function main() {
+function main {
 
 	# DESC: the core function of the script
 	# NOTE: main
@@ -120,24 +120,26 @@ function main() {
 		sed --in-place "/fi # <- end source/d" ~/.bashrc
 	done
 
-	# put the new sourcing in
-
-	# DEFINITION
-	# # Source user ${file} definitions
-	# if [[ -f ~/.dotfiles/${file} ]]; then
-	# 	. ~/.dotfiles/${file}
-	# fi # <- end sources
-
+for source in "${sources[@]}"; do
 	for file in "${files[@]}"; do
 		printf "adding sourcing for ${file}"
-		echo -e "# Source user ${file} definitions
-if [[ -f ~/.dotfiles/${file} ]]; then
-	. ~/.dotfiles/${file}
-fi # <- end source" >>~/.bashrc
+		add_to_file "${source}" "${file}" "${_directory}" 
 	done
-
+done
 	printf "\nCompleted."
 	printf "\n"
+
+}
+
+function add_to_file {
+	local destination="${1:-~/.bashrc}"
+	local file="${2}"
+	local directory="${3}"
+
+echo "# SOURCE USER ${file} DEFINITIONS
+if [[ -f ~/${directory}/${file} ]]; then
+	. ~/${directory}/${file}
+fi # <- END SOURCE" >> "${destination}"
 
 }
 

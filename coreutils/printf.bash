@@ -18,4 +18,4 @@ printf '%(%F %T)T :: %s\n' -1 "thest inpot"
 printf "\ndat gay ninj\nsomewhat"
 
 printf "\none"
-printf "\ntwo"
+printf "\nstwo"
