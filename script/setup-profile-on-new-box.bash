@@ -25,40 +25,25 @@ force=0
 strict=1
 debug=0
 
-
 usage() {
 
-	echo -e "${RED}${script_name} [OPTION]... [FILE]...${NOC}
+	cat <<EOF
+${script_name} [OPTION]... [FILE]...
 
 this script sets up sourcing of:
     .bash_profile
     .bashrc
-    .bash_logout
-using versioned aliases, functions and the like    
+it creates a subdirectory ~/.bashrc.d/, which is in turn populated with distinct files containing:
+	alias.bash => holding aliases
+	functions.bash => folding function definitions
+	application specifics => (TBD) 
+these templates are sourced from github.com:	
     github.com/rogrwhitakr/templates/
-    on startup, these are pulled from github using systemd
 
-${RED} OPTIONS:${NOC}
-    -u  Username for script
-    -p  User password
-    -f  force, skip all user interaction.  Implied 'Yes' to all actions.
-    -q  Quiet (no output)
-    -l  Print log to file
-    -s  Exit script with null variables.  i.e 'set -o nounset'
-    -v  verbose
-    -d  run script in debug-mode (set -x)
-    -h  Display this help and exit
-    -v  Output version information and exit
-
-${RED} PREREQUISITES / REQUIREMENTS:${NOC}
+PREREQUISITES / REQUIREMENTS:
     - network connectivity
 
-${RED} EXAMPLES:${NOC}
-    - Create a timer 
-        ${script_name} borg-backup.timer
-    - Create a Service
-        ${script_name} virtual-machines.service
-"
+EOF
 }
 
 # DESC: Trap exits with cleanup function
@@ -154,7 +139,7 @@ function main() {
 		echo -e "# Source user ${file} definitions
 if [[ -f ~/.dotfiles/${file} ]]; then
 	. ~/.dotfiles/${file}
-fi # <- end source" >> ~/.bashrc
+fi # <- end source" >>~/.bashrc
 	done
 
 }
