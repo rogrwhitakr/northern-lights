@@ -22,8 +22,8 @@ debug=1
 source '/home/admin/MyScripts/script/helpers/vars.bash'
 source '/home/admin/MyScripts/script/helpers/init.bash'
 
-vars_init
 flags_init
+vars_init
 script_init
 
 usage() {
@@ -64,13 +64,13 @@ script_finish() {
 
 	local ERROR_CODE="$?"
 	if [[ "${ERROR_CODE}" == 0 ]]; then
-		echo -e "${GREEN}exit green, no errors${NOC}"
+		print "exit green, no errors"
 		echo -e "ERROR CODE: ${ERROR_CODE}"
 	else
-		echo -e "${RED}exit RED${NOC}"
+		echo -e "${RED}exit RED"
 		echo -e "ERROR CODE: ${ERROR_CODE}"
 	fi
-	echo -e "${YELLOW}trap::script_finish::handler -> ${ERROR_CODE}${NOC}"
+	echo -e "${YELLOW}trap::script_finish::handler -> ${ERROR_CODE}"
 }
 
 # DESC: the core function of the script
@@ -86,14 +86,18 @@ function main() {
 	print RED 'all is well'
 	print LINE
 	exit 0
-	# create .bashrc if it doesn't exist
+
+	# we start out in the executing users home dir
+	cd ~
+
+	# we create .bashrc if it doesn't exist
 	# TODO correct path
+	# we create in the home of the user excuting the unit file!
 
-	declare -a sources=('.bashrc' '.bash_profile' '.bash_logout')
-
+	declare -a sources=('.bashrc' '.bash_profile')
 	for source in "${sources[@]}"; do
 		if [[ ! -f ~/"${source}" ]]; then
-			echo -e "${GREEN}creating ${source}${NOC}"
+			print "creating ${source}"
 			touch ~/"${source}"
 		fi
 	done
@@ -101,23 +105,23 @@ function main() {
 	# setting up directory
 	# -> parentheses here DO NOT WORK
 	# they hinder expansion of ~
-	if [[ ! -d ~/.dotfiles ]]; then
-		echo -e "${GREEN}Creating directory .dotfiles${NOC}"
-		mkdir ~/.dotfiles && cd ~/.dotfiles
+	if [[ ! -d ~/.bashrc.d ]]; then
+		print "Creating directory ~/.bashrc.d"
+		mkdir ~/.bashrc.d && cd ~/.bashrc.d
 	else
-		echo -e "${GREEN}Switching to directory .dotfiles${NOC}"
-		cd ~/.dotfiles
+		cd ~/.bashrc.d
 	fi
 
 	# getting stuff
+	cd ~/.bashrc.d
 
-	cd ~/.dotfiles
-
+	# i guess this `could' be handled by curl. 
+	# what if the amount of files changes?
 	declare -a files=('.alias' '.functions' '.export' '.programs')
 
 	for file in "${files[@]}"; do
-		echo -e "${GREEN}collecting raw file from github: ${file}. Saving to $(pwd)${NOC}"
-		local url="https://raw.githubusercontent.com/rogrwhitakr/northern-lights/master/conf/dotfiles/system"
+		print "collecting raw file from github: ${file}. Saving to $(pwd)"
+		local url="https://raw.githubusercontent.com/rogrwhitakr/northern-lights/master/conf/bashrc.d/system"
 		wget "${url}/${file}" -O "${file}"
 	done
 
@@ -143,7 +147,7 @@ function main() {
 	# fi # <- end sources
 
 	for file in "${files[@]}"; do
-		echo -e "${YELLOW}adding sourcing for ${file}${NOC}"
+		echo -e "${YELLOW}adding sourcing for ${file}"
 		echo -e "# Source user ${file} definitions
 if [[ -f ~/.dotfiles/${file} ]]; then
 	. ~/.dotfiles/${file}

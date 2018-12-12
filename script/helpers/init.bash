@@ -1,10 +1,10 @@
 ##### variables ###
 
-quiet=0
-verbose=0
-force=0
-strict=0
-debug=0
+#quiet=0
+#verbose=0
+#force=0
+#strict=0
+#debug=0
 
 ##### functions ###
 
