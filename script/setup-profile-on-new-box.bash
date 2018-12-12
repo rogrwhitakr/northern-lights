@@ -9,51 +9,58 @@
 #
 # ######################################################################################
 
-# SOURCES
-# these may need to be downloaded on first execution, yes???!
-source '/home/admin/MyScripts/script/helpers/vars.bash'
-source '/home/admin/MyScripts/script/helpers/init.bash'
-
-vars_init
-script_init
-
 # VARIABLES
 version="0.7.0"
 quiet=0
 verbose=0
 force=0
 strict=1
-debug=0
+debug=1
+
+# SOURCES
+# these may need to be downloaded on first execution, yes???!
+source '/home/admin/MyScripts/script/helpers/vars.bash'
+source '/home/admin/MyScripts/script/helpers/init.bash'
+
+vars_init
+flags_init
+script_init
 
 usage() {
-
 	cat <<EOF
 ${script_name} [OPTION]... [FILE]...
 
 this script sets up sourcing of:
-    .bash_profile
-    .bashrc
+	.bash_profile
+	.bashrc
+	.bashrc.d/*.bash
+
 it creates a subdirectory ~/.bashrc.d/, which is in turn populated with distinct files containing:
 	alias.bash => holding aliases
 	functions.bash => folding function definitions
-	application specifics => (TBD) 
-these templates are sourced from github.com:	
-    github.com/rogrwhitakr/templates/
+	application specifics => (TBD)
+
+these are then referenced in the bashrc file.
+
+templates are sourced from github.com:	
+	github.com/rogrwhitakr/northern-lights/conf/dotfiles/.bashrc.d
 
 PREREQUISITES / REQUIREMENTS:
-    - network connectivity
+	network connectivity
 
+VERSION:
+	Version ${version:-' not defined'}
 EOF
 }
 
-# DESC: Trap exits with cleanup function
-# ARGS: exit code -> trap <script_finish> EXIT INT TERM
-# OUTS: None (so far)
-# INFO: ERROR_CODE is put in local var, b/c otherwise one gets the return code
-#       of the most recently completed command
-#       (and i dont care for knowing "echo" ran successfully...)
-
 script_finish() {
+
+	# DESC: Trap exits with cleanup function
+	# ARGS: exit code -> trap <script_finish> EXIT INT TERM
+	# OUTS: None (so far)
+	# INFO: ERROR_CODE is put in local var, b/c otherwise one gets the return code
+	#       of the most recently completed command
+	#       (and i dont care for knowing "echo" ran successfully...)
 
 	local ERROR_CODE="$?"
 	if [[ "${ERROR_CODE}" == 0 ]]; then
@@ -73,11 +80,12 @@ script_finish() {
 
 function main() {
 
-	script_init
-	color_init
 	usage
 	trap script_finish EXIT INT TERM
 
+	print RED 'all is well'
+	print LINE
+	exit 0
 	# create .bashrc if it doesn't exist
 	# TODO correct path
 
@@ -143,5 +151,6 @@ fi # <- end source" >>~/.bashrc
 	done
 
 }
+
 # Make it rain
 main "$@"
