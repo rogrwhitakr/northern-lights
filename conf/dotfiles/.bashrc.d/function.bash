@@ -44,18 +44,16 @@ man() {
 
 # list all and only hidden files in directory
 hidden() {
-
 	if [ -z "$@" ]; then
 		directory=$(pwd)
 	else
 		directory="$@"
 	fi
-
 	ls -ld "$directory"/.*
 }
 
 # universal extract, stolen from github somewhere
-function extract() {
+function extract {
 	if [ -z "$1" ]; then
 		echo "Usage: extract <path/file_name>.<zip|rar|bz2|gz|tar|tbz2|tgz|Z|7z|xz|ex|tar.bz2|tar.gz|tar.xz>"
 	else
@@ -87,7 +85,7 @@ function extract() {
 }
 
 # compress common compressed Filetypes
-compress() {
+function compress {
 	if [[ -z "$1" ]]; then
 		echo "Usage: compress <path/file_name>.<zip|rar|bz2|gz|tar|tbz2|tgz|Z|7z|xz|ex|tar.bz2|tar.gz|tar.xz>"
 	else
@@ -104,7 +102,6 @@ compress() {
 	fi
 }
 
-
 # Create a data URL from a file
 # unsure what this is useful for, i will just try it out
 # why do these functions not have in input chcek, at least for null???????
@@ -114,4 +111,9 @@ dataURL() {
 		mimeType="${mimeType};charset=utf-8"
 	fi
 	echo "data:${mimeType};base64,$(openssl base64 -in "$1" | tr -d '\n')"
+}
+
+
+function test_function {
+	echo -e "i dont do anything!!!"
 }

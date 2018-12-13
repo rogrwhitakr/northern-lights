@@ -27,10 +27,5 @@ alias tree1="tree -d -L 1"                                       # show only dir
 alias tree2="tree -d -L 2"                                       # show only dirs, 2 levels down
 
 # network things
-alias extip="dig \
-    +short myip.opendns.com \
-    @resolver1.opendns.com" # get external Ip
+alias extip="dig +short myip.opendns.com @resolver1.opendns.com" # get external Ip
 
-test_function() {
-	echo -e "i dont do anything!!!"
-}
