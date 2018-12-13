@@ -2,92 +2,91 @@
 
 # global vars
 readonly version="0.7.0"
+readonly unit_file="${1}"
 
-# okay, couple of things:
-# works, but on screen formatting could be better / more uniform / needs a guideline
-# TODO:
-# - add the getopts thing
-# - see if the color thing can be improved (maybe with the existing functions, those are not that bad)
-# - learn python already!
+function usage() {
+	cat <<EOF
+${script_name} ... [FILE]...
+this script creates a system service based upon passed unit file
 
-display_help(){
+REQUIREMENTS:
+    file has a *.service, *.timer extension
 
-local RED='\e[1;31m'  
-local YELLOW='\e[33m'
-local NOC='\033[0m'
-local BLUE='\e[34m'
-
-if ([[ "$1" = "-h" ]] || [[ "$1" = "--help" ]] || [[ -z "$1" ]]); then
-    echo -e "${RED}USAGE:$0${NOC}"
-    echo -e "\tcopies passed unit file to proper folder"
-    echo -e "\tchmod 622 for this file"
-    echo -e "\tusing somesin somesin"
-    echo -e "${RED}PREREQUISITES${NOC}"
-    echo -e "\tfile is located within home directory"
-    echo -e "\tfile is one of *.service, (*.timer)"
-    exit 0
-
-elif ([[ "$1" = "-p" ]] || [[ "$1" = "--pid" ]]); then
-    echo -e "$BASHPID"
-fi
+VERSION:
+	Version ${version:-' not defined'}
+EOF
+	exit 1
 }
-display_help $1
 
-###############################################
+while getopts ":u:s:t:" opt; do
+	case "${opt}" in
+	s)
+		script=${OPTARG}
+		((s == 45 || s == 90)) || usage
+		echo "s = ${s}"
+		;;
+	u)
+		if [[ "${OPTARG#*.}" == "service" ]]; then
+			printf "\nno service file with extension *.service provided!\Exiting"
+			usage
+			exit 1
+		fi
+		;;
+	t)
+		if [[ "${OPTARG#*.}" == "timer" ]]; then
+			printf "\nno service file with extension *.timer provided!\Exiting"
+			usage
+			exit 1
+		fi
+		;;
+	\?)
+		echo "Invalid option: $OPTARG" 1>&2
+		;;
+	:)
+		echo "Invalid option: $OPTARG requires an argument" 1>&2
+		;;
+	*)
+		echo -e "in *)...\nThis happens, if a pass a flag that is defined, yet no case..in is available for it"
+		;;
+	esac
+done
+
+shift $((OPTIND - 1))
+
 # check if file has a service extension
-###############################################
-unit_file=$1
-
-if [[ ! "${unit_file#*.}" = "service" ]]; then 
-    echo -e "\nERROR:\n\tthe passed variable has no \"*.service\" extension!\n"
-    display_help
+if ([[ ! "${unit_file#*.}" == "service" ]] || [[ ! "${unit_file#*.}" == "service" ]]); then
+	printf "\nERROR:\n\tthe passed file has no \"*.service\" or \"*.timer\" extension!\n"
+	usage
 fi
-
-###############################################
-# check if file is located within $HOME
-# get the full path
-# what to do if there is more then one?
-###############################################
-
-unit_file=$(find $HOME -name "${unit_file}")
 
 ###############################################
 # if the unit_file variable is empty,
 # we stop here
 # else, we copy it to the directory
-###############################################
 
 if [[ -n "${unit_file}" ]]; then
-    echo -e "Found unit file for \n\t${unit_file} at\n\t${unit_file}" 
-    read -rp $'Continue with this unit file? (Y/n) : ' -ei $'n' continue_key
-    
-    if [[ "${continue_key}" = "Y" ]]; then
-        echo -e "\texecuting..."
-        sudo cp -i "${unit_file}" /etc/systemd/system/
-        sudo chmod 622 /etc/systemd/system/"${unit_file##*/}"
-        echo -e "\tunit file ${unit_file##*/} copied"
-        sudo ls -lah /etc/systemd/system/"${unit_file##*/}"
-    
-    else
-        echo -e "user choice: ${continue_key}\nExiting..."
-        exit 0
-    fi
+	printf "\ncreating service with unit file ${unit_file}"
+	read -rp $'Continue with this unit file? (Y/n) : ' -ei $'n' continue_key
+
+	if [[ "${continue_key}" == "Y" ]]; then
+		sudo install "${unit_file}" --target-directory /etc/systemd/system/ --mode=622 --compare
+	fi
 else
-    echo -e "ERROR:\nno unit file with the name $1 found in $HOME!" 
-fi    
+	echo -e "ERROR:\nno unit file provided! $1 not found!"
+fi
 
 ###############################################
-# we could, of course do a lot of 
+# we could, of course do a lot of
 # checking of the file is indeed a unit file
 # todo: HOW?
 ###############################################
 
 # - add a enabler / starter
-add_to_systemd(){
-    sudo systemctl enable "${unit_file##*/}" || systemctl status "${unit_file##*/}" 
-    sudo systemctl start "${unit_file##*/}" || systemctl status "${unit_file##*/}"
-    sudo systemctl daemon-reload
+add_to_systemd() {
+	sudo systemctl enable "${unit_file##*/}" || systemctl status "${unit_file##*/}"
+	sudo systemctl start "${unit_file##*/}" || systemctl status "${unit_file##*/}"
+	sudo systemctl daemon-reload
 }
 add_to_systemd
 
-exit 0        
+exit 0

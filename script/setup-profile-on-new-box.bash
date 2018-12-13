@@ -63,21 +63,23 @@ function add_to_file() {
 	local directory="${3}"
 
 	echo -e "
-# SOURCE USER ${file^^} DEFINITIONS
+# BEGIN SOURCE ${file^^} DEFINITION
 if [[ -f "$HOME"/${directory}/${file} ]]; then
 	. "$HOME"/${directory}/${file}
 fi 
-# <- END SOURCE" >>"$HOME/${destination}"
+# <- END SOURCE ${file^^} DEFINITION" >>"$HOME/${destination}"
 }
 
 function remove_from_file() {
 
+	set -x
 	local destination="${1}"
 	local file="${2}"
 
-	sed -e "/# SOURCE USER ${file^^} DEFINITIONS/Id" "$HOME/${destination}"
+	sed -e "/SOURCE ${file^^} DEFINITION/Id" "$HOME/${destination}"
 	sed -e "/${file}/,+3d" "$HOME/${destination}"
 #	sed -e "/fi # <- END SOURCE/Id" "$HOME/${destination}"
+	set +x
 }
 
 function main() {
@@ -122,10 +124,10 @@ function main() {
 	# i guess this `could' be handled by curl.
 	# what if the amount of files changes?
 
-	for file in "${files[@]}"; do
-		printf "\ncollecting raw file from github: ${file}. Saving to $(pwd)"
-		wget "${url}/${file}" -O "${file}"
-	done
+	#for file in "${files[@]}"; do
+	#	printf "\ncollecting raw file from github: ${file}. Saving to $(pwd)"
+	#	wget "${url}/${file}" -O "${file}"
+	#done
 
 	# setting up .bashrc file in such a way that the files get sourced
 
@@ -147,7 +149,7 @@ function main() {
 
 	for source in "${sources[@]}"; do
 		for file in "${files[@]}"; do
-			printf "adding sourcing for ${file}"
+			printf "\nadding sourcing for ${file}"
 			add_to_file "${source}" "${file}" "${_directory}"
 		done
 	done

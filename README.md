@@ -13,12 +13,24 @@
 <li><a href="#CHECK">CHECK</a></li>
 <li><a href="#WHAT">WHAT</a></li>
 <li><a href="#WHY">WHY</a></li>
+<li><a href="#BASHRC">COREUTILS</a></li>
 <li><a href="#COREUTILS">COREUTILS</a></li>
 <li><a href="#APACHE">APACHE</a></li>
 <li><a href="#BORG">BORG</a></li>
 </ul>
 
 ## things to do:
+
+## BASHRC
+
+to set up the BASH CLI with all aliases, functions, etc. => execute:
+
+wget https://raw.githubusercontent.com/rogrwhitakr/northern-lights/master/script/setup-profile-on-new-box.bash 
+
+chmod u+x ./setup-profile-on-new-box.bash
+
+./setup-profile-on-new-box.bash
+
 
 ### CHECK:
 - screen 
