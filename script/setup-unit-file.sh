@@ -65,28 +65,21 @@ fi
 # else, we copy it to the directory
 
 if [[ -n "${unit_file}" ]]; then
-	printf "\ncreating service with unit file ${unit_file}"
-	read -rp $'Continue with this unit file? (Y/n) : ' -ei $'n' continue_key
+	printf "\ncreating service with unit file ${unit_file}\n"
+	sudo install "${unit_file}" --target-directory /etc/systemd/system/ --mode=622 --compare
 
-	if [[ "${continue_key}" == "Y" ]]; then
-		sudo install "${unit_file}" --target-directory /etc/systemd/system/ --mode=622 --compare
-	fi
-else
-	echo -e "ERROR:\nno unit file provided! $1 not found!"
-fi
-
-###############################################
-# we could, of course do a lot of
-# checking of the file is indeed a unit file
-# todo: HOW?
-###############################################
-
-# - add a enabler / starter
-add_to_systemd() {
-	sudo systemctl enable "${unit_file##*/}" || systemctl status "${unit_file##*/}"
-	sudo systemctl start "${unit_file##*/}" || systemctl status "${unit_file##*/}"
+	# we enable
+	sudo systemctl enable "${unit_file}"
+	# we verify
+	systemd-analyze verify "${unit_file}" || printf "\nshit dont werk hoe! exiting...\n" && exit 1
+	# we start if all goes well
+	sudo systemctl start "${unit_file}" || printf "\nshit dont werk wit dat starter! exiting..." && exit 1
+	# now we are done
 	sudo systemctl daemon-reload
-}
-add_to_systemd
+	systemctl status "${unit_file}"
+else
+	printf "\nERROR:\nno unit file provided! $1 not found!"
+	exit 1
+fi
 
 exit 0
