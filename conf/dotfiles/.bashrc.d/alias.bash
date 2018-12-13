@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-alias list="echo -e '\e[31m\e[1mNo.\tAlias\t\tCommand\e[0m';grep alias ~/.dotfiles/.alias |cut -d' ' -f2- | sed 's/\=/\t\t/g' | nl -w 2"
+alias list="echo -e '\e[31m\e[1mNo.\tAlias\t\tCommand\e[0m';grep alias ~/.bashrc.d/*.bash |cut -d' ' -f2- | sed 's/\=/\t\t/g' | nl -w 2"
 alias functions="declare -f | grep '^[a-z].* ()' | sed 's/{$//'" # all functions
 alias paths='echo -e ${PATH//:/\\n}'                             # all on path
 alias la="ls -lah"                                               # print all relevant directory info
