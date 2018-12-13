@@ -1,12 +1,11 @@
 #! /usr/bin/env bash
-
+set -x
 # global vars
 readonly version="0.7.0"
-readonly unit_file="${1}"
 
 function usage() {
 	cat <<EOF
-${script_name} ... [FILE]...
+${0} ... [FILE]...
 this script creates a system service based upon passed unit file
 
 REQUIREMENTS:
@@ -15,28 +14,35 @@ REQUIREMENTS:
 VERSION:
 	Version ${version:-' not defined'}
 EOF
-	exit 1
 }
 
 while getopts ":u:s:t:" opt; do
 	case "${opt}" in
 	s)
-		script=${OPTARG}
-		((s == 45 || s == 90)) || usage
-		echo "s = ${s}"
+		if ([[ "${OPTARG#*.}" != "bash" ]] || [[ ! "${OPTARG#*.}" == "sh" ]]); then
+			printf "\nno script file with extension *.bash or *.sh provided!\Exiting"
+			usage
+			exit 1
+		else
+			bash_script_file="${OPTARG}"
+		fi
 		;;
 	u)
-		if [[ "${OPTARG#*.}" == "service" ]]; then
+		if [[ "${OPTARG#*.}" != "service" ]]; then
 			printf "\nno service file with extension *.service provided!\Exiting"
 			usage
 			exit 1
+		else
+			unit_file="${OPTARG}"
 		fi
 		;;
 	t)
-		if [[ "${OPTARG#*.}" == "timer" ]]; then
+		if [[ "${OPTARG#*.}" != "timer" ]]; then
 			printf "\nno service file with extension *.timer provided!\Exiting"
 			usage
 			exit 1
+		else
+			timer_file="${OPTARG}"
 		fi
 		;;
 	\?)
@@ -53,12 +59,13 @@ done
 
 shift $((OPTIND - 1))
 
-# check if file has a service extension
-if ([[ ! "${unit_file#*.}" == "service" ]] || [[ ! "${unit_file#*.}" == "service" ]]); then
-	printf "\nERROR:\n\tthe passed file has no \"*.service\" or \"*.timer\" extension!\n"
-	usage
+check(){
+if [ -z "${u}" ] || [ -z "${s}" ] || [ -z "${t}" ]; then
+    usage
 fi
+}
 
+check
 ###############################################
 # if the unit_file variable is empty,
 # we stop here

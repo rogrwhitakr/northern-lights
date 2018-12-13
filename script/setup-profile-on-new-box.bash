@@ -12,9 +12,9 @@
 # global vars
 readonly version="0.7.0"
 
-function usage() {
+function usage {
 	cat <<EOF
-${script_name} [OPTION]... [FILE]...
+${0} [OPTION]... [FILE]...
 
 this script sets up sourcing of:
 	.bash_profile
@@ -39,7 +39,7 @@ VERSION:
 EOF
 }
 
-function script_finish() {
+function script_finish {
 
 	# DESC: Trap exits with cleanup function
 	# ARGS: exit code -> trap <script_finish> EXIT INT TERM
@@ -57,33 +57,20 @@ function script_finish() {
 	fi
 }
 
-function add_to_file() {
+function add_to_file {
 	local destination="${1}"
 	local file="${2}"
 	local directory="${3}"
 
 	echo -e "
 # BEGIN SOURCE ${file^^} DEFINITION
-if [[ -f "$HOME"/${directory}/${file} ]]; then
-	. "$HOME"/${directory}/${file}
+if [[ -f ~/${directory}/${file} ]]; then
+	. ~/${directory}/${file}
 fi 
-# <- END SOURCE ${file^^} DEFINITION" >>"$HOME/${destination}"
+# END SOURCE ${file^^} DEFINITION" >>"$HOME/${destination}"
 }
 
-function remove_from_file() {
-
-	set -x
-	local destination="${1}"
-	local file="${2}"
-
-	sed -e "/SOURCE ${file^^} DEFINITION/Id" "$HOME/${destination}"
-	sed -e "/${file}/,+3d" "$HOME/${destination}"
-#	sed -e "/fi # <- END SOURCE/Id" "$HOME/${destination}"
-	set +x
-}
-
-function main() {
-
+function main {
 	# DESC: the core function of the script
 	# NOTE: main
 	# ARGS: $@: Arguments provided to the script
@@ -121,41 +108,27 @@ function main() {
 		cd "$HOME"/"${_directory:-.bashrc.d}"
 	fi
 
-	# i guess this `could' be handled by curl.
-	# what if the amount of files changes?
+	for file in "${files[@]}"; do
+		printf "\ncollecting raw file from github: ${file}, saving to $(pwd)"
+		wget "${url}/${file}" --output-document="${file}" --quiet
+	done
 
-	#for file in "${files[@]}"; do
-	#	printf "\ncollecting raw file from github: ${file}. Saving to $(pwd)"
-	#	wget "${url}/${file}" -O "${file}"
-	#done
-
-	# setting up .bashrc file in such a way that the files get sourced
-
-	# remove old sourcing
-	# okay apparently sed is at its best when looking at one individual line
-	# potentially anything not named .* will suffer in the second line command
-
-	# source might also work!
-	# why is this not a default??????
-	set -x
-
+	printf "\nremove old sourcing, if applicable"
 	for source in "${sources[@]}"; do
 		for file in "${files[@]}"; do
-			printf "\nremoving definition for ${file}"
-			remove_from_file "${source}" "${file}"
+			sed -i "/SOURCE ${file^^} DEFINITION/,+5d" "$HOME"/"${source}"
 		done
 	done
-	set +x
 
+	printf "\nadd sourcing to bash sources"
 	for source in "${sources[@]}"; do
 		for file in "${files[@]}"; do
-			printf "\nadding sourcing for ${file}"
 			add_to_file "${source}" "${file}" "${_directory}"
 		done
 	done
+
 	printf "\nCompleted."
 	printf "\n"
-
 }
 
 # Make it rain
