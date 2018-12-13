@@ -1,4 +1,4 @@
-#! /bin/sh
+#! /usr/bin/env bash
 
 # manage virtual machine with virsh
 which virsh
@@ -15,6 +15,13 @@ sudo virsh help interface
 
 # list all machines
 sudo virsh list --all
+
+# list all autostarting domains
+virsh list --autostart --all
+
+# autostart a domain
+virsh autostart IAV.Magellan
+
 
 # lists available networks
 sudo virsh net-list --all
