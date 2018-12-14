@@ -3,26 +3,33 @@
 # Create a new directory and enter it
 mkd() {
 	if [[ -z "$@" ]]; then
-		echo -e "no input given, terminating"
+		echo -e "no input given"
 		break
 	fi
 	mkdir -p "$@" && cd "$_"
 }
 
-# append a todo to the README.md of the default repository
-readme() {
+# append a todo to the README.md of the "default" repository
+todo() {
+	local repository=~/MyScripts/README.md
 	if [[ -z "$@" ]]; then
-		echo -e "no input given, terminating"
+		echo -e "no input given to append to ${repository}"
+		break
 	fi
-	echo "$@" >>~/MyScripts/README.md
-	echo "added \"$@\" to README.md"
+	if [[ ! -r "${repository}" ]]; then
+		echo -e "no file to write to found!"
+		break
+	else
+		echo -n -e "\n- $@" >>"${repository}"
+		echo "added \"$@\" to "${repository##*/}""
+	fi
 }
 
 # get entries of ssh config
 remotes() {
 	if [[ ! -r ~/.ssh/config ]]; then
 		printf "no ssh-config-file found! Exiting"
-		exit 1
+		break
 	else
 		awk '/Host / { print $2 }' ~/.ssh/config | nl -w 2
 	fi
@@ -49,11 +56,11 @@ hidden() {
 	else
 		directory="$@"
 	fi
-	ls -ld "$directory"/.*
+	ls -ld "${directory}"/.*
 }
 
 # universal extract, stolen from github somewhere
-function extract {
+function extract() {
 	if [ -z "$1" ]; then
 		echo "Usage: extract <path/file_name>.<zip|rar|bz2|gz|tar|tbz2|tgz|Z|7z|xz|ex|tar.bz2|tar.gz|tar.xz>"
 	else
@@ -85,7 +92,7 @@ function extract {
 }
 
 # compress common compressed Filetypes
-function compress {
+function compress() {
 	if [[ -z "$1" ]]; then
 		echo "Usage: compress <path/file_name>.<zip|rar|bz2|gz|tar|tbz2|tgz|Z|7z|xz|ex|tar.bz2|tar.gz|tar.xz>"
 	else
@@ -113,7 +120,6 @@ dataURL() {
 	echo "data:${mimeType};base64,$(openssl base64 -in "$1" | tr -d '\n')"
 }
 
-
-function test_function {
+function test_function() {
 	echo -e "i dont do anything!!!"
 }
