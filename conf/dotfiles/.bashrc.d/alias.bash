@@ -29,3 +29,6 @@ alias tree2="tree -d -L 2"                                       # show only dir
 # network things
 alias extip="dig +short myip.opendns.com @resolver1.opendns.com" # get external Ip
 
+# battery status
+alias battery='upower -i /org/freedesktop/UPower/devices/battery_BAT1 | grep -E --color=never "state|to\ full|percentage"'
+

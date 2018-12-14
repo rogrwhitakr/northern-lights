@@ -123,3 +123,17 @@ dataURL() {
 function test_function() {
 	echo -e "i dont do anything!!!"
 }
+
+get_directory_file_usage() {
+
+	# DESC: returns sorted list of files based upon size
+	# ARGS: directory, defaults to /
+	#       amount of items to be returned, defaults to "10"
+	# OUTS: list
+	# TODO:	THIS WILL NOT WORK WITHOUT SOURCING!!!!
+
+	_base="${1}"
+	_output="${2}"
+	print YELLOW "getting the ${_output:-10} largest files in directory ${_base:-"/"}"
+	du -a "${_base:-"."}" 2>/dev/null | sort -nr | head -"${_output:-10}"
+}
