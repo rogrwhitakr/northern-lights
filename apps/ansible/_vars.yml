@@ -34,6 +34,9 @@
     - name: primary_group
       prompt: Provide a group name
 
+  vars_file:
+    - "some file"
+
   tasks:
     - name: Create user group
       group:

@@ -1,7 +1,10 @@
-user:
+users:
 - name: 'Book'
-  groups: 'users'
+  groups: 
+   - 'users'
 - name: 'knope'
-  groups: 'users'
+  groups: 
+   - 'users'
 - name: 'wyatt'
-  groups: 'users'
+  groups: 
+   - 'users'

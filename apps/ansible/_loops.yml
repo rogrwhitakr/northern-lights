@@ -19,9 +19,25 @@
        - simmons
        - wheeler
 
-  - name: add several users from external YAML file
+  - name: remove several users again
     user:
-      name: "{{ item.name }}"
-      state: present
-      groups: "{{ item.groups }}"
-    loop: {{  }}
+      name: "{{ item }}"
+      state: absent
+      groups: "users"
+    loop:
+       - finch
+       - reese
+       - simmons
+       - wheeler
+
+  - name: add several users from external YAML file
+    debug:
+      msg: "{{ name }}"
+    loop: "{{ users }}"
+    vars_files:
+    - "/home/admin/MyScripts/apps/ansible/src/externalised_list_var.yml"
+#    user:
+#      name: "{{ user.name }}"
+#      state: present
+#      groups: "{{ user.groups }}"
+    tags: 2nd
