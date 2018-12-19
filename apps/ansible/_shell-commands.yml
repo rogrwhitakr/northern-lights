@@ -1,8 +1,10 @@
 ---
 - name: _EXECUTE_SHELL_COMMANDS
-  hosts: cortez magellan
+  hosts: dortmunder magellan
   become: yes
 
   tasks:
   - name: get startup times 
     shell: /usr/bin/systemd-analyze blame
+    debug:
+      msg: "{{  }}"

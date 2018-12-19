@@ -1,19 +1,42 @@
----
 - name: _CONDITIONALS
-  hosts: cortez magellan
+  hosts: magellan
   remote_user: admin
   become: yes
 
-  tasks: 
-  - name: "CHANGED_WHEN > THEN"
-    command: getenforce
-    register: sestatus
-    changed_when: false
+  tasks:
+    - name: "register SE Status"
+      command: getenforce
+      register: sestatus
+      changed_when: false
 
-  - name: DO SOMETHING IF FILE EXISTS
-    stat:
-      path: /etc/os-release
-    register: p
-    
-  - debug: msg="Path exists and is a directory"
-    when: p.stat.isdir is defined and p.stat.isdir
+    - name: "register directory and say so, if it exists"
+      stat:
+        path: /etc/systemd/
+      register: systemd
+
+    - debug: msg="Path exists and is a directory"
+      when: systemd.stat.isdir is defined and systemd.stat.isdir
+
+    - name: "register directory and say so, if it exists"
+      stat:
+        path: /etc/fstab
+      register: fstab
+
+    - debug: msg="Path exists and is a directory"
+      when: fstab.stat.isdir is defined and fstab.stat.isdir
+
+    - name: "Do something (like shutdown) if some condition is met (like OS_Family = DEBIAN)"
+      command: /sbin/shutdown -t now
+      when: ansible_facts['os_family'] == "Debian"
+
+    - name: "multiple conditions"
+      command: /usr/bin/echo -e "GAYYYYYYY!"
+      when:
+        (ansible_facts['distribution'] == "Fedora" and ansible_facts['distribution_major_version'] == "26") or
+        (ansible_facts['distribution'] == "Fedora" and ansible_facts['distribution_major_version'] == "27")
+
+    - name: "logical \"and\" can be a list"
+      command: /usr/bin/echo -e "GAYYYYYYY!"
+      when:
+       - ansible_facts['distribution'] == "Fedora"
+       - ansible_facts['distribution_major_version'] == "27
