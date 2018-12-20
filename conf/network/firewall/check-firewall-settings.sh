@@ -1,17 +1,25 @@
-#! /usr/bin/env bash
+#conf
 
-source ../../scripts/helpers/init.bash
-
-user=$(id -un) 
-
-print RED "$0 tests firefall settings"
-print GREEN "checking firewall status on $(cat /etc/hostname)"
-
+# get the service status
 sudo systemctl status firewalld
 
-print RED "Zones"
+# get active Zones
 firewall-cmd --get-active-zones
-print RED "Services"
+
+# get services
 firewall-cmd --get-services
 
+# get zone that are/ is active
+sudo firewall-cmd --get-active-zones
+
+# get available zones
+sudo firewall-cmd --permanent --get-zones
+
+# list everything of a zone (here: Public)
 firewall-cmd --zone=public --list-all
+
+# get ports
+firewall-cmd --zone=FedoraWorkstation --permanent --list-ports
+
+# add a port to a zone (postgres here)
+firewall-cmd --zone=FedoraWorkstation --permanent --add-port 5432/tcp
