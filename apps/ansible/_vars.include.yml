@@ -1,0 +1,38 @@
+---
+- name: EXPLAINER FOR include_vars
+  hosts: dortmunder
+  remote_user: admin
+  become: yes
+
+  tasks:
+    - name: Create user group
+      include_vars:
+        file: /home/admin/MyScripts/apps/ansible/src/vars.yaml
+        name: vars
+#        group:
+#            name: "{{ vars.users.name.groups }}"
+#            state: "present"
+        debug:
+          msg: "{{ vars }}"
+
+    - name: create a new user
+      user:
+          name: "{{ username }}"
+          state: present
+          groups: "{{ primary_group }}"
+          password: "{{ password }}"
+      tags: prompted_vars
+
+    - name: remove the user again
+      user:
+          name: "{{ username }}"
+          state: absent
+          groups: "{{ primary_group }}"
+          password: "{{ password }}"
+      tags: prompted_vars
+
+    - name: Remove user group
+      group:
+        name: "{{ primary_group }}"
+        state: absent
+      tags: prompted_vars

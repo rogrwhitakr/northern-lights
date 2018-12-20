@@ -1,0 +1,29 @@
+---
+- name: "Install Kanboard" 
+  hosts: localhost
+  become: yes
+
+  vars:
+    - kanboard-URL: "https://github.com/kanboard/kanboard/archive/tag/"
+    - kanboard-version: "1.2.6"
+
+  tasks:
+  - name: Install necessary software
+    dnf: 
+      name: ['postgresql','postgresql-server','httpd']
+      state: present
+
+  - name: "Download the Kanboard software from github.com"
+    unarchive:
+      src: "{{ kanboard-URL }}v{{ kanboard-version }}.tar.gz"
+      dest: /var/www/html
+      remote_src: yes
+
+  - name: "configure postgres"
+  - name: "configure httpd"
+  - name: "configure kanboard CLI (db driver, etc)"
+  - name: "add database and db user"
+  - name: "start services"
+  - name: "use the kanboard CLI to init"
+  - name: "check result"
+  - name: "should be done now"
