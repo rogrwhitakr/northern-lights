@@ -1,5 +1,5 @@
 - name: _CONDITIONALS
-  hosts: magellan
+  hosts: dortmunder
   remote_user: admin
   become: yes
 
@@ -14,7 +14,8 @@
         path: /etc/systemd/
       register: systemd
 
-    - debug: msg="Path exists and is a directory"
+    - debug: 
+        msg: "Path exists and is a directory"
       when: systemd.stat.isdir is defined and systemd.stat.isdir
 
     - name: "register directory and say so, if it exists"
@@ -22,7 +23,8 @@
         path: /etc/fstab
       register: fstab
 
-    - debug: msg="Path exists and is a directory"
+    - debug: 
+        msg: "Path exists and is a directory"
       when: fstab.stat.isdir is defined and fstab.stat.isdir
 
     - name: "Do something (like shutdown) if some condition is met (like OS_Family = DEBIAN)"
@@ -39,4 +41,4 @@
       command: /usr/bin/echo -e "GAYYYYYYY!"
       when:
        - ansible_facts['distribution'] == "Fedora"
-       - ansible_facts['distribution_major_version'] == "27
+       - ansible_facts['distribution_major_version'] == "27"
