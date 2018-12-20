@@ -11,11 +11,6 @@
       state: latest
       
   - name: Install Nextcloud and associated services / necessities
-    dnf: name={{item}} state=present
-    with_items:
-    - nextcloud
-    - crypto-utils
-    - openssl
-    - mod_ssl
-    - httpd
-    - mariadb-server
+    dnf: 
+      name: ['nextcloud','crypto-utils','openssl','mod_ssl','httpd','mariadb-server']
+      state: present
