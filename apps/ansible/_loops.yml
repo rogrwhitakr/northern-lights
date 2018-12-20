@@ -4,9 +4,6 @@
   gather_facts: yes
   become: yes
 
-  vars_files:
-    - /home/admin/MyScripts/apps/ansible/src/externalised_list_var.yml
-    
   tasks:
   - name: add several users in a loop
     user:
@@ -31,13 +28,14 @@
        - wheeler
 
   - name: add several users from external YAML file
-    debug:
-      msg: "{{ name }}"
-    loop: "{{ users }}"
-    vars_files:
-    - "/home/admin/MyScripts/apps/ansible/src/externalised_list_var.yml"
-#    user:
-#      name: "{{ user.name }}"
-#      state: present
-#      groups: "{{ user.groups }}"
+    include_vars:
+      dir: src
+      name: ext_users
+      files_matching: externalised_list_var.yaml
+      user:
+        name: "{{ item }}"
+        state: present
+        groups: "users"
+      loop: 
+        - ext_users.user.name
     tags: 2nd
