@@ -1,5 +1,6 @@
+---
 - name: _CONDITIONALS
-  hosts: dortmunder
+  hosts: northernlights
   remote_user: admin
   become: yes
 
@@ -9,6 +10,9 @@
       register: sestatus
       changed_when: false
 
+    - debug: 
+        msg: "SELINUX is {{ sestatus.stdout }}"
+
     - name: "register directory and say so, if it exists"
       stat:
         path: /etc/systemd/
@@ -16,20 +20,44 @@
 
     - debug: 
         msg: "Path exists and is a directory"
-      when: systemd.stat.isdir is defined and systemd.stat.isdir
+      when: 
+       - systemd.stat.isdir is defined 
+       - systemd.stat.isdir
 
-    - name: "register directory and say so, if it exists"
+    - name: "register file (fstab)"
       stat:
         path: /etc/fstab
       register: fstab
 
     - debug: 
-        msg: "Path exists and is a directory"
-      when: fstab.stat.isdir is defined and fstab.stat.isdir
+        msg: "{{ fstab.stat.path }}"
+      when: 
+       - fstab.stat.isreg # regular file
+       - fstab.stat.exists # regular file
+
+    - name: "register symlink and say so, if it exists"
+      stat:
+        path: /etc/systemd/system/default.target
+      register: systemd-target
+      when: 
+      - systemd-target.start.islnk is defined
+      - systemd-target.start.islnk
 
     - name: "Do something (like shutdown) if some condition is met (like OS_Family = DEBIAN)"
       command: /sbin/shutdown -t now
-      when: ansible_facts['os_family'] == "Debian"
+      when: ansible_facts['distribution'] == "Debian"
+
+    - name: "Register blame info if OS_FAMILY = FEDORA"
+      command: systemd-analyze blame
+      register: blame
+      when: ansible_facts['distribution'] == "Fedora"
+
+    - debug: 
+        msg: "{{ ansible_facts['distribution'] }}"
+
+    - debug: 
+        msg: "{{ blame }}"
+      when: ansible_facts['distribution'] == "Fedora"
 
     - name: "multiple conditions"
       command: /usr/bin/echo -e "GAYYYYYYY!"
@@ -42,3 +70,6 @@
       when:
        - ansible_facts['distribution'] == "Fedora"
        - ansible_facts['distribution_major_version'] == "27"
+
+       #todo:
+       #ignore_errors: True

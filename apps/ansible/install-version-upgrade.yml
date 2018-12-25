@@ -1,6 +1,6 @@
 ---
 - name: Upgrade Fedora Major Version
-  hosts: magellan
+  hosts: dortmunder
   become: yes
 
   tasks:
@@ -10,7 +10,11 @@
       state: latest  
   
   - name: Update software and back up your system
-    raw: /usr/bin/dnf upgrade --refresh -y
+    shell: /usr/bin/dnf upgrade --refresh -y
+#    warn: False
 
-  - name: Start the update with the download
-    raw: /usr/bin/dnf system-upgrade download --releasever=28 
+  - name: "Start the update with the download of packages"
+    shell: /usr/bin/dnf system-upgrade download --allowerasing --assumeyes --releasever=29 
+
+  - name: "Trigger the upgrade process"
+    shell: sudo dnf system-upgrade reboot

@@ -1,0 +1,30 @@
+---
+- name: "demo playbook on registering values / i.e. applying conditionals. this could also be in _CONDITIONALS.yml" 
+  hosts: northernlights
+  remote_user: admin
+#  become: yes
+
+  tasks:
+    - name: "get the contents of the remote user home directory"
+      shell: find . -name "*.sql"
+      args:
+        chdir: ~
+      register: sql_files
+
+    - name: "register bak files, if there are any"
+      shell: find . -name "*.bak"
+      args:
+        chdir: ~
+      register: bak_files
+
+    - debug:
+        var: sql_files.stdout_lines
+
+    - debug:
+        var: bak_files.stdout_lines
+
+    - name: "create a (local) backup of the file"
+      shell: "cp {{ item }} -T {{ item }}.bak"
+      loop:
+      - "{{ sql_files.stdout_lines[0] }}"
+      when: sql_files is defined
