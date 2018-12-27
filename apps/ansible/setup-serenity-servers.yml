@@ -31,12 +31,12 @@
       name: ['htop','sysstat','iotop','dmidecode']
       state: present
     
-  - name: Install Powerline for pleasant commandline operation
+  - name: "Install Powerline for pleasant commandline operation"
     dnf: 
       name: ['powerline','powerline-fonts'] 
       state: present
     
-  - name: edit .bashrc to enable powerline usage
+  - name: "edit .bashrc to enable powerline usage"
     blockinfile:
       path: /home/admin/.bashrc
       block: |
@@ -51,3 +51,14 @@
     dnf: 
       name: ['rhythmbox','shotwell','builder']
       state: absent
+
+  - name: "Ensure cockpit packages exist"
+    dnf:
+      name: ['cockpit','cockpit-dashboard','cockpit-shell','cockpit-ws']
+      state: latest
+
+  - name: Ensure cockpit is started
+    service:
+      name: cockpit.socket
+      state: started
+      enabled: yes    

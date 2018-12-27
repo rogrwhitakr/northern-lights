@@ -47,3 +47,9 @@ sudo virsh domrename Windows-server IAV.Dortmunder
 
 # paths libvirt lives in
 sudo tree /etc/libvirt
+
+# create and manage snapshots
+sudo virsh snapshot-create IAV.Cortez
+
+# list the snapshots
+sudo virsh snapshot-list IAV.Cortez

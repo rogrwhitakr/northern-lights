@@ -1,6 +1,6 @@
 ---
 - name: Upgrade Fedora Major Version
-  hosts: dortmunder
+  hosts: cortez
   become: yes
 
   tasks:
@@ -11,10 +11,18 @@
   
   - name: Update software and back up your system
     shell: /usr/bin/dnf upgrade --refresh -y
-#    warn: False
+   # warn: False
 
   - name: "Start the update with the download of packages"
     shell: /usr/bin/dnf system-upgrade download --allowerasing --assumeyes --releasever=29 
+
+  - name: "wait for ssh to go down"
+    local_action: 
+      module: service
+      wait_for host: "{{ ansible_ssh_host }}" 
+      port: 22
+      state: stopped 
+    run_once: True   
 
   - name: "Trigger the upgrade process"
     shell: sudo dnf system-upgrade reboot
