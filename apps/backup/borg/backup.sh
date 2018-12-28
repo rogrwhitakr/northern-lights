@@ -56,7 +56,7 @@ compression="lz4"
 
 ###################################################################################################
 
-echo -e "directories to be archived: $incldes\n"
+echo -e "directories to be archived: $includes\n"
 
 /usr/bin/env | grep BORG
 ###################################################################################################
@@ -89,7 +89,7 @@ echo "Pruning Archives:"
 # Hier angeben nach welchem Schema alte Archive gelöscht werden sollen.
 # Die Vorgabe behält alle sicherungen des aktuellen Tages. Zusätzlich das aktuellste Archiv der 
 # letzten 7 Tage, der letzten 4 Wochen sowie der letzten 12 Monate.
-borg prune -v --list $backup_path \
+borg prune --list $backup_path \
     --prefix '{hostname}-' \
     --keep-within=1d \
     --keep-daily=7 \

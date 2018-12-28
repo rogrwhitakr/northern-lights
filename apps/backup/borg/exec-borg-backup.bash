@@ -1,4 +1,4 @@
-#!/usr/bin/env sh
+#!/usr/bin/env bash
 
 
 # path to backup target
@@ -14,20 +14,13 @@ backup_path="$backup_target"/"$repository"
 # ->  files / dirs to backup
 # ->  files / dirs to exclude from within these lists
 # includes="/home/peter/Bilder /home/peter/Videos --exclude *.tmp"
-includes="
-/home/benno/Bilder
-/home/benno/Dokumente
-/home/benno/Downloads
-/home/benno/Musik
-/home/benno/script
-/home/benno/script.code-workspace
-/home/benno/Videos
-/home/benno/Vorlagen
-/home/benno/xrandr.txt
-"
+includes=$(cat ./includes.borg)
+
 excludes="
-'/home/benno/.*'
 "
+
+printf "${includes}"
+exit 0
 # mode of encryption / options = "none, ???"
 encryption="none"
 
