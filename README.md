@@ -82,3 +82,4 @@ chmod u+x ./setup-profile-on-new-box.bash
 - what is systemd-nspawn?
 - what is busy-box?
 - install decode-dimms for trials
+- assign static addresses to VM(s) using dnsmasq, while they are ste to dhcp mode/ reserved IPs....
