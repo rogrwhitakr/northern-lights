@@ -32,3 +32,5 @@ alias extip="dig +short myip.opendns.com @resolver1.opendns.com" # get external 
 # battery status
 alias battery='upower -i /org/freedesktop/UPower/devices/battery_BAT1 | grep -E --color=never "state|to\ full|percentage"'
 
+alias up="ansible northernlights -m ping"
+alias dhcp="journalctl --since \"1 hour ago\" --grep=DHCP"

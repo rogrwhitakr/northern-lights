@@ -60,7 +60,7 @@ hidden() {
 }
 
 # universal extract, stolen from github somewhere
-function extract() {
+extract() {
 	if [ -z "$1" ]; then
 		echo "Usage: extract <path/file_name>.<zip|rar|bz2|gz|tar|tbz2|tgz|Z|7z|xz|ex|tar.bz2|tar.gz|tar.xz>"
 	else
@@ -92,7 +92,7 @@ function extract() {
 }
 
 # compress common compressed Filetypes
-function compress() {
+compress() {
 	if [[ -z "$1" ]]; then
 		echo "Usage: compress <path/file_name>.<zip|rar|bz2|gz|tar|tbz2|tgz|Z|7z|xz|ex|tar.bz2|tar.gz|tar.xz>"
 	else
@@ -120,7 +120,7 @@ dataURL() {
 	echo "data:${mimeType};base64,$(openssl base64 -in "$1" | tr -d '\n')"
 }
 
-function test_function() {
+test_function() {
 	echo -e "i dont do anything!!!"
 }
 
