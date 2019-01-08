@@ -31,3 +31,30 @@ sudo umount /mnt/backup/remotes
 # TODOS:
 # -> how to mount cifs as root with a non-privileged scope, i.e. do file writes as a regular user
 # -> reading the file works okay
+
+# what is the way forward? fstab or systemd unit files?
+# in case of systemd: things to consider:
+#   1.  name convention:
+#       resolve path to mount point using a systemd-specific tool:
+systemd-escape --suffix=mount --path /home/admin/MyScripts/apps/ansible
+
+#   2.  unit file syntax:
+#       example rendered from fstab entry
+
+[Unit]
+SourcePath=/etc/fstab
+Documentation=man:fstab(5) man:systemd-fstab-generator(8)
+Before=local-fs.target
+Requires=systemd-fsck@dev-sdb2.service
+After=systemd-fsck@dev-sdb2.service
+
+[Mount]
+Where=/mnt/backup
+What=/dev/sdb2
+Type=ext4
+
+# other example:
+[Mount]
+What=10.10.10.10:/nfs-share
+Where=/mnt/nfs
+Type=nfs4
