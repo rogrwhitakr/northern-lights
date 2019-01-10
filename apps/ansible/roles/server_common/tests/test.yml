@@ -1,0 +1,5 @@
+---
+- hosts: magellan
+  remote_user: root
+  roles:
+    - server_common
