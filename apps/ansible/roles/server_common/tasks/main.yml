@@ -1,2 +1,30 @@
 ---
 # tasks file for server_common
+
+- name: "creating a file with content using the copy module"
+  copy:
+    dest: "/tmp/file-on-{{ ansible_facts['nodename'] }}-with-content.txt"
+    content: |
+      ansible-playbook MyScripts/apps/ansible/_modules.user.yml --list-tags
+      ansible-playbook MyScripts/apps/ansible/_modules.user.yml --ask-become-pass -t ftp_user
+
+- name: add several users in a loop
+  user:
+    name: "{{ item }}"
+    state: present
+    groups: "users"
+  loop:
+     - finch
+     - reese
+     - simmons
+     - wheeler
+- name: remove several users again
+  user:
+    name: "{{ item }}"
+    state: absent
+    groups: "users"
+  loop:
+     - finch
+     - reese
+     - simmons
+     - wheeler
