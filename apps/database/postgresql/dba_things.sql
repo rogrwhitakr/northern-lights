@@ -18,6 +18,10 @@ SELECT datname FROM pg_database;
 -- EQUIVALENt TO -> called a METACOMMAND
 \l
 
+-- get only portions of data, like the names of the databases:
+psql -c 'SELECT datname FROM pg_database;'
+psql --command='SELECT datname FROM pg_database;'
+
 --cli
 psql -l
 

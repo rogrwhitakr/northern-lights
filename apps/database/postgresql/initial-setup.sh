@@ -38,6 +38,9 @@ given Linux user <user> can only connect as the postgres user <user>.
 # Login from <user> user in shell to default postgres db
 sudo su - <user>
 
+# this should also do it. if set up correctly i assume...
+su postgres 
+
 # Create a table <table> in schema <schema>
 CREATE TABLE <table>.<schema> (col<schema> varchar(20));
 
