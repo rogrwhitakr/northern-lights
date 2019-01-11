@@ -1,0 +1,35 @@
+#   - Groups of hosts are delimited by [header] elements
+#   - You can enter hostnames or ip addresses
+#   - A hostname/ip can be a member of multiple groups
+
+
+
+---
+all:
+northernlights:
+  hosts:
+    cortez.northernlights.io
+    magellan.northernlights.io
+    dortmunder.northernlights.io
+
+serenity:
+  hosts:
+    serenity.northernlights.io # aka localhost
+
+server_common:        
+  hosts:
+    cortez.northernlights.io
+    magellan.northernlights.io
+    dortmunder.northernlights.io
+
+database_server:        
+  hosts:
+    magellan.northernlights.io
+
+file_server:        
+  hosts:
+    cortez.northernlights.io
+
+auth_server:
+  hosts:
+    cortez.northernlights.io

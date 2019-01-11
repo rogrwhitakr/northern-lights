@@ -3,5 +3,10 @@
 
 - hosts: database_server
   roles:
+  - role: common
   - role: mariadb
-  
+
+- hosts: auth_server
+  roles:
+  - role: common
+  - role: postgresql
