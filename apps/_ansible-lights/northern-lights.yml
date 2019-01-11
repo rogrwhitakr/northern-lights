@@ -1,0 +1,25 @@
+---
+# This Playbook would deploy the whole northernlights infra. 
+# may also be named site.yml, as it is more neutral?
+
+- hosts: database_server
+  roles:
+  - role: common
+  - role: mariadb
+
+- hosts: auth_server
+  roles:
+  - role: common
+  - role: postgresql
+# not workable yet, but obvi:
+#  - role: samba
+#  - role: ldap
+#  - role: kerberos -> would be in the ldap role....
+
+- hosts: file_server
+  roles:
+#  - role: common
+  - role: mariadb
+# not workable yet, but obvi:
+#  - role: smb
+#  - role: ftp

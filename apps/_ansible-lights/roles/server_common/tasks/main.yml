@@ -28,3 +28,11 @@
      - reese
      - simmons
      - wheeler
+
+# requirese network connecttivity, so not testing now
+
+#- name: Download script to provide a predefined bashrc
+#  unarchive:
+#    src: "https://github.com/prometheus/alertmanager/releases/download/v{{ version }}/alertmanager-{{ version }}.linux-amd64.tar.gz"
+#    dest: /tmp/
+#    remote_src: yes     

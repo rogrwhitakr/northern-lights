@@ -28,7 +28,9 @@ database_server:
 
 file_server:        
   hosts:
-    cortez.northernlights.io
+    cortez.northernlights.io:
+      remote_user: admin
+      become: yes
 
 auth_server:
   hosts:
