@@ -57,67 +57,51 @@ INSERT INTO names (first_name,last_name, primary_group_ID) VALUES
 ('Lionel','Fusco',(SELECT _group_id FROM primary_group WHERE name = 'NorthernLights')),
 ('Sameen','Shaw',(SELECT _group_id FROM primary_group WHERE name = 'NorthernLights')),
 ('Root','',(SELECT _group_id FROM primary_group WHERE name = 'NorthernLights')),
-
-POI
-2.1.1	Jessica Arndt
-2.1.2	Grace Hendricks
-2.1.3	Nathan Ingram
-2.1.4	Will Ingram
-2.1.5	Taylor Carter
-2.1.6	Lee Fusco
-('Persons of Interest
-2.2.1	Zoe Morgan
-2.2.2	Leon Tao
-2.2.3	Harper Rose
-2.2.4	Caleb Phipps
-2.2.5	Logan Pierce
-2.3	Organised Crime figures
-2.3.1	Carl Elias
-2.3.2	Anthony Marconi
-2.3.3	Bruce Moran
-2.3.4	Gianni Moretti
-2.3.5	Peter Yogorov
-2.4	The Brotherhood
-2.4.1	Dominic Besson
-2.4.2	Link Cordell
-2.4.3	Floyd
-2.5	New York City Police Department
-2.5.1	Cal Beecher
-2.5.2	Bill Szymanski
-2.5.3	Kane
-2.5.4	Dani Silva
-2.6	HR
-2.6.1	Alonzo Quinn
-2.6.2	Patrick Simmons
-2.6.3	Artie Lynch
-2.6.4	Womack
-2.6.5	Raymond Terney
-2.6.6	Mike Laskey
-2.7	Federal Bureau of Investigation
-2.7.1	Nicholas Donnelly
-2.7.2	Brian Moss
-2.8	The Government
-2.8.1	Alicia Corwin
-2.8.2	Denton Weeks
-2.8.3	Special Counsel
-2.8.4	Hersh
-2.8.5	Control
-2.8.6	Devon Grice
-2.8.7	Brooks
-2.9	The CIA
-2.9.1	Mark Snow
-2.9.2	Tyrell Evans
-2.9.3	Kara Stanton
-2.10 Decima Technologies
-2.10.1	John Greer
-2.10.2	Jeremy Lambert
-2.10.3	Martine Rousseau
-2.10.4	Gabriel Hayward
-2.10.5	Claire Mahoney
-2.10.6	Zachary
-2.10.7	Jeff Blackwell
-2.11	Vigilance
-2.11.1	Peter Collier
+('Jessica','Arndt',(SELECT _group_od FROM primary_group WHERE name = 'Person of Interest')),
+('Grace','Hendricks',(SELECT _group_od FROM primary_group WHERE name = 'Person of Interest')),
+('Nathan','Ingram',(SELECT _group_od FROM primary_group WHERE name = 'Person of Interest')),
+('Will','Ingram',(SELECT _group_id FROM primary_group WHERE name = 'Person of Interest')),
+('Taylor','Carter',(SELECT _group_id FROM primary_group WHERE name = 'Person of Interest')),
+('Lee','Fusco',(SELECT _group_id FROM primary_group WHERE name = 'Person of Interest')),
+('Zoe','Morgan',(SELECT _group_id FROM primary_group WHERE name = 'Person of Interest')),
+('Leon','Tao',(SELECT _group_id FROM primary_group WHERE name = 'Person of Interest')),
+('Harper','Rose',(SELECT _group_id FROM primary_group WHERE name = 'Person of Interest')),
+('Caleb','Phipps',(SELECT _group_id FROM primary_group WHERE name = 'Person of Interest')),
+('Logan','Pierce',(SELECT _group_id FROM primary_group WHERE name = 'Person of Interest')),
+('Carl','Elias',(SELECT _group_id FROM primary_group WHERE name = 'Person of Interest')),
+('Anthony','Marconi',(SELECT _group_id FROM primary_group WHERE name = 'Organised Crime')),
+('Bruce','Moran',(SELECT _group_id FROM primary_group WHERE name = 'Organised Crime')),
+('Gianni','Moretti',(SELECT _group_id FROM primary_group WHERE name = 'Organised Crime')),
+('Peter','Yogorov',(SELECT _group_id FROM primary_group WHERE name = 'Organised Crime')),
+('Dominic','Besson',(SELECT _group_id FROM primary_group WHERE name = 'The Brotherhood')),
+('Link','Cordell',(SELECT _group_id FROM primary_group WHERE name = 'The Brotherhood')),
+('Cal','Beecher',(SELECT _group_id FROM primary_group WHERE name = 'NYPD')),
+('Bill','Szymanski',(SELECT _group_id FROM primary_group WHERE name = 'NYPD')),
+('Dani','Silva',(SELECT _group_id FROM primary_group WHERE name = 'NYPD')),
+('Alonzo','Quinn',(SELECT _group_id FROM primary_group WHERE name = 'HR')),
+('Patrick','Simmons',(SELECT _group_id FROM primary_group WHERE name = 'HR')),
+('Artie','Lynch',(SELECT _group_id FROM primary_group WHERE name = 'HR')),
+('Womack','',(SELECT _group_id FROM primary_group WHERE name = 'HR')),
+('Raymond','Terney',(SELECT _group_id FROM primary_group WHERE name = 'HR')),
+('Mike','Laskey',(SELECT _group_id FROM primary_group WHERE name = 'HR')),
+('Nicholas','Donnelly',(SELECT _group_id FROM primary_group WHERE name = 'FBI')),
+('Brian','Moss',(SELECT _group_id FROM primary_group WHERE name = 'FBI')),
+('Alicia','Corwin',(SELECT _group_id FROM primary_group WHERE name = 'The Government')),
+('Denton','Weeks',(SELECT _group_id FROM primary_group WHERE name = 'The Government')),
+('Special','Counsel',(SELECT _group_id FROM primary_group WHERE name = 'The Government')),
+('Hersh','',(SELECT _group_id FROM primary_group WHERE name = 'The Government')),
+('Control','',(SELECT _group_id FROM primary_group WHERE name = 'The Government')),
+('Devon','Grice',(SELECT _group_id FROM primary_group WHERE name = 'The Government')),
+('Mark','Snow',(SELECT _group_id FROM primary_group WHERE name = 'CIA')),
+('Tyrell','Evans',(SELECT _group_id FROM primary_group WHERE name = 'CIA')),
+('Kara','Stanton',(SELECT _group_id FROM primary_group WHERE name = 'CIA')),
+('John','Greer',(SELECT _group_id FROM primary_group WHERE name = 'Decima Technologies')),
+('Jeremy','Lambert',(SELECT _group_id FROM primary_group WHERE name = 'Decima Technologies')),
+('Martine','Rousseau',(SELECT _group_id FROM primary_group WHERE name = 'Decima Technologies')),
+('Gabriel','Hayward',(SELECT _group_id FROM primary_group WHERE name = 'Decima Technologies')),
+('Claire','Mahoney',(SELECT _group_id FROM primary_group WHERE name = 'Decima Technologies')),
+('Jeff','Blackwell',(SELECT _group_id FROM primary_group WHERE name = 'Decima Technologies')),
+('Peter','Collier',(SELECT _group_id FROM primary_group WHERE name = 'Vigilance')),
 '
 
 '
@@ -160,14 +144,5 @@ POI
 2.26	Tracey Smith
 2.27	Gabriel and Regan Tam
 2.28	Atherton Wing
-'
-DROP VIEW n_view,s_view,j_view, c_view;	
 
-CREATE VIEW n_view AS 
-	SELECT Vorname,Nachname FROM schueler;
-
-CREATE VIEW j_view (vorname,nachname,Klasse) AS
-	SELECT s.vorname,s.nachname,k.bezeichnung FROM schueler s
-	JOIN klasse k using (klasse_id)
-	ORDER BY k.bezeichnung ASC
-	;	
+I.A.V. Alexander
