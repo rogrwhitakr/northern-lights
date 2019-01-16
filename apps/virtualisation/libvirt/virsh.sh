@@ -53,3 +53,6 @@ sudo virsh snapshot-create IAV.Cortez
 
 # list the snapshots
 sudo virsh snapshot-list IAV.Cortez
+
+# revert to snapshot
+sudo virsh snapshot-revert IAV.Alexander --snapshotname fedora-29-upgrade-complete
