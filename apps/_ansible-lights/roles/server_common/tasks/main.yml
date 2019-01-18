@@ -1,38 +1,51 @@
 ---
 # tasks file for server_common
-
-- name: "creating a file with content using the copy module"
-  copy:
-    dest: "/tmp/file-on-{{ ansible_facts['nodename'] }}-with-content.txt"
-    content: |
-      ansible-playbook MyScripts/apps/ansible/_modules.user.yml --list-tags
-      ansible-playbook MyScripts/apps/ansible/_modules.user.yml --ask-become-pass -t ftp_user
-
-- name: add several users in a loop
-  user:
-    name: "{{ item }}"
+- name: update all packages
+  dnf:
+    name: "*"
+    state: latest
+- name: Allow editing on an SELinux enforced system
+  dnf:
+    name: libselinux-python
+    state: latest
+- name: Install basics
+  dnf: 
+    name: ['nano','python3','python']
     state: present
-    groups: "users"
-  loop:
-     - finch
-     - reese
-     - simmons
-     - wheeler
-- name: remove several users again
-  user:
-    name: "{{ item }}"
+
+- name: Install monitoring software
+  dnf: 
+    name: ['htop','sysstat','iotop','dmidecode']
+    state: present
+    
+- name: "Install Powerline for pleasant commandline operation"
+  dnf: 
+    name: ['powerline','powerline-fonts'] 
+    state: present
+  
+- name: "edit .bashrc to enable powerline usage"
+  blockinfile:
+    path: /etc/bashrc.d/powerline.sh
+    block: |
+      if [ -f `which powerline-daemon` ]; then
+        powerline-daemon -q
+        POWERLINE_BASH_CONTINUATION=1
+        POWERLINE_BASH_SELECT=1
+        . /usr/share/powerline/bash/powerline.sh
+      fi
+
+- name: Remove unwanted default packages 
+  dnf: 
+    name: ['rhythmbox','shotwell','builder']
     state: absent
-    groups: "users"
-  loop:
-     - finch
-     - reese
-     - simmons
-     - wheeler
 
-# requirese network connecttivity, so not testing now
+- name: "Ensure cockpit packages exist"
+  dnf:
+    name: ['cockpit','cockpit-dashboard','cockpit-shell','cockpit-ws']
+    state: latest
 
-#- name: Download script to provide a predefined bashrc
-#  unarchive:
-#    src: "https://github.com/prometheus/alertmanager/releases/download/v{{ version }}/alertmanager-{{ version }}.linux-amd64.tar.gz"
-#    dest: /tmp/
-#    remote_src: yes     
+- name: Download script to provide a predefined bashrc
+  unarchive:
+    src: "https://raw.githubusercontent.com/rogrwhitakr/northern-lights/master/script/setup-profile-on-new-box.sh"
+    dest: ~
+    remote_src: yes     

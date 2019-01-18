@@ -1,2 +1,7 @@
 ---
 # handlers file for server_common
+  - name: Ensure cockpit is started
+    service:
+      name: cockpit.socket
+      state: started
+      enabled: yes   
