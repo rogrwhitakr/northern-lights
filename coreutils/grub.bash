@@ -1,0 +1,1 @@
+# grub config file is in
