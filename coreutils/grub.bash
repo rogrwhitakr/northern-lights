@@ -10,6 +10,10 @@ GRUB_TERMINAL_OUTPUT="console"
 GRUB_CMDLINE_LINUX="rd.lvm.lv=fedora_iavalexander/root rd.lvm.lv=fedora_iavalexander/swap rhgb quiet"
 GRUB_DISABLE_RECOVERY="true"
 
+# image can be added, must be png
+GRUB_BACKGROUND="/boot/grub2/FireIce.png"
+# UNCOMMENT the GRUB_TERMINAL_OUTPUT line !!!
+
 # ->  GRUB_DEFAULT references the file GRUBENV,
 #     that defines to load the newest kernel on startup
 #     find puts it here:

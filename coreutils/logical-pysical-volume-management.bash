@@ -83,5 +83,16 @@ lvm vgmerge alliance independents
 # create a LV smaller then the VG
 lvm lvcreate --size 7G browncoats  --type linear
 
+# renamed this one
+lvm lvrename /dev/browncoats/lvol0 /dev/browncoats/progs -vvvv
+
 # when specifiying bigger, i may not create -> Volume group "alliance" has insufficient free space (2558 extents): 3328 required.
 lvm lvcreate --size 13G alliance --name homes --type linear
+
+# logical volumes available in /dev
+# /dev/volume_group_name/logical_volume_name
+# /dev/mapper/volume_group_name-logical_volume_name
+
+# create a file system in these things
+mkfs /dev/mapper/alliance-homes
+
