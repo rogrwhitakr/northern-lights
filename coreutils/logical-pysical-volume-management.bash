@@ -6,28 +6,35 @@ lvs
 # get pysical volume groups
 vgs
 
-# get the partitions available, that the os has detected?
-cat /proc/partitions
-
 # get the layout
 # depricated: lvmdiskscan
 pvs --all
-
-# Initialize physical volume(s) for use by LVM
-pvcreate
-
-# i checked /proc/partitions for a name  
-cat /proc/partitions
-# is there a command for this? or is this the command to use
-
-# create a pysical volume (aka register the partition ???)
-pvcreate /dev/vdb
 
 # VARIABLES
 #   PV  - Pysical volume
 #   VG  - Volume Group name.  See lvm(8) for valid names.
 #   LV  - Logical Volume name.  See lvm(8) for valid names.  An LV positional arg generally includes the VG name and LV name, e.g. VG/LV.
 
+# get the partitions / device names available, that the os has detected?
+# is there a command for this? or is this the command to use
+cat /proc/partitions
+
+# Initialize physical volume(s) for use by LVM
+# create a pysical volume (aka register the partition ???)
+lvm pvcreate /dev/vdb
+lvm pvcreate [device]
+
+# create a volume group. you must specify a PV (pysical colume) for this
+lvm vgcreate browncoats /dev/vdc 
+
+# register to a new VG
+lvm vgcreate alliance /dev/vdc /dev/vdd
+lvm vgcreate browncoats /dev/vde /dev/vdf
+
+# register with existing VG
+lvm vgextend fedora_iavalexander /dev/vdb
+
+# do a check with lvs / pvs, etc 
 # display device types
 lvm devtypes
 
@@ -43,13 +50,8 @@ lvm vgrename fedora_iavalexander alliance
 lvm vgrename fedora_iavalexander alliance --autobackup y -dddddd -vvvv
 # man page suggests to ALWAYS autobackup, output shown at maximum debug / verbosity level
  
-# create a volume group. you must specify a PV (pysical colume) for this
-lvm vgcreate browncoats /dev/vdc 
-
 # create a demo file of given size in tree
 fallocate -l 250M /tmp/test.img
-
-# next: try pvcreate !!!!
 
 # issue: after renaming the root VG, the box does not start any more
 # trying:
@@ -64,3 +66,19 @@ find / -name *grub* -executable
 #   remove references to old vgname
 # create new LV (logical volume) using the new VG 
 lvm lvcreate --size 9G browncoats
+
+#############################################
+# remove a PV from a VG
+lvm vgreduce alliance /dev/vdd
+
+# i purposefully referenced the wrong PV, this simply returns, no change
+lvm vgreduce browncoats /dev/vdc
+
+# splitting a VG
+lvm vgsplit alliance independents /dev/vdc
+
+# merge it again
+lvm vgmerge alliance independents
+
+# create a LV smaller then the VG
+lvm lvcreate --size 7G browncoats  --type linear
