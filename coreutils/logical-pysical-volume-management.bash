@@ -2,7 +2,14 @@
 
 # Display information about volume groups
 lvs
-
+lvm lvdisplay
+# etc
+# very good:
+# any size stuff can be printed using the --unit quailfier
+lvm pvs --unit M
+# until now, i found it easier to use MIB / GIB because these values can be directly used in the commands for resizing
+# but that is an oberservatio after one time...
+ 
 # get pysical volume groups
 vgs
 
@@ -97,3 +104,11 @@ lvm lvcreate --size 13G alliance --name homes --type linear
 mkfs /dev/mapper/alliance-homes
 mkfs.ext4 /dev/mapper/alliance-homes
 
+# okay, resizing a logical volume:
+# IT IS VERY IMPORTANT TO RESIZE THE FILE SYSTEM
+# can be done using resize2fs
+lvm lvresize -L +5116m --resizefs /dev/fedora_iavalexander/root
+
+# i got the number in MIB from
+# using M (MB) did not work! lvm then told me that Insufficient free space: 1341 extents needed, but only 1279 available 
+lvm vgdisplay --units m 
