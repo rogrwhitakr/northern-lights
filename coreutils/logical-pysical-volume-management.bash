@@ -95,4 +95,5 @@ lvm lvcreate --size 13G alliance --name homes --type linear
 
 # create a file system in these things
 mkfs /dev/mapper/alliance-homes
+mkfs.ext4 /dev/mapper/alliance-homes
 

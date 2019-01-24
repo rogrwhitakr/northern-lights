@@ -11,8 +11,15 @@ GRUB_CMDLINE_LINUX="rd.lvm.lv=fedora_iavalexander/root rd.lvm.lv=fedora_iavalexa
 GRUB_DISABLE_RECOVERY="true"
 
 # image can be added, must be png
-GRUB_BACKGROUND="/boot/grub2/FireIce.png"
-# UNCOMMENT the GRUB_TERMINAL_OUTPUT line !!!
+# UNCOMMENT the GRUB_TERMINAL_OUTPUT line for the image to take effect
+GRUB_BACKGROUND="/root/wood-icon.png"
+
+# other commandline stuff i will now try:
+# unsure if any of them work
+export GRUB_COLOR_NORMAL="white/black"
+export GRUB_COLOR_HIGHLIGHT="yellow/black"
+export COLOR_HIGHLIGHT="red/green"
+export COLOR_NORMAL="light-cyan/black"
 
 # ->  GRUB_DEFAULT references the file GRUBENV,
 #     that defines to load the newest kernel on startup
