@@ -112,3 +112,6 @@ lvm lvresize -L +5116m --resizefs /dev/fedora_iavalexander/root
 # i got the number in MIB from
 # using M (MB) did not work! lvm then told me that Insufficient free space: 1341 extents needed, but only 1279 available 
 lvm vgdisplay --units m 
+
+# these status query tools have a myriad options... --select -> there are a billion things to filter...
+pvs --unit g --select vg_name=alliance
