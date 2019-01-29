@@ -1,3 +1,4 @@
+DROP SCHEMA names;
 CREATE SCHEMA names;
 
 -- Create a role (user) with password
@@ -9,8 +10,8 @@ GRANT ALL ON SCHEMA names TO names;
 -- Grant privileges (like the ability to insert) to tables in the new schema to the new role
 GRANT ALL ON ALL TABLES IN SCHEMA names TO names;
 
-DROP DATABASE names_database;
-CREATE DATABASE names_database; 
+DROP DATABASE names;
+CREATE DATABASE names; 
 
 -- DROP DOMAIN Geschlecht;
 -- CREATE DOMAIN Geschlecht AS CHAR(1) DEFAULT 'm' CHECK( VALUE IN ('m', 'w'));
@@ -22,12 +23,10 @@ CREATE TABLE IF NOT EXISTS primary_group (
 
 CREATE TABLE IF NOT EXISTS names (
     _ID                     SERIAL UNIQUE PRIMARY KEY,
-    name                    Char(255) NOT NULL,
-    first_name              Char(255) NOT NULL,
-    last_name               Char(255) NOT NULL,
-	reference_id            INT
-   	primary_group_ID        INT NOT NULL REFERENCES primary_group(_group_ID) ON UPDATE CASCADE ON DELETE CASCADE;
-
+    first_name              Char(255) NULL,
+    last_name               Char(255) NULL,
+	reference_id              INT,
+   	primary_group_ID        INT NOT NULL REFERENCES primary_group(_group_ID) ON UPDATE CASCADE ON DELETE CASCADE
     );
 
 --ALTER TABLE klasse ADD COLUMN (schueler) CHAR(2) NULL; 	
@@ -46,7 +45,9 @@ INSERT INTO primary_group (name) VALUES
     ('The Government'),
     ('CIA'),
     ('Decima Technologies'),
-    ('Vigilance')
+    ('Vigilance'),
+    ('Serenity'),
+    ('Alliance')
 ;
 
 INSERT INTO names (first_name,last_name, primary_group_ID) VALUES
@@ -57,9 +58,9 @@ INSERT INTO names (first_name,last_name, primary_group_ID) VALUES
 ('Lionel','Fusco',(SELECT _group_id FROM primary_group WHERE name = 'NorthernLights')),
 ('Sameen','Shaw',(SELECT _group_id FROM primary_group WHERE name = 'NorthernLights')),
 ('Root','',(SELECT _group_id FROM primary_group WHERE name = 'NorthernLights')),
-('Jessica','Arndt',(SELECT _group_od FROM primary_group WHERE name = 'Person of Interest')),
-('Grace','Hendricks',(SELECT _group_od FROM primary_group WHERE name = 'Person of Interest')),
-('Nathan','Ingram',(SELECT _group_od FROM primary_group WHERE name = 'Person of Interest')),
+('Jessica','Arndt',(SELECT _group_id FROM primary_group WHERE name = 'Person of Interest')),
+('Grace','Hendricks',(SELECT _group_id FROM primary_group WHERE name = 'Person of Interest')),
+('Nathan','Ingram',(SELECT _group_id FROM primary_group WHERE name = 'Person of Interest')),
 ('Will','Ingram',(SELECT _group_id FROM primary_group WHERE name = 'Person of Interest')),
 ('Taylor','Carter',(SELECT _group_id FROM primary_group WHERE name = 'Person of Interest')),
 ('Lee','Fusco',(SELECT _group_id FROM primary_group WHERE name = 'Person of Interest')),
@@ -101,10 +102,9 @@ INSERT INTO names (first_name,last_name, primary_group_ID) VALUES
 ('Gabriel','Hayward',(SELECT _group_id FROM primary_group WHERE name = 'Decima Technologies')),
 ('Claire','Mahoney',(SELECT _group_id FROM primary_group WHERE name = 'Decima Technologies')),
 ('Jeff','Blackwell',(SELECT _group_id FROM primary_group WHERE name = 'Decima Technologies')),
-('Peter','Collier',(SELECT _group_id FROM primary_group WHERE name = 'Vigilance')),
-'
+('Peter','Collier',(SELECT _group_id FROM primary_group WHERE name = 'Vigilance'))
 
-'
+/*
 1	Major characters
 1.1	Malcolm Reynolds
 1.2	Zoe Washburne
@@ -146,3 +146,5 @@ INSERT INTO names (first_name,last_name, primary_group_ID) VALUES
 2.28	Atherton Wing
 
 I.A.V. Alexander
+*/
+
