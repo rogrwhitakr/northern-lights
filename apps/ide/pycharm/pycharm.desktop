@@ -1,0 +1,8 @@
+[Desktop Entry]
+Type=Application
+Encoding=UTF-8
+Name=PYCharm
+Comment=save as /home/admin/.local/share/applications/PYCharm.desktop
+Exec=/home/admin/pycharm/bin/pycharm.sh
+Icon=/home/admin/pycharm/bin/pycharm.svg
+Terminal=false
