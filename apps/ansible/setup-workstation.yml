@@ -1,7 +1,7 @@
 ---
 - name: Setup Fedora Workstation with stuffs
   hosts: localhost
-  remote_user: benno
+  remote_user: admin
   become: yes
 
   tasks:
@@ -52,7 +52,7 @@
 
   - name: Remove unwanted default packages 
     dnf: 
-      name: ['rhythmbox', 'shotwell', 'builder', 'evolution']
+      name: ['rhythmbox', 'shotwell', 'evolution']
 
   - name: Install Productivity software
     dnf: 
@@ -72,15 +72,14 @@
     dnf: 
       name: ['powerline', 'powerline-fonts']
 
-  - name: edit .bashrc to enable powerline usage
-
   - name: Allow editing on an SELinux enforced system
     dnf:
       name: libselinux-python
       state: latest
 
+  - name: edit .bashrc to enable powerline usage
     blockinfile:
-      path: /home/benno/.bashrc
+      path: /home/admin/.bashrc
       block: |
         if [ -f `which powerline-daemon` ]; then
           powerline-daemon -q
