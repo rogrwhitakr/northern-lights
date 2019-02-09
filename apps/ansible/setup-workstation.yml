@@ -77,6 +77,19 @@
       name: libselinux-python
       state: latest
 
+  - name: "download script for custom bashrc, profile"
+    get_url:
+      url: "https://raw.githubusercontent.com/rogrwhitakr/northern-lights/master/script/setup-profile-on-new-box.bash"
+      dest: "/home/admin/profile-setup.bash"
+      mode: 0740
+      owner: admin
+      group: admin
+
+  - name: Run the script
+    script: "/home/admin/profile-setup.bash"
+    args:
+      executable: /usr/bin/bash
+
   - name: edit .bashrc to enable powerline usage
     blockinfile:
       path: /home/admin/.bashrc
