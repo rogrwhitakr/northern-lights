@@ -1,8 +1,10 @@
 ---
 - name: Setup Fedora Workstation with stuffs
   hosts: localhost
-  remote_user: admin
   become: yes
+
+  vars:
+    local_user: admin
 
   tasks:
   - name: Add Repository for Microsoft VS CODE
@@ -80,19 +82,20 @@
   - name: "download script for custom bashrc, profile"
     get_url:
       url: "https://raw.githubusercontent.com/rogrwhitakr/northern-lights/master/script/setup-profile-on-new-box.bash"
-      dest: "/home/admin/profile-setup.bash"
+      dest: "/home/{{ local_user }}/profile-setup.bash"
       mode: 0740
-      owner: admin
-      group: admin
+      owner: "{{ local_user }}"
+      group: "{{ local_user }}"
 
   - name: Run the script
-    script: "/home/admin/profile-setup.bash"
+    become_user: "{{ local_user }}"
+    script: "/home/{{ local_user }}/profile-setup.bash"
     args:
       executable: /usr/bin/bash
 
   - name: edit .bashrc to enable powerline usage
     blockinfile:
-      path: /home/admin/.bashrc
+      path: /home/{{ local_user }}/.bashrc
       block: |
         if [ -f `which powerline-daemon` ]; then
           powerline-daemon -q
