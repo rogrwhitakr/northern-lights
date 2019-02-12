@@ -159,6 +159,9 @@ script_finish() {
 	elif [[ "${ERROR_CODE}" == 6 ]]; then
 		print YELLOW "Invalid name choice, exiting"
 		print LINE
+	elif [[ "${ERROR_CODE}" == 7 ]]; then
+		print YELLOW "No name given, is required! Exiting"
+		print LINE
 	else
 		print RED "Errorcode: ${ERROR_CODE}, removing generated files"
 		rm -fv ~/.ssh/"${key_name}.pub"
@@ -261,6 +264,10 @@ createKey() {
 
 	if ([[ -z "${host}" ]] || [[ -z "${key_name}" ]]); then
 		exit 6
+	fi
+
+	if [[ -z "${key_name}" ]]; then
+		exit 7
 	fi
 
 	# get login user
