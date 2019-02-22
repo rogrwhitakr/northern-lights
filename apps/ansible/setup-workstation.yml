@@ -7,14 +7,6 @@
     local_user: admin
 
   tasks:
-  - name: Add Repository for Microsoft VS CODE
-    yum_repository:
-      name: code
-      description: Visual Studio Code
-      baseurl: https://packages.microsoft.com/yumrepos/vscode
-      gpgkey: https://packages.microsoft.com/keys/microsoft.asc
-      gpgcheck: yes
-
   - name: Add Repository for Sublime Text
     yum_repository:
       name: sublime-text
@@ -32,6 +24,10 @@
     dnf: 
       name: ['htop', 'nmap', 'nano']
 
+  - include: "{{ playbook_dir }}/setup-workstation-tasks/gnome.yml"
+  - include: "{{ playbook_dir }}/setup-workstation-tasks/vscode.yml"
+  - include: "{{ playbook_dir }}/setup-workstation-tasks/sqlwb.yml"
+
   - name: Install system / analytics software
     dnf: 
       name: ['dconf-editor', 'firewalld', 'wireshark']
@@ -48,22 +44,10 @@
     dnf: 
       name: ['python3', 'python3-mypy']
       
-  - name: Update GNOME softwares
-    dnf: 
-      name: ['gnome-tweak-tool', 'gnome-todo', 'gnome-music']
-
-  - name: Remove unwanted default packages 
-    dnf: 
-      name: ['rhythmbox', 'shotwell', 'evolution']
-
   - name: Install Productivity software
     dnf: 
       name: ['chromium', 'firefox', 'calibre']
 
-  - name: Install visual studio code
-    dnf: 
-      name: code
-      state: latest
 
   - name: Install Sublime Text
     dnf: 
