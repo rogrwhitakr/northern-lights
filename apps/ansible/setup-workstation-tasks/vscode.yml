@@ -7,11 +7,6 @@
     gpgkey: https://packages.microsoft.com/keys/microsoft.asc
     gpgcheck: yes
     
-- name: Update GNOME softwares
-  dnf: 
-    name: ['gnome-tweak-tool', 'gnome-todo', 'gnome-music']
-    state: present
-
 - name: Install visual studio code
   dnf: 
     name: code
