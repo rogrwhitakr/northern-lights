@@ -1,4 +1,4 @@
-#! bin/sh
+#! /usr/bin/env bash
 
 # make sure this is not run by the root user
 if [ ${id -u} == 0 ]; then
