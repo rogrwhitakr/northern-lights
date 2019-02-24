@@ -27,6 +27,7 @@
   - include: "{{ playbook_dir }}/setup-workstation-tasks/gnome.yml"
   - include: "{{ playbook_dir }}/setup-workstation-tasks/vscode.yml"
   - include: "{{ playbook_dir }}/setup-workstation-tasks/sqlwb.yml"
+  - include: "{{ playbook_dir }}/setup-workstation-tasks/pycharm.yml"
 
   - name: Install system / analytics software
     dnf: 
@@ -76,6 +77,8 @@
     script: "/home/{{ local_user }}/profile-setup.bash"
     args:
       executable: /usr/bin/bash
+      creates: "/home/{{ local_user }}/.bashrc.d"
+
 
   - name: edit .bashrc to enable powerline usage
     blockinfile:
