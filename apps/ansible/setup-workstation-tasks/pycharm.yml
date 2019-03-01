@@ -10,7 +10,7 @@
       state: directory
     register: pycharm_tmp_dir
 
-  - name: Get releases
+  - name: Get latest release information
     uri:
       url: https://data.services.jetbrains.com/products/releases?code=PCC&type=release
       method: GET
@@ -20,17 +20,6 @@
     debug:
       msg: "downloading from {{ json_response.json.PCC[1].downloads.linux.link }}"
 
-  - name: Print Information to file
-    file:
-      path: json_response.json
-      state: touch
-      mode: 0644
-
-  - name: Print Information to file (cont) 
-    blockinfile:
-      path: json_response.json
-      block: |
-        "{{ json_response }}"
 
   - name: Download latest PyCharm Community Edition
     get_url:
