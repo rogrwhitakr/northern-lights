@@ -1,0 +1,13 @@
+---
+- name: Add Repository for Sublime Text
+  yum_repository:
+    name: sublime-text
+    description: Sublime Text - x86_64 - Stable
+    baseurl: https://download.sublimetext.com/rpm/stable/x86_64
+    gpgkey: https://download.sublimetext.com/sublimehq-rpm-pub.gpg
+    gpgcheck: yes
+
+- name: Install Sublime Text
+  dnf: 
+    name: sublime-text
+    state: latest

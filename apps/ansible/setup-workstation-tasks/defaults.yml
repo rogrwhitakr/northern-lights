@@ -9,7 +9,7 @@
 
 - name: Install all that cool but obscure stuff one 'might' need
   dnf: 
-    name: ['dstat', 'nmap', 'dmidecode', 'dtach', 'powertop', 'atop', 'glances', 'mtr', 'iftop', 'nethogs']
+    name: ['dstat', 'nmap', 'dmidecode', 'strace', 'powertop', 'atop', 'glances', 'mtr', 'iftop', 'nethogs']
 
 - name: Install database (client) software
   dnf: 
