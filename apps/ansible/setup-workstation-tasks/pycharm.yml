@@ -1,46 +1,40 @@
 # tasks file for pycharm
 ---
-- name: Setup Fedora Workstation with stuffs
-  hosts: localhost
-  become: yes
-  tasks:
-  - name: Create a temporary download directory
-    file:
-      path: /tmp/pycharm
-      state: directory
-    register: pycharm_tmp_dir
+- name: Create a temporary download directory
+  file:
+    path: /tmp/pycharm
+    state: directory
+  register: pycharm_tmp_dir
 
-  - name: Get latest release information
-    uri:
-      url: https://data.services.jetbrains.com/products/releases?code=PCC&type=release
-      method: GET
-    register: json_response
+- name: Get latest release information
+  uri:
+    url: https://data.services.jetbrains.com/products/releases?code=PCC&type=release
+    method: GET
+  register: jetbrains
 
-  - name: Print Information
-    debug:
-      msg: "downloading from {{ json_response.json.PCC[1].downloads.linux.link }}"
+- name: Print Information
+  debug:
+    msg: "downloading from {{ jetbrains.json.PCC[0].downloads.linux.link }}"
 
 
-  - name: Download latest PyCharm Community Edition
-    get_url:
-      url: "{{ json_response.json.PCC[0].downloads.linux.link }}"
-      dest: "{{ pycharm_tmp_dir.path }}/pycharm.tar.gz"
-    register: got_charm
+- name: Downloading latest PyCharm Community Edition
+  get_url:
+    url: "{{ jetbrains.json.PCC[0].downloads.linux.link }}"
+    dest: "{{ pycharm_tmp_dir.path }}/pycharm.tar.gz"
+  register: got_charm
 
 # https://download.jetbrains.com/product?code=PCC&latest&distribution=linux
 # shoudl work also....
 
-  - name: download Info
-    debug: 
-      msg: "PyCharm was successfully downloaded"
-    when: got_charm.changed
+- name: download Info
+  debug: 
+    msg: "PyCharm was successfully downloaded"
+  when: got_charm.changed
 
-  - name: Unpack install archive
-    unarchive:
-      src: "{{ pycharm_tmp_dir.path }}/pycharm.tar.gz"
-      dest: /home/admin
-      list_files: yes
-    register: pycharm_unarchive
-
-  - name: Install PyCharm
-    command: "./{{ pycharm_unarchive.files | first }}"
+- name: Unpack install archive
+  unarchive:
+    src: "{{ pycharm_tmp_dir.path }}/pycharm.tar.gz"
+    dest: /home/admin
+    owner: admin
+    group: admin
+  register: pycharm_unarchive

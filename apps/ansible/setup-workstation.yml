@@ -20,26 +20,21 @@
       name: "*"
       state: latest
 
-  - name: Install basic software
-    dnf: 
-      name: ['htop', 'nmap', 'nano']
 
+  - include: "{{ playbook_dir }}/setup-workstation-tasks/defaults.yml"
   - include: "{{ playbook_dir }}/setup-workstation-tasks/gnome.yml"
   - include: "{{ playbook_dir }}/setup-workstation-tasks/vscode.yml"
   - include: "{{ playbook_dir }}/setup-workstation-tasks/sqlwb.yml"
   - include: "{{ playbook_dir }}/setup-workstation-tasks/pycharm.yml"
 
-  - name: Install system / analytics software
-    dnf: 
-      name: ['dconf-editor', 'firewalld', 'wireshark']
 
   - name: Install all that cool but obscure stuff
     dnf: 
       name: ['dstat', 'slurm', 'screen', 'dtach', 'powertop', 'atop', 'glances', 'mtr', 'iftop', 'nethogs']
 
-  - name: Install database software
+  - name: Install database (client) software
     dnf: 
-      name: ['sequeler', 'postgresql-server', 'postgresql', 'mariadb-server', 'mongodb', 'mongo-tools', 'mongodb-server']
+      name: ['sequeler', 'postgresql']
 
   - name: Install Python Environment 
     dnf: 
