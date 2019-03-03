@@ -1,12 +1,6 @@
 # tasks file for pycharm
 ---
-- name: Create a temporary download directory
-  file:
-    path: /tmp/pycharm
-    state: directory
-  register: pycharm_tmp_dir
-
-- name: Get latest release information
+- name: Get latest release information from jetbrains
   uri:
     url: https://data.services.jetbrains.com/products/releases?code=PCC&type=release
     method: GET
@@ -16,25 +10,10 @@
   debug:
     msg: "downloading from {{ jetbrains.json.PCC[0].downloads.linux.link }}"
 
-
-- name: Downloading latest PyCharm Community Edition
-  get_url:
-    url: "{{ jetbrains.json.PCC[0].downloads.linux.link }}"
-    dest: "{{ pycharm_tmp_dir.path }}/pycharm.tar.gz"
-  register: got_charm
-
-# https://download.jetbrains.com/product?code=PCC&latest&distribution=linux
-# shoudl work also....
-
-- name: download Info
-  debug: 
-    msg: "PyCharm was successfully downloaded"
-  when: got_charm.changed
-
-- name: Unpack install archive
+- name: Unpack install archive from remote source (jetbrains-download server)
   unarchive:
-    src: "{{ pycharm_tmp_dir.path }}/pycharm.tar.gz"
+    src: "{{ jetbrains.json.PCC[0].downloads.linux.link }}"
     dest: /home/admin
+    remote_src: yes
     owner: admin
     group: admin
-  register: pycharm_unarchive
