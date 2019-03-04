@@ -4,10 +4,12 @@
   dnf:
     name: "*"
     state: latest
+
 - name: Allow editing on an SELinux enforced system
   dnf:
     name: libselinux-python
     state: latest
+
 - name: Install basics
   dnf: 
     name: ['nano','python3','python']
@@ -22,7 +24,7 @@
   dnf: 
     name: ['powerline','powerline-fonts'] 
     state: present
-  
+
 - name: "edit .bashrc to enable powerline usage"
   blockinfile:
     path: /etc/bashrc.d/powerline.sh

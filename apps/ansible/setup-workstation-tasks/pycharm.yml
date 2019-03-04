@@ -15,5 +15,10 @@
     src: "{{ jetbrains.json.PCC[0].downloads.linux.link }}"
     dest: /home/admin
     remote_src: yes
+
+- name: fix permissions
+  file:
+    path: /home/admin/py*
     owner: admin
     group: admin
+    recurse: yes
