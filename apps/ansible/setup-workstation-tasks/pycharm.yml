@@ -6,10 +6,6 @@
     method: GET
   register: jetbrains
 
-- name: Print Information
-  debug:
-    msg: "downloading from {{ jetbrains.json.PCC[0].downloads.linux.link }}"
-
 - name: Unpack install archive from remote source (jetbrains-download server)
   unarchive:
     src: "{{ jetbrains.json.PCC[0].downloads.linux.link }}"
@@ -18,7 +14,7 @@
 
 - name: fix permissions
   file:
-    path: /home/admin/py*
+    path: /home/admin/
     owner: admin
     group: admin
     recurse: yes
