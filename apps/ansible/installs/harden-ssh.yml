@@ -9,18 +9,6 @@
       path: /etc/ssh/sshd_config
     register: sshd
 
-  - name: Change the default Port
-    lineinfile:
-      path: /home/admin/Scripts/apps/ansible/installs/sshd_config
-      regexp: 'Port'
-      line: 'Port 2234'
-
-  - name: Use only v2 Protocol
-    lineinfile:
-      path: /home/admin/Scripts/apps/ansible/installs/sshd_config
-      regexp: 'Protocol'
-      line: 'Protocol 2'
-
   - name: Limit Attempts and Methods 
     lineinfile:
       path: /home/admin/Scripts/apps/ansible/installs/sshd_config
@@ -29,60 +17,34 @@
     loop:
       - {regexp: '^(#.*|.*)Compression(.*$)', line: 'Compression no' }
       - {regexp: '^(#.*|.*)MaxAuthTries(.*$)', line: 'MaxAuthTries 5' }
-      - {regexp: '^(#.*|.*)PermitRootLogin(.*?$)', line: 'PermitRootLogin no' }
+      - {regexp: '(^#.*|^.*|^)PermitRootLogin(.?$)', line: 'PermitRootLogin no' }
       - {regexp: '^(#.*|.*)ClientAliveCountMax(.*$)', line: 'ClientAliveCountMax 0' } # terminate session after
       - {regexp: '^(#.*|.*)ClientAliveInterval(.*$)', line: 'ClientAliveInterval 1800' } # 30 mins
-      - {regexp: '^(#.*|.*)ClientAliveCountMax(.*$)', line: 'ClientAliveCountMax 0' }
+      - {regexp: '^(#.*|.*|.)IgnoreRhosts(.*?$)', line: 'IgnoreRhosts yes' } # Do Not Allow Access via rhosts
+      - {regexp: '^(#.*|.*)IgnoreUserKnownHosts(.*$)', line: 'IgnoreUserKnownHosts yes' } # Do Not Allow Access via KnownHosts
+      - {regexp: '^(#.*|.*)HostBasedAuthentication(.*$)', line: 'HostBasedAuthentication no' } # Disable Host Based Authentication
+      - {regexp: '^(#.*|.*)X11Forwarding(.*$)', line: 'X11Forwarding no' } # Disable X11Forwarding
 
-  - name: Do Not Allow Access via rhosts
-    lineinfile:
-      path: /home/admin/Scripts/apps/ansible/installs/sshd_config
-      regexp: 'IgnoreRhosts'
-      line: 'IgnoreRhosts yes'
-
-  - name: Do Not Allow Access via KnownHosts
-    lineinfile:
-      path: /home/admin/Scripts/apps/ansible/installs/sshd_config
-      regexp: 'IgnoreUserKnownHosts'
-      line: 'IgnoreUserKnownHosts yes'
-
-  - name: Disable Host Based Authentication
-    lineinfile:
-      path: /home/admin/Scripts/apps/ansible/installs/sshd_config
-      regexp: 'HostBasedAuthentication'
-      line: 'HostBasedAuthentication no'
-
-  - name: Disable X11Forwarding
-    lineinfile:
-      path: /home/admin/Scripts/apps/ansible/installs/sshd_config
-      regexp: 'X11Forwarding'
-      line: 'X11Forwarding no'
-
-  - name: Use Public Key Authentication
-    lineinfile:
-      path: /home/admin/Scripts/apps/ansible/installs/sshd_config
-      regexp: 'PubkeyAuthentication'
-      line: 'PubkeyAuthentication yes'
-
-  - name: Disable Unused Authentication Methods 
+  - name: Select only one authentication method, disabling others 
     lineinfile:
       path: /home/admin/Scripts/apps/ansible/installs/sshd_config
       regexp: "{{ item.regexp }}"
       line: "{{ item.line }}"
     loop:
       - {regexp: '^(#.*|.*)GSSAPIAuthentication(.*$)', line: 'GSSAPIAuthentication no' }
-      - {regexp: 'KerberosAuthentication', line: 'KerberosAuthentication no' }
+      - {regexp: '^(#.*|.*)KerberosAuthentication(.*$)', line: 'KerberosAuthentication no' }
+      - {regexp: '^(#.*|.*)PubkeyAuthentication(.*$)', line: 'PubkeyAuthentication yes' }
+      - {regexp: '^(#.*|.*)KerberosAuthentication(.*$)', line: 'KerberosAuthentication no' }
 
-  - name: Set IP Binding to specific limited subnet (192.168.0.0/24)  
+  - name: Configure settings of the ssh connection (port, listenAddress, etc...) 
     lineinfile:
       path: /home/admin/Scripts/apps/ansible/installs/sshd_config
-      regexp: 'ListenAddress'
-      line: 'ListenAddress 192.168.0.0/24'
+      regexp: "{{ item.regexp }}"
+      line: "{{ item.line }}"
+    loop:
+      - {regexp: '^(#.*|.*)Protocol(.*$)', line: 'Protocol 2' } # Use only v2 Protocol
+      - {regexp: '^(#.?|.?)Port(.*$)', line: 'Port 52525' }
+      - {regexp: '^(#.?|.?)ListenAddress(.*$)', line: 'ListenAddress 192.168.0.*' }
 
-  - name: Set IP Binding to specific limited subnet (192.168.0.0/24)  
-    lineinfile:
-      path: /home/admin/Scripts/apps/ansible/installs/sshd_config
-      regexp: 'ListenAddress'
-      line: 'ListenAddress 192.168.0.0/24'
 
 # vaidate using sshd -t / -T (small / big test) -f <config file>
