@@ -1,50 +1,54 @@
 ---
-- name: Update the system to the latest version
+- name: harden sshd
   hosts: localhost
-  become: no
+  become: yes
 
   tasks:
-  - name: look up sshd_config file
-    stat:
-      path: /etc/ssh/sshd_config
-    register: sshd
+  - name: "install fail2ban"
+    dnf:
+      name: ['fail2ban']
 
-  - name: Limit Attempts and Methods 
+  - name: "start fail2ban service"
+    service:
+      name: fail2ban
+      state: started
+      enabled: yes
+
+  - name: "sshd_config: Limit Attempts and Methods" 
     lineinfile:
-      path: /home/admin/Scripts/apps/ansible/installs/sshd_config
+      path: /etc/ssh/sshd_config
       regexp: "{{ item.regexp }}"
       line: "{{ item.line }}"
     loop:
       - {regexp: '^(#.*|.*)Compression(.*$)', line: 'Compression no' }
       - {regexp: '^(#.*|.*)MaxAuthTries(.*$)', line: 'MaxAuthTries 5' }
-      - {regexp: '(^#.*|^.*|^)PermitRootLogin(.?$)', line: 'PermitRootLogin no' }
       - {regexp: '^(#.*|.*)ClientAliveCountMax(.*$)', line: 'ClientAliveCountMax 0' } # terminate session after
       - {regexp: '^(#.*|.*)ClientAliveInterval(.*$)', line: 'ClientAliveInterval 1800' } # 30 mins
-      - {regexp: '^(#.*|.*|.)IgnoreRhosts(.*?$)', line: 'IgnoreRhosts yes' } # Do Not Allow Access via rhosts
+      - {regexp: '^(#.*|.*)IgnoreRhosts(.*$)', line: 'IgnoreRhosts yes' } # Do Not Allow Access via rhosts
       - {regexp: '^(#.*|.*)IgnoreUserKnownHosts(.*$)', line: 'IgnoreUserKnownHosts yes' } # Do Not Allow Access via KnownHosts
       - {regexp: '^(#.*|.*)HostBasedAuthentication(.*$)', line: 'HostBasedAuthentication no' } # Disable Host Based Authentication
       - {regexp: '^(#.*|.*)X11Forwarding(.*$)', line: 'X11Forwarding no' } # Disable X11Forwarding
 
-  - name: Select only one authentication method, disabling others 
+  - name: "sshd_config: Select only one authentication method, disabling others"
     lineinfile:
-      path: /home/admin/Scripts/apps/ansible/installs/sshd_config
+      path: /etc/ssh/sshd_config
       regexp: "{{ item.regexp }}"
       line: "{{ item.line }}"
     loop:
       - {regexp: '^(#.*|.*)GSSAPIAuthentication(.*$)', line: 'GSSAPIAuthentication no' }
       - {regexp: '^(#.*|.*)KerberosAuthentication(.*$)', line: 'KerberosAuthentication no' }
       - {regexp: '^(#.*|.*)PubkeyAuthentication(.*$)', line: 'PubkeyAuthentication yes' }
-      - {regexp: '^(#.*|.*)KerberosAuthentication(.*$)', line: 'KerberosAuthentication no' }
+      - {regexp: '^PermitRootLogin(.*$)', line: 'PermitRootLogin no' }
 
-  - name: Configure settings of the ssh connection (port, listenAddress, etc...) 
+  - name: "sshd_config: Configure settings of the ssh connection (port, listenAddress, etc...)"
     lineinfile:
-      path: /home/admin/Scripts/apps/ansible/installs/sshd_config
+      path: /etc/ssh/sshd_config
       regexp: "{{ item.regexp }}"
       line: "{{ item.line }}"
+      validate: '/usr/sbin/sshd -t %s'
     loop:
       - {regexp: '^(#.*|.*)Protocol(.*$)', line: 'Protocol 2' } # Use only v2 Protocol
       - {regexp: '^(#.?|.?)Port(.*$)', line: 'Port 52525' }
       - {regexp: '^(#.?|.?)ListenAddress(.*$)', line: 'ListenAddress 192.168.0.*' }
-
 
 # vaidate using sshd -t / -T (small / big test) -f <config file>
