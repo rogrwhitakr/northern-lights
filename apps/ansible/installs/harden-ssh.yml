@@ -21,41 +21,18 @@
       regexp: 'Protocol'
       line: 'Protocol 2'
 
-  - name: Turn Off Compression
+  - name: Limit Attempts and Methods 
     lineinfile:
       path: /home/admin/Scripts/apps/ansible/installs/sshd_config
-      regexp: 'Compression'
-      line: 'Compression no'
-
-  - name: Limit Maximum Authentication Attempts
-    lineinfile:
-      path: /home/admin/Scripts/apps/ansible/installs/sshd_config
-      regexp: 'MaxAuthTries'
-      line: 'MaxAuthTries 5'
-
-  - name: Deny Root Account Logons
-    lineinfile:
-      path: /home/admin/Scripts/apps/ansible/installs/sshd_config
-      regexp: 'PermitRootLogin'
-      line: 'PermitRootLogin no'
-
-  - name: Display Last Login Date & Time
-    lineinfile:
-      path: /home/admin/Scripts/apps/ansible/installs/sshd_config
-      regexp: 'PrintLastLog'
-      line: 'PrintLastLog yes'
-
-  - name: Terminate Idle SSH Sessions ...
-    lineinfile:
-      path: /home/admin/Scripts/apps/ansible/installs/sshd_config
-      regexp: 'ClientAliveCountMax'
-      line: 'ClientAliveCountMax 0'
-
-  - name: ... after 30 minutes
-    lineinfile:
-      path: /home/admin/Scripts/apps/ansible/installs/sshd_config
-      regexp: 'ClientAliveInterval'
-      line: 'ClientAliveInterval 1800'
+      regexp: "{{ item.regexp }}"
+      line: "{{ item.line }}"
+    loop:
+      - {regexp: '^(#.*|.*)Compression(.*$)', line: 'Compression no' }
+      - {regexp: '^(#.*|.*)MaxAuthTries(.*$)', line: 'MaxAuthTries 5' }
+      - {regexp: '^(#.*|.*)PermitRootLogin(.*?$)', line: 'PermitRootLogin no' }
+      - {regexp: '^(#.*|.*)ClientAliveCountMax(.*$)', line: 'ClientAliveCountMax 0' } # terminate session after
+      - {regexp: '^(#.*|.*)ClientAliveInterval(.*$)', line: 'ClientAliveInterval 1800' } # 30 mins
+      - {regexp: '^(#.*|.*)ClientAliveCountMax(.*$)', line: 'ClientAliveCountMax 0' }
 
   - name: Do Not Allow Access via rhosts
     lineinfile:
@@ -68,3 +45,44 @@
       path: /home/admin/Scripts/apps/ansible/installs/sshd_config
       regexp: 'IgnoreUserKnownHosts'
       line: 'IgnoreUserKnownHosts yes'
+
+  - name: Disable Host Based Authentication
+    lineinfile:
+      path: /home/admin/Scripts/apps/ansible/installs/sshd_config
+      regexp: 'HostBasedAuthentication'
+      line: 'HostBasedAuthentication no'
+
+  - name: Disable X11Forwarding
+    lineinfile:
+      path: /home/admin/Scripts/apps/ansible/installs/sshd_config
+      regexp: 'X11Forwarding'
+      line: 'X11Forwarding no'
+
+  - name: Use Public Key Authentication
+    lineinfile:
+      path: /home/admin/Scripts/apps/ansible/installs/sshd_config
+      regexp: 'PubkeyAuthentication'
+      line: 'PubkeyAuthentication yes'
+
+  - name: Disable Unused Authentication Methods 
+    lineinfile:
+      path: /home/admin/Scripts/apps/ansible/installs/sshd_config
+      regexp: "{{ item.regexp }}"
+      line: "{{ item.line }}"
+    loop:
+      - {regexp: '^(#.*|.*)GSSAPIAuthentication(.*$)', line: 'GSSAPIAuthentication no' }
+      - {regexp: 'KerberosAuthentication', line: 'KerberosAuthentication no' }
+
+  - name: Set IP Binding to specific limited subnet (192.168.0.0/24)  
+    lineinfile:
+      path: /home/admin/Scripts/apps/ansible/installs/sshd_config
+      regexp: 'ListenAddress'
+      line: 'ListenAddress 192.168.0.0/24'
+
+  - name: Set IP Binding to specific limited subnet (192.168.0.0/24)  
+    lineinfile:
+      path: /home/admin/Scripts/apps/ansible/installs/sshd_config
+      regexp: 'ListenAddress'
+      line: 'ListenAddress 192.168.0.0/24'
+
+# vaidate using sshd -t / -T (small / big test) -f <config file>
