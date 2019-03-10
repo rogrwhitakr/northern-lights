@@ -1,0 +1,40 @@
+---
+- name: Update the system to the latest version
+  hosts: localhost
+  become: no
+
+  tasks:
+  - name: look up sshd_config file
+    stat:
+      path: /etc/ssh/sshd_config
+    register: sshd
+
+  - name: Change the default Port
+    lineinfile:
+      path: /home/admin/Scripts/apps/ansible/installs/sshd_config
+      regexp: '^#Port'
+      line: 'Port 2234'
+
+  - name: Use only v2 Protocol
+    lineinfile:
+      path: /home/admin/Scripts/apps/ansible/installs/sshd_config
+      regexp: '^Protocol'
+      line: 'Protocol 2'
+
+  - name: Turn Off Compression
+    lineinfile:
+      path: /home/admin/Scripts/apps/ansible/installs/sshd_config
+      regexp: '^Compression'
+      line: 'Compression no'
+
+  - name: Limit Maximum Authentication Attempts
+    lineinfile:
+      path: /home/admin/Scripts/apps/ansible/installs/sshd_config
+      regexp: '^MaxAuthTries'
+      line: 'MaxAuthTries 5'
+
+  - name: Deny Root Account Logons
+    lineinfile:
+      path: /home/admin/Scripts/apps/ansible/installs/sshd_config
+      regexp: 'PermitRootLogin'
+      line: '^PermitRootLogin no$'
