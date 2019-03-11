@@ -1,5 +1,0 @@
----
-# vars file for kanboard
-- vars:
-    - kanboard-URL: "https://github.com/kanboard/kanboard/archive/tag/"
-    - kanboard-version: "1.2.6"

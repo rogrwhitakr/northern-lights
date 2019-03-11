@@ -1,6 +1,0 @@
----
-# tasks file for mariadb
-- name: Copy a [local] file to a [remote] destination
-  copy:
-    src: unit-file.service
-    dest: /tmp/unit-file.service

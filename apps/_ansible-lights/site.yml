@@ -1,6 +1,0 @@
----
-
-# this should work! why is the dependency not recognised? 
-- hosts: file_server
-  roles:
-  - role: mariadb
