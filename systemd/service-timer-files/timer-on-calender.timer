@@ -1,0 +1,20 @@
+# /etc/systemd/the-job.service
+[Unit]
+Description=What this job does
+ 
+[Service]
+Type=oneshot
+ExecStart=/full/path/to/executable with arguments
+ 
+# /etc/systemd/the-job.timer
+[Unit]
+Description=Runs the job daily at a set time
+ 
+[Timer]
+# OnCalendar events uses the following format:
+# DayOfWeek Year-Month-Day Hour:Minute:Second
+OnCalendar=02:00:00
+Persistent=true
+ 
+[Install]
+WantedBy=timers.target
