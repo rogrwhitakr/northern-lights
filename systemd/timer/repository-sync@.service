@@ -1,0 +1,13 @@
+[Unit]
+Description=Refresh mirror for %i periodically
+After=network.target
+
+[Service]
+Type=simple
+User=redmine
+Group=redmine
+WorkingDirectory=/opt/repos/%i
+ExecStart=/usr/bin/git fetch --prune --all
+
+[Install]
+WantedBy=multi-user.target
