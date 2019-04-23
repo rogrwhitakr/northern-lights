@@ -1,0 +1,13 @@
+[Unit]
+Description=Refresh redmine activity with changesets periodically
+After=redmine.service
+
+[Service]
+Type=simple
+User=redmine
+Group=redmine
+WorkingDirectory=/opt/repos/%i
+ExecStart=/usr/bin/git fetch --prune --all --quiet
+
+[Install]
+WantedBy=multi-user.target

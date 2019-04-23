@@ -1,0 +1,10 @@
+[Unit]
+Description=refresh repository %i every 5 minutes
+
+[Timer]
+OnBootSec=1min
+OnUnitActiveSec=5min
+Unit=repository-sync@.service
+
+[Install]
+WantedBy=timers.target
