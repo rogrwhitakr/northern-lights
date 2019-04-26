@@ -95,7 +95,7 @@ main() {
 		elif [[ "$((${#file} - ${#nac} - ${#ye}))" == 0 ]]; then
 			regexp_rename_spec "${file}" false
 		else
-			continue
+			# do nothing
 			#	print "file: ${file}, not renaming. Continuing"
 		fi
 	done
