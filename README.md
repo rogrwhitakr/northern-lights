@@ -84,3 +84,4 @@ chmod u+x ./setup-profile-on-new-box.bash
 - install decode-dimms for trials
 - assign static addresses to VM(s) using dnsmasq, while they are ste to dhcp mode/ reserved IPs....
 - nac solution vendors. which are there? what do they offer? open source solutions?
+- how do you explore python builtins??? how to use???
