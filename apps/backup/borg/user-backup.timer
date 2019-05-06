@@ -1,0 +1,15 @@
+# these unit files need be placed into 
+# ~/.config/systemd/user/<servicename>.service
+# ~/.config/systemd/user/<servicename>.timer in case of timer
+# required -> default target
+
+[Unit]
+Description=Runs user backup script script every 20 seconds
+
+[Timer]
+OnBootSec=5min
+OnUnitActiveSec=20sec
+WakeSystem=false
+
+[Install]
+WantedBy=default.target
