@@ -12,4 +12,6 @@ IOSchedulingClass=2
 IOSchedulingPriority=7
 
 # ExecStartPre=/usr/bin/borg break-lock ~/backup/<hostname>
-ExecStart=~/.config/systemd/user/user-backup.bash --timer
+
+# requires an absolute path somehow
+ExecStart=/home/admin/.config/systemd/user/user-backup.bash --timer
