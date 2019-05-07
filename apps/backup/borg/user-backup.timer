@@ -16,7 +16,7 @@ Description=Runs user backup script script every 20 seconds
 
 [Timer]
 OnBootSec=5min
-OnUnitActiveSec=20sec
+OnUnitActiveSec=1min
 WakeSystem=false
 
 [Install]
