@@ -1,0 +1,23 @@
+# places to be:
+# unit files need be placed into 
+# ~/.config/systemd/user/<servicename>.service
+# ~/.config/systemd/user/<servicename>.timer in case of timer
+
+# commands to use:
+# systemctl --user daemon-reload
+# systemctl --user <action> <unit file>
+
+# requirements:
+# WantedBy=default.target (why?)
+
+
+[Unit]
+Description=Runs user backup script script every 20 seconds
+
+[Timer]
+OnBootSec=5min
+OnUnitActiveSec=1min
+WakeSystem=false
+
+[Install]
+WantedBy=default.target

@@ -1,0 +1,17 @@
+[Unit]
+Description=backup using borg
+
+After=syslog.target
+After=network.target
+After=timers.target
+
+[Service]
+Type=simple
+Nice=19
+IOSchedulingClass=2
+IOSchedulingPriority=7
+
+# ExecStartPre=/usr/bin/borg break-lock ~/backup/<hostname>
+
+# requires an absolute path somehow
+ExecStart=/home/admin/.config/systemd/user/user-backup.bash --timer
