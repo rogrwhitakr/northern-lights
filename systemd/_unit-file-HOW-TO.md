@@ -42,6 +42,30 @@ requires an absolute path in the service file
 
     ExecStart=/home/admin/.config/systemd/user/user-backup.bash --timer
 
+## Timer
+
+requires two service files:
+
+1. unit.service
+2. unit.timer
+
+service file syntax:
+
+    [Service]
+    Type=simple
+    ExecStart="<service_script> --timer
+
+timer file syntax
+
+    [Timer]
+    OnBootSec=1min
+    OnUnitActiveSec=5min
+
+commands:
+
+    systemctl --user enable unit.timer
+    systemctl --user start unit.timer
+
 ## Unit file syntax
 
 check using systemd verify
