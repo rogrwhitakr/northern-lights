@@ -55,3 +55,13 @@ find . -name *.png -print0 | xargs --null --max-args=1 file -b
 # (In this case only one file found by find). 
 # This is equal to:
 #       find . -name *.png -exec file -b {} \;
+
+# i created a bunch of temp files using a systemd user unit file
+# these were created in the home dir
+# find them!
+# the regextype seems necessary, because the quantifier would otherwise not work
+
+find . -regextype posix-egrep -regex './[0-9]{4}\..*'
+
+# deleting the date ones...
+find . -regextype posix-egrep -regex './2019-05-[0-9]{2}.*\..*' -print -delete
