@@ -16,11 +16,11 @@ get_directory_file_usage(){
     du -a "${_base:-"."}" 2>/dev/null | sort -nr | head -"${_output:-10}"
 }
 
-dir="/home/admin"
-get_directory_file_usage "${dir}" 35
-get_directory_file_usage $HOME 25
+#dir="/home/admin"
+#get_directory_file_usage "${dir}" 35
+#get_directory_file_usage $HOME 25
 get_directory_file_usage 
-get_directory_file_usage /var
+#get_directory_file_usage /var
 
 #check user
 
