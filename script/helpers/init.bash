@@ -140,3 +140,6 @@ print() {
 		;;
 	esac
 }
+
+flags_init
+script_init
