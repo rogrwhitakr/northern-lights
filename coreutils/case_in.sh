@@ -1,21 +1,26 @@
 #! /usr/bin/env bash
 
+echo "case explainer"
+echo "-----"
+
 read -rp $'Continue (Y/n) : ' -ei $'Y' selection;
-echo "selection is $selection"
 
 case "${selection}" in
-  a)
-    variable=gay
-    echo "${variable}"
+  Y | Ya | yes | Yes) 
+    echo "you chose ${selection}"
     ;;
-  b)
-     b="relative"
-    echo "${b}"
+  N | n | no | "No Way !!!" | Nah | nah)
+    echo "You chose ${selection}"
     ;;
   *)
     echo "Unexpected expression '${selection}'"
     ;;
 esac
+
+# The double semi-colon ‘;;’ will stop attempting to match patterns after the first match is found.
+# The semi-colon ampersand ‘;&’ will run the command associated with the next clause. This will happen whether there is a match on the following clause or not.
+# The double semi-colon ampersand ‘;;&’ will test the patterns in the rest of the clauses and only execute the command if there is a match.
+
 
  read -p "Name a Star Trek character: " CHAR
 
