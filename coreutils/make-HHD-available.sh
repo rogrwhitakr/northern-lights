@@ -1,37 +1,29 @@
-#! /bin/sh
+#! /usr/bin/env bash
 
 ####################################################################
-# How to setup a hard disk on fedora
+# How to setup a hard disk 
 ####################################################################
 
-#################
-### variables ###
-#################
+# return partition table
+cat /proc/partitions
 
-NOC='\033[0m'
-RED='\033[0;31m'
-YELLOW='\033[1;33m'
-GREEN='\033[0;32m'
-
-user=$(id -un) 
-
-#################
-### execution ###
-#################
-
-echo -e "${RED}$0 - HOW-TO${NOC}"
-echo -e "${GREEN}add a hard disk,\nformat,\ncreate file system,\ncreate logical partitions${NOC}"
-
-
-echo -e "${YELLOW}Listing contents of ${RED}/dev/sd*${NOC}"
+# alternatively list the directory contents of /dev
 ls /dev/sd*
 
-echo -e "${YELLOW}mounts${NOC}"
-echo -e "${RED}command:\nmount -no args\ndisplays all mounted drives${NOC}"
+# command: mount without args displays all mounted drives
 mount
 
-echo -e "${YELLOW}Listing contents of ${RED}/etc/fstab${NOC}"
-sudo cat /etc/fstab 
+# see what drives the init system loads on startup
+cat /etc/fstab
 
 # get blockid of device
 sudo blkid
+
+# add line to fstab 
+# example ATM:
+# UUID=021ac4d0-dc15-43f8-a3a3-6a87202533af /var/lib/libvirt	ext4	defaults	1	2
+
+# test if the entry is valid: (root)
+mount --all
+mount -a
+
