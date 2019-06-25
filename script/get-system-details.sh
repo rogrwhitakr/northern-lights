@@ -4,17 +4,13 @@
 # get system details
 ####################################################################
 
-#################
-### functions ###
-#################
+# source helpers
 
-printline() {
+__dir="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+__dir="$(cd "$(dirname "${__dir}")" && pwd)"
 
-	echo -e '\n'
-	echo [------------------------------------------]
-	echo -e '\n'
-
-}
+source "${__dir}/script/helpers/init.bash"
+print RED "${_dir}"
 
 # this function could be greatly expanded to use other checks also
 # https://www.ostechnix.com/check-linux-system-32-bit-64-bit/
@@ -45,51 +41,38 @@ isVirtualised() {
 	fi
 }
 
-#################
-### variables ###
-#################
-
-NOC='\033[0m'
-RED='\033[0;31m'
-YELLOW='\033[1;33m'
-GREEN='\033[0;32m'
-
 user=$(id -un)
 
-#################
-### execution ###
-#################
-
-echo -e "${RED}$0 - HOW-TO${NOC}"
-echo -e "${GREEN}check if:\nsystem is running 32bit or 64bit Linux,\nis virtualised,\n....to-be-continued${NOC}"
-printline
+print RED "$0 - HOW-TO"
+print GREEN "check if:\nsystem is running 32bit or 64bit Linux,\nis virtualised,\n....to-be-continued"
+print LINE
 
 ### 32/64 bit ###
-echo -e "${NOC}Architecture:${NOC}"
+print "Architecture:"
 is64bit
-echo -e "${YELLOW}COMMAND: lscpu${NOC}"
+print YELLOW "COMMAND: lscpu"
 lscpu
-echo -e "${YELLOW}COMMAND: echo \$HOSTTYPE ${NOC}"
+print YELLOW "COMMAND: echo \$HOSTTYPE "
 echo $HOSTTYPE
 
 ### hypervisor ###
-printline
-echo -e "${YELLOW}Check if running virtualised${NOC}"
+print LINE
+print YELLOW "Check if running virtualised"
 
 if [[ isVirtualised == 1 ]]; then
 
-	echo -e "${NOC}this machine is virtualised${NOC}"
-	echo -e "${YELLOW}COMMAND: dmesg | grep "Hypervisor detected"${NOC}"
+	print "this machine is virtualised"
+	print YELLOW "COMMAND: dmesg | grep "Hypervisor detected""
 else
 
-	echo -e "${NOC}this machine is running on bare hardware${NOC}"
-	echo -e "${YELLOW}COMMAND: dmesg | grep "Booting paravirtualized kernel on bare hardware"${NOC}"
+	print "this machine is running on bare hardware"
+	print YELLOW "COMMAND: dmesg | grep "Booting paravirtualized kernel on bare hardware""
 fi
 
-echo -e "${YELLOW}COMMAND: hostnamectl ${NOC}"
+print YELLOW "COMMAND: hostnamectl "
 hostnamectl
 hostnamectl | grep "Chassis"
 hostnamectl | grep "Virtualization"
 
-echo -e "${YELLOW}COMMAND: systemd-detect-virt ${NOC}"
+print YELLOW "COMMAND: systemd-detect-virt "
 systemd-detect-virt
