@@ -20,9 +20,9 @@ is64bit() {
 	if [[ "$(uname -m)" == "x86_64" ]]; then
 
 		echo "64 bit system"
-		return true
+#		return true
 	else
-		return false
+#		return false
 		echo "32 bit system"
 	fi
 }
@@ -44,7 +44,7 @@ isVirtualised() {
 user=$(id -un)
 
 print RED "$0 - HOW-TO"
-print GREEN "check if:\nsystem is running 32bit or 64bit Linux,\nis virtualised,\n....to-be-continued"
+print GREEN "check if: system is running 32bit or 64bit Linux, is virtualised,....to-be-continued"
 print LINE
 
 ### 32/64 bit ###
@@ -76,3 +76,5 @@ hostnamectl | grep "Virtualization"
 
 print YELLOW "COMMAND: systemd-detect-virt "
 systemd-detect-virt
+
+print LINE
