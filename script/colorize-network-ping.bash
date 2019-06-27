@@ -27,15 +27,21 @@ analyse_time() {
 	# OUTS: numeric specifier
 
 	local time="${1}"
-	[[ ${time} =~ ^[0-9]{1,2}\.[0-9]{1,3} ]] && echo 0 && break
-	[[ ${time} =~ ^[1-4]{1}[0-9]{2} ]] && echo 1
-	[[ ${time} =~ ^[5-9]{1}[0-9]{2} ]] && echo 2
-	[[ ${time} =~ ^[1-4]{1}[0-9]{3} ]] && echo 3
-	[[ ${time} =~ ^[5-9]{1}[0-9]{3} ]] && echo 4
+    echo "time arg: ${time}"
+
+	[[ ${time} =~ ^[0-9]{1,2}\.[0-9]{1,3}$ ]] && echo 0 
+	[[ ${time} =~ ^[1-4]{1}[0-9]{2}$ ]] && echo 1
+	[[ ${time} =~ ^[5-9]{1}[0-9]{2}$ ]] && echo 2
+	[[ ${time} =~ ^[1-4]{1}[0-9]{3}$ ]] && echo 3
+	[[ ${time} =~ ^[5-9]{1}[0-9]{3}$ ]] && echo 4
+	[[ ${time} =~ ^[0-9]{5}$ ]] && echo 5
 }
 
 analyse_time "99.122"
 analyse_time "199"
 analyse_time "799"
+analyse_time "799 ms"
 analyse_time "1799"
 analyse_time "5799"
+analyse_time "15799"
+
