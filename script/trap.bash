@@ -40,3 +40,7 @@ if [ ! -e $lockfile ]; then
 else
    echo "critical-section is already running"
 fi
+
+# trap an error
+trap "echo false_error" ERR
+false      
