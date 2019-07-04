@@ -32,13 +32,12 @@ gc() {
 	local current="$(/usr/bin/pwd)"
 
 	# we trap errors and such
-	trap "echo 'samsing rong' && cd ${current}" ERR
+	trap "echo 'git commit failed, exiting' && cd ${current}" ERR
 
 	# we switch to repository directory, if not give3n we assume current directory
 	cd "${repository:-$current}"
 
 	# validate git directory
-	# todo: if changed / unversioned files present, go to read
 	if [ -n "$(git status --porcelain)" ]; then
 		echo "there are changes"
 
@@ -46,7 +45,6 @@ gc() {
 		# to do limit amount of chars
 		read -rp $'Enter commit message here: ' -e commit_message
 
-		echo "commiting fing"
 		# commit
 		git add .
 		git commit -m "${commit_message}"
@@ -54,4 +52,7 @@ gc() {
 	else
 		echo "no changes"
 	fi
+
+	# return to source directory
+	cd "${$current}"  
 }
