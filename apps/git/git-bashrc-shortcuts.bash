@@ -54,5 +54,5 @@ gc() {
 	fi
 
 	# return to source directory
-	cd "${$current}"  
+	cd "${current}"  
 }
