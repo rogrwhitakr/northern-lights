@@ -15,7 +15,7 @@ set_git_path() {
 	local current="$(/usr/bin/pwd)"
 
 	# we trap errors and such
-	trap "echo 'directory is not a git repository, exiting' && cd ${current} && return 1" ERR
+#	trap "echo 'directory is not a git repository, exiting' && cd ${current} && return 1" ERR
 
 	# we switch to repository directory, if not give3n we assume current directory
 	cd "${repository:-$current}"
@@ -34,7 +34,7 @@ gs() {
 	local current="$(/usr/bin/pwd)"
 
 	# we trap errors and such
-	trap "echo 'No repository directory given' && cd ${current}" ERR
+#	trap "echo 'No repository directory given' && cd ${current}" ERR
 
 	# we go to provide directory, if not given we use current
 	cd "${repository:-$current}"
@@ -56,7 +56,7 @@ gc() {
 	local current="$(/usr/bin/pwd)"
 
 	# we trap errors and such
-	trap "echo 'git commit failed, exiting' && cd ${current}" ERR
+#	trap "echo 'git commit failed, exiting' && cd ${current}" ERR
 
 	# we switch to repository directory, if not give3n we assume current directory
 	cd "${repository:-$current}"
@@ -93,11 +93,13 @@ gpull() {
 	local repository="$1"
 	local current="$(/usr/bin/pwd)"
 
+	# we trap errors and such
+#	trap "echo 'git pull rebase failed, exiting' " ERR INT TERM EXIT
+
+	# we set the path
 	set_git_path "${repository}"
 
-	# we trap errors and such
-	trap "echo 'git pull rebase failed, exiting' " ERR INT TERM EXIT
- 
-	# we switch to repository directory, if not give3n we assume current directory
-	cd "${repository:-$current}"
+	# we assume changes have happenend on the remote
+	# rebase
+	git pull $(git remote show) master --rebase
 }
