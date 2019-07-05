@@ -1,3 +1,27 @@
+gitfinish() {
+	#	trap somethoing
+	echo "illegal"
+}
+# todo extract func trion for path setting
+set_git_path() {
+
+	# DESC: set repository directory
+	#       and exits on wrong path
+	# ARGS: repository directory
+	# OUTS: return code
+
+	# vars
+	local repository="$1"
+	local current="$(/usr/bin/pwd)"
+
+	# we trap errors and such
+	trap "echo 'directory is not a git repository, exiting' && cd ${current} && return 1" ERR
+
+	# we switch to repository directory, if not give3n we assume current directory
+	cd "${repository:-$current}"
+	git status 2 &>1 >/dev/null
+}
+
 gs() {
 
 	# DESC: set repository directory
@@ -39,7 +63,8 @@ gc() {
 
 	# validate git directory
 	if [ -n "$(git status --porcelain)" ]; then
-		echo "there are changes"
+		echo "there are changes:"
+		git diff
 
 		# read a commit message
 		# to do limit amount of chars
@@ -54,5 +79,25 @@ gc() {
 	fi
 
 	# return to source directory
-	cd "${current}"  
+	cd "${current}"
+}
+
+gpull() {
+
+	# DESC: set repository directory
+	#       adds and commits the given changes
+	# ARGS: repository directory
+	# OUTS: committed files
+
+	# vars
+	local repository="$1"
+	local current="$(/usr/bin/pwd)"
+
+	set_git_path "${repository}"
+
+	# we trap errors and such
+	trap "echo 'git pull rebase failed, exiting' " ERR INT TERM EXIT
+ 
+	# we switch to repository directory, if not give3n we assume current directory
+	cd "${repository:-$current}"
 }
