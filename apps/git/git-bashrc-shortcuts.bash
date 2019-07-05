@@ -1,5 +1,13 @@
 gitfinish() {
-	#	trap somethoing
+
+	# DESC: it seems it is not possible to use trap locally, i.e. limited to a specific function
+	#       As these functions are sourced by bashrc, whenever I get a return error on ANY command,
+	#		the traps are called. maybe adding to function limits this behaviour???
+	# ARGS: directory
+	# OUTS: return
+
+	trap "echo 'directory is not a git repository, exiting' && cd ${current} && return 1" ERR
+
 	echo "illegal"
 }
 # todo extract func trion for path setting
@@ -15,7 +23,7 @@ set_git_path() {
 	local current="$(/usr/bin/pwd)"
 
 	# we trap errors and such
-#	trap "echo 'directory is not a git repository, exiting' && cd ${current} && return 1" ERR
+	#	trap "echo 'directory is not a git repository, exiting' && cd ${current} && return 1" ERR
 
 	# we switch to repository directory, if not give3n we assume current directory
 	cd "${repository:-$current}"
@@ -34,7 +42,7 @@ gs() {
 	local current="$(/usr/bin/pwd)"
 
 	# we trap errors and such
-#	trap "echo 'No repository directory given' && cd ${current}" ERR
+	#	trap "echo 'No repository directory given' && cd ${current}" ERR
 
 	# we go to provide directory, if not given we use current
 	cd "${repository:-$current}"
@@ -56,7 +64,7 @@ gc() {
 	local current="$(/usr/bin/pwd)"
 
 	# we trap errors and such
-#	trap "echo 'git commit failed, exiting' && cd ${current}" ERR
+	#	trap "echo 'git commit failed, exiting' && cd ${current}" ERR
 
 	# we switch to repository directory, if not give3n we assume current directory
 	cd "${repository:-$current}"
@@ -94,12 +102,12 @@ gpull() {
 	local current="$(/usr/bin/pwd)"
 
 	# we trap errors and such
-#	trap "echo 'git pull rebase failed, exiting' " ERR INT TERM EXIT
+	#	trap "echo 'git pull rebase failed, exiting' " ERR INT TERM EXIT
 
 	# we set the path
 	set_git_path "${repository}"
 
 	# we assume changes have happenend on the remote
 	# rebase
-	git pull $(git remote show) master --rebase
+	git pull $(git remote show | head -n1) master --rebase
 }
