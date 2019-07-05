@@ -37,3 +37,9 @@ readWrite ${file}
 
 # how to read the first line of a file / command
 head -n 1 "${file:-$(cat /etc/passwd)}"
+
+# quit after first line
+sed 1q "${file:-$(cat /etc/passwd)}"
+# nly print first line, but read everything
+sed -n 1p "${file:-$(cat /etc/passwd)}"
+awk 'FNR == 1' "${file:-$(cat /etc/passwd)}"
