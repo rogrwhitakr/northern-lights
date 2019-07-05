@@ -27,7 +27,7 @@ set_git_path() {
 
 	# we switch to repository directory, if not give3n we assume current directory
 	cd "${repository:-$current}"
-	git status 2 &>1 >/dev/null
+	git status 2 &>1 >/dev/null || return $?
 }
 
 gs() {
@@ -72,7 +72,7 @@ gc() {
 	# validate git directory
 	if [ -n "$(git status --porcelain)" ]; then
 		echo "there are changes:"
-		git diff
+		git diff --minimal
 
 		# read a commit message
 		# to do limit amount of chars
@@ -110,4 +110,22 @@ gpull() {
 	# we assume changes have happenend on the remote
 	# rebase
 	git pull $(git remote show | head -n1) master --rebase
+}
+
+gpush() {
+
+	# DESC: set repository directory
+	#       adds and commits the given changes
+	# ARGS: repository directory
+	# OUTS: committed files
+
+	# vars
+	local repository="$1"
+	local current="$(/usr/bin/pwd)"
+
+	# we set the path
+	set_git_path "${repository}"
+
+	# we assume remote changes have been pulled already
+	git push $(git remote show | head -n1) master
 }
