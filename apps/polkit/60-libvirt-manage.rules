@@ -1,5 +1,7 @@
 # these rules are for managing vms in libvirt without having to enter password
 # stolen from some explainer on the interwebs
+# also, this is a workaround. I dont like to NOT be able to assign the group libvirt to the user
+# this should work, and based on subject.isInGroup("libvirt") should do the authorising!
 
 polkit.addRule(function(action, subject) {
   if (action.id == "org.libvirt.unix.manage" && subject.local && subject.active && subject.isInGroup("wheel")) {

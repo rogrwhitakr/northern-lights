@@ -23,3 +23,6 @@ pkaction --action-id org.libvirt.api.domain.start --verbose
 # d.h. es kann ein Programm mit Rechten eines anderen Nutzers ausgeführt werden. 
 # Da pkexec die via PolKit definierten Regeln und Aktionen beachtet, ist eine wesentlich genauere bzw. fein-granularere Rechtesteuerung als mit sudo möglich.
 
+# pkcheck
+# easiest by dbus name
+pkcheck --system-bus-name org.freedesktop.hostname1.set-hostname
