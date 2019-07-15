@@ -44,3 +44,6 @@ fi
 # trap an error
 trap "echo false_error" ERR
 false      
+
+# goog reference explainer
+# https://www.runscripts.com/support/guides/scripting/bash/handling-errors
