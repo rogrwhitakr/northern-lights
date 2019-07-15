@@ -1,0 +1,26 @@
+# these rules are for managing vms in libvirt without having to enter password
+# stolen from some explainer on the interwebs
+
+polkit.addRule(function(action, subject) {
+  if (action.id == "org.libvirt.unix.manage" && subject.local && subject.active && subject.isInGroup("wheel")) {
+      return polkit.Result.YES;
+  }
+});
+
+polkit.addRule(function(action, subject) {
+  if (action.id == "org.libvirt.api.domain.start" && subject.local && subject.active && subject.isInGroup("wheel")) {
+      return polkit.Result.YES;
+  }
+});
+
+polkit.addRule(function(action, subject) {
+  if (action.id == "org.libvirt.api.domain.suspend" && subject.local && subject.active && subject.isInGroup("wheel")) {
+      return polkit.Result.YES;
+  }
+});
+
+polkit.addRule(function(action, subject) {
+  if (action.id == "org.libvirt.api.domain.stop" && subject.local && subject.active && subject.isInGroup("wheel")) {
+      return polkit.Result.YES;
+  }
+});
