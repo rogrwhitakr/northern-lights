@@ -34,6 +34,18 @@ chmod u+x ./setup-profile-on-new-box.bash
 ./setup-profile-on-new-box.bash
 ```
 
+## SSH
+
+Set up a basic ssh config file (no keys) => execute:
+
+```bash
+wget https://raw.githubusercontent.com/rogrwhitakr/northern-lights/master/conf/network/ssh/create-ssh-profile.sh 
+
+chmod u+x ./create-ssh-profile.sh
+
+./create-ssh-profile.sh
+```
+
 ### CHECK:
 - screen 
 - chubby / Zookeeper lock service
