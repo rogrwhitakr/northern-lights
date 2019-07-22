@@ -106,3 +106,6 @@ done |
       }
     ' |
 	sort -n
+
+# this explainer has A LOT of practical examples
+http://sed.sourceforge.net/sed1line.txt
