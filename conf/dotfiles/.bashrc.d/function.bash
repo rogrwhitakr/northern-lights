@@ -137,3 +137,21 @@ get_directory_file_usage() {
 	print YELLOW "getting the ${_output:-10} largest files in directory ${_base:-"/"}"
 	du -a "${_base:-"."}" 2>/dev/null | sort -nr | head -"${_output:-10}"
 }
+
+update_sb() {
+
+	# DESC: update fedora silverblue
+	# ARGS: package to also be installed?
+	# OUTS: none
+
+	print LINE
+	print YELLOW "flatpak updates"
+	flatpak update
+
+
+	print LINE
+	print YELLOW "rpm-ostree updates"
+	rpm-ostree cleanup -m
+	rpm-ostree upgrade
+
+}
