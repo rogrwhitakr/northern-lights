@@ -25,6 +25,11 @@ rpm -ql youtube-dl
 # list dependencies (--requires)
 rpm -qR youtube-dl 
 
+# list provides
+rpm --query --provides ansible
+
+# query a LOCAL file (needs dowloading)
+
 # other search options are --recommends, --conflicts, ....
 
 # dnf
