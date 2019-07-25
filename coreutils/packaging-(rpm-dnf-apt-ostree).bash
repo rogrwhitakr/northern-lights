@@ -1,6 +1,6 @@
 #! /usr/bin/env bash
 
-# trap "rm -f *-rpm.xml" EXIT INT TERM
+trap "rm -f *-rpm.xml" EXIT INT TERM
 
 # rpm
 rpm -q ansible
@@ -34,3 +34,6 @@ rpm -qR youtube-dl
 
 
 # appstreamcli
+
+# script finish
+read 
