@@ -7,3 +7,4 @@ script/TEST*.*
 *.code-workspace
 *.man
 settings.json
+*.rpm
