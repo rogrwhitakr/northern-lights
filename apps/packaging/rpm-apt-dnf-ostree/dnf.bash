@@ -1,4 +1,4 @@
-#! /bin/sh
+#! /usr/bin/env bash
 
 # list groups
 dnf grouplist
@@ -6,6 +6,8 @@ dnf grouplist
 # list hidden groups
 dnf grouplist --hidden
 
+# get repositories
+dnf repolist
 
 # execute version update
 

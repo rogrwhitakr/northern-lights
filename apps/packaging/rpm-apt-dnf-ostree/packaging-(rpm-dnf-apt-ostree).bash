@@ -29,6 +29,7 @@ rpm -qR youtube-dl
 rpm --query --provides ansible
 
 # query a LOCAL file (needs dowloading)
+rpm --query --requires --package ansible-2.7.8-1.fc28.ans.noarch.rpm
 
 # other search options are --recommends, --conflicts, ....
 
