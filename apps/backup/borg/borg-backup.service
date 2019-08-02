@@ -9,13 +9,9 @@ After=timers.target
 Type=simple
 # unsure what these do, really
 Nice=19
-IOSchedulingClass=2
+IOSchedulingClass=4
 IOSchedulingPriority=7
-
-# user "admin", so we can access the backup
-User=admin
-Group=admin
 
 # ExecStartPre -> 
 ExecStartPre=/usr/bin/borg break-lock /mnt/backup/borg
-ExecStart=/usr/bin/bash /home/admin/MyScripts/apps/borg/backup.sh --timer
+ExecStart=/usr/bin/bash /home/benno/northern-lights/apps/backup/borg/exec-borg-backup.sh --timer

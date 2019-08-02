@@ -1,9 +1,9 @@
 [Unit]
-Description=Runs backup script script every 5 minutes
+Description=Runs backup script script every 15 minutes
 
 [Timer]
 OnBootSec=5min
-OnUnitActiveSec=5min
+OnUnitActiveSec=15min
 WakeSystem=false
 
 [Install]

@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 # path to backup target
-backup_target="/home/admin/.backup"
+backup_target="/mnt/backup"
 
 # name of backup repository / one level down
 repository="borg"
@@ -11,12 +11,9 @@ backup_path="${backup_target}"/"${repository}"
 
 # list of includes
 # find $(pwd) -maxdepth 1 -noleaf | grep -E '/\.' --invert-match
-includes="$(find ~ -name includes.borg -exec cat {} \;)"
+includes="$(find ~ -name includes.borg -print -exec cat {} \;)"
+excludes="$(find ~ -name excludes.borg -print -exec cat {} \;)"
 
-excludes="/home/admin/mysql-clients.cnf"
-
-#printf "${includes}"
-# mode of encryption
 encryption="none"
 
 # mode of compression / options = "none, lz4, ???"
