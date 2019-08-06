@@ -34,3 +34,6 @@ alias battery='upower -i /org/freedesktop/UPower/devices/battery_BAT1 | grep -E 
 
 alias up="ansible northernlights -m ping"
 alias dhcp="journalctl --since \"1 hour ago\" --grep=DHCP"
+
+# get backup log
+alias backup="journalctl --user --unit borg-backup -e -f"
