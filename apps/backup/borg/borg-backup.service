@@ -7,11 +7,13 @@ After=timers.target
 
 [Service]
 Type=simple
-# unsure what these do, really
-Nice=19
-IOSchedulingClass=4
-IOSchedulingPriority=7
+CPUWeight=20
+CPUQuota=85%
+IOWeight=20
+MemorySwapMax=0
 
-# ExecStartPre -> 
-ExecStartPre=/usr/bin/borg break-lock /mnt/backup/borg
-ExecStart=/usr/bin/bash /home/benno/northern-lights/apps/backup/borg/exec-borg-backup.sh --timer
+Environment=BORG_UNKNOWN_UNENCRYPTED_REPO_ACCESS_IS_OK=yes
+
+
+ExecStartPre=/usr/bin/borg break-lock /mnt/borg
+ExecStart=/usr/bin/bash /home/benno/northern-lights/apps/backup/borg/exec-borg-backup.bash --timer

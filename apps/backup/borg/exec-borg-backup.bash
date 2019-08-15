@@ -12,7 +12,7 @@ backup_path="${backup_target}"/"${repository}"
 # list of includes
 # find $(pwd) -maxdepth 1 -noleaf | grep -E '/\.' --invert-match
 # includes="$(find ~ -name includes.borg -print -exec cat {} \;)"
-includes="$(ls ~)"
+includes="$(find ~ -mindepth 1 -maxdepth 1 \( ! -name ".*" \) )"
 # excludes="$(find ~ -name excludes.borg -print -exec cat {} \;)"
 
 encryption="none"
