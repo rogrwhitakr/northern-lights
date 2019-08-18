@@ -33,6 +33,9 @@ rpm --query --requires --package ansible-2.7.8-1.fc28.ans.noarch.rpm
 
 # other search options are --recommends, --conflicts, ....
 
+# install a local rpm file
+rpm --install <rpm-file>
+
 # dnf
 
 
