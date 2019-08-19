@@ -10,3 +10,12 @@ alias update="sudo dnf update -y"
 # local vm status
 # this is somewhat problematic as NO cheks take place beforehand....
 alias up="ansible northernlights -m ping"
+
+###################################### Powerline ######################################
+
+if [ -f `which powerline-daemon` ]; then
+  powerline-daemon -q
+  POWERLINE_BASH_CONTINUATION=1
+  POWERLINE_BASH_SELECT=1
+  . /usr/share/powerline/bash/powerline.sh
+fi
