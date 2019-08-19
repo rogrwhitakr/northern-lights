@@ -44,7 +44,7 @@ CREATE TABLE IF NOT EXISTS names (
 	
 INSERT INTO primary_group (name) VALUES
     ('NorthernLights'),
-    ('Persons of Interest'),
+    ('Person of Interest'),
     ('Organised Crime'),
     ('The Brotherhood'),
     ('NYPD'),
