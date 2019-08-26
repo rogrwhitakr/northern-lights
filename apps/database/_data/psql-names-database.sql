@@ -18,15 +18,24 @@ GRANT ALL ON ALL TABLES IN SCHEMA names TO names;
 DROP DATABASE names;
 CREATE DATABASE names; 
 
--- DROP DOMAIN Geschlecht;
+-- DROP DOMAIN Geschlecht;b
 -- CREATE DOMAIN Geschlecht AS CHAR(1) DEFAULT 'm' CHECK( VALUE IN ('m', 'w'));
 
+-- we call it flavour, because why now
+DROP TABLE flavour;
 DROP TABLE names;
 DROP TABLE primary_group;
 
+CREATE TABLE IF NOT EXISTS flavour (
+	_show_id       			SERIAL UNIQUE PRIMARY KEY,
+    name                    Char(255) NOT NULL
+	);	
+
 CREATE TABLE IF NOT EXISTS primary_group (
 	_group_id   			SERIAL UNIQUE PRIMARY KEY,
-    name                    Char(255) NOT NULL
+    name                    Char(255) NOT NULL,
+    show_ID                 INT NOT NULL REFERENCES flavour(_show_ID) ON UPDATE CASCADE ON DELETE CASCADE
+ 
 	);	
 
 CREATE TABLE IF NOT EXISTS names (
@@ -43,19 +52,24 @@ CREATE TABLE IF NOT EXISTS names (
 --	FOREIGN KEY (Klasse_ID) REFERENCES klasse (Klasse_ID)	
 	
 INSERT INTO primary_group (name) VALUES
-    ('NorthernLights'),
-    ('Person of Interest'),
-    ('Organised Crime'),
-    ('The Brotherhood'),
-    ('NYPD'),
-    ('HR'),
-    ('FBI'),
-    ('The Government'),
-    ('CIA'),
-    ('Decima Technologies'),
-    ('Vigilance'),
     ('Serenity'),
-    ('Alliance')
+    ('Person of Interest')
+    ;
+
+INSERT INTO primary_group (name, show_ID) VALUES
+    ('NorthernLights',(SELECT _show_ID FROM flavour WHERE name = 'Person of Interest')),
+    ('Person of Interest',(SELECT _show_ID FROM flavour WHERE name = 'Person of Interest')),
+    ('Organised Crime',(SELECT _show_ID FROM flavour WHERE name = 'Person of Interest')),
+    ('The Brotherhood',(SELECT _show_ID FROM flavour WHERE name = 'Person of Interest')),
+    ('NYPD',(SELECT _show_ID FROM flavour WHERE name = 'Person of Interest')),
+    ('HR',(SELECT _show_ID FROM flavour WHERE name = 'Person of Interest')),
+    ('FBI',(SELECT _show_ID FROM flavour WHERE name = 'Person of Interest')),
+    ('The Government',(SELECT _show_ID FROM flavour WHERE name = 'Person of Interest')),
+    ('CIA',(SELECT _show_ID FROM flavour WHERE name = 'Person of Interest')),
+    ('Decima Technologies',(SELECT _show_ID FROM flavour WHERE name = 'Person of Interest')),
+    ('Vigilance',(SELECT _show_ID FROM flavour WHERE name = 'Person of Interest')),
+    ('Serenity',(SELECT _show_ID FROM flavour WHERE name = 'Serenity')),
+    ('Alliance',(SELECT _show_ID FROM flavour WHERE name = 'Serenity'))
 ;
 
 INSERT INTO names (first_name,last_name, primary_group_ID) VALUES
