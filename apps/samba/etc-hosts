@@ -1,0 +1,7 @@
+# ipv4
+127.0.0.1   	cortez cortez.northern-lights.one 
+127.0.0.1      	localhost localhost.localdomain localhost6 localhost6.localdomain6
+
+# ipv6
+::1 		cortez cortez.northern-lights.one 
+::1         	localhost localhost.localdomain localhost6 localhost6.localdomain6
