@@ -37,3 +37,6 @@ alias dhcp="journalctl --since \"1 hour ago\" --grep=DHCP"
 
 # get backup log
 alias backup="journalctl --user --unit borg-backup -e -f"
+
+# display the vm console on serenity
+alias cortez="virt-manager --connect qemu:///system --show-domain-console IAV.Cortez"

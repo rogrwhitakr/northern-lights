@@ -1,56 +1,69 @@
 # .bashrc
+start="$(date +%s)"
 
 # Source global definitions
 if [ -f /etc/bashrc ]; then
 	. /etc/bashrc
 fi
 
-# Source user alias definitions
-if [ -f ~/.bash_aliases ]; then
-	. ~/.bash_aliases
+after_global="$(date +%s)"
+
+# User specific environment
+if ! [[ "$PATH" =~ "$HOME/.local/bin:$HOME/bin:" ]]
+then
+    PATH="$HOME/.local/bin:$HOME/bin:$PATH"
 fi
+export PATH
 
-# Source user function definitions
-if [ -f ~/.bash_functions ]; then
-	. ~/.bash_functions
-fi
+# Uncomment the following line if you don't like systemctl's auto-paging feature:
+# export SYSTEMD_PAGER=
 
-####################################### Export ########################################
-
-# make history bigger
-export HISTSIZE=10000
-export HISTTIMEFORMAT='%Y-%m-%d_%H:%M: '
-
-# nano is better
-export EDITOR=/usr/bin/nano
-
-######################################## Alias ########################################
-
-# test if there is connectivity
-alias pingg='ping google.de -c 5ip'
-
-# list timers, enabled
-alias timers="systemctl list-timers"
-alias enabled='systemctl is-enabled "$@"'
-
-# update the system
-alias update="sudo dnf update -y"
+after_init="$(date +%s)"
+# User specific aliases and functions
 
 # git
-alias gits="ret=$(pwd) && cd ~/MyScripts && git status && cd $ret"
-alias pull_nl='cd ~/MyScripts && git pull northern-lights'
-alias push_nl='cd ~/MyScripts && git push northern-lights'
-alias commit='cd ~/MyScripts && sleep 1 && git add . && git commit'
-
-###################################### Functions ######################################
-
-# moved to .bash_functions
-
-###################################### Powerline ######################################
-
-if [ -f `which powerline-daemon` ]; then
-  powerline-daemon -q
-  POWERLINE_BASH_CONTINUATION=1
-  POWERLINE_BASH_SELECT=1
-  . /usr/share/powerline/bash/powerline.sh
+if [ -f ~/northern-lights/apps/git/git-bashrc-shortcuts.bash ]; then
+ .  ~/northern-lights/apps/git/git-bashrc-shortcuts.bash
 fi
+
+# programs
+if [ -f ~/northern-lights/conf/dotfiles/.bashrc.d/program.bash ]; then
+  .  ~/northern-lights/conf/dotfiles/.bashrc.d/program.bash
+
+fi
+# export
+if [ -f ~/northern-lights/conf/dotfiles/.bashrc.d/export.bash ]; then
+  .  ~/northern-lights/conf/dotfiles/.bashrc.d/export.bash
+fi
+
+# alias
+if [ -f ~/northern-lights/conf/dotfiles/.bashrc.d/function.bash ]; then
+  .  ~/northern-lights/conf/dotfiles/.bashrc.d/function.bash
+fi
+
+# alias
+if [ -f ~/northern-lights/conf/dotfiles/.bashrc.d/alias.bash ]; then
+  .  ~/northern-lights/conf/dotfiles/.bashrc.d/alias.bash
+fi
+
+# more alias
+if [ -f ~/northern-lights/conf/dotfiles/.bashrc.d/alias-flatpak.bash ]; then
+  .  ~/northern-lights/conf/dotfiles/.bashrc.d/alias-flatpak.bash
+fi
+
+after_northern_lights="$(date +%s)"
+
+# virsh nano editor
+export EDITOR=/usr/bin/nano
+
+after_completed="$(date +%s)"
+
+# time it all
+end="$(date +%s)"
+runtime=$((end-start))
+echo "script load execution took "${runtime}" seconds?"
+echo "global load took "$((after_global - start))" seconds"
+echo "init load took "$((after_init - start))" seconds"
+echo "Northern-lights load took "$((after_northern_lights - start))" seconds"
+echo "completed load took "$((after_completed - start))" seconds"
+echo "start: "${start}", end: "${end}""
