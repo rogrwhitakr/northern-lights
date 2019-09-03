@@ -1,0 +1,31 @@
+#! /usr/bin/env python
+# massively clomplex:
+# https://github.com/lonetwin/pythonrc/blob/master/pythonrc.py
+
+# more reasonable to current level:
+# https://gist.github.com/twneale/5245670
+
+import os
+import readline
+import rlcompleter
+import atexit
+
+history_file = os.path.join(os.environ['HOME'], '.python_history')
+try:
+    readline.read_history_file(history_file)
+except IOError:
+    pass
+readline.parse_and_bind("tab: complete")
+readline.set_history_length(1000)
+atexit.register(readline.write_history_file, history_file)
+
+del readline, rlcompleter, atexit, history_file
+
+# In addition to os, import some useful things:
+import re
+import shutil
+import jupyter_client
+
+# done 
+print('welcome ' + os.getlogin())
+# import jupyter client (not ipython)
