@@ -1,0 +1,10 @@
+[Desktop Entry]
+Type=Application
+Encoding=UTF-8
+Name=sysadmin
+Comment=open Sysadmin book
+Exec=/usr/bin/flatpak run org.gnome.Evince Dokumente/'Thomas A. Limoncelli, Christina J. Hogan, Strata R. Chalup-The Practice of System and Network Administration. Volume 1-Addison-Wesley Professional (2016).pdf'
+# downloaded icon, put to /usr/share/icons
+# maybe somewhat of a default dir?
+# Icon=/usr/share/icons/open-book-icon.png
+Terminal=false
