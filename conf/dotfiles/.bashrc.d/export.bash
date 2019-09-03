@@ -11,3 +11,6 @@ export EDITOR=/usr/bin/nano;
 
 # Don’t clear the screen after quitting a manual page.
 export MANPAGER='less -X';
+
+# add an run-command file for python
+export PYTHONSTARTUP="$HOME/.pythonrc"
