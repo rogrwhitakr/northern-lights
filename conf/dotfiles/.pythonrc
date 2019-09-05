@@ -24,8 +24,11 @@ del readline, rlcompleter, atexit, history_file
 # In addition to os, import some useful things:
 import re
 import shutil
-import jupyter_client
+import subprocess
 
 # done 
 print('welcome ' + os.getlogin())
 # import jupyter client (not ipython)
+
+def code():
+    subprocess.run(['flatpak','run', 'com.visualstudio.code'])
