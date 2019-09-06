@@ -18,7 +18,6 @@ set_git_path() {
 	# ARGS: repository directory
 	# OUTS: return code
 
-<<<<<<< HEAD
 	# vars
 	local repository="$1"
 	local current="$(/usr/bin/pwd)"
@@ -111,6 +110,9 @@ gpull() {
 	# we assume changes have happenend on the remote
 	# rebase
 	git pull $(git remote show | head -n1) master --rebase
+
+	# return
+	cd "${current}"
 }
 
 gpush() {
@@ -129,6 +131,7 @@ gpush() {
 
 	# we assume remote changes have been pulled already
 	git push $(git remote show | head -n1) master
+
+	# return
+	cd "${current}"
 }
-=======
->>>>>>> HS changes
