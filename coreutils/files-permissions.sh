@@ -43,3 +43,7 @@ sed 1q "${file:-$(cat /etc/passwd)}"
 # nly print first line, but read everything
 sed -n 1p "${file:-$(cat /etc/passwd)}"
 awk 'FNR == 1' "${file:-$(cat /etc/passwd)}"
+
+
+# owning a directory tree to current user, may reqire sudo (if root owned)
+chown "$(id -un):$(id -un)" . -R
