@@ -20,9 +20,6 @@ CREATE DATABASE names;
 
 ALTER DATABASE names OWNER TO names;
 
--- DROP DOMAIN Geschlecht;b
--- CREATE DOMAIN Geschlecht AS CHAR(1) DEFAULT 'm' CHECK( VALUE IN ('m', 'w'));
-
 -- we call it flavour, because why now
 -- cascading the deletion
 
@@ -173,3 +170,4 @@ INSERT INTO names (first_name,last_name, primary_group_ID) VALUES
 I.A.V. Alexander
 */
 
+select * from names;

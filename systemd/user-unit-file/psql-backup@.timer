@@ -1,0 +1,10 @@
+[Unit]
+Description=create a backup of database %i every 30 minutes
+
+[Timer]
+OnBootSec=30min
+OnUnitActiveSec=1min
+WakeSystem=false
+
+[Install]
+WantedBy=default.target

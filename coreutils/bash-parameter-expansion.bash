@@ -3,10 +3,11 @@
 # from https://mywiki.wooledge.org/BashGuide/Parameters#Parameter_Expansion
 
 parameter="/usr/lib/sysusers.d/dnsmasq.conf"
-parameter="/home/benno/northern-lights/coreutils/parameter-expansion.bash"
+parameter="/var/home/benno/northern-lights/coreutils/bash-parameter-expansion.bash"
+word="coreutils"
 # Use Default Value. If 'parameter' is unset or null, 'word' (which may be an expansion) is substituted. 
 # Otherwise, the value of 'parameter' is substituted.
-${parameter:-word}
+echo "${parameter:-word}"
 
 # Assign Default Value. If 'parameter' is unset or null, 'word' (which may be an expansion)
 # is assigned to 'parameter'. The value of 'parameter' is then substituted.
@@ -122,3 +123,11 @@ echo "${FILE%%.*}"
 echo "${FILE%.*}"
 echo "${FILE#*.}"
 echo "${FILE##*.}"
+
+# filename portion
+${destination##*/}"
+
+# given:
+# _data/file.sql
+# just the filename (file.sql)
+echo "${f##*/}"
