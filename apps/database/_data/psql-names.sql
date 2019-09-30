@@ -1,23 +1,25 @@
-DROP SCHEMA names;
-CREATE SCHEMA names;
+DROP DATABASE if exists names;
+-- create database 
+CREATE DATABASE names; 
 
--- Create a role with login an create db privileges
-DROP ROLE names;
-CREATE ROLE names LOGIN CREATEDB CREATEROLE INHERIT;
 
--- create user
-DROP USER names;
-CREATE USER names PASSWORD 'names';
+use names;
+-- within that database, we create the schema
+drop schema if exists names;
+create schema names.public;
 
--- Grant privileges (like the ability to create tables) on new schema to new role
+-- we create the USER (not role) of names with the login privilege
+drop user if exists names;
+create user names password 'names' LOGIN;
+
+-- Grant names user access to names database and schema
+grant names to names;
 GRANT names ON SCHEMA names TO names;
 
 -- Grant privileges (like the ability to insert) to tables in the new schema to the new role
-GRANT name ON ALL TABLES IN SCHEMA names TO names;
+GRANT names ON ALL TABLES IN SCHEMA names TO names;
 
-DROP DATABASE names;
-CREATE DATABASE names; 
-
+-- change the DBO
 ALTER DATABASE names OWNER TO names;
 
 -- we call it flavour, because why now
@@ -171,3 +173,5 @@ I.A.V. Alexander
 */
 
 select * from names;
+
+
