@@ -1,4 +1,3 @@
-
 -- hold data about a potential customer
  drop table if exists prospect;
 -- hold data about prices and items
@@ -12,7 +11,7 @@
 -- unsure so far
  drop table if exists price_calculator;
 
-drop domain industry;
+drop domain if exists industry;
 
 create domain industry as char(3) default 'OIL' check( VALUE in ('OIL',
 'BEV',
@@ -22,7 +21,7 @@ create domain industry as char(3) default 'OIL' check( VALUE in ('OIL',
 'LPG' ,
 'WST'));
 
-drop domain lang;
+drop domain if exists lang;
 
 create domain lang as char(2) default 'DE' check( VALUE in ('DE',
 'EN'));
@@ -54,9 +53,4 @@ update
 create table if not exists prospect_offer ( _prospect_offer_id serial unique primary key,
 offer_title char(255) null,
 offer_language lang not null,
-reference_id int,
-primary_group_ID int not null references primary_group(_group_ID) on
-update
-	cascade on
-	delete
-		cascade );
+reference_id int not null)
