@@ -1,5 +1,5 @@
 [Unit]
-Description=execute the backup using pg_dump
+Description=execute the backup for database %i using pg_dump
 
 # After= one *could* do a unit for the filesystem mount, that would be the proper way to do it
 After=syslog.target
@@ -12,4 +12,4 @@ PIDFile=~/backups/
 # do i need something here?
 # ExecStartPre=/usr/bin/borg break-lock ~/backup/<hostname>
 
-ExecStart=/usr/bin/pg_dump %i > /var/mnt/database/%i.backup
+ExecStart=/usr/bin/pg_dump %i > /var/mnt/database/benno/%i.backup
