@@ -11,7 +11,7 @@ mkd() {
 
 # append a todo to the README.md of the "default" repository
 todo() {
-	local repository=~/MyScripts/README.md
+	local repository=~/northern-lights/README.md
 	if [[ -z "$@" ]]; then
 		echo -e "no input given to append to ${repository}"
 		break
