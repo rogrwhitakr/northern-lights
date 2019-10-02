@@ -1,0 +1,23 @@
+[Unit]
+Description=what pops up when querying the journal
+
+# ordering the dependencies:
+# After= configures service order (do X only after Y) 
+#   doc:
+#     If a unit foo.service contains a setting Before=bar.service and both units are being started, 
+#     bar.service's start-up is delayed until foo.service is started up
+# Requires= states dependencies
+#   doc:
+#     If this unit gets activated, the units listed here will be activated as well. 
+#     If one of the other units gets deactivated or its activation fails, this unit will be deactivated.
+
+Requires=docker.service
+After=docker.service
+
+[Service]
+Restart=always
+ExecStart=/usr/local/bin/docker-compose -f /Path/to/docker-compose.yml up
+ExecStop=/usr/local/bin/docker-compose -f /Path/to/docker-compose.yml stop
+
+[Install]
+WantedBy=default.target

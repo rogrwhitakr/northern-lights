@@ -1,9 +1,9 @@
 [Unit]
 Description=execute the backup for database %i using pg_dump
-
-# After= one *could* do a unit for the filesystem mount, that would be the proper way to do it
+AssertPathExists=/mnt/database/benno
 After=syslog.target
 After=timers.target
+# After= one *could* do a unit for the filesystem mount, that would be the proper way to do it
 
 [Service]
 Type=forking

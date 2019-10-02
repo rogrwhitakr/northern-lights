@@ -1,0 +1,17 @@
+# 2 methods:
+#   1. copy the existing unit file from its default to /etc
+#       /usr/lib/systemd/system -> /etc/systemd/system
+#   2. add an override file (systemctl edit unit.service) -> create a unit.service.d/edits.conf file
+#       do changes there
+
+# method 2:
+# how to reset settings
+
+# Reset assertions and then re-add the condition we want
+# settings are parsed as a list, one needs to first clear the list before re-adding all entries
+AssertPathExists=
+AssertPathExists=/srv/www
+
+
+
+
