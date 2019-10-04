@@ -1,0 +1,8 @@
+[Unit]
+Description=OnFailure email for %i
+
+[Service]
+Type=oneshot
+
+# ExecStart=/home/justin/auto/email-on-failure.sh %i
+ExecStart=<executable for mailling shit>  %i
