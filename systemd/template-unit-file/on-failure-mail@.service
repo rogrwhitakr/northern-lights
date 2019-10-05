@@ -1,10 +1,21 @@
 [Unit]
 Description=OnFailure email for %i
+# 1. install:
+#       dnf install postfix mailx -y
+# 2. set as application default
+#       sudo alternatives --config mta
+# 3. set the mail config
+#       echo "smtp.mail.de:587 notify-aurora@mail.de:uGe-VYZad7??fkB" >> /etc/postfix/password_maps
+#       chmod 600 /etc/postfix/password_maps
+# 4. update postfix database to include changes
+#       postmap /etc/postfix/password_maps
+
 
 [Service]
 Type=oneshot
 
 # ExecStart=/home/justin/auto/email-on-failure.sh %i
 # ExecStart=<executable for mailling shit>  %i
-ExecStart=/usr/bin/echo -e "unit for failure email was called. unit:  %i\nstatus:\n$(systemctl status psq-backup@%i.service)"
+ExecStart=/usr/bin/echo -e "unit for failure email was called. unit:  %i\nstatus:"
+ExecStart=/usr/bin/echo -e '$(systemctl status psq-backup@%i.service)'
 # ExecStart=<executable for mailling shit>  %i
