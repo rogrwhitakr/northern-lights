@@ -5,4 +5,6 @@ Description=OnFailure email for %i
 Type=oneshot
 
 # ExecStart=/home/justin/auto/email-on-failure.sh %i
-ExecStart=<executable for mailling shit>  %i
+# ExecStart=<executable for mailling shit>  %i
+ExecStart=/usr/bin/echo -e "unit for failure email was called. unit:  %i\nstatus:\n$(systemctl status psq-backup@%i.service)"
+# ExecStart=<executable for mailling shit>  %i

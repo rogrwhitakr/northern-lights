@@ -1,15 +1,17 @@
 [Unit]
 Description=execute the backup for database %i using pg_dump
 AssertPathExists=/mnt/database/benno
-After=syslog.target
-After=timers.target
-# After= one *could* do a unit for the filesystem mount, that would be the proper way to do it
+After=syslog.target timers.target
+Requires=psql-backup@%i.timer
+OnFailure=on-failure-mail@%i.service
+# Requires= one *could* do a unit for the filesystem mount, that would be the proper way to do it
 
 [Service]
-Type=forking
-PIDFile=~/backups/
+Type=oneshot
+# using the "old" way, as creating a override file might not work for a template unit file?
+# EnvironmentFile=/home/admin/.config/systemd/user/psql-server
+Environment="PGUSER=postgres"
+Environment="PGPASSWORD=postgres"
 
 # do i need something here?
-# ExecStartPre=/usr/bin/borg break-lock ~/backup/<hostname>
-
-ExecStart=/usr/bin/pg_dump %i > /var/mnt/database/benno/%i.backup
+ExecStart=/usr/bin/pg_dump --host=sql --user=postgres %i > /var/mnt/database/benno/%i.backup
