@@ -8,7 +8,7 @@ OnFailure=on-failure-mail@%i.service
 
 [Service]
 Type=oneshot
-WorkingDirectory=/home/admin/.config/systemd/user/
+WorkingDirectory=/mnt/database/benno
 # using the "old" way, as creating a override file might not work for a template unit file?
 # EnvironmentFile=/home/admin/.config/systemd/user/psql-server
 #Environment="PGUSER=postgres"
@@ -16,5 +16,5 @@ WorkingDirectory=/home/admin/.config/systemd/user/
 #Environment="PGHOST=sql"
 
 # do i need something here?
-ExecStart=/usr/bin/bash /home/admin/.config/systemd/user/psql-server %i
-#ExecStartPost=/usr/bin/tar cvf /var/mnt/database/benno/%i.backup.tar /var/mnt/database/benno/%i.backup
+ExecStart=/home/admin/.config/systemd/user/psql-server %i
+ExecStartPost=/usr/bin/tar -cvf %i.backup.tar %i.backup
