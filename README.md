@@ -46,22 +46,19 @@ chmod u+x ./create-ssh-profile.sh
 ./create-ssh-profile.sh
 ```
 
-### CHECK:
-- screen 
-- chubby / Zookeeper lock service
+### WHAT IS THAT?
 
-### WHAT?
+redmine:
 - what is webrick exactly?
 - what is "rake" exactly?
 - what is inetd
 
 
-### WHY?
+### WHY IS THAT?
 - copying a file from home to root-owned directory /var/www/html makes root the owner? Even if apache user - owns the directory and my user is part of the apache group?
 
-### COREUTILS
-- how do i get the owner of the file in uid and guid ids?
-- find -perm setuid-bit, like on /bin/login program
+### HOW DOES THAT WORK?
+- how do i get the owner of the file in uid and guid ids? (find -perm setuid-bit, like on /bin/login program)
 
 ### APACHE
 - How do you measure webserver performance / load? 
@@ -71,14 +68,6 @@ chmod u+x ./create-ssh-profile.sh
 - Common Gateway Interface
 - CGI programs serve HTML data dynamically based on input passed to them
 
-### BORG:
-- how to put backup back into play?
-- TODO: extraction script, using the latest backup (or one that can be chosen?)
-
-# DONE:
-- install sql workbench -> ansible
-- what is dbus-broker? -> dbus broker in userspace
-- install plotinus -> done in HS, works well (for some programs like nautilus). must be compiled
 ### SYSADMIN
 - is it good practice in bash to let traps handle different error conditions, like example?
 - local engineering plan -> get a demo one
@@ -86,15 +75,23 @@ chmod u+x ./create-ssh-profile.sh
 - gnome reverse polarity,night vision. same for chrome browser...
 - what is switch root service?
 - configuration management database (CMDB) provider? capabilities? cost? -> there are a lot (serviceNOW for example, and a lot more)
-### ANSIBLE
-- can ansible do the extension installation for vscode?
-# TODO:
-- systemd cpu cycle control elements => borg consumes everything it can
+
+# DONE:
+- install sql workbench -> ansible
+- what is dbus-broker? -> dbus broker in userspace
+- install plotinus -> done in HS, works well (for some programs like nautilus). must be compiled
 - have the web server deliver a wiki
+
+# TODO:
+- ANSIBLE: can ansible do the extension installation for vscode? even for flatpakked vscode?
+- BORG: how to put backup back into play?
+- BORG: make an extraction script, using the latest backup (or one that can be chosen?). maybe in python?
+- systemd cpu cycle control elements => borg consumes everything it can
 - what is systemd-nspawn?
 - what is busy-box?
 - install decode-dimms for trials
 - assign static addresses to VM(s) using dnsmasq, while they are ste to dhcp mode/ reserved IPs....
 - nac solution vendors. which are there? what do they offer? open source solutions?
-- how do you explore python builtins??? how to use???
 - reveal.js what is it?
+- download src rpm
+- install the kanboard programme. it is small enough
