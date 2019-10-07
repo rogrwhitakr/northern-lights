@@ -2,15 +2,21 @@ DROP DATABASE if exists names;
 -- create database 
 CREATE DATABASE names; 
 
+-- this ("use database") is some mysql specific instruction set. found on stackoverflow:
+-- instead of use names;
+-- create database -> metacommand \connect <database> -> create schema
 
-use names;
+\connect names;
+
 -- within that database, we create the schema
 drop schema if exists names;
-create schema names.public;
+create schema names;
 
 -- we create the USER (not role) of names with the login privilege
 drop user if exists names;
-create user names password 'names' LOGIN;
+create user names password 'names';
+-- as the group role grp_login exists now, we use that
+grant grp_login to names;
 
 -- Grant names user access to names database and schema
 grant names to names;
@@ -49,11 +55,7 @@ CREATE TABLE IF NOT EXISTS names (
    	primary_group_ID        INT NOT NULL REFERENCES primary_group(_group_ID) ON UPDATE CASCADE ON DELETE CASCADE
     );
 
---ALTER TABLE klasse ADD COLUMN (schueler) CHAR(2) NULL; 	
---ALTER TABLE schueler DROP CONSTRAINT IF EXISTS FK_klasse_id;
---ALTER TABLE schueler ADD CONSTRAINT klasse_id_FKey
---	FOREIGN KEY (Klasse_ID) REFERENCES klasse (Klasse_ID)	
-	
+
 INSERT INTO flavour (name) VALUES
     ('Serenity'),
     ('Person of Interest')
