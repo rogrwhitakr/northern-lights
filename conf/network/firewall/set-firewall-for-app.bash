@@ -7,15 +7,20 @@
 # _name=jenkins
 # _port=8080
 
-echo -e "this function does xy"
+echo -e "this script creates a firewall opening for an application.\nIt creates a service, uses default tcp-out port bindings for this new service.\nAnything more advanced, use \"firewall-cmd\"."
 
-read -rsp $'set name:\n' _name
+# service name
+read -rsp $'set name: ' _name
+# parameter expansion: repaceing spaces with dashes, as spaces not allowed by firewall-cmd
+_name=${_name//[^a-zA-Z_0-9]/-}
 echo -e "set name to \"${_name}\""
-read -rsp $'set port: \n' _port
-echo -e "set port to \"${_port}\""
-echo -e "setting fireall opening for service ${_name} on port ${_port}"
+
+# ports
+read -rsp $'set port(s):\n-> separate all ports by a space !\n' _port
+echo -e "set port(s) to \"${_port}\""
+echo -e "setting firewall opening for service ${_name} on port(s) ${_port}"
 echo -e "sudo may be required"
-read -rp $'Continue (Y/N) : ' -ei $'Y' _continue;
+read -rp $'Continue (Y/N) : ' -ei $'Y' _continue
 
 if [[ "${_continue^^}" == "Y" ]]; then
 
@@ -33,10 +38,16 @@ if [[ "${_continue^^}" == "Y" ]]; then
     echo -e "adding service for ${_name}:"
     sudo firewall-cmd --permanent --service="${_name}" --set-short=""${_name}" Service Ports"
     sudo firewall-cmd --permanent --service="${_name}" --set-description=""${_name}" service firewalld port exceptions"
-    sudo firewall-cmd --permanent --service="${_name}" --add-port="${_port}"/tcp
-    sudo firewall-cmd --permanent --service="${_name}" --add-port=42345/tcp
+
+    # adding ports
+    # unquoted port argument expands the string
+    for i in ${_port}; do
+        sudo firewall-cmd --permanent --service="${_name}" --add-port="${i}"/tcp
+    done
+
+    # add the service to the default zone
     sudo firewall-cmd --permanent --add-service="${_name}"
-#    sudo firewall-cmd --zone=public --add-service=http --permanent
+    #    sudo firewall-cmd --zone=public --add-service=http --permanent
     sudo firewall-cmd --reload
     sudo firewall-cmd --info-service="${_name}"
 
@@ -44,5 +55,3 @@ else
     echo -e "Exiting by choice"
     exit 0
 fi
-
-
