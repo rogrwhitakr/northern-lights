@@ -35,9 +35,9 @@ if [[ "${_continue^^}" == "Y" ]]; then
         sudo firewall-cmd --permanent --new-service="${_name}"
     fi
 
-    echo -e "adding service for ${_name}:"
+    echo -e "adding description to service for ${_name}:"
     sudo firewall-cmd --permanent --service="${_name}" --set-short=""${_name}" Service Ports"
-    sudo firewall-cmd --permanent --service="${_name}" --set-description=""${_name}" service firewalld port exceptions"
+    sudo firewall-cmd --permanent --service="${_name}" --set-description="port exceptions for application "${_name}" created by $USER on $(date)"
 
     # adding ports
     # unquoted port argument expands the string
