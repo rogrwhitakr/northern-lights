@@ -1,0 +1,26 @@
+[Unit]
+Description=Kibana
+After=network.target elasticsearch.service
+Requires=elasticsearch.service
+
+[Service]
+
+# same as elasticsearch
+User=elastic
+Group=elastic
+
+# unsure bout dis one
+Type=simple
+ExecStart=/home/elastic/kibana/bin/kibana 
+PIDFile=/run/kibana/kibana.pid
+
+# do restart after a longer timeout
+Restart=always
+RestartSec=5
+
+# log to journald
+StandardOutput=journal                                                                                                                                                               
+StandardError=inherit
+
+[Install]
+WantedBy=default.target
