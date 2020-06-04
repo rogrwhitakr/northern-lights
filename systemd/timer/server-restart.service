@@ -1,0 +1,16 @@
+[Unit]
+Description=recreate the docker containers of the geoserver every sunday @ 11pm
+
+After=syslog.target
+After=network.target
+
+[Service]
+Type=simple
+User=admin
+Group=admin
+ExecStart=/usr/bin/bash /mnt/Dockerfiles/startup.sh
+
+TimeoutSec=300
+
+[Install]
+WantedBy=multi-user.target
