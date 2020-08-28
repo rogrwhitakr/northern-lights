@@ -1,0 +1,8 @@
+[Unit]
+Description=Runs <script> script every Sunday at 23:00 
+
+[Timer]
+OnCalender=Sun 23:00
+
+[Install]
+WantedBy=multi-user.target
