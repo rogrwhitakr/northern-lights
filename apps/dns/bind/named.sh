@@ -6,7 +6,7 @@ network=192.168.150.0
 dns_server_ip=192.168.150.254
 subnet=255.255.255.0
 gateway=xyz
-domain=aurora.northernlights.io
+domain=aurora.northern-lights.one
 hostname=dns
 
 echo -e "
