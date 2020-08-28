@@ -1,21 +1,18 @@
-﻿#!/bin/bash
+#! /usr/bin/bash
 
-RED='\033[0;31m'
-NOC='\033[0m' 
+# TODO:
+# check if script even runs
+# should install all necessary software
+# there is probably some problem with variables....
 
-#check user
 
-if [ "$(id -u)" != "0" ]; then
-   echo "This script must be run as root" 1>&2
-   exit 1
-fi
-
-dnf install bind bind-utils -y
-
+rm -vfr ~/named
 
 network=192.168.150.0
+dns_server_ip=192.168.150.254
 subnet=255.255.255.0
-domain=northernlights
+gateway=xyz
+domain=aurora.northern-lights.one
 hostname=dns
 
 echo -e "
@@ -25,32 +22,35 @@ domain is ${RED}$domain${NOC}"
 
 ########################################################################
 #	creating files
-#
-#
-#
-#
-#
-#
 ########################################################################
+
+# side note
+# awking the IP address
+#$(awk -F. '{print $1}' <#<< "$network")
+#$(awk -F. '{print $2}' <<< "$network")
+#$(awk -F. '{print $3}' <<< "$network")
+#$(awk -F. '{print $4}' <<< "$network")
+
+echo "$1st $2nd $3rd $4th"
 
 echo -e "
 ${RED}creating internal and external zone files ${NOC}"
 
-#internal
-touch /var/named/$domain.lan
-touch /var/named/150.168.192.db 
-#external
-touch /var/named/$domain.wan
-touch /var/named/80.0.16.172.db
+mkdir ~/named && cd ~/named
 
-if [ -f /etc/named.conf ]; then
-	cp /etc/named.conf /etc/named.conf.original
-else
-	touch /etc/named.conf
-fi
-	
-tee /etc/named.conf > /dev/null <<EOF
+# config
+touch named.conf
 
+# internal
+touch $domain.lan
+touch ${3}.${2}.${1}.db 
+
+# external
+# we leave this for now
+# touch $domain.wan
+# touch 80.0.16.172.db
+
+tee named.conf <<EOF
 //
 // named.conf
 //
@@ -62,21 +62,27 @@ tee /etc/named.conf > /dev/null <<EOF
 
 options {
         # change ( listen all )
+	listen-on port 53 { 127.0.0.1; 
         listen-on port 53 { any; };
+
         # change( if not use IPv6 )
         listen-on-v6 { none; };
         directory           "/var/named";
         dump-file           "/var/named/data/cache_dump.db";
         statistics-file     "/var/named/data/named_stats.txt";
         memstatistics-file  "/var/named/data/named_mem_stats.txt";
+
         # query range ( set internal server and so on )
         allow-query         { localhost; $network/24; };
+
         # transfer range ( set it if you have secondary DNS )
         allow-transfer      { localhost; $network/24; };
 
         recursion yes;
-        dnssec-enable yes;
-        dnssec-validation yes;
+
+	# no fancy stuff yet
+        dnssec-enable no;
+        dnssec-validation no;
 
         /* Path to ISC DLV key */
         /* In case you want to use ISC DLV, please uncomment the following line..
@@ -84,13 +90,15 @@ options {
         //bindkeys-file "/etc/named.iscdlv.key";
 
         managed-keys-directory "/var/named/dynamic";
-
+	
+	# run stuff
         pid-file "/run/named/named.pid";
         session-keyfile "/run/named/session.key";
 
         /* https://fedoraproject.org/wiki/Changes/CryptoPolicy */
         include "/etc/crypto-policies/back-ends/bind.config";
 };
+
 logging {
         channel default_debug {
                 file "data/named.run";
@@ -98,11 +106,14 @@ logging {
         };
 };
 
-# change all from here
+#${1}.${2}.${3}.${4}
+#${1}.${2}.${3}.${4}
+
+# configure internal zone
 view "internal" {
         match-clients {
                 localhost;
-                $network/24;
+                "${1}.${2}.${3}.${4}"/24;
         };
         zone "." IN {
                 type hint;
@@ -113,29 +124,33 @@ view "internal" {
                 file "$domain.lan";
                 allow-update { none; };
         };
-        zone "150.168.192.in-addr.arpa" IN {
+        zone "${3}.${2}.${1}.in-addr.arpa" IN {
                 type master;
-                file "150.168.192.db";
+                file "${3}.${2}.${1}.db";
                 allow-update { none; };
         };
-include "/etc/named.rfc1912.zones";
-include "/etc/named.root.key";
+
+# leaving these for now
+# include "/etc/named.rfc1912.zones";
+# include "/etc/named.root.key";
 };
-view "external" {
-        match-clients { any; };
-        allow-query { any; };
-        recursion no;
-        zone "$domain" IN {
-                type master;
-                file "$domain.wan";
-                allow-update { none; };
-        };
-        zone "80.0.16.172.in-addr.arpa" IN {
-                type master;
-                file "80.0.16.172.db";
-                allow-update { none; };
-        };
-};
+
+# no external config for now
+#view "external" {
+#        match-clients { any; };
+#        allow-query { any; };
+#        recursion no;
+#        zone "$domain" IN {
+#                type master;
+#                file "$domain.wan";
+#                allow-update { none; };
+#        };
+#        zone "80.0.16.172.in-addr.arpa" IN {
+#                type master;
+#                file "80.0.16.172.db";
+#                allow-update { none; };
+#        };
+#};
 
 # allow-query ? query range you permit
 # allow-transfer ? the range you permit to transfer zone info
@@ -151,17 +166,9 @@ view "external" {
 # network address? 172.16.0.80
 # range of network? 172.16.0.80 - 172.16.0.87
 # How to write? 80.0.16.172.in-addr.arpa
-
 EOF
 
-
-if [ -f /var/named/$domain.lan ]; then
-	cp /var/named/$domain.lan /var/named/$domain.lan.original
-else
-	touch /var/named/$domain.lan
-fi
-
-tee /var/named/$domain.lan > /dev/null <<EOF
+tee $domain.lan  <<EOF
 // 
 // 
 // file /var/named/$hostname.$domain.lan
@@ -170,7 +177,7 @@ tee /var/named/$domain.lan > /dev/null <<EOF
  
 
  $TTL 86400
-@   IN  SOA     dlp.srv.world. root.srv.world. (
+@   IN  SOA     $hostname.$domain. root.$domain. (
         2016112201  ;Serial
         3600        ;Refresh
         1800        ;Retry
@@ -178,18 +185,12 @@ tee /var/named/$domain.lan > /dev/null <<EOF
         86400       ;Minimum TTL
 )
         # define name server
-        IN  NS      $domain.srv.world.
+        IN  NS      $hostname.$domain.
         # define name server's IP address
-        IN  A       10.0.0.30
+        IN  A       $dns_server_ip
         # define mail exchanger
-        IN  MX 10   dlp.srv.world.
-# define IP address of a hostname
-dlp     IN  A       10.0.0.30
+        IN  MX 10   mail.$domain.
+	# define IP address of a hostname
+dlp     IN  A       ${1}.${2}.${3}.10
 
 EOF
-
-
-
-# echo -e "
-# ${RED}content of named.conf${NOC}
-# `cat /etc/named.conf`"
