@@ -11,4 +11,4 @@ debug=1
 script_init
 flags_init
 
-sudo install --no-target-directory hosts.northernlights.io /etc/hosts --mode=644
+sudo install --no-target-directory hosts.northern-lights.one /etc/hosts --mode=644
