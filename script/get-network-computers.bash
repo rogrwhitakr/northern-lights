@@ -4,7 +4,7 @@ echo "start"
 
 start="$(date +%s)"
 
-hosts="$(nmap -v -sn -O 192.168.0.0/16)"
+hosts="$(nmap -sV -O -v 192.168.0.0/16)"
 
 end="$(date +%s)"
 
