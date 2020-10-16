@@ -1,12 +1,18 @@
 #! /usr/bin/bash
 
+# TODO:
+# check if script even runs
+# should install all necessary software
+# there is probably some problem with variables....
+
+
 rm -vfr ~/named
 
 network=192.168.150.0
 dns_server_ip=192.168.150.254
 subnet=255.255.255.0
 gateway=xyz
-domain=aurora.northernlights.io
+domain=aurora.northern-lights.one
 hostname=dns
 
 echo -e "

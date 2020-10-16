@@ -3,7 +3,7 @@
 ;
 $TTL 1D
 
-@	IN	SOA	localhost.aurora.northernlights.io	root.aurora.northernlights.io. (
+@	IN	SOA	localhost.aurora.northern-lights.one	root.aurora.northern-lights.one. (
                          1   ; Serial
                          8H  ; Refresh
                          15M ; Retry

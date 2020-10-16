@@ -4,7 +4,7 @@
 ;$ORIGIN 150.168.192.in-addr.arpa.
 
 $TTL 1D
-@     IN SOA  magellan.northernlights.io. root.northernlights.io. (
+@     IN SOA  magellan.northern-lights.one. root.northern-lights.one. (
               201710013  ; serial
               28800      ; refresh (8 hours)
               14400      ; retry (4 hours)
@@ -12,6 +12,6 @@ $TTL 1D
               86400      ; minimum (1 day)
               )
 ; define the authoritative name server
-            IN      NS      magellan.northernlights.io.
+            IN      NS      magellan.northern-lights.one.
             IN      A       192.168.150.10
 magellan    IN      A       192.168.150.10

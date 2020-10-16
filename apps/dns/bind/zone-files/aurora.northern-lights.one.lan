@@ -1,0 +1,51 @@
+; 
+; 
+; file /var/named/dns.aurora.northern-lights.one.lan
+; 
+; 
+;$ORIGIN one.
+$TTL 5m
+
+; any time you make a change to the domain, bump the
+; "serial" setting below. the format is easy:
+; YYYYMMDDI, with the I being an iterator in case you
+; make more than one change during any one day
+; you can also simply increment....
+
+northern-lights	        IN	SOA	aurora.northern-lights.one. hostmaster.northern-lights.one. (
+
+        2       	;Serial
+        4h		;Refresh
+        15m		;Retry
+        8h		;Expire
+        4m		;Minimum TTL
+	)
+
+; define name server
+; we define the hostnames, which are authoritative nameservers for our zone. 
+; we've used dot-terminated FQDNs for these records. 
+; we could have used unterminated hostnames (aurora.northern-lights) and (name-server-1.northern-lights) and relied on our $ORIGIN .one to expand them. 
+; Doing so would make the zone more confusing and difficult to read, though.
+; this is applicable throughout the zone file (https://arstechnica.com/gadgets/2020/08/understanding-dns-anatomy-of-a-bind-zone-file/)
+
+		IN	NS	aurora.northern-lights.one.
+		IN	NS	name-server-1.
+
+;define mail server
+		IN	MX	10 mail.northern-lights.one.	
+
+; define localhost
+localhost	IN      A       127.0.0.1
+
+; define domain functions with CNAMEs
+www		CNAME		server
+cockpit		CNAME		server
+
+; define static hosts
+gateway		IN	A	192.168.150.1
+dns		IN	A       192.168.150.254
+dnsmasq		IN	A       192.168.150.253
+ubuntu		IN	A	192.168.150.230
+server		IN	A	192.168.150.220
+;define dynamic hosts
+;any		IN	A	192.168.150.209
