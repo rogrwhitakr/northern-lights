@@ -4,6 +4,7 @@ apps/ansible/*.retry
 script/BUILDTEST.*
 script/TESTBUILD.*
 script/TEST*.*
+script/nmap-hosts*
 *.code-workspace
 *.man
 settings.json
