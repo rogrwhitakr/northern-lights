@@ -1,0 +1,8 @@
+[Desktop Entry]
+Type=Application
+Encoding=UTF-8
+Name=McBain Desktop
+Comment=save as ~/.local/share/applications/<name>.desktop
+Exec=/usr/bin/remmina -c /home/finch/.local/share/remmina/_rdp_mcbain_192-168-0-6.remmina
+Icon=/home/finch/Bilder/icon/remotes.ico
+Terminal=false
