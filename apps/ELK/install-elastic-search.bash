@@ -90,6 +90,8 @@ print red "# Step 7: add firewall rules, unit files and rules"
 # firewall
 firewall-cmd --add-port=5601/tcp --permanent
 firewall-cmd --add-port=9200/tcp --permanent
+firewall-cmd --add-service={logstash,kibana,elasticsearch} --permanent
+ 
 firewall-cmd --reload
 
 # services
