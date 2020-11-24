@@ -10,12 +10,12 @@ Requires=psql-backup@%i.timer
 Type=oneshot
 WorkingDirectory=/home/finch/backups
 #Environment="PGUSER=postgres"
-#Environment="PGPASSWORD=postgres"
+Environment="PGPASSWORD=fusco"
 #Environment="PGHOST=sql"
 
 # generated using systemd-escape
 # systemd-escape " -h redmine -U fusco -Fc -w %i > /home/finch/backups/%i.sql -v"
-ExecStart=/usr/bin/pg_dump\x20\x2dh\x20redmine\x20\x2dU\x20fusco\x20\x2dFc\x20\x2dw\x20\x25i\x20\x3e\x20-home-finch-backups-\x25i.sql\x20\x2dv
+ExecStart=/usr/bin/pg_dump\x20\x2dh\x20redmine\x20\x2dU\x20fusco\x20\x2dFc\x20\x2dw\x20\x25i\x20\x3e\x20/home/finch/backups/\x25i.sql
 ExecStartPost=/usr/bin/zstd %i.sql --rm --compress -o %i.zst --verbose
 
 PIDFile=/home/finch/backups/%i.pid
