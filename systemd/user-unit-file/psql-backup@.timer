@@ -1,8 +1,8 @@
 [Unit]
-Description=create a backup of database %i every 30 minutes
+Description=create a backup of database %i every 15 minutes
 
 [Timer]
-OnBootSec=30min
+OnBootSec=15min
 OnUnitActiveSec=1min
 WakeSystem=false
 

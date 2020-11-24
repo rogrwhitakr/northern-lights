@@ -1,20 +1,23 @@
 [Unit]
 Description=execute the backup for database %i using pg_dump
-AssertPathExists=/mnt/database/benno
+AssertPathExists=/home/finch/backups
 After=syslog.target timers.target
 Requires=psql-backup@%i.timer
-OnFailure=on-failure-mail@%i.service
+# OnFailure=on-failure-mail@%i.service
 # Requires= one *could* do a unit for the filesystem mount, that would be the proper way to do it
 
 [Service]
 Type=oneshot
-WorkingDirectory=/mnt/database/benno
-# using the "old" way, as creating a override file might not work for a template unit file?
-# EnvironmentFile=/home/admin/.config/systemd/user/psql-server
+WorkingDirectory=/home/finch/backups
 #Environment="PGUSER=postgres"
 #Environment="PGPASSWORD=postgres"
 #Environment="PGHOST=sql"
 
-# do i need something here?
-ExecStart=/home/admin/.config/systemd/user/psql-server %i
-ExecStartPost=/usr/bin/tar -cvf %i.backup.tar %i.backup
+# generated using systemd-escape
+# systemd-escape " -h redmine -U fusco -Fc -w %i > /home/finch/backups/%i.sql -v"
+ExecStart=/usr/bin/pg_dump\x20\x2dh\x20redmine\x20\x2dU\x20fusco\x20\x2dFc\x20\x2dw\x20\x25i\x20\x3e\x20-home-finch-backups-\x25i.sql\x20\x2dv
+ExecStartPost=/usr/bin/zstd %i.sql --rm --compress -o %i.zst --verbose
+
+PIDFile=/home/finch/backups/%i.pid
+KillSignal=SIGQUIT
+KillMode=mixed
