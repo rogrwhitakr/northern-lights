@@ -1,18 +1,16 @@
 #! /usr/bin/env bash
 
-RED='\033[0;31m'
-NOC='\033[0m' 	
+# Set magic variables for current file & dir
+# this is crude, but works: two down, and then...
 
+__dir="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+__dir="$(cd "$(dirname "${__dir}")" && pwd)"
+source "${__dir}/script/helpers/printer.bash"
 
-######################################exec
+print timeline
 
-clear
-
-COMMAND="date --utc"
-echo -e "${RED}$COMMAND${NOC}"
-$COMMAND
-
-args="
+print green "
+arguments:
 	%H		The hour in the HH format (for example, 17).
 	%M		The minute in the MM format (for example, 30).
 	%S		The second in the SS format (for example, 24).
@@ -23,35 +21,34 @@ args="
 	%F		The full date in the YYYY-MM-DD format (for example, 2013-09-16). This option is equal to %Y-%m-%d.
 	%T		The full time in the HH:MM:SS format (for example, 17:30:24). This option is equal to %H:%M:%S"
 
-COMMAND=date +"%Y-%m-%d"
+print timeline
 
-echo -e '\n' "${RED}"date + format '\n'${NOC} "Formatting = $args"'\n'
+print "date --utc"
 
-echo -e "command = $COMMAND"
-$COMMAND
+_DATE=$(date +"%m-%d-%Y")
+_TIME=$(date +"%h:%m")
+_DATETIME=$(date +"%Y-%m-%d %H:%M:%S")
 
-DATE=$(date +"%m-%d-%Y")
-TIME=$(date +"%h:%m")
+print red "${_DATE}"
+print red "${_TIME}"
+print red "${_DATETIME}"
 
-DATE=$(date +"%m-%d-%Y %h:%m")
-
-echo -e "$DATE\n$TIME"
+print timeline
 
 # there exists the variable HISTTIMEFORMAT
 # used by history command 
-
 export HISTTIMEFORMAT='%Y-%m-%d_%H:%M'
 
-MONTH=25
-DATE=`date +%Y-%m-%d`
-DISABLE_DATE=`date -d '-6 months ago' +%Y-%m-%d`
-_DATE=$(sed -e 's/6 months ago/${MONTH} months ago/g' <<< $DISABLE_DATE)
+_MONTH=25
+_DATE=`date +%Y-%m-%d`
+_DISABLE_DATE=`date -d '-6 months ago' +%Y-%m-%d`
+_DATE=$(sed -e 's/6 months ago/${_MONTH} months ago/g' <<< $_DISABLE_DATE)
 
-#_DATE='sed -i "s/6/7/g" $DISABLE_DATE'
+print yellow "subtract two dates"
+let DIFF=(`date +%s -d 20170203`-`date +%s -d 20120115`)/86400
+print YELLOW "${DIFF} days difference"
 
-# subtract two dates
-let DIFF=(`date +%s -d 20120203`-`date +%s -d 20120115`)/86400
-echo $DIFF
+print timeline
 
 # gnu date 
 # seconds since EPOCH
@@ -69,16 +66,20 @@ echo $(( ($(date --date="2017-05-21 21:18:30" +%s) - $(date --date="2017-05-21 2
 # Mon 2017-07-10 06:38:56 CEST — Mon 2017-07-10 21:36:43 CEST
 # Mon 2017-07-10 21:37:37 CEST — Tue 2017-07-18 20:35:56 CEST
 
-# subtracting or adding elements
+print timeline
+print red "subtracting or adding elements"
+
 startup_datetime="2017-06-10 08:54:25"
-shutdown_datetime="2017-06-11 19:48:35"
-# subtracting or adding elements
+shutdown_datetime="2017-07-11 19:48:35"
 startup_date="2017-06-10"
-shutdown_date="2017-06-11"
-date --date="${shutdown_date} -${startup_date} day" +%Y-%m-%d
-echo -e "${RED}startup / shutdown dates${NOC}"
-date --date="${startup_date}" +%Y-%m-%d
-date --date="${startup_datetime}" "+%Y-%m-%d %H:%M:%S"
+shutdown_date="2017-09-15"
+
+print red "startup / shutdown dates"
+
+startup_date=$(date --date="${startup_date}" +%Y-%m-%d)
+shutdown_date=$(date --date="${shutdown_date}" "+%Y-%m-%d")
+
+print timeline
 
 # you can leave the formatting out...
 date --date="${startup_datetime}" 
@@ -88,30 +89,31 @@ date --date="${startup_datetime}"
 date --date="${startup_datetime}" --universal 
 
 # epoch
-echo -e "${RED}since EPOCH${NOC}"
+print timeline
+print green "Since EPOCH"
 date --date="${startup_datetime}" --universal +%s
 date --date="${shutdown_datetime}" --universal +%s
 
 diff="$(($(date --date="${shutdown_datetime}" --universal +%s) - $(date --date="${startup_datetime}" --universal +%s)))"
-echo "${diff}"
-echo -e "${RED}format back from universal to human-readable form${NOC}"
+print green "${diff}"
+print yellow "format back from universal to human-readable form"
+
 # no formatting
 date -ud@"${diff}"
 date -ud@"${diff}" "+%H:%M:%S"
 date --universal --date @"${diff}" "+%H:%M:%S"
 date --universal --date @"${diff}" "+%M"
 
-# combo
-echo -e "${RED}combo${NOC}"
-date --date=@"\
-$(($(date --date="${startup_datetime}" --universal +%s) \
--$(date --date="${shutdown_datetime}" --universal +%s)))"
+print timeline
+print yellow "combination of sorts"
 
-date -ud@"$(date --date="${startup_datetime}" "+%Y-%m-%d %H:%M:%S")"
-
+date --date=@"$(($(date --date="${startup_datetime}" --universal +%s)-$(date --date="${shutdown_datetime}" --universal +%s)))"
+date -ud"$(date --date="${startup_datetime}" "+%Y-%m-%d %H:%M:%S")"
 date --date="${shutdown_date}" +%Y-%m-%d
-#date --date="${shutdown_datetime} - ${startup_datetime} day" +%Y-%m-%d %h:%M:%s
+date --date="${shutdown_datetime} - ${startup_datetime} day" +%Y-%m-%d %h:%M:%s
 
 date -ud@"$(date --universal +%s)"
 date -ud@"$(date --universal +%s)" + 1468823
 date --date="12 hours ago" +%s
+
+print timeline
