@@ -12,12 +12,10 @@ WorkingDirectory=/home/finch/backups
 #Environment="PGUSER=postgres"
 Environment="PGPASSWORD=fusco"
 #Environment="PGHOST=sql"
+# pgsql env => https://www.postgresql.org/docs/12/libpq-envars.html
 
-# generated using systemd-escape
-# systemd-escape " -h redmine -U fusco -Fc -w %i > /home/finch/backups/%i.sql -v"
-ExecStart=/usr/bin/pg_dump\x20\x2dh\x20redmine\x20\x2dU\x20fusco\x20\x2dFc\x20\x2dw\x20\x25i\x20\x3e\x20/home/finch/backups/\x25i.sql
-ExecStartPost=/usr/bin/zstd %i.sql --rm --compress -o %i.zst --verbose
+ExecStart=/usr/bin/pg_dump --host=redmine --username=fusco --format=plain --dbname=%i --file=%i.sql --no-password
+ExecStartPost=/usr/bin/zstd %i.sql --rm --compress -o %i.zst --verbose --force
 
-PIDFile=/home/finch/backups/%i.pid
 KillSignal=SIGQUIT
 KillMode=mixed
