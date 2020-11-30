@@ -14,6 +14,8 @@ Environment="PGPASSWORD=fusco"
 #Environment="PGHOST=sql"
 # pgsql env => https://www.postgresql.org/docs/12/libpq-envars.html
 
+EnvironmentFile=%i.conf
+#ExecStartPre=
 ExecStart=/usr/bin/pg_dump --host=redmine --username=fusco --format=plain --dbname=%i --file=%i.sql --no-password
 ExecStartPost=/usr/bin/zstd %i.sql --rm --compress -o %i.zst --verbose --force
 
