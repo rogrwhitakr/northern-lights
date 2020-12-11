@@ -1,0 +1,13 @@
+<host mac='52:54:00:91:dd:7f' name='redmine.northern-lights.one' ip='192.168.120.10'/>
+<host mac='52:54:00:83:0e:2c' name='domain.northern-lights.one' ip='192.168.120.20'/>
+
+
+<dns>
+<host ip='192.168.120.10'>
+  <hostname>redmine.northern-lights.one</hostname>
+</host>
+</dns>
+
+
+# resources
+https://fabianlee.org/2018/10/22/kvm-using-dnsmasq-for-libvirt-dns-resolution/

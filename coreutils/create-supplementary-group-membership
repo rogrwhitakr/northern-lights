@@ -1,8 +1,0 @@
-#! /usr/bin/env bash
-sudo usermod -a -G libvirt benno
-if [[ $? == 0 ]]; then 
-	echo "success"
-	getent group | grep libvirt
-else
-	echo "fail"
-fi
