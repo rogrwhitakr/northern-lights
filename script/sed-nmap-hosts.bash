@@ -1,7 +1,7 @@
 #! /usr/bin/env bash
 
 if [[ -z ${1} ]]; then
-    printf "you must provide a file!" 
+    printf "you must provide a file!\n" 
     exit 1
 fi
 
