@@ -1,0 +1,27 @@
+[Unit]
+Description=alfresco dms server
+After=syslog.target network.target
+
+[Service]
+Type=forking
+
+User=alfresco
+Group=alfresco
+
+WorkingDirectory=/home/alfresco/apache-tomcat-9.0.38
+
+Environment="JAVA_HOME=/usr/bin/java"
+
+Environment="CATALINA_PID=/home/alfresco/apache-tomcat-9.0.38/run/tomcat.pid"
+Environment="CATALINA_BASE=/home/alfresco/apache-tomcat-9.0.38"
+Environment="CATALINA_HOME=/home/alfresco/apache-tomcat-9.0.38"
+Environment="CATALINA_OPTS=-Xms512M -Xmx1024M -server -XX:+UseParallelGC"
+
+ExecStart=/home/alfresco/apache-tomcat-9.0.38/bin/startup.sh
+ExecStop=/home/alfresco/apache-tomcat-9.0.38/shutdown.sh
+
+#RestartSec=10
+#Restart=always
+
+[Install]
+WantedBy=multi-user.target
