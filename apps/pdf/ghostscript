@@ -1,0 +1,10 @@
+# ghostscript
+
+# make a pdf smaller
+gs -dNOPAUSE -dBATCH -sDEVICE=pdfwrite -dCompatibilityLevel=1.4 -dPDFSETTINGS=screen -sOutputFile=krankmeldung.pdf 2021-01-25.pdf
+
+# "setting" => desired quality level. 
+# Quality level settings are:
+# "/screen," the lowest resolution and lowest file size, but fine for viewing on a screen; 
+# "/ebook," a mid-point in resolution and file size; 
+# "/printer" and "/prepress," high-quality settings used for printing PDFs.
