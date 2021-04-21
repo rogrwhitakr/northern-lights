@@ -1,0 +1,9 @@
+ServerName,IP
+redmine.northern-lights.one,192.168.0.50
+storage.northern-lights.one,192.168.0.60
+ELK.northern-lights.one,192.168.0.40
+silverblue.northern-lights.one,192.168.0.98
+redmine.northern-lights.one,192.168.0.50
+elk.northern-lights.one,192.168.0.30
+domain.northern-lights.one,192.168.0.40
+storage.northern-lights.one,192.168.0.60
