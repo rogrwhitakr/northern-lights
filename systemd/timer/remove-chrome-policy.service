@@ -1,0 +1,12 @@
+[Unit]
+Description=remove the symbolic link (if present) that references outdated? org policies
+
+After=syslog.target
+After=network.target
+
+[Service]
+Type=simple
+ExecStart=/usr/bin/bash rm /etc/chromium/policies/managed/00_gssapi.json
+
+[Install]
+WantedBy=multi-user.target
