@@ -1,0 +1,12 @@
+1,domain.northern-lights.one,2,102623,2s,Max
+1 domain.northern-lights.one CPU-Zeit: Max
+3,redmine.northern-lights.one,2,156379,8s,Max
+3 redmine.northern-lights.one CPU-Zeit: Max
+4,storage.northern-lights.one,2,182730,7s,Max
+4 storage.northern-lights.one CPU-Zeit: Max
+-,ELK.northern-lights.one,2,Speicher:,2097152
+- ELK.northern-lights.one Max 2097152
+-,IAVMagellan.northern-lights.one,2,Speicher:,2097152
+- IAVMagellan.northern-lights.one Max 2097152
+-,silverblue.northern-lights.one,2,Speicher:,1048576
+- silverblue.northern-lights.one Max 1048576
