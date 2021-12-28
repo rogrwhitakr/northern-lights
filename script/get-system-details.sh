@@ -8,8 +8,9 @@
 
 __dir="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 __dir="$(cd "$(dirname "${__dir}")" && pwd)"
+__dir="$(pwd)"
 
-source "${__dir}/script/helpers/init.bash"
+source "init.bash"
 print RED "${_dir}"
 
 # this function could be greatly expanded to use other checks also
