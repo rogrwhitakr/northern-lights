@@ -6,7 +6,7 @@ After=network.target
 
 [Service]
 Type=simple
-ExecStart=/usr/bin/bash rm /etc/chromium/policies/managed/00_gssapi.json
+ExecStart=/usr/bin/bash "rm --force /etc/chromium/policies/managed/00_gssapi.json"
 
 [Install]
 WantedBy=multi-user.target
