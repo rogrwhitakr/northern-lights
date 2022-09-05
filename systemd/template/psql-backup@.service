@@ -1,6 +1,6 @@
 [Unit]
 Description=execute the backup for database %i using pg_dump
-AssertPathExists=/home/finch/backups
+AssertPathExists=/home/reese/Dokumente/Backup
 After=syslog.target timers.target
 Requires=psql-backup@%i.timer
 # OnFailure=on-failure-mail@%i.service
@@ -8,12 +8,13 @@ Requires=psql-backup@%i.timer
 
 [Service]
 Type=oneshot
-WorkingDirectory=/home/finch/backups
-EnvironmentFile=/home/finch/backups/%i.pgsql.conf
+WorkingDirectory=/home/reese/Dokumente/Backup
+EnvironmentFile=/home/reese/Dokumente/Backup/firefly.conf
 
-#ExecStartPre=
-ExecStart=/usr/bin/pg_dump --format=plain --dbname=%i --file=%i.sql --no-password
-ExecStartPost=/usr/bin/zstd %i.sql --rm --compress -o %i.zst --verbose --force
+#ExecStartPre=/bin/bash -c 'EXPORT_NAME=output-$(TZ=UTC date +%%Y%%m%%d-%%H%%M%%S)
+ExecStart=/usr/bin/pg_dump --format=plain --dbname=%i --file=%i_"$(date %u)".sql --no-password
+ExecStartPost=/usr/bin/zstd %i_"$(date %u)".sql --rm --compress -o %i_"$(date %u)".zst --verbose --force
+ExecStartPost=/usr/bin/chown reese:reese /home/reese/Dokumente/Backup -R
 
 KillSignal=SIGQUIT
 KillMode=mixed
