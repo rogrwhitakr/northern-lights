@@ -3,7 +3,7 @@ Description=create a backup of database %i every 3 hours
 
 [Timer]
 OnBootSec=15min
-OnUnitActiveSec=3h
+OnUnitActiveSec=3min
 WakeSystem=false
 
 [Install]

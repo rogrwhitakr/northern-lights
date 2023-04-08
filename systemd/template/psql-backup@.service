@@ -11,9 +11,10 @@ Type=oneshot
 WorkingDirectory=/home/reese/Dokumente/Backup
 EnvironmentFile=/home/reese/Dokumente/Backup/firefly.conf
 
-#ExecStartPre=/bin/bash -c 'EXPORT_NAME=output-$(TZ=UTC date +%%Y%%m%%d-%%H%%M%%S)
-ExecStart=/usr/bin/pg_dump --format=plain --dbname=%i --file=%i_"$(date %u)".sql --no-password
-ExecStartPost=/usr/bin/zstd %i_"$(date %u)".sql --rm --compress -o %i_"$(date %u)".zst --verbose --force
+ExecStart=/usr/bin/pg_dump --format=plain --dbname=%i --file=%i.sql --no-password
+ExecStart=/usr/bin/zstd %i.sql --rm --compress -o %i.zsd --force
+
+#ExecStartPost=/bin/bash -c 'mv %i.zsd %%i_$(date +%%u).zsd'
 ExecStartPost=/usr/bin/chown reese:reese /home/reese/Dokumente/Backup -R
 
 KillSignal=SIGQUIT

@@ -1,0 +1,2 @@
+# assuming the importer and firefly are delivered by the same webserver, this way logging can be viewed for both apps simoultanously
+sudo tail -f /var/www/{data-importer,firefly-iii}/storage/logs/*.log
