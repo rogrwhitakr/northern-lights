@@ -55,3 +55,29 @@ restorecon -v storage/logs
 
 ```
 
+## Data-Importer
+
+The assumption is that you will install/upgrade the data importer in /var/www. 
+but as composer does not seem to like being executed as root
+1. go to home 
+2. then download
+3. then move
+4. the chown to apache / nginx...
+
+```
+cd ~
+composer create-project firefly-iii/data-importer --no-dev --prefer-dist data-importer 1.3.12
+
+# as root
+mv /var/www/data-importer /var/www/old-data-importer
+mv data-importer/ /var/www/ 
+cp /var/www/old-data-importer/.env /var/www/data-importer/.env
+chown -R apache:apache data-importer
+chmod -R 775 data-importer/storage
+```
+
+### upgrade
+
+Instead of data-importer, use updated-data-importer.
+This installs the tool in a new directory called updated-data-importer. 
+Move over your .env file by copy-pasting it. 
