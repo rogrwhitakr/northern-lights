@@ -1,0 +1,9 @@
+[Unit]
+Description=Executes script when a path unit has been triggered.
+
+[Service]
+Type=simple
+ExecStart=/home/reese/script.sh
+
+[Install]
+WantedBy=multi-user.target

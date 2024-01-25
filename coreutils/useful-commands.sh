@@ -76,6 +76,9 @@ chown
 # do both ath the same time, recursively
 chown apache.apache -R /var/www/html/yo_app
 
+# To achieve 755 (drwxr-xr-x) on directories and 644 (-rw-r--r--) on files recursively use
+chmod -R a-x,u=rwX,go=rX /dir
+
 # How to symlink a file
 ln -s /path/to/file /path/to/symlink
 ln -s /path/to/file-name /link-name

@@ -1,0 +1,9 @@
+[Unit]
+Description=Monitor a file for changes (ssh-known-hosts)
+
+[Path]
+PathChanged=/home/reese/.ssh/known_hosts
+Unit=example.service
+
+[Install]
+WantedBy=multi-user.target
