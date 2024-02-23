@@ -1,11 +1,29 @@
+# dns-01
 127.0.0.1   localhost localhost.localdomain localhost4 localhost4.localdomain4
 ::1         localhost localhost.localdomain localhost6 localhost6.localdomain6
 
-# apache
-127.0.0.1	serenity serenity.northern-lights.one
-127.0.0.1	board board.northern-lights.one
+# fritz box
+192.168.178.1   gateway
+
+# pve-cluster
+192.168.178.201 pve01
+192.168.178.202 pve02
+192.168.178.203 pve03
 
 # virtual machines
-192.168.150.180 magellan.northern-lights.one magellan IAVMagellan.northern-lights.one
-192.168.150.244 cortez.northern-lights.one cortez IAVCortez.northern-lights.one
-192.168.150.217 dortmunder.northern-lights.one dortmunder IAVDortmunder.northern-lights.one
+
+# dns-01
+192.168.178.10 dns-01
+# redmine
+192.168.178.20 redmine
+# firefly
+192.168.178.25 firefly
+# zabbix
+192.168.178.24 zabbix
+# prometheus
+# db-01
+# db-02
+# samba
+
+# other servers
+192.168.178.21 plex
