@@ -197,3 +197,31 @@ for file in *.mp4; do
 		echo "$((${#file} - ${#ac} - ${#ye}))"
 	fi
 done
+
+# https://stackoverflow.com/questions/19737675/shell-script-how-to-extract-string-using-regular-expressions
+
+validate_ip(){
+
+	if [ -z "$1" ]; then
+		echo 'validate_ip: no input provided'
+		exit 1
+	fi
+	
+	ip_regex=^[0-2]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}$
+
+	if [[ $1 =~ $ip_regex ]]; then
+		echo 'valid'
+		echo needs range limits ! only 255.255.255.255 as max!
+
+	else 
+		echo 'doesnt work yet'
+	fi
+}
+
+read -rp $'Enter an IP address:\n' ip_address
+
+echo $ip_address
+
+validate_ip $ip_address
+
+exit 0
