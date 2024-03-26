@@ -95,6 +95,8 @@ lvm lvrename /dev/browncoats/lvol0 /dev/browncoats/progs -vvvv
 
 # when specifiying bigger, i may not create -> Volume group "alliance" has insufficient free space (2558 extents): 3328 required.
 lvm lvcreate --size 13G alliance --name homes --type linear
+lvm lvcreate -l +100%FREE /dev
+lvcreate -n data -l100%FREE vg00
 
 # logical volumes available in /dev
 # /dev/volume_group_name/logical_volume_name
