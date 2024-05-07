@@ -1,3 +1,6 @@
+# deleting all on disk
+shred -n 5 -vz /dev/sdb
+
 # First, check where there is the unallocated space on your disk.
 sudo parted /dev/sda unit s print free
 sudo parted [device] print all
