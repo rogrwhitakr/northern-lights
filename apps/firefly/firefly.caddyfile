@@ -1,0 +1,48 @@
+# global
+{
+        #####################
+        #    Lets Encrypt   #
+        #####################
+        
+        # E-Mail address to receive notifications for expiring certificates
+        email admin@northern-lights.one
+
+        # Try to obtain test certs; comment out if everything works
+        #acme_ca https://acme-staging-v02.api.letsencrypt.org/directory
+}
+
+(common) {
+
+    header {
+        # Disallow the site to be rendered within a frame on a foreign domain (clickjacking protection)
+        X-Frame-Options "SAMEORIGIN"
+
+        # Enable HSTS (force HTTPS for 1 year)
+        Strict-Transport-Security max-age=31536000;
+
+        # Disable search engine indexing
+        X-Robots-Tag none
+
+        # Drop the server name header
+        -Server
+    }
+
+    log {
+        output stdout
+        format console
+        level WARN
+    }
+
+    # Enable gzip
+    encode gzip
+}
+
+https://firefly.fritz.box {
+
+    import common
+
+    root * /opt/firefly/firefly-iii  
+	encode gzip
+	php_fastcgi unix//run/php/php-version-fpm.sock
+	file_server    
+}

@@ -112,7 +112,10 @@ mkfs.ext4 /dev/mapper/alliance-homes
 lvm lvresize -L +5116m --resizefs /dev/fedora_iavalexander/root
 
 # can also be done using lvextends
-lvm lvextends -l +100%FREE --resizefs /dev/mapper/ubuntu-vg--ubuntu-lv
+lvm lvextend -l +100%FREE --resizefs /dev/mapper/ubuntu-vg--ubuntu-lv
+
+# om fedora the command was named "lvextend"
+sudo lvm lvextend -l +100%FREE --resizefs /dev/fedora/root
 
 # i got the number in MIB from
 # using M (MB) did not work! lvm then told me that Insufficient free space: 1341 extents needed, but only 1279 available 

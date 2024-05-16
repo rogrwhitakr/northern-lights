@@ -27,7 +27,7 @@ sudo dnf install docker-ce docker-ce-cli containerd.io docker-buildx-plugin dock
 sudo groupadd docker
 
 # add user to docker group (unsure if complete!!)
-useradd -aG docker
+sudo usermod -aG docker $(id -un)
 
 # start service
 sudo systemctl start docker
