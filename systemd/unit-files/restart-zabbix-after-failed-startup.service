@@ -1,0 +1,16 @@
+[Unit]
+Description=restart zabbix services After Startup, just to be safe...
+After=multi-user.target
+
+[Service]
+Type=oneshot
+# this one does not restart the service already running !!!
+# ExecStart=/bin/bash -c 'for s in php-fpm.service zabbix.service; do systemctl is-active --quiet $s || systemctl start $s; done'
+ExecStart=/bin/bash -c 'for s in php-fpm.service zabbix.service; do systemctl restart $s; done'
+RemainAfterExit=true
+
+[Install]
+WantedBy=multi-user.target
+
+# lives in
+# /etc/systemd/system/restart-zabbix-after-failed-startup.service
