@@ -10,3 +10,4 @@ sudo rm -fr /boot/efi/
 # reinstall the kernel (incl headers et al)
 sudo dnf reinstall kernel*
 ```
+
