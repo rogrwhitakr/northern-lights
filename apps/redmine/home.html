@@ -1,18 +1,65 @@
-
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Repositories</title>
+    <title>HTML Table Template</title>
+    <style>
+        table {
+            border-collapse: collapse;
+            width: 100%;
+            margin: 25px 0;
+            font-size: 18px;
+            text-align: left;
+        }
+        th, td {
+            padding: 12px;
+            border: 1px solid #ddd;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+    </style>
 </head>
 <body>
-    <h1>Repositories</h1>
-    <img align="left" width="80" height="80" src="https://cockpit-project.org/images/site/cockpit-logo.svg" alt="cockpit">
-    <img align="left" width="80" height="80" src="https://cdn.pixabay.com/photo/2020/03/17/17/46/database-4941338_1280.png" alt="cockpit">
-    <h2><a href="https://github.com/rogrwhitakr?tab=repositories">GitHub</a></h2>
-    <h2><a href="https://copilot.microsoft.com/">copilot</a></h2>
+    <h2>Sample Table</h2>
+    <table>
+        <tr>
+            <th>Icon</th>
+            <th>What is it</th>
+            <th>Link</th>
+        </tr>
+        <tr>
+            <td><img src=https://github.com/favicon.ico></td>
+            <td>GitHub</td>
+            <td><a href="https://github.com/rogrwhitakr?tab=repositories" target="_blank">GitHub</a>  </td>
+        </tr>
+
+        <a href="https://example.com" target="_blank">Visit Example</a>        
+        <tr>
+            <td>Row 2, Cell 1</td>
+            <td>copilot</td>
+            <td>https://copilot.microsoft.com/</td>
+        </tr>
+        <tr>
+            <td>Row 3, Cell 1</td>
+            <td>PVE-Cluster-1</td>
+            <td>https://192.168.178.11:8006/#v1:0:=qemu%2F200:4::=contentIso:::8::5</td>
+        </tr>
+        <tr>
+            <td>Row 3, Cell 1</td>
+            <td>PVE-Cluster-2</td>
+            <td>https://192.168.178.14:8006/#v1:0:=qemu%2F200:4::=contentIso:::8::5</td>
+        </tr>     
+        <tr>
+            <td>Row 3, Cell 1</td>
+            <td>Datacenter Manager</td>
+            <td>https://datacenter-manager:8443/#/dashboard</td>
+        </tr>             
+    </table>
+</body>
+</html>
+
     <h2>Wiki</h2>
     <a href="https://192.168.178.11:8006/#v1:0:=qemu%2F200:4::=contentIso:::8::5"><img align="left" width="80" height="80" src="https://cdn.pixabay.com/photo/2017/05/29/23/02/logging-out-2355227_640.png" alt="graylog"></a>
     <br/>

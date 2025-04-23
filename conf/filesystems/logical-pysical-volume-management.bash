@@ -123,3 +123,11 @@ lvm vgdisplay --units m
 
 # these status query tools have a myriad options... --select -> there are a billion things to filter...
 pvs --unit g --select vg_name=alliance
+
+# scenario 
+## single disk
+## /dev/mapper/ lvm registered (Disk /dev/mapper/fedora_db--02-root: 49 GiB)
+## Disk also /dev/sda: 100 GiB
+
+# fdisk shows two disks
+fdisk --list
