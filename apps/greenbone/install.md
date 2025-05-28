@@ -66,6 +66,9 @@ docker volume rm greenbone-community-edition_psql_data_vol
 ## updating cve definitions
 
 ```sh
+# export a greenbone directory env variable for some reason and stop all containers
+export DOWNLOAD_DIR=$HOME/greenbone-community-container && mkdir -p $DOWNLOAD_DIR
+docker compose -f $DOWNLOAD_DIR/docker-compose.yml down
 
 # Downloading the Feed Changes / Downloading the Greenbone Community Edition feed data containers
 docker compose -f $DOWNLOAD_DIR/docker-compose.yml pull notus-data vulnerability-tests scap-data dfn-cert-data cert-bund-data report-formats data-objects

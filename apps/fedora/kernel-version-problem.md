@@ -11,3 +11,11 @@ sudo rm -fr /boot/efi/
 sudo dnf reinstall kernel*
 ```
 
+
+```sh
+# list all installed kernels
+sudo rpm -qa kernel
+# or
+sudo dnf list installed kernel 
+
+```
