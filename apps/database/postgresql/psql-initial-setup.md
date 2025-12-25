@@ -1,18 +1,36 @@
-how does that damn setup work again mkdir ~/MyScripts/apps/postgresqlmkdir ~/MyScripts/apps/postgresql!
 
-# install postgres
-# -> Follow steps for your OS.
+# install postgresql-server 
 
-# typically initdb creates a table named "postgres" owned by user "current logged in user name"
+- [Link-to-fedora-docs](https://docs.fedoraproject.org/en-US/quick-docs/postgresql/)
+
+# initialize
+
+- [Link-to-fedora-docs](https://docs.fedoraproject.org/en-US/quick-docs/postgresql/)
+
+## process
+
+1. initdb creates a table named "postgres" owned by user "current logged in user name"
+
+```
 /usr/bin/initdb -D /var/lib/pgsql/data -U postgres
 
-# enabling the service and failing to start provides also the steps to do:
-# 1. change to user postgres
-# 2. run the command (initdb)
+```
 
-# steps after installation and init
-# First connect/login as root / admin / wheel
-su - postgres
+2. enabling the service and failing to start provides also the steps to do:
+ 1. change to user postgres
+ 2. run the command (initdb)
+
+3. steps after installation and init
+ 1. First connect/login as root / admin / wheel, change postgres user password:
+
+ ```bash
+sudo passwd postgres
+ ```
+  2. change psql postgres password
+
+  ```sql
+    ALTER USER postgres WITH PASSWORD 'postgres';
+  ```
 
 # should prompt straight to psql
 # gave postgres user a password, need to authenticate first
@@ -53,3 +71,10 @@ CREATE TABLE <table>.<schema> (col<schema> varchar(20));
 
 # Insert a single record into new table
 insert into <table>.<schema> (col<col>) values ('It works!');
+
+## pg_hba.conf
+
+```ini
+# To allow all users from the subnet 192.168.10.0 with a /24 mask to access all databases using SCRAM-SHA-256 authentication, you would add the following line:
+host    all             all             192.168.178.0/24       scram-sha-256
+```
