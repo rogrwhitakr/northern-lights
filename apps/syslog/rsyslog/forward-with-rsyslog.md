@@ -47,6 +47,17 @@ docker info --format '{{.LoggingDriver}}'
 
 ```
 
+- better alternative (because it is structured data) is using GELF. CONfig:
+
+```json
+{
+  "log-driver": "gelf",
+  "log-opts": {
+    "gelf-address": "udp://graylog.fritz.box:12201",
+    "tag": "{{.Hostname}}-{{.Name}}-{{.ImageName}}"
+  }
+}
+```
 
 
 restart the rsyslogd
