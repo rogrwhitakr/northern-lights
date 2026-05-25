@@ -1,0 +1,83 @@
+# TODO
+# 1. Set hostmaster mail address
+# 2. Set public (sub)domains for prod/test
+# 3. Set internal address/port of the applicationserver
+# 4. Start caddy and check if test certificates have been generated
+# 5. Comment out the "acme_ca" and restart caddy
+
+# global
+{
+        #####################
+        #    Lets Encrypt   #
+        #####################
+        
+        # E-Mail address to receive notifications for expiring certificates
+        # email hostmaster@your-domain.com
+
+        # Try to obtain test certs; comment out if everything works
+        # acme_ca https://acme-staging-v02.api.letsencrypt.org/directory
+}
+
+(common) {
+
+
+    header {
+        # Disallow the site to be rendered within a frame on a foreign domain (clickjacking protection)
+        X-Frame-Options "SAMEORIGIN"
+
+        # Enable HSTS (force HTTPS for 1 year)
+        Strict-Transport-Security max-age=31536000;
+
+        # Disable search engine indexing
+        X-Robots-Tag none
+
+        # Drop the server name header
+        -Server
+    }
+
+    log {
+        output stdout
+        format console
+        level WARN
+    }
+
+    # Enable gzip
+    encode gzip
+}
+
+
+https://cve-check.northern-lights.one {
+    import common
+
+    # Block all other connections (example) - you can handle every specific path
+    # respond /* 403
+
+    # All other conections
+    reverse_proxy cve-check.fritz.box:9392
+}
+
+
+https://graylog.northern-lights.one {
+    import common
+
+    # Block all other connections (example) - you can handle every specific path
+    # respond /* 403
+
+    # All other conections
+    reverse_proxy graylog.fritz.box:9000
+}
+
+https://photos.northern-lights.one {
+    import common
+
+    # Block all other connections (example) - you can handle every specific path
+    # respond /* 403
+
+    # All other conections
+    reverse_proxy photos.fritz.box:2283/photos
+}
+
+# Caddy test port
+http://:2015 {
+    respond "Caddy" 200
+}
