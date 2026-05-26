@@ -1,5 +1,6 @@
-#! /usr/bin/env bash
+# install docker-ce on ubuntu / apt based dist 
 
+```sh
 # Add Docker's official GPG key:
 sudo apt-get update
 sudo apt-get install ca-certificates curl
@@ -18,5 +19,9 @@ sudo apt-get update
 # install docker
 sudo apt-get install docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
 
-# build and run the containers
-sudo docker compose up
+# manage group to allow users non-sudo docker control
+sudo groupadd docker <user>
+
+# add user to docker group (unsure if complete!!)
+useradd -aG docker
+```

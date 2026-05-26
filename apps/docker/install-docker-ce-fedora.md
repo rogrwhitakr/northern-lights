@@ -1,7 +1,6 @@
-!# /usr/bin/env bash
-
 # this script installs docker-ce 
 
+```sh
 # we remove old versions
 sudo dnf remove docker \
                 docker-client \
@@ -17,6 +16,7 @@ sudo dnf remove docker \
 # Set up the repository
 sudo dnf -y install dnf-plugins-core
 sudo dnf config-manager --add-repo https://download.docker.com/linux/fedora/docker-ce.repo
+
 # dnf5
 sudo dnf config-manager addrepo --from-repofile=https://download.docker.com/linux/fedora/docker-ce.repo
 
@@ -24,7 +24,6 @@ sudo dnf config-manager addrepo --from-repofile=https://download.docker.com/linu
 sudo dnf install docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin -y
 
 # add admin user to docker group
-
 # manage group to allow users non-sudo docker control
 sudo groupadd docker
 
@@ -45,10 +44,24 @@ docker info --format '{{.LoggingDriver}}'
 
 # add contents to /etc/docker/daemon.json
 sudo nano /etc/docker/daemon.json
+```
 
+```cfg
 {
   "log-driver": "journald",
   "log-opts": {
     "tag": "docker/{{.Name}}"
   }
 }
+
+```
+
+```cfg
+{
+  "log-driver": "gelf",
+  "log-opts": {
+    "gelf-address": "udp://graylog.fritz.box:12201",
+    "tag": "{{.ImageName}}/{{.Name}}/{{.ID}}"
+  }
+}
+```
