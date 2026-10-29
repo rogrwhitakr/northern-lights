@@ -3,3 +3,7 @@
 ```
 pvesh get /cluster/resources --type vm --output-format [text, json, json-pretty, yaml]
 ```
+
+# unlock locked vm
+
+qm unlock 200
